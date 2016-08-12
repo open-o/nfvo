@@ -1,0 +1,110 @@
+#
+# Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# zh_CN or en_US
+language: zh_CN
+
+defaultName: ${DW_DEFAULT_NAME:-Stranger}
+
+rocServerAddr: 127.0.0.1:80
+dacIp: 127.0.0.1
+dacServerPort: 8206
+
+cometdServletInfo:
+  servletClass: org.openo.orchestrator.nfv.umc.cometdserver.CometdServlet
+  servletPath: /api/umcnotification/v1
+
+loginInfo:
+  username: admin
+  password: ""
+frameCommInfo:
+  helpMenuItem: false
+  fmlightMenuItem: false
+  fullscreenMenuItem: true
+  logoutMenuItem: true
+  defaultThemeColor: ztebluelight2
+versionInfo:
+  mainversion: zenap-portal-1.15.10.B1-SNAPSHOT
+  ppuinfo:
+    - name: zenap-uiframe
+      version: 1.15.10.B1-SNAPSHOT
+      describe: zenap-uiframe
+    - name: eco-do
+      version: 1.15.10.B1-SNAPSHOT
+      describe: eco-do
+    - name: eco-fm
+      version: 1.15.10.B1-SNAPSHOT
+      describe: eco-fm
+    - name: eco-pm
+      version: 1.15.10.B1-SNAPSHOT
+      describe: eco-pm
+
+# use the simple server factory if you only want to run on a single port
+#server:
+#  type: simple
+#  connector:
+#    type: http
+#    port: 8080
+
+server:
+  type: simple
+  rootPath: '/api/*'
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8205
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+  # Logger-specific levels.
+  loggers:
+    org.openo.orchestrator.nfv.umc.UMCApp: INFO
+    # org.hibernate.type.descriptor.sql.BasicBinder: trace
+    # org.hibernate.type.descriptor.sql.BasicExtractor: debug
+    # org.hibernate.SQL: debug
+    # org.hibernate.engine.QueryParameters: debug
+    # org.hibernate.engine.query.HQLQueryPlan: debug
+  appenders:
+    - type: console
+      threshold: WARN
+      timeZone: PRC
+      logFormat: "%-4level [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %logger{5} - %X{code} %msg %n"
+    - type: file
+      threshold: INFO
+      logFormat: "%-4level [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: ./logs/umc.log
+      archivedLogFilenamePattern: ./logs/umc-%d{yyyyMMdd}-%d{HHmm}-%d{ssSSS}.log.gz
+      archivedFileCount: 7
+      timeZone: PRC
+# Database settings.
+
+database:
+  # the name of your JDBC driver
+  driverClass: org.h2.Driver
+  # the username
+  user: openo
+  # the password
+  password: openo
+  # the JDBC URL
+  url: jdbc:h2:tcp://localhost:8405/./db/umcdb
+  # any properties specific to your JDBC driver:
+  properties:
+    tcpPort: 8405
+    webPort: 8505

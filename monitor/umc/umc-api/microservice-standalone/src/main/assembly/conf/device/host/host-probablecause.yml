@@ -1,0 +1,54 @@
+# Mapping Class: FmProbableCause
+
+probableCause:
+    # code 1010-1014
+    - systemType: 11
+      codeType: 0
+      code: 1010
+      codeName: i18n.fm.probablecause.codename.11.1010
+      alarmType: 3
+      perceivedSeverity: 0
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 11
+      codeType: 0
+      code: 1011
+      codeName: i18n.fm.probablecause.codename.11.1011
+      alarmType: 3
+      perceivedSeverity: 0
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0      
+    - systemType: 11
+      codeType: 0
+      code: 1012
+      codeName: i18n.fm.probablecause.codename.11.1012
+      alarmType: 3
+      perceivedSeverity: 0
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 11
+      codeType: 0
+      code: 1013
+      codeName: i18n.fm.probablecause.codename.11.1013
+      alarmType: 3
+      perceivedSeverity: 0
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 11
+      codeType: 0
+      code: 1014
+      codeName: i18n.fm.probablecause.codename.11.1014
+      alarmType: 3
+      perceivedSeverity: 0
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0

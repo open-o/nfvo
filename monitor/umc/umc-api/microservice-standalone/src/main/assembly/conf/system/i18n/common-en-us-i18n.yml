@@ -1,0 +1,18 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # WORD
+  - key: i18n.fm.common.word.up
+    value: up
+  - key: i18n.fm.common.word.down
+    value: down
+  - key: i18n.fm.common.word.resource_type
+    value: Resource Type
+  - key: i18n.pm.common.word.5minute
+    value: 5minute
+  # SENTENCES (NO VARIABLE)
+
+  # TEMPLATE SENTENCES (WITH VARIABLE)
+  - key: i18n.fm.currentalarm.additionaltext.key
+    value: 'Current ${POATTRIBUTENAME} is ${VALUE}, exceed system settings.(Direct: ${DIRECT}, Warn: ${WARN}, Minor: ${MINOR}, Major: ${MAJOR}, Critical: ${CRITICAL})'

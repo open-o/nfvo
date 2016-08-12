@@ -1,0 +1,7 @@
+<protocals>
+	<codeMap protocal="PING" alarmCode="1"/>
+	<codeMap protocal="TELNET" alarmCode="23"/>
+	<codeMap protocal="SSH" alarmCode="24"/>
+	<codeMap protocal="SNMP" alarmCode="25"/>
+	<codeMap protocal="JDBC" alarmCode="26"/>
+</protocals>

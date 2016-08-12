@@ -1,0 +1,51 @@
+# Mapping Class: FmProbableCause
+
+probableCause:
+# systemType 11
+    # code 1000-1004
+    - systemType: 20104
+      codeType: 0
+      code: 1
+      codeName: i18n.fm.probablecause.codename.20104.1
+      alarmType: 0
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20104
+      codeType: 0
+      code: 23
+      codeName: i18n.fm.probablecause.codename.20104.23
+      alarmType: 0
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20104
+      codeType: 0
+      code: 24
+      codeName: i18n.fm.probablecause.codename.20104.24
+      alarmType: 0
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20104
+      codeType: 0
+      code: 25
+      codeName: i18n.fm.probablecause.codename.20104.25
+      alarmType: 0
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20104
+      codeType: 0
+      code: 26
+      codeName: i18n.fm.probablecause.codename.20104.26
+      alarmType: 0
+      perceivedSeverity: 1

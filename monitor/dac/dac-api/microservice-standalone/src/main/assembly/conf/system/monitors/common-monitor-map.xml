@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GB2312" ?>
+<monitor-map i18n-file="">
+
+	<!-- native ping monitor -->
+	<monitor name="PING:NATIVEPING::" availablity="true">
+		<perfcounter name="RTIMEAVG"            value="Average\s=\s(\d+)ms"/>
+	</monitor>
+
+	<!-- SNMP port monitor -->
+	<monitor name="SNMP:INOUTSTATISTICS::">
+		<perfcounter name="IFINOCTETS"           getnext="true"  value="1.3.6.1.2.1.2.2.1.10"/>
+		<perfcounter name="IFINUCASTPKTS"        getnext="true"  value="1.3.6.1.2.1.2.2.1.11"/>
+		<perfcounter name="IFINNUCASTPKTS"       getnext="true"  value="1.3.6.1.2.1.2.2.1.12"/>
+		<perfcounter name="IFINDISCARDS"         getnext="true"  value="1.3.6.1.2.1.2.2.1.13"/>
+		<perfcounter name="IFINERRORS"           getnext="true"  value="1.3.6.1.2.1.2.2.1.14"/>
+		<perfcounter name="IFINMULTICASTPKTS"    getnext="true"  value="1.3.6.1.2.1.31.1.1.1.2"/>
+		<perfcounter name="IFINBROADCASTPKTS"    getnext="true"  value="1.3.6.1.2.1.31.1.1.1.3"/>
+		<perfcounter name="IFHCINOCTETS"         getnext="true"  value="1.3.6.1.2.1.31.1.1.1.6"/>
+		<perfcounter name="IFHCINUCASTPKTS"      getnext="true"  value="1.3.6.1.2.1.31.1.1.1.7"/>
+		<perfcounter name="IFHCINMULTICASTPKTS"  getnext="true"  value="1.3.6.1.2.1.31.1.1.1.8"/>
+		<perfcounter name="IFHCINBROADCASTPKTS"  getnext="true"  value="1.3.6.1.2.1.31.1.1.1.9"/>
+		<perfcounter name="IFOUTOCTETS"          getnext="true"  value="1.3.6.1.2.1.2.2.1.16"/>
+		<perfcounter name="IFOUTUCASTPKTS"       getnext="true"  value="1.3.6.1.2.1.2.2.1.17"/>
+		<perfcounter name="IFOUTNUCASTPKTS"      getnext="true"  value="1.3.6.1.2.1.2.2.1.18"/>
+		<perfcounter name="IFOUTDISCARDS"        getnext="true"  value="1.3.6.1.2.1.2.2.1.19"/>
+		<perfcounter name="IFOUTERRORS"          getnext="true"  value="1.3.6.1.2.1.2.2.1.20"/>
+		<perfcounter name="IFOUTMULTICASTPKTS"   getnext="true"  value="1.3.6.1.2.1.31.1.1.1.4"/>
+		<perfcounter name="IFOUTBROADCASTPKTS"   getnext="true"  value="1.3.6.1.2.1.31.1.1.1.5"/>
+		<perfcounter name="IFHCOUTOCTETS"        getnext="true"  value="1.3.6.1.2.1.31.1.1.1.10"/>
+		<perfcounter name="IFHCOUTUCASTPKTS"     getnext="true"  value="1.3.6.1.2.1.31.1.1.1.11"/>
+		<perfcounter name="IFHCOUTMULTICASTPKTS" getnext="true"  value="1.3.6.1.2.1.31.1.1.1.12"/>
+		<perfcounter name="IFHCOUTBROADCASTPKTS" getnext="true"  value="1.3.6.1.2.1.31.1.1.1.13"/>
+		<perfcounter name="IFINDEX"              getnext="true"  value="1.3.6.1.2.1.2.2.1.1"/>
+		<perfcounter name="IFNAME"               getnext="true"  value="1.3.6.1.2.1.31.1.1.1.1"/>
+		<perfcounter name="IFDESCR"              getnext="true"  value="1.3.6.1.2.1.2.2.1.2"/>
+		<perfcounter name="IFSPEED"              getnext="true"  value="1.3.6.1.2.1.2.2.1.5"/>
+		<perfcounter name="IFHIGHSPEED"          getnext="true"  value="1.3.6.1.2.1.31.1.1.1.15"/>
+		<perfcounter name="SYSUPTIME"            getnext="true"  value="1.3.6.1.2.1.1.3"/>
+	</monitor> 
+</monitor-map>

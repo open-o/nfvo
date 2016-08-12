@@ -1,0 +1,89 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # FM PROBABLECAUSE
+  - key: i18n.fm.probablecause.codename.11.1010
+    value: HOST cpu used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1011
+    value: HOST ram used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1012
+    value: HOST logic volume filesystem used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1013
+    value: HOST in bandwidth ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1014
+    value: HOST out bandwidth ratio alarm
+
+  # PM PMTASKINFO
+  ## NETYPENAME
+  - key: i18n.pm.netypename.nfv.host.linux
+    value: HOST
+  ## TASKNAME
+  - key: i18n.pm.taskname.nfv.host.linux.cpu
+    value: HOST CPU PM TASK
+  - key: i18n.pm.taskname.nfv.host.linux.ram
+    value: HOST RAM PM TASK
+  - key: i18n.pm.taskname.nfv.host.linux.fs
+    value: HOST FILESYSTEM PM TASK
+  - key: i18n.pm.taskname.nfv.host.linux.nic
+    value: HOST NIC PM TASK
+  ## PONAME
+  - key: i18n.pm.poname.nfv.host.linux.cpu
+    value: HOST CPU
+  - key: i18n.pm.poname.nfv.host.linux.ram
+    value: HOST RAM
+  - key: i18n.pm.poname.nfv.host.linux.fs
+    value: HOST FILESYSTEM
+  - key: i18n.pm.poname.nfv.host.linux.nic
+    value: HOST NIC
+  ## PO ATTRNAME
+  ### CPU
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.1
+    value: CPU USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.2
+    value: CPU FREE RATIO(%)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.3
+    value: PROCESSES IN CPU RUNNING QUEUE
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.4
+    value: CPU SYSTEM TASK USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.5
+    value: CPU USER TASK USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.6
+    value: CPU WAITING RATIO(%)
+  ### RAM
+  - key: i18n.pm.attrname.nfv.host.linux.ram.1
+    value: RAM USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.host.linux.ram.2
+    value: TOTAL SWAP RAM SIZE(KB)
+  - key: i18n.pm.attrname.nfv.host.linux.ram.3
+    value: USED SWAP RAM RATIO(%)
+  ### FS
+  - key: i18n.pm.attrname.nfv.host.linux.fs.1
+    value: LOGIC VOLUME PATH
+  - key: i18n.pm.attrname.nfv.host.linux.fs.2
+    value: FILESYSTEM NAME
+  - key: i18n.pm.attrname.nfv.host.linux.fs.3
+    value: LOGIC VOLUME SIZE(MB)
+  - key: i18n.pm.attrname.nfv.host.linux.fs.4
+    value: LOGIC VOLUME AVAILABLE SIZE(MB)
+  - key: i18n.pm.attrname.nfv.host.linux.fs.5
+    value: LOGIC VOLUME FILESYSTEM USE RATIO(%)
+  ### CPU
+  - key: i18n.pm.attrname.nfv.host.linux.nic.1
+    value: NIC NAME
+  - key: i18n.pm.attrname.nfv.host.linux.nic.2
+    value: SEND ERROR PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.host.linux.nic.3
+    value: RECEIVED ERROR PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.host.linux.nic.4
+    value: SEND TOTAL PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.host.linux.nic.5
+    value: RECEIVED TOTAL PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.host.linux.nic.6
+    value: RECEIVED ERROR PACKET RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.7
+    value: SEND ERROR PACKET RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.8
+    value: IN BANDWIDTH RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.9
+    value: OUT BANDWIDTH RATIO BY ONE COLLECT-PERIOD(%)

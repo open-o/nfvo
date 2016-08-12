@@ -1,0 +1,18 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  # WORD
+  - key: i18n.fm.common.word.up
+    value: 向上告警
+  - key: i18n.fm.common.word.down
+    value: 向下告警
+  - key: i18n.fm.common.word.resource_type
+    value: 资源类型
+  - key: i18n.pm.common.word.5minute
+    value: 5分钟
+  # SENTENCES (NO VARIABLE)
+
+  # TEMPLATE SENTENCES (WITH VARIABLE)
+  - key: i18n.fm.currentalarm.additionaltext.key
+    value: '当前${POATTRIBUTENAME}为${VALUE}，超过了系统设定阈值。(方向：${DIRECT}，警告：${WARN}， 次要：${MINOR}，主要：${MAJOR}，关键：${CRITICAL})'

@@ -1,0 +1,5 @@
+# Mapping Class: FmSystemTypeMocRelation
+
+systemTypeMocRelation:
+    - mocId: nfv
+      systemType: 11

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+	<!--Extend device NeTypeId mapping ROC-MICROSERVICE service interface-->
+	<extension-point id="org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.IPmResourceRestService">
+		<impl type="nfv.host.linux" class="org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.resources.IHostRestServiceResource"/>
+	</extension-point>
+	
+	<!--Extend device table name mapping dao class-->
+	<extension-point id="org.openo.orchestrator.nfv.umc.pm.db.process.IPmDbQuery">
+		<impl type="NFV_HOST_LINUX_CPU" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvHostLinuxCpuDao"/>
+		<impl type="NFV_HOST_LINUX_RAM" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvHostLinuxRamDao"/>
+		<impl type="NFV_HOST_LINUX_FS" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvHostLinuxFsDao"/>
+		<impl type="NFV_HOST_LINUX_NIC" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvHostLinuxNicDao"/>
+	</extension-point>
+	
+	<!--Extend device table name mapping po class-->
+	<extension-point id="org.openo.orchestrator.nfv.umc.pm.db.dao.IHistoryPmDataPo">
+		<impl type="NFV_HOST_LINUX_CPU" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvHostLinuxCpu"/>
+		<impl type="NFV_HOST_LINUX_RAM" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvHostLinuxRam"/>
+		<impl type="NFV_HOST_LINUX_FS" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvHostLinuxFs"/>
+		<impl type="NFV_HOST_LINUX_NIC" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvHostLinuxNic"/>
+	</extension-point>
+</extensions>

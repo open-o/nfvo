@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+            http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<monitor-map i18n-file="">
+    <!-- ==================================================== vdu/host(linux) ==================================================== -->
+    <monitor name="TELNET:FILESYSTEM:NFV_OS:0" availablity="true" accept="string number number number string+" command="df -k | sed '/%/!N;s/\n//'">
+        <perfcounter name="LOGICVOLUMNPATH" iflist="true" ifstring="true" value="logicvolumnpath">
+            <parse line="1" token="6" name="logicvolumnpath"/>
+        </perfcounter>
+        <perfcounter name="LOGICVOLUMNSIZE" iflist="true" value="logicvolumnsize/1024.0">
+            <parse line="1" token="2" name="logicvolumnsize"/>
+        </perfcounter>
+        <perfcounter name="LOGICVOLUMNAVAILABLE" iflist="true" value="logicvolumnavailable/1024.0">
+            <parse line="1" token="4" name="logicvolumnavailable"/>
+        </perfcounter>
+        <perfcounter name="FILESYSTEMNAME" iflist="true" ifstring="true" value="filesystemname">
+            <parse line="1" token="1" name="filesystemname"/>
+        </perfcounter>
+        <perfcounter name="FILESYSTEMSIZE" iflist="true" value="SUM(logicvolumnsize)/1024.0">
+            <parse line="1" token="2" name="logicvolumnsize"/>
+        </perfcounter>
+        <perfcounter name="FILESYSTEMCAPACITY" iflist="true" value="filesystemcapacity">
+            <parse line="1" token="5" name="filesystemcapacity" unit="%"/>
+        </perfcounter>
+    </monitor>
+
+    <monitor name="TELNET:CPU:NFV_OS:0" accept="string number" command="sh /usr/wg/klinux_cpu.sh">
+        <perfcounter name="CPUBUSYRATIO" value="100-cpuidleratio">
+            <parse line="5" token="2" name="cpuidleratio"/>
+        </perfcounter>
+        <perfcounter name="CPUIDLERATIO" value="cpuidleratio">
+            <parse line="5" token="2" name="cpuidleratio"/>
+        </perfcounter>
+        <perfcounter name="PROCNUM" value="procnum">
+            <parse line="7" token="2" name="procnum"/>
+        </perfcounter>
+        <perfcounter name="CPUSYSRATIO" value="cpusysratio">
+            <parse line="3" token="2" name="cpusysratio"/>
+        </perfcounter>
+        <perfcounter name="CPUUSERRATIO" value="cpuuserratio">
+            <parse line="2" token="2" name="cpuuserratio"/>
+        </perfcounter>
+        <perfcounter name="CPUWAITRATIO" value="cpuwaitratio">
+            <parse line="6" token="2" name="cpuwaitratio"/>
+        </perfcounter>
+    </monitor>
+
+    <monitor name="TELNET:MEMORY:NFV_OS:0" accept="string number" command="sh /usr/wg/klinux_memory.sh">
+        <perfcounter name="USEDMEMRATIO" value="usedmemratio">
+            <parse line="3" token="2" name="usedmemratio"/>
+        </perfcounter>
+        <perfcounter name="TOTALSWAP" value="totalswap">
+            <parse line="11" token="2" name="totalswap"/>
+        </perfcounter>
+        <perfcounter name="SWAPUSEDRATIO" value="swapusedratio">
+            <parse line="12" token="2" name="swapusedratio"/>
+        </perfcounter>
+    </monitor>
+
+    <monitor name="TELNET:NETWORKINTERFACE:NFV_OS:0" accept="string number string+" command="sh /usr/wg/klinux_netif.sh">
+        <perfcounter name="INTERFACENAME"  iflist="true" ifstring="true" specialProcess="deleteLoopBackNetworkInterface" value="interfacename" >
+            <parse line="1" token="1" name="interfacename"/>
+        </perfcounter>
+        <perfcounter name="TELNETINPACKET" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetinerror+telnetinok" >
+            <parse line="1" token="3" name="telnetinok"/>
+            <parse line="1" token="4" name="telnetinerror"/>
+        </perfcounter>
+        <perfcounter name="TELNETOUTPACKET" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetouterror+telnetoutok" >
+            <parse line="1" token="11" name="telnetoutok"/>
+            <parse line="1" token="12" name="telnetouterror"/>
+        </perfcounter>
+        <perfcounter name="TELNETINERROR" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetinerror" >
+            <parse line="1" token="4" name="telnetinerror"/>
+        </perfcounter>
+        <perfcounter name="TELNETOUTERROR" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetouterror" >
+            <parse line="1" token="12" name="telnetouterror"/>
+        </perfcounter>
+        <perfcounter name="TELNETINBYTE" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetinbyte" >
+            <parse line="1" token="2" name="telnetinbyte"/>
+        </perfcounter>
+        <perfcounter name="TELNETOUTBYTE" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetoutbyte" >
+            <parse line="1" token="10" name="telnetoutbyte"/>
+        </perfcounter>
+        <perfcounter name="TELNETSPEED" iflist="true" specialProcess="deleteLoopBackNetworkInterface" value="telnetspeed" >
+            <parse line="1" token="18" name="telnetspeed"/>
+        </perfcounter>
+    </monitor>
+</monitor-map>

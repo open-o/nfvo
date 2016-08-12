@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension-set>	
+	<!--System dao class interface point-->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.db.IUmcDao">
+		<interface-class>org.openo.orchestrator.nfv.umc.db.IUmcDao</interface-class>
+	</extension-point-desc>
+	
+	<!--System po class interface point -->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.db.IEntityClass">
+		<interface-class>org.openo.orchestrator.nfv.umc.db.IEntityClass</interface-class>
+	</extension-point-desc>
+	
+	<!--extend device ROC-MICROSERVICE server interface point-->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.IPmResourceRestService">
+		<interface-class>org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.IPmResourceRestService</interface-class>
+	</extension-point-desc>
+	
+	<!-- extend device current alarm query dao class interface point-->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.pm.db.process.IPmDbQuery">
+		<interface-class>org.openo.orchestrator.nfv.umc.pm.db.process.IPmDbQuery</interface-class>
+	</extension-point-desc>
+	
+	<!-- extend device history alarm query po class interface point -->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.pm.db.dao.IHistoryPmDataPo">
+		<interface-class>org.openo.orchestrator.nfv.umc.pm.db.dao.IHistoryPmDataPo</interface-class>
+	</extension-point-desc>
+	
+	<!-- Pm data consumer extend point -->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.pm.datacollect.IPmDataConsumer">
+		<interface-class>org.openo.orchestrator.nfv.umc.pm.datacollect.IPmDataConsumer</interface-class>
+	</extension-point-desc>
+	
+	<!-- Fm data consumer extend point -->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.fm.common.IFmDataConsumer">
+		<interface-class>org.openo.orchestrator.nfv.umc.fm.common.IFmDataConsumer</interface-class>
+	</extension-point-desc>
+	
+	<!-- Resource extend point -->
+	<extension-point-desc id="org.openo.orchestrator.nfv.umc.IRecource">
+		<interface-class>org.openo.orchestrator.nfv.umc.IRecource</interface-class>
+	</extension-point-desc>
+</extension-set>

@@ -1,0 +1,221 @@
+#----------------------------
+# @Description: This file content contains all attributes values about this device PM/FM attribute value information,
+#    and it structure is mapping with ExtendDeviceModel class. Please make sure each attribute key mapping their class is correct.
+#
+# @see File: org.openo.orchestrator.nfv.umc.pm.task.bean.ExtendDeviceModel.java
+#----------------------------
+
+# 
+# Mapping Class: PoTypeInfo
+#
+neTypeId: nfv.host.linux
+neTypeName: i18n.pm.netypename.nfv.host.linux
+poTypeInfo:
+    - moTypeId: nfv.host.linux.cpu
+      pmType: 70011
+      monitorName: CPU
+      dataTableName: NFV_HOST_LINUX_CPU
+      poCounterInfo:
+        - attrId: 1
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.1
+          attrClmn: CPUBUSYRATIO
+          attrDataType: NUMERIC
+        - attrId: 2
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.2
+          attrClmn: CPUIDLERATIO
+          attrDataType: NUMERIC
+        - attrId: 3
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.3
+          attrClmn: PROCNUM
+          attrDataType: NUMERIC
+        - attrId: 4
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.4
+          attrClmn: CPUSYSRATIO
+          attrDataType: NUMERIC
+        - attrId: 5
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.5
+          attrClmn: CPUUSERRATIO
+          attrDataType: NUMERIC
+        - attrId: 6
+          attrName: i18n.pm.attrname.nfv.host.linux.cpu.6
+          attrClmn: CPUWAITRATIO
+          attrDataType: NUMERIC
+    - moTypeId: nfv.host.linux.ram
+      pmType: 70012
+      monitorName: MEMORY
+      dataTableName: NFV_HOST_LINUX_RAM
+      poCounterInfo:
+        - attrId: 1
+          attrName: i18n.pm.attrname.nfv.host.linux.ram.1
+          attrClmn: USEDMEMRATIO
+          attrDataType: NUMERIC
+        - attrId: 2
+          attrName: i18n.pm.attrname.nfv.host.linux.ram.2
+          attrClmn: TOTALSWAP
+          attrDataType: NUMERIC
+        - attrId: 3
+          attrName: i18n.pm.attrname.nfv.host.linux.ram.3
+          attrClmn: SWAPUSEDRATIO
+          attrDataType: NUMERIC
+    - moTypeId: nfv.host.linux.fs
+      pmType: 70013
+      monitorName: FILESYSTEM
+      dataTableName: NFV_HOST_LINUX_FS
+      poCounterInfo:
+        - attrId: 1
+          attrName: i18n.pm.attrname.nfv.host.linux.fs.1
+          attrClmn: LOGICVOLUMNPATH
+          attrDataType: VARCHAR
+        - attrId: 2
+          attrName: i18n.pm.attrname.nfv.host.linux.fs.2
+          attrClmn: FILESYSTEMNAME
+          attrDataType: VARCHAR
+        - attrId: 3
+          attrName: i18n.pm.attrname.nfv.host.linux.fs.3
+          attrClmn: LOGICVOLUMNSIZE
+          attrDataType: NUMERIC
+        - attrId: 4
+          attrName: i18n.pm.attrname.nfv.host.linux.fs.4
+          attrClmn: LOGICVOLUMNAVAILABLE
+          attrDataType: NUMERIC
+        - attrId: 5
+          attrName: i18n.pm.attrname.nfv.host.linux.fs.5
+          attrClmn: FILESYSTEMCAPACITY
+          attrDataType: NUMERIC
+    - moTypeId: nfv.host.linux.nic
+      pmType: 70014
+      monitorName: NETWORKINTERFACE
+      dataTableName: NFV_HOST_LINUX_NIC
+      poCounterInfo:
+        - attrId: 1
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.1
+          attrClmn: INTERFACENAME
+          attrDataType: VARCHAR
+        - attrId: 2
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.2
+          attrClmn: SENTERRORS
+          attrDataType: NUMERIC
+        - attrId: 3
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.3
+          attrClmn: RECEIVEDERRORS
+          attrDataType: NUMERIC
+        - attrId: 4
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.4
+          attrClmn: PACKETSENT
+          attrDataType: NUMERIC
+        - attrId: 5
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.5
+          attrClmn: PACKETRECEIVED
+          attrDataType: NUMERIC
+        - attrId: 6
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.6
+          attrClmn: RECEIVEDERRORRATIO
+          attrDataType: NUMERIC
+        - attrId: 7
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.7
+          attrClmn: SENTERRORRATIO
+          attrDataType: NUMERIC
+        - attrId: 8
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.8
+          attrClmn: BYTESINRATIO
+          attrDataType: NUMERIC
+        - attrId: 9
+          attrName: i18n.pm.attrname.nfv.host.linux.nic.9
+          attrClmn: BYTESOUTRATIO
+          attrDataType: NUMERIC
+
+#
+# Mapping Class: PoCounterThreshold
+#
+poCounterThreshold:
+    - pmType: 70011
+      attrId: 1
+      attrName: i18n.pm.attrname.nfv.host.linux.cpu.1
+      alarmCode: 1010
+      isAlarm: 0
+      direction: 0
+      critical: 95
+      major: 90 
+      minor: 85
+      warning: 80
+    - pmType: 70012
+      attrId: 1
+      attrName: i18n.pm.attrname.nfv.host.linux.ram.1
+      alarmCode: 1011
+      isAlarm: 0
+      direction: 0
+      critical: 95
+      major: 90 
+      minor: 85
+      warning: 80
+    - pmType: 70013
+      attrId: 5
+      attrName: i18n.pm.attrname.nfv.host.linux.fs.5
+      alarmCode: 1012
+      isAlarm: 0
+      direction: 0
+      critical: 95
+      major: 90 
+      minor: 85
+      warning: 80
+    - pmType: 70014
+      attrId: 8
+      attrName: i18n.pm.attrname.nfv.host.linux.nic.8
+      alarmCode: 1013
+      isAlarm: 0
+      direction: 0
+      critical: 95
+      major: 90 
+      minor: 85
+      warning: 80
+    - pmType: 70014
+      attrId: 9
+      attrName: i18n.pm.attrname.nfv.host.linux.nic.9
+      alarmCode: 1014
+      isAlarm: 0
+      direction: 0
+      critical: 95
+      major: 90 
+      minor: 85
+      warning: 80
+
+#
+# Mapping Class: PmTaskInfo
+#
+pmTaskInfo:
+    - taskId: 5
+      taskName: i18n.pm.taskname.nfv.host.linux.cpu
+      mocId: nfv.host.linux.cpu
+      poId: 70011
+      poName: i18n.pm.poname.nfv.host.linux.cpu
+      taskStatus: 0
+      granularity: 5
+      beginTime: 0
+      endTime: 0
+    - taskId: 6
+      taskName: i18n.pm.taskname.nfv.host.linux.ram
+      mocId: nfv.host.linux.ram
+      poId: 70012
+      poName: i18n.pm.poname.nfv.host.linux.ram
+      taskStatus: 0
+      granularity: 5
+      beginTime: 0
+      endTime: 0
+    - taskId: 7
+      taskName: i18n.pm.taskname.nfv.host.linux.fs
+      mocId: nfv.host.linux.fs
+      poId: 70013
+      poName: i18n.pm.poname.nfv.host.linux.fs
+      taskStatus: 0
+      granularity: 5
+      beginTime: 0
+      endTime: 0
+    - taskId: 8
+      taskName: i18n.pm.taskname.nfv.host.linux.nic
+      mocId: nfv.host.linux.nic
+      poId: 70014
+      poName: i18n.pm.poname.nfv.host.linux.nic
+      taskStatus: 0
+      granularity: 5
+      beginTime: 0
+      endTime: 0

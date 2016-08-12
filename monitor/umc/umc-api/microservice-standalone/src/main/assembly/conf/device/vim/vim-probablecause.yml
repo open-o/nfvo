@@ -1,0 +1,775 @@
+# Mapping Class: FmProbableCause
+
+probableCause:
+# systemType 20105
+    # code 3305115649-3305111671
+    - systemType: 20105
+      codeType: 0
+      code: 3305115649
+      codeName: i18n.fm.probablecause.codename.20105.3305115649
+      alarmType: 0
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115651
+      codeName: i18n.fm.probablecause.codename.20105.3305115651
+      alarmType: 0
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115652
+      codeName: i18n.fm.probablecause.codename.20105.3305115652
+      alarmType: 0
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115653
+      codeName: i18n.fm.probablecause.codename.20105.3305115653
+      alarmType: 0
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115654
+      codeName: i18n.fm.probablecause.codename.20105.3305115654
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115655
+      codeName: i18n.fm.probablecause.codename.20105.3305115655
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115656
+      codeName: i18n.fm.probablecause.codename.20105.3305115656
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115657
+      codeName: i18n.fm.probablecause.codename.20105.3305115657
+      alarmType: 3
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115659
+      codeName: i18n.fm.probablecause.codename.20105.3305115659
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115662
+      codeName: i18n.fm.probablecause.codename.20105.3305115662
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115664
+      codeName: i18n.fm.probablecause.codename.20105.3305115664
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115665
+      codeName: i18n.fm.probablecause.codename.20105.3305115665
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115666
+      codeName: i18n.fm.probablecause.codename.20105.3305115666
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115667
+      codeName: i18n.fm.probablecause.codename.20105.3305115667
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115668
+      codeName: i18n.fm.probablecause.codename.20105.3305115668
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115669
+      codeName: i18n.fm.probablecause.codename.20105.3305115669
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115670
+      codeName: i18n.fm.probablecause.codename.20105.3305115670
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115671
+      codeName: i18n.fm.probablecause.codename.20105.3305115671
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115672
+      codeName: i18n.fm.probablecause.codename.20105.3305115672
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115673
+      codeName: i18n.fm.probablecause.codename.20105.3305115673
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115674
+      codeName: i18n.fm.probablecause.codename.20105.3305115674
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115675
+      codeName: i18n.fm.probablecause.codename.20105.3305115675
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115676
+      codeName: i18n.fm.probablecause.codename.20105.3305115676
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115677
+      codeName: i18n.fm.probablecause.codename.20105.3305115677
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115678
+      codeName: i18n.fm.probablecause.codename.20105.3305115678
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305115679
+      codeName: i18n.fm.probablecause.codename.20105.3305115679
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111553
+      codeName: i18n.fm.probablecause.codename.20105.3305111553
+      alarmType: 3
+      perceivedSeverity: 2
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111600
+      codeName: i18n.fm.probablecause.codename.20105.3305111600
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111601
+      codeName: i18n.fm.probablecause.codename.20105.3305111601
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111602
+      codeName: i18n.fm.probablecause.codename.20105.3305111602
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111603
+      codeName: i18n.fm.probablecause.codename.20105.3305111603
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111604
+      codeName: i18n.fm.probablecause.codename.20105.3305111604
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111605
+      codeName: i18n.fm.probablecause.codename.20105.3305111605
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111606
+      codeName: i18n.fm.probablecause.codename.20105.3305111606
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111607
+      codeName: i18n.fm.probablecause.codename.20105.3305111607
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111608
+      codeName: i18n.fm.probablecause.codename.20105.3305111608
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111609
+      codeName: i18n.fm.probablecause.codename.20105.3305111609
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111610
+      codeName: i18n.fm.probablecause.codename.20105.3305111610
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111620
+      codeName: i18n.fm.probablecause.codename.20105.3305111620
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111630
+      codeName: i18n.fm.probablecause.codename.20105.3305111630
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111631
+      codeName: i18n.fm.probablecause.codename.20105.3305111631
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111632
+      codeName: i18n.fm.probablecause.codename.20105.3305111632
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111633
+      codeName: i18n.fm.probablecause.codename.20105.3305111633
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111634
+      codeName: i18n.fm.probablecause.codename.20105.3305111634
+      alarmType: 3
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111635
+      codeName: i18n.fm.probablecause.codename.20105.3305111635
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111636
+      codeName: i18n.fm.probablecause.codename.20105.3305111636
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111637
+      codeName: i18n.fm.probablecause.codename.20105.3305111637
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111638
+      codeName: i18n.fm.probablecause.codename.20105.3305111638
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111639
+      codeName: i18n.fm.probablecause.codename.20105.3305111639
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111640
+      codeName: i18n.fm.probablecause.codename.20105.3305111640
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111652
+      codeName: i18n.fm.probablecause.codename.20105.3305111652
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111653
+      codeName: i18n.fm.probablecause.codename.20105.3305111653
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111654
+      codeName: i18n.fm.probablecause.codename.20105.3305111654
+      alarmType: 3
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111655
+      codeName: i18n.fm.probablecause.codename.20105.3305111655
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111656
+      codeName: i18n.fm.probablecause.codename.20105.3305111656
+      alarmType: 3
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111641
+      codeName: i18n.fm.probablecause.codename.20105.3305111641
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111642
+      codeName: i18n.fm.probablecause.codename.20105.3305111642
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111643
+      codeName: i18n.fm.probablecause.codename.20105.3305111643
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111644
+      codeName: i18n.fm.probablecause.codename.20105.3305111644
+      alarmType: 3
+      perceivedSeverity: 1
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111645
+      codeName: i18n.fm.probablecause.codename.20105.3305111645
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111646
+      codeName: i18n.fm.probablecause.codename.20105.3305111646
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111647
+      codeName: i18n.fm.probablecause.codename.20105.3305111647
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111648
+      codeName: i18n.fm.probablecause.codename.20105.3305111648
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111649
+      codeName: i18n.fm.probablecause.codename.20105.3305111649
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111650
+      codeName: i18n.fm.probablecause.codename.20105.3305111650
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111651
+      codeName: i18n.fm.probablecause.codename.20105.3305111651
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111661
+      codeName: i18n.fm.probablecause.codename.20105.3305111661
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111662
+      codeName: i18n.fm.probablecause.codename.20105.3305111662
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111663
+      codeName: i18n.fm.probablecause.codename.20105.3305111663
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111665
+      codeName: i18n.fm.probablecause.codename.20105.3305111665
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111666
+      codeName: i18n.fm.probablecause.codename.20105.3305111666
+      alarmType: 3
+      perceivedSeverity: 3
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111667
+      codeName: i18n.fm.probablecause.codename.20105.3305111667
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111668
+      codeName: i18n.fm.probablecause.codename.20105.3305111668
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111669
+      codeName: i18n.fm.probablecause.codename.20105.3305111669
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111670
+      codeName: i18n.fm.probablecause.codename.20105.3305111670
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111664
+      codeName: i18n.fm.probablecause.codename.20105.3305111664
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0
+    - systemType: 20105
+      codeType: 0
+      code: 3305111671
+      codeName: i18n.fm.probablecause.codename.20105.3305111671
+      alarmType: 3
+      perceivedSeverity: 4
+      reason: ~
+      diagnosticMethod: ~
+      proposedRepairActions: ~
+      nmcReasonCode: 0

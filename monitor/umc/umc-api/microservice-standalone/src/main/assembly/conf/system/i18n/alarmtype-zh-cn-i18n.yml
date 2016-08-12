@@ -1,0 +1,25 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  # FM ALARMTYPE
+  - key: i18n.fm.alarmtype.0
+    value: 通信告警
+  - key: i18n.fm.alarmtype.1
+    value: 处理错误告警
+  - key: i18n.fm.alarmtype.2
+    value: 服务质量告警
+  - key: i18n.fm.alarmtype.3
+    value: 设备告警
+  - key: i18n.fm.alarmtype.4
+    value: 环境告警
+  - key: i18n.fm.alarmtype.6
+    value: 完整性告警
+  - key: i18n.fm.alarmtype.7
+    value: 可用性告警
+  - key: i18n.fm.alarmtype.8
+    value: 物理攻击告警
+  - key: i18n.fm.alarmtype.9
+    value: 安全攻击告警
+  - key: i18n.fm.alarmtype.10
+    value: 时限告警

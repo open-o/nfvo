@@ -1,0 +1,23 @@
+# Mapping Class: FmAlarmType
+
+alarmType:
+    - typeId: 0
+      description: i18n.fm.alarmtype.0
+    - typeId: 1
+      description: i18n.fm.alarmtype.1
+    - typeId: 2
+      description: i18n.fm.alarmtype.2
+    - typeId: 3
+      description: i18n.fm.alarmtype.3
+    - typeId: 4
+      description: i18n.fm.alarmtype.4
+    - typeId: 6
+      description: i18n.fm.alarmtype.6
+    - typeId: 7
+      description: i18n.fm.alarmtype.7
+    - typeId: 8
+      description: i18n.fm.alarmtype.8
+    - typeId: 9
+      description: i18n.fm.alarmtype.9
+    - typeId: 10
+      description: i18n.fm.alarmtype.10

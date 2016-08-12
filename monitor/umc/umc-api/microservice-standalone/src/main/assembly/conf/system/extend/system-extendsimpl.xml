@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+	<!-- System table name mapping System dao class -->
+	<extension-point id="org.openo.orchestrator.nfv.umc.db.IUmcDao">
+		<impl type="PM_TASK" class="org.openo.orchestrator.nfv.umc.db.dao.PmTaskDao"/>
+		<impl type="MONITOR_INFO" class="org.openo.orchestrator.nfv.umc.db.dao.MonitorInfoDao"/>
+		<impl type="PM_TASK_THRESHOLD" class="org.openo.orchestrator.nfv.umc.db.dao.PmTaskThresholdDao"/>
+		<impl type="CURRENTALARM" class="org.openo.orchestrator.nfv.umc.db.dao.CurrentAlarmDao"/>
+		<impl type="DAC_INFO" class="org.openo.orchestrator.nfv.umc.db.dao.DACInfoDao"/>
+	</extension-point>
+	
+	<!-- System table name mapping System po class -->
+	<extension-point id="org.openo.orchestrator.nfv.umc.db.IEntityClass">
+		<impl type="PM_TASK" class="org.openo.orchestrator.nfv.umc.db.entity.PmTask"/>
+		<impl type="MONITOR_INFO" class="org.openo.orchestrator.nfv.umc.db.entity.MonitorInfo"/>
+		<impl type="PM_TASK_THRESHOLD" class="org.openo.orchestrator.nfv.umc.db.entity.PmTaskThreshold"/>
+		<impl type="CURRENTALARM" class="org.openo.orchestrator.nfv.umc.db.entity.CurrentAlarm"/>
+		<impl type="DAC_INFO" class="org.openo.orchestrator.nfv.umc.db.entity.DACInfo"/>
+	</extension-point>
+</extensions>

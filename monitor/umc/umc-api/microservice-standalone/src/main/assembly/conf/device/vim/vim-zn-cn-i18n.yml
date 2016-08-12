@@ -1,0 +1,158 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  - key: i18n.fm.probablecause.codename.20105.3305115649
+    value: 虚拟机开机失败
+  - key: i18n.fm.probablecause.codename.20105.3305115651
+    value: 云环境不可用
+  - key: i18n.fm.probablecause.codename.20105.3305115652
+    value: 控制节点不可用
+  - key: i18n.fm.probablecause.codename.20105.3305115653
+    value: 计算服务不可用
+  - key: i18n.fm.probablecause.codename.20105.3305115654
+    value: 虚拟机状态不一致
+  - key: i18n.fm.probablecause.codename.20105.3305115655
+    value: 虚拟机状态未知
+  - key: i18n.fm.probablecause.codename.20105.3305115656
+    value: 镜像服务器存储空间使用率较高
+  - key: i18n.fm.probablecause.codename.20105.3305115657
+    value: 主机内存故障
+  - key: i18n.fm.probablecause.codename.20105.3305115659
+    value: 以太网口down
+  - key: i18n.fm.probablecause.codename.20105.3305115662
+    value: 根分区使用率超额
+  - key: i18n.fm.probablecause.codename.20105.3305115664
+    value: 存储离线
+  - key: i18n.fm.probablecause.codename.20105.3305115665
+    value: 共享存储空间不足
+  - key: i18n.fm.probablecause.codename.20105.3305115666
+    value: 网络上行异常流量
+  - key: i18n.fm.probablecause.codename.20105.3305115667
+    value: 网络Qos降低
+  - key: i18n.fm.probablecause.codename.20105.3305115668
+    value: 虚拟机状态同步
+  - key: i18n.fm.probablecause.codename.20105.3305115669
+    value: 在系统中增加了一个新的计算节点
+  - key: i18n.fm.probablecause.codename.20105.3305115670
+    value: 虚拟机重生成功
+  - key: i18n.fm.probablecause.codename.20105.3305115671
+    value: 节点网络不通告警功能
+  - key: i18n.fm.probablecause.codename.20105.3305115672
+    value: 虚拟机内核故障上报告警
+  - key: i18n.fm.probablecause.codename.20105.3305115673
+    value: 虚拟机故障上报告警
+  - key: i18n.fm.probablecause.codename.20105.3305115674
+    value: HA节点离线
+  - key: i18n.fm.probablecause.codename.20105.3305115675
+    value: HA资源倒换
+  - key: i18n.fm.probablecause.codename.20105.3305115676
+    value: NTP服务时间同步失败
+  - key: i18n.fm.probablecause.codename.20105.3305115677
+    value: 主机CPU利用率过高
+  - key: i18n.fm.probablecause.codename.20105.3305115678
+    value: 主机内存利用率过高
+  - key: i18n.fm.probablecause.codename.20105.3305115679
+    value: 网络下行异常流量
+  - key: i18n.fm.probablecause.codename.20105.3305111553
+    value: 单板离线
+  - key: i18n.fm.probablecause.codename.20105.3305111600
+    value: 磁阵控制器拔出
+  - key: i18n.fm.probablecause.codename.20105.3305111601
+    value: 磁阵主柜温度超出关机阈值
+  - key: i18n.fm.probablecause.codename.20105.3305111602
+    value: 磁阵从柜温度过高
+  - key: i18n.fm.probablecause.codename.20105.3305111603
+    value: 磁阵主柜电源风扇故障
+  - key: i18n.fm.probablecause.codename.20105.3305111604
+    value: 磁阵从柜电源风扇故障
+  - key: i18n.fm.probablecause.codename.20105.3305111605
+    value: 磁阵虚拟盘降级
+  - key: i18n.fm.probablecause.codename.20105.3305111606
+    value: 磁阵磁阵移除从柜
+  - key: i18n.fm.probablecause.codename.20105.3305111607
+    value: 磁阵SAS线连接断开
+  - key: i18n.fm.probablecause.codename.20105.3305111608
+    value: 磁阵GE端口故障
+  - key: i18n.fm.probablecause.codename.20105.3305111609
+    value: 磁阵系统禁用所有网络端口
+  - key: i18n.fm.probablecause.codename.20105.3305111610
+    value: 磁阵10GE端口故障
+  - key: i18n.fm.probablecause.codename.20105.3305111620
+    value: 交换机端口不可用
+  - key: i18n.fm.probablecause.codename.20105.3305111630
+    value: C7000机箱风扇被降级
+  - key: i18n.fm.probablecause.codename.20105.3305111631
+    value: C7000机箱风扇被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111632
+    value: C7000机箱电源被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111633
+    value: C7000机箱OA板被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111634
+    value: C7000机箱OA无法连通
+  - key: i18n.fm.probablecause.codename.20105.3305111635
+    value: C7000刀片硬盘移除
+  - key: i18n.fm.probablecause.codename.20105.3305111636
+    value: C7000刀片CPU故障
+  - key: i18n.fm.probablecause.codename.20105.3305111637
+    value: C7000刀片内存故障
+  - key: i18n.fm.probablecause.codename.20105.3305111638
+    value: C7000刀片网卡故障
+  - key: i18n.fm.probablecause.codename.20105.3305111639
+    value: C7000刀片PCIe总线故障
+  - key: i18n.fm.probablecause.codename.20105.3305111640
+    value: C7000刀片硬盘控制器故障
+  - key: i18n.fm.probablecause.codename.20105.3305111652
+    value: C7000刀片硬盘故障
+  - key: i18n.fm.probablecause.codename.20105.3305111653
+    value: C7000刀片物理硬盘故障
+  - key: i18n.fm.probablecause.codename.20105.3305111654
+    value: C7000机箱电源供电输入故障
+  - key: i18n.fm.probablecause.codename.20105.3305111655
+    value: C7000刀片逻辑盘状态变更
+  - key: i18n.fm.probablecause.codename.20105.3305111656
+    value: C7000机框电源未冗余
+  - key: i18n.fm.probablecause.codename.20105.3305111641
+    value: E9000机箱风扇被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111642
+    value: E9000机箱电源被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111643
+    value: E9000机箱管理板板被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111644
+    value: E9000机箱管理板无法连通
+  - key: i18n.fm.probablecause.codename.20105.3305111645
+    value: E9000刀片CPU故障
+  - key: i18n.fm.probablecause.codename.20105.3305111646
+    value: E9000刀片内存故障
+  - key: i18n.fm.probablecause.codename.20105.3305111647
+    value: E9000刀片硬盘故障
+  - key: i18n.fm.probablecause.codename.20105.3305111648
+    value: E9000刀片网卡故障
+  - key: i18n.fm.probablecause.codename.20105.3305111649
+    value: E9000刀片PCIe总线故障
+  - key: i18n.fm.probablecause.codename.20105.3305111650
+    value: E9000刀片硬盘控制器故障
+  - key: i18n.fm.probablecause.codename.20105.3305111651
+    value: E9000刀片硬盘被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111661
+    value: R730风扇被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111662
+    value: R730电源被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111663
+    value: R730管理板板被移除
+  - key: i18n.fm.probablecause.codename.20105.3305111664
+    value: R730管理板无法连通
+  - key: i18n.fm.probablecause.codename.20105.3305111665
+    value: R730CPU故障
+  - key: i18n.fm.probablecause.codename.20105.3305111666
+    value: R730内存故障
+  - key: i18n.fm.probablecause.codename.20105.3305111667
+    value: R730网卡故障
+  - key: i18n.fm.probablecause.codename.20105.3305111668
+    value: R730硬盘故障
+  - key: i18n.fm.probablecause.codename.20105.3305111669
+    value: R730 PCIe总线故障
+  - key: i18n.fm.probablecause.codename.20105.3305111670
+    value: R730硬盘控制器故障
+  - key: i18n.fm.probablecause.codename.20105.3305111671
+    value: R730电源移除

@@ -1,0 +1,89 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # FM PROBABLECAUSE
+  - key: i18n.fm.probablecause.codename.11.1000
+    value: VDU cpu used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1001
+    value: VDU ram used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1002
+    value: VDU logic volume filesystem used ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1003
+    value: VDU in bandwidth ratio alarm
+  - key: i18n.fm.probablecause.codename.11.1004
+    value: VDU out bandwidth ratio alarm
+
+  # PM PMTASKINFO
+  ## NETYPENAME
+  - key: i18n.pm.netypename.nfv.vdu.linux
+    value: VDU
+  ## TASKNAME
+  - key: i18n.pm.taskname.nfv.vdu.linux.cpu
+    value: VDU CPU PM TASK
+  - key: i18n.pm.taskname.nfv.vdu.linux.ram
+    value: VDU RAM PM TASK
+  - key: i18n.pm.taskname.nfv.vdu.linux.fs
+    value: VDU FILESYSTEM PM TASK
+  - key: i18n.pm.taskname.nfv.vdu.linux.nic
+    value: VDU NIC PM TASK
+  ## PONAME
+  - key: i18n.pm.poname.nfv.vdu.linux.cpu
+    value: VDU CPU
+  - key: i18n.pm.poname.nfv.vdu.linux.ram
+    value: VDU RAM
+  - key: i18n.pm.poname.nfv.vdu.linux.fs
+    value: VDU FILESYSTEM
+  - key: i18n.pm.poname.nfv.vdu.linux.nic
+    value: VDU NIC
+  ## PO ATTRNAME
+  ### CPU
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.1
+    value: CPU USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.2
+    value: CPU FREE RATIO(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.3
+    value: PROCESSES IN CPU RUNNING QUEUE
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.4
+    value: CPU SYSTEM TASK USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.5
+    value: CPU USER TASK USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.cpu.6
+    value: CPU WAITING RATIO(%)
+  ### RAM
+  - key: i18n.pm.attrname.nfv.vdu.linux.ram.1
+    value: RAM USE RATIO(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.ram.2
+    value: TOTAL SWAP RAM SIZE(KB)
+  - key: i18n.pm.attrname.nfv.vdu.linux.ram.3
+    value: USED SWAP RAM RATIO(%)
+  ### FS
+  - key: i18n.pm.attrname.nfv.vdu.linux.fs.1
+    value: LOGIC VOLUME PATH
+  - key: i18n.pm.attrname.nfv.vdu.linux.fs.2
+    value: FILESYSTEM NAME
+  - key: i18n.pm.attrname.nfv.vdu.linux.fs.3
+    value: LOGIC VOLUME SIZE(MB)
+  - key: i18n.pm.attrname.nfv.vdu.linux.fs.4
+    value: LOGIC VOLUME AVAILABLE SIZE(MB)
+  - key: i18n.pm.attrname.nfv.vdu.linux.fs.5
+    value: LOGIC VOLUME FILESYSTEM USE RATIO(%)
+  ### CPU
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.1
+    value: NIC NAME
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.2
+    value: SEND ERROR PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.3
+    value: RECEIVED ERROR PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.4
+    value: SEND TOTAL PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.5
+    value: RECEIVED TOTAL PACKETS BY ONE COLLECT-PERIOD
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.6
+    value: RECEIVED ERROR PACKET RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.7
+    value: SEND ERROR PACKET RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.8
+    value: IN BANDWIDTH RATIO BY ONE COLLECT-PERIOD(%)
+  - key: i18n.pm.attrname.nfv.vdu.linux.nic.9
+    value: OUT BANDWIDTH RATIO BY ONE COLLECT-PERIOD(%)

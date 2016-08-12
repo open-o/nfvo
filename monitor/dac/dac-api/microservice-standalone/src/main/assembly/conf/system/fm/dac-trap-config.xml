@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- trap config file -->
+<trapConfig>
+	<!-- trap listen port-->
+	<trapPort value="162"/>
+	<!-- trap send queue size -->
+	<trapSendQueueSize value="500"/>
+	<!-- trap receive queue size -->
+	<trapReceiveQueueSize value="100"/>
+</trapConfig>

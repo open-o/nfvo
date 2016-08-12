@@ -1,0 +1,25 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # FM ALARMTYPE
+  - key: i18n.fm.alarmtype.0
+    value: Communications Alarm
+  - key: i18n.fm.alarmtype.1
+    value: Processing Error Alarm
+  - key: i18n.fm.alarmtype.2
+    value: Quality of Service Alarm
+  - key: i18n.fm.alarmtype.3
+    value: Equipment Alarm
+  - key: i18n.fm.alarmtype.4
+    value: Environmental Alarm
+  - key: i18n.fm.alarmtype.6
+    value: Integrity Violation
+  - key: i18n.fm.alarmtype.7
+    value: Operational Violation
+  - key: i18n.fm.alarmtype.8
+    value: Physical Violation
+  - key: i18n.fm.alarmtype.9
+    value: Security Violation
+  - key: i18n.fm.alarmtype.10
+    value: Time Domain Violation

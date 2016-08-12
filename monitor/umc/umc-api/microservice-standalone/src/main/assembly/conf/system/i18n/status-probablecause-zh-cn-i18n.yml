@@ -1,0 +1,15 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  # FM PROBABLECAUSE
+  - key: i18n.fm.probablecause.codename.20104.1
+    value: 节点IP Ping不通
+  - key: i18n.fm.probablecause.codename.20104.23
+    value: 使用TELNET连接目标机器异常,请检查接入设置
+  - key: i18n.fm.probablecause.codename.20104.24
+    value: 使用SSH连接目标机器异常,请检查接入设置
+  - key: i18n.fm.probablecause.codename.20104.25
+    value: 使用SNMP连接目标机器异常,请检查接入设置
+  - key: i18n.fm.probablecause.codename.20104.26
+    value: 使用JDBC连接数据库异常,请检查接入设置

@@ -1,0 +1,15 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # FM PROBABLECAUSE
+  - key: i18n.fm.probablecause.codename.20104.1
+    value: Ping the destination machine is time out
+  - key: i18n.fm.probablecause.codename.20104.23
+    value: Exception when use TELNET logining in destination machine, please check login information
+  - key: i18n.fm.probablecause.codename.20104.24
+    value: Exception when use SSH logining in destination machine, please check login information
+  - key: i18n.fm.probablecause.codename.20104.25
+    value: Exception when use SNMP logining in destination machine, please check login information
+  - key: i18n.fm.probablecause.codename.20104.26
+    value: Exception when use JDBC logining in database, please check login information

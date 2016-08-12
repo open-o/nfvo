@@ -1,0 +1,89 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  # FM PROBABLECAUSE
+  - key: i18n.fm.probablecause.codename.11.1010
+    value: 实体机CPU使用率告警
+  - key: i18n.fm.probablecause.codename.11.1011
+    value: 实体机内存使用率告警
+  - key: i18n.fm.probablecause.codename.11.1012
+    value: 实体机卷上文件系统的使用率告警
+  - key: i18n.fm.probablecause.codename.11.1013
+    value: 实体机本采集周期内流入带宽使用率告警
+  - key: i18n.fm.probablecause.codename.11.1014
+    value: 实体机本采集周期内流出带宽使用率告警
+
+  # PM PMTASKINFO
+  ## NETYPENAME
+  - key: i18n.pm.netypename.nfv.host.linux
+    value: 实体机
+  ## TASKNAME
+  - key: i18n.pm.taskname.nfv.host.linux.cpu
+    value: 实体机CPU性能任务
+  - key: i18n.pm.taskname.nfv.host.linux.ram
+    value: 实体机内存性能任务
+  - key: i18n.pm.taskname.nfv.host.linux.fs
+    value: 实体机文件系统性能任务
+  - key: i18n.pm.taskname.nfv.host.linux.nic
+    value: 实体机网卡性能任务
+  ## PONAME
+  - key: i18n.pm.poname.nfv.host.linux.cpu
+    value: 实体机CPU
+  - key: i18n.pm.poname.nfv.host.linux.ram
+    value: 实体机内存
+  - key: i18n.pm.poname.nfv.host.linux.fs
+    value: 实体机文件系统
+  - key: i18n.pm.poname.nfv.host.linux.nic
+    value: 实体机网卡
+  ## PO ATTRNAME
+  ### CPU
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.1
+    value: CPU使用率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.2
+    value: CPU空闲率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.3
+    value: CPU运行队列中进程个数
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.4
+    value: CPU系统任务使用率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.5
+    value: CPU用户任务使用率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.cpu.6
+    value: CPU等待率(百分比)
+  ### RAM
+  - key: i18n.pm.attrname.nfv.host.linux.ram.1
+    value: 内存使用率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.ram.2
+    value: SWAP内存总大小(KB)
+  - key: i18n.pm.attrname.nfv.host.linux.ram.3
+    value: SWAP内存使用率(百分比)
+  ### FS
+  - key: i18n.pm.attrname.nfv.host.linux.fs.1
+    value: 逻辑卷的路径名
+  - key: i18n.pm.attrname.nfv.host.linux.fs.2
+    value: 文件系统
+  - key: i18n.pm.attrname.nfv.host.linux.fs.3
+    value: 逻辑卷的大小(MB)
+  - key: i18n.pm.attrname.nfv.host.linux.fs.4
+    value: 逻辑卷可用空间的大小(MB)
+  - key: i18n.pm.attrname.nfv.host.linux.fs.5
+    value: 逻辑卷上文件系统的使用率(百分比)
+  ### CPU
+  - key: i18n.pm.attrname.nfv.host.linux.nic.1
+    value: 网卡名称
+  - key: i18n.pm.attrname.nfv.host.linux.nic.2
+    value: 本采集周期内发送的错误包数
+  - key: i18n.pm.attrname.nfv.host.linux.nic.3
+    value: 本采集周期内收到的错误包数
+  - key: i18n.pm.attrname.nfv.host.linux.nic.4
+    value: 本采集周期内发送的包数
+  - key: i18n.pm.attrname.nfv.host.linux.nic.5
+    value: 本采集周期内收到的包数
+  - key: i18n.pm.attrname.nfv.host.linux.nic.6
+    value: 本采集周期内收到的错误包率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.7
+    value: 本采集周期内发送的错误包率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.8
+    value: 本采集周期内流入带宽使用率(百分比)
+  - key: i18n.pm.attrname.nfv.host.linux.nic.9
+    value: 本采集周期内流出带宽使用率(百分比)

@@ -1,0 +1,11 @@
+# Mapping Class: TranslateDict
+
+language: zh-cn
+content:
+  # SYSTEMTYPE
+  - key: i18n.fm.systemtype.11
+    value: 性能门限越界
+  - key: i18n.fm.systemtype.20105
+    value: SNMPTRAP告警
+  - key: i18n.fm.systemtype.20104
+    value: 状态告警

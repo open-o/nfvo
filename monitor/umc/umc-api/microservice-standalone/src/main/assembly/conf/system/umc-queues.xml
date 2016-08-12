@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!--
+Function: the configuration file is set to the performance data 
+    warehousing task queue size, the size of the thread pool file.
+name：Queue name
+maxQueueSize：Number of tasks
+maxThreadNum：Total number of threads
+-->
+
+<paras>
+	<para name="PmDataTaskQueue"  maxQueueSize="2000"   maxThreadNum="65" />
+	<para name="ThresholdDataQueue"  maxQueueSize="2000"   maxThreadNum="50" />
+	<para name="TrapMsgQueue"  maxQueueSize="2000"   maxThreadNum="1" />
+</paras>

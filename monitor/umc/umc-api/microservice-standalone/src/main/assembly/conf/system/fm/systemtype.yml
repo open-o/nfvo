@@ -1,0 +1,9 @@
+# Mapping Class: SystemType
+
+systemType:
+    - name: i18n.fm.systemtype.11
+      systemType: 11
+    - name: i18n.fm.systemtype.20105
+      systemType: 20105
+    - name: i18n.fm.systemtype.20104
+      systemType: 20104

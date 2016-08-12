@@ -1,0 +1,11 @@
+# Mapping Class: TranslateDict
+
+language: en-us
+content:
+  # SYSTEMTYPE
+  - key: i18n.fm.systemtype.11
+    value: Performance threshold exceeded
+  - key: i18n.fm.systemtype.20105
+    value: Snmp Trap alarm
+  - key: i18n.fm.systemtype.20104
+    value: Status alarm

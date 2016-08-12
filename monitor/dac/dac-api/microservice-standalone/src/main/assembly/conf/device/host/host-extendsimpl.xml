@@ -1,0 +1,21 @@
+<extensions>
+	<!-- IDataCollector Impl mapping -->
+	<extension-point id="org.openo.orchestrator.nfv.dac.dataaq.common.IDataCollector">
+		<impl type="nfv.host.linux" class="org.openo.orchestrator.nfv.dac.dataaq.datacollector.UnixPerformDataCollector"/>
+	</extension-point>
+	
+	<!-- IDataParser Impl mapping -->
+	<extension-point id="org.openo.orchestrator.nfv.dac.dataaq.common.IDataParser">
+		<impl type="nfv.host.linux" class="org.openo.orchestrator.nfv.dac.dataaq.dataparser.TelnetDataParser"/>
+	</extension-point>
+	
+	<!-- IMonitor Impl mapping -->
+	<extension-point id="org.openo.orchestrator.nfv.dac.dataaq.common.IMonitor">
+		<impl type="nfv.host.linux" class="org.openo.orchestrator.nfv.dac.dataaq.monitor.MonitorTelnet"/>
+	</extension-point>
+	
+	<!-- IMonitorTaskInfo Impl mapping -->
+	<extension-point id="org.openo.orchestrator.nfv.dac.dataaq.monitor.bean.common.IMonitorTaskInfo">
+		<impl type="nfv.host.linux" class="org.openo.orchestrator.nfv.dac.dataaq.monitor.bean.taskinfo.HostTaskInfo"/>
+	</extension-point>
+</extensions>

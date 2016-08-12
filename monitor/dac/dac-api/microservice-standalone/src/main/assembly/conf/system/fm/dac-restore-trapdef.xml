@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GB2312"?>
+	<!--Trap restore event config -->
+	<!--
+		<restore trapoid=""> restore trap oid 
+		<relate trap-oid=""/> to be restore trap oid
+		<judge bind-oid=""/> bind value oid, use to compare alarmkey,if bind-oid=null no bind value need
+		</restore>
+	-->
+<restoreeventcfg>
+	<!-- linkdown -->
+	<restore trapoid="0.0.0.3">
+		<!-- linkup -->
+		<relate trap-oid="0.0.0.2"/>
+		<!-- ifindex -->
+		<judge bind-oid="1.3.6.1.2.1.2.2.1.1"/>
+	</restore>
+	<!-- linkdown -->
+	<restore trapoid="1.3.6.1.2.1.11.3">
+		<!-- linkup -->
+		<relate trap-oid="1.3.6.1.2.1.11.2"/>
+		<!-- ifindex -->
+		<judge bind-oid="1.3.6.1.2.1.2.2.1.1"/>
+	</restore>
+	<!-- linkdown -->
+	<restore trapoid="1.3.6.1.6.3.1.1.5.4">
+		<!-- linkup -->
+		<relate trap-oid="1.3.6.1.6.3.1.1.5.3"/>
+		<!-- ifindex -->
+		<judge bind-oid="1.3.6.1.2.1.2.2.1.1"/>
+	</restore>
+</restoreeventcfg>
