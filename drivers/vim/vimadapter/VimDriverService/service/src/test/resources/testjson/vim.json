@@ -1,0 +1,64 @@
+{
+    "VIM": {
+        "id": "111",
+        "name": "testName",
+        "type": "openstack",
+        "version": "1.0",
+        "userName": "cloud_admin",
+        "pwd": "openStack123",
+        "url": "https://identity.az1.dc1.huawei.com/identity-admin",
+        "extraInfo": {
+            "domain": "admin",
+            "authenticMode": "Anonymous"
+        }
+    },
+    "getVim": {
+        "data": [{
+            "id": "111",
+            "name": "testName",
+            "type": "openstack",
+            "version": "1.0",
+            "userName": "cloud_admin",
+            "updateAt": "",
+            "createAt": "",
+            "url": "https://identity.az1.dc1.huawei.com/identity-admin",
+            "status": "ACTIVE",
+            "extraInfo": {
+                "domain": "admin",
+                "authenticMode": "Anonymous"
+            }
+        }]
+    },
+    "delVims": {
+        "data": [{
+            "id": "111",
+            "name": "testName",
+            "type": "openstack",
+            "version": "1.0",
+            "userName": "cloud_admin",
+            "updateAt": "",
+            "createAt": "",
+            "url": "https://identity.az1.dc1.huawei.com/identity-admin",
+            "status": "ACTIVE",
+            "extraInfo": {
+                "domain": "admin",
+                "authenticMode": "Anonymous"
+            }
+        }]
+    },
+    "addVim": {
+        "VIM": {
+            "id": "111",
+            "name": "testName",
+            "type": "openstack",
+            "version": "1.0",
+            "userName": "cloud_admin",
+            "pwd": "openStack123",
+            "url": "https://identity.az1.dc1.huawei.com/identity-admin",
+            "extraInfo": {
+                "domain": "admin",
+                "authenticMode": "Anonymous"
+            }
+        }
+    }
+}

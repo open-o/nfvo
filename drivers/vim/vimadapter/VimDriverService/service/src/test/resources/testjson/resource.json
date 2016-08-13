@@ -1,0 +1,307 @@
+{
+    "Rp": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "hypervisor_statistics": {
+        	"vcpus": "100",
+            "memory_mb": "100",
+            "local_gb": "100",
+            "vcpus_used": "100",
+            "local_gb_used": "50",
+            "memory_mb_used": "50"
+        },
+        "hypervisors": [{
+        	"vcpus": "100",
+            "memory_mb": "100",
+            "local_gb": "100",
+            "vcpus_used": "100",
+            "local_gb_used": "50",
+            "memory_mb_used": "50"
+        }],
+        "data": [{
+            "id": "12",
+            "name": "Beijing",
+            "vimId": "123",
+            "vimName": "vimName",
+            "status": "active",
+            "tenantId": "",
+            "tenantName": "",
+            "isUsed": "true",
+            "total": {
+                "vcpus": "100",
+                "memory": "100",
+                "disk": "100",
+                "cpumhz": "100"
+            },
+            "used": {
+                "vcpus": "0",
+                "memory": "0",
+                "disk": "0",
+                "cpumhz": "0"
+            }
+        }]
+    },
+    
+    "Rp1": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "hypervisor_statistics": {
+        	"vcpus": "100",
+            "memory_mb": "100",
+            "local_gb": "100",
+            "vcpus_used": "100",
+            "local_gb_used": "50",
+            "memory_mb_used": "50"
+        },
+        "hypervisors": [{
+        	"vcpus": "100",
+            "memory_mb": "100",
+            "local_gb": "100",
+            "vcpus_used": "100",
+            "local_gb_used": "50",
+            "memory_mb_used": "50",
+            "status": "normal"
+        }],
+        "data": [{
+            "id": "12",
+            "name": "Beijing",
+            "vimId": "123",
+            "vimName": "vimName",
+            "status": "active",
+            "tenantId": "",
+            "tenantName": "",
+            "isUsed": "true",
+            "total": {
+                "vcpus": "100",
+                "memory": "100",
+                "disk": "100",
+                "cpumhz": "100"
+            },
+            "used": {
+                "vcpus": "0",
+                "memory": "0",
+                "disk": "0",
+                "cpumhz": "0"
+            }
+        }]
+    },
+    "Vendor": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "tenants": [{
+         	"description": "",
+            "id": "1212121",
+            "enabled": "1",
+            "name": "huawei"
+        }],
+        "data": [{
+            "id": "1111",
+            "vimId": "1212121",
+            "vimName": "test",
+            "status": "active",
+            "name": "huawei"
+        }]
+    },
+    "Vm": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "server": {
+        	"id": "1111",
+            "vimId": "1212121",
+            "tenant_id": "123",
+            "status": "active",
+            "image":{
+            	"id": ""
+            },
+             "metadata":{
+            	"metadata": ""
+            },
+            "name": "huawei",
+            "hostId": "huawei"
+        	
+        },
+        "data": [{
+            "id": "NE=34603416",
+            "name": "ugw_908tb_SPU_C_0064",
+            "projectId": "",
+            "vduId": "",
+            "vappId": "NE=34603409",
+            "status": "active",
+            "location": [{
+                "rp_name": "az1.dc1",
+                "site_name": "beijing:az1.dc1"
+            }],
+            "hostId": "E023EEE4-3AFD-E411-80E0-000000821800",
+            "vappName": "ugw_908tb",
+            "vduType": "SPU_C",
+            "vmUsage": "",
+            "vnics": [{
+                "incoming_rate": "1",
+                "vnic": 0,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:01",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            },
+            {
+                "incoming_rate": "1",
+                "vnic": 1,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:02",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            },
+            {
+                "incoming_rate": "1",
+                "vnic": 2,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:03",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            }],
+            "isMincfg": "no"
+        }]
+    },
+     "Vm1": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "servers": [{
+        	"id": "1111",
+            "vimId": "1212121",
+            "tenant_id": "123",
+            "status": "active",
+            "image":{
+            	"id": ""
+            },
+             "metadata":{
+            	"metadata": ""
+            },
+            "name": "huawei",
+            "hostId": "huawei"
+        	
+        }],
+        "data": [{
+            "id": "NE=34603416",
+            "name": "ugw_908tb_SPU_C_0064",
+            "projectId": "",
+            "vduId": "",
+            "vappId": "NE=34603409",
+            "status": "active",
+            "location": [{
+                "rp_name": "az1.dc1",
+                "site_name": "beijing:az1.dc1"
+            }],
+            "hostId": "E023EEE4-3AFD-E411-80E0-000000821800",
+            "vappName": "ugw_908tb",
+            "vduType": "SPU_C",
+            "vmUsage": "",
+            "vnics": [{
+                "incoming_rate": "1",
+                "vnic": 0,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:01",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            },
+            {
+                "incoming_rate": "1",
+                "vnic": 1,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:02",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            },
+            {
+                "incoming_rate": "1",
+                "vnic": 2,
+                "provider_network": "",
+                "vnic_index": 0,
+                "subnet_id": "",
+                "mac_address": "70:54:76:69:6a:03",
+                "network_id": "",
+                "network_backendid": "",
+                "name": "",
+                "network_index": "",
+                "segmentation": "",
+                "outgoing_rate": "1",
+                "network_type": "",
+                "port_id": "",
+                "ip_address": "",
+                "network_name": ""                
+            }],
+            "isMincfg": "no"
+        }]
+    },
+    "Network": {
+        "retCode": 1,
+        "msg": "query sucessfully",
+        "data": [{
+            "shared": "true",
+            "router": {
+                "external": "false"
+            },
+            "vimId": "556wee",
+            "vimName": "test",
+            "provider": {
+                "physicalNetwork": "physnet1",
+                "networkType": "vlan",
+                "segmentationId": "201"
+            },
+            "name": "app_2367_UGW_FABRIC_1",
+            "tenantId": "c740427354754d4288fe88f85aa41c87",
+            "id": "c5d349a9-da32-9aa7-87cb3ea5fc1e",
+            "adminStateUp": "true",
+            "status": "active"
+        }]
+    }
+}
