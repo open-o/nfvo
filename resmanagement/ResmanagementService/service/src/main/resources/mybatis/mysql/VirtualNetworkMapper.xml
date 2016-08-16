@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="org.openo.nfvo.resmanagement.service.mapper.VirtualNetworkMapper">
+	<resultMap id="BaseResultMap"
+		type="org.openo.nfvo.resmanagement.service.entity.VirtualNetworkEntity">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="IS_PUBLIC" property="isPublic" jdbcType="VARCHAR" />
+		<result column="SUB_GATE" property="subGate" jdbcType="VARCHAR" />
+		<result column="SUB_MASK" property="subMask" jdbcType="VARCHAR" />
+		<result column="ENABLE_DHCP" property="enableDhcp" jdbcType="VARCHAR" />
+		<result column="RP_ID" property="rpId" jdbcType="VARCHAR" />
+		<result column="RP_NAME" property="rpName" jdbcType="VARCHAR" />
+		<result column="CONNECT_TYPE" property="connectType" jdbcType="VARCHAR" />
+		<result column="VIM_ID" property="vimId" jdbcType="VARCHAR" />
+		<result column="VIM_NAME" property="vimName" jdbcType="VARCHAR" />
+		<result column="VIM_VENDOR_ID" property="vimVendorId" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="SEGMENTATION" property="segmentation" jdbcType="VARCHAR" />
+		<result column="SUBNETS" property="subnets" jdbcType="VARCHAR" />
+		<result column="SUBNET_ID" property="subnetId" jdbcType="VARCHAR" />
+		<result column="PHYSICAL_NET" property="physicalNet" jdbcType="VARCHAR" />
+		<result column="BACKEND_ID" property="backendId" jdbcType="VARCHAR" />
+		<result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, IS_PUBLIC, SUB_GATE, SUB_MASK, ENABLE_DHCP, RP_ID, RP_NAME,
+		CONNECT_TYPE, VIM_ID,
+		VIM_NAME, VIM_VENDOR_ID, TYPE, NAME, SEGMENTATION, SUBNETS, SUBNET_ID,
+		PHYSICAL_NET,
+		BACKEND_ID,PROJECT_ID
+  </sql>
+	<select id="getVirtualNetwork" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from virtualnetwork
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="getVirtualNetworks" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from virtualnetwork
+		<where>
+			<if test="id != null">
+				AND ID = #{id,jdbcType=VARCHAR}
+	  </if>
+			<if test="backendId != null">
+				AND BACKEND_ID = #{backendId,jdbcType=VARCHAR}
+	  </if>
+			<if test="rpId != null">
+				AND RP_ID = #{rpId,jdbcType=VARCHAR}
+	  </if>
+			<if test="name != null">
+				AND NAME = #{name,jdbcType=VARCHAR}
+	  </if>
+		</where>
+	</select>
+	<delete id="deleteVirtualNetwork" parameterType="java.lang.String">
+		delete from virtualnetwork
+		where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+	<insert id="addVirtualNetwork"
+		parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualNetworkEntity">
+		insert into virtualnetwork (ID, IS_PUBLIC, SUB_GATE,
+		SUB_MASK, ENABLE_DHCP, RP_ID,
+		RP_NAME, CONNECT_TYPE, VIM_ID,
+		VIM_NAME, VIM_VENDOR_ID, TYPE,
+		NAME, SEGMENTATION, SUBNETS,
+		SUBNET_ID, PHYSICAL_NET, BACKEND_ID,PROJECT_ID
+		)
+		values (#{id,jdbcType=VARCHAR}, #{isPublic,jdbcType=VARCHAR},
+		#{subGate,jdbcType=VARCHAR},
+		#{subMask,jdbcType=VARCHAR}, #{enableDhcp,jdbcType=VARCHAR}, #{rpId,jdbcType=VARCHAR},
+		#{rpName,jdbcType=VARCHAR}, #{connectType,jdbcType=VARCHAR},
+		#{vimId,jdbcType=VARCHAR},
+		#{vimName,jdbcType=VARCHAR}, #{vimVendorId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR}, #{segmentation,jdbcType=VARCHAR},
+		#{subnets,jdbcType=VARCHAR},
+		#{subnetId,jdbcType=VARCHAR}, #{physicalNet,jdbcType=VARCHAR}, #{backendId,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR}
+		)
+  </insert>
+	<insert id="addVirtualNetworkSelective"
+		parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualNetworkEntity">
+		insert into virtualnetwork
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+      </if>
+			<if test="isPublic != null">
+				IS_PUBLIC,
+      </if>
+			<if test="subGate != null">
+				SUB_GATE,
+      </if>
+			<if test="subMask != null">
+				SUB_MASK,
+      </if>
+			<if test="enableDhcp != null">
+				ENABLE_DHCP,
+      </if>
+			<if test="rpId != null">
+				RP_ID,
+      </if>
+			<if test="rpName != null">
+				RP_NAME,
+      </if>
+			<if test="connectType != null">
+				CONNECT_TYPE,
+      </if>
+			<if test="vimId != null">
+				VIM_ID,
+      </if>
+			<if test="vimName != null">
+				VIM_NAME,
+      </if>
+			<if test="vimVendorId != null">
+				VIM_VENDOR_ID,
+      </if>
+			<if test="type != null">
+				TYPE,
+      </if>
+			<if test="name != null">
+				NAME,
+      </if>
+			<if test="segmentation != null">
+				SEGMENTATION,
+      </if>
+			<if test="subnets != null">
+				SUBNETS,
+      </if>
+			<if test="subnetId != null">
+				SUBNET_ID,
+      </if>
+			<if test="physicalNet != null">
+				PHYSICAL_NET,
+      </if>
+			<if test="backendId != null">
+				BACKEND_ID,
+      </if>
+			<if test="projectId != null">
+				PROJECT_ID,
+      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+      </if>
+			<if test="isPublic != null">
+				#{isPublic,jdbcType=VARCHAR},
+      </if>
+			<if test="subGate != null">
+				#{subGate,jdbcType=VARCHAR},
+      </if>
+			<if test="subMask != null">
+				#{subMask,jdbcType=VARCHAR},
+      </if>
+			<if test="enableDhcp != null">
+				#{enableDhcp,jdbcType=VARCHAR},
+      </if>
+			<if test="rpId != null">
+				#{rpId,jdbcType=VARCHAR},
+      </if>
+			<if test="rpName != null">
+				#{rpName,jdbcType=VARCHAR},
+      </if>
+			<if test="connectType != null">
+				#{connectType,jdbcType=VARCHAR},
+      </if>
+			<if test="vimId != null">
+				#{vimId,jdbcType=VARCHAR},
+      </if>
+			<if test="vimName != null">
+				#{vimName,jdbcType=VARCHAR},
+      </if>
+			<if test="vimVendorId != null">
+				#{vimVendorId,jdbcType=VARCHAR},
+      </if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+      </if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+      </if>
+			<if test="segmentation != null">
+				#{segmentation,jdbcType=VARCHAR},
+      </if>
+			<if test="subnets != null">
+				#{subnets,jdbcType=VARCHAR},
+      </if>
+			<if test="subnetId != null">
+				#{subnetId,jdbcType=VARCHAR},
+      </if>
+			<if test="physicalNet != null">
+				#{physicalNet,jdbcType=VARCHAR},
+      </if>
+			<if test="backendId != null">
+				#{backendId,jdbcType=VARCHAR},
+      </if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+      </if>
+		</trim>
+	</insert>
+	<update id="updateVirtualNetworkSelective"
+		parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualNetworkEntity">
+		update virtualnetwork
+		<set>
+			<if test="isPublic != null">
+				IS_PUBLIC = #{isPublic,jdbcType=VARCHAR},
+      </if>
+			<if test="subGate != null">
+				SUB_GATE = #{subGate,jdbcType=VARCHAR},
+      </if>
+			<if test="subMask != null">
+				SUB_MASK = #{subMask,jdbcType=VARCHAR},
+      </if>
+			<if test="enableDhcp != null">
+				ENABLE_DHCP = #{enableDhcp,jdbcType=VARCHAR},
+      </if>
+			<if test="rpId != null">
+				RP_ID = #{rpId,jdbcType=VARCHAR},
+      </if>
+			<if test="rpName != null">
+				RP_NAME = #{rpName,jdbcType=VARCHAR},
+      </if>
+			<if test="connectType != null">
+				CONNECT_TYPE = #{connectType,jdbcType=VARCHAR},
+      </if>
+			<if test="vimId != null">
+				VIM_ID = #{vimId,jdbcType=VARCHAR},
+      </if>
+			<if test="vimName != null">
+				VIM_NAME = #{vimName,jdbcType=VARCHAR},
+      </if>
+			<if test="vimVendorId != null">
+				VIM_VENDOR_ID = #{vimVendorId,jdbcType=VARCHAR},
+      </if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+      </if>
+			<if test="segmentation != null">
+				SEGMENTATION = #{segmentation,jdbcType=VARCHAR},
+      </if>
+			<if test="subnets != null">
+				SUBNETS = #{subnets,jdbcType=VARCHAR},
+      </if>
+			<if test="subnetId != null">
+				SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+      </if>
+			<if test="physicalNet != null">
+				PHYSICAL_NET = #{physicalNet,jdbcType=VARCHAR},
+      </if>
+			<if test="backendId != null">
+				BACKEND_ID = #{backendId,jdbcType=VARCHAR},
+      </if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateVirtualNetwork"
+		parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualNetworkEntity">
+		update virtualnetwork
+		set IS_PUBLIC = #{isPublic,jdbcType=VARCHAR},
+		SUB_GATE = #{subGate,jdbcType=VARCHAR},
+		SUB_MASK = #{subMask,jdbcType=VARCHAR},
+		ENABLE_DHCP = #{enableDhcp,jdbcType=VARCHAR},
+		RP_ID = #{rpId,jdbcType=VARCHAR},
+		RP_NAME = #{rpName,jdbcType=VARCHAR},
+		CONNECT_TYPE = #{connectType,jdbcType=VARCHAR},
+		VIM_ID = #{vimId,jdbcType=VARCHAR},
+		VIM_NAME = #{vimName,jdbcType=VARCHAR},
+		VIM_VENDOR_ID = #{vimVendorId,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		SEGMENTATION = #{segmentation,jdbcType=VARCHAR},
+		SUBNETS = #{subnets,jdbcType=VARCHAR},
+		SUBNET_ID = #{subnetId,jdbcType=VARCHAR},
+		PHYSICAL_NET = #{physicalNet,jdbcType=VARCHAR},
+		BACKEND_ID = #{backendId,jdbcType=VARCHAR},
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

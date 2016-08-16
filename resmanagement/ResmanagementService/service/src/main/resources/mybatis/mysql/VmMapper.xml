@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.openo.nfvo.resmanagement.service.mapper.VmMapper" >
+  <resultMap id="BaseResultMap" type="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="VDU_ID" property="vduId" jdbcType="VARCHAR" />
+    <result column="VDU_TYPE" property="vduType" jdbcType="VARCHAR" />
+    <result column="VAPP_ID" property="vappId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="HOST_ID" property="hostId" jdbcType="VARCHAR" />
+    <result column="VAPP_NAME" property="vappName" jdbcType="VARCHAR" />
+    <result column="VM_USAGE" property="vmUsage" jdbcType="VARCHAR" />
+    <result column="VNICS" property="vnics" jdbcType="VARCHAR" />
+    <result column="IS_MINCFG" property="isMincfg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, PROJECT_ID, VDU_ID, VDU_TYPE, VAPP_ID, STATUS, LOCATION, HOST_ID, VAPP_NAME, VM_USAGE, 
+    VNICS, IS_MINCFG
+  </sql>
+  <select id="getVm" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vm
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getVms" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from vm
+    <where>
+      <if test="id != null">
+		 AND ID = #{id,jdbcType=VARCHAR}
+	  </if>
+    </where>
+  </select>
+  <delete id="deleteVm" parameterType="java.lang.String" >
+    delete from vm
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteVmByVappId" parameterType="java.lang.String" >
+    delete from vm
+    where VAPP_ID = #{vappId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="addVm" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    insert into vm (ID, NAME, PROJECT_ID, VDU_ID, 
+      VDU_TYPE, VAPP_ID, STATUS, 
+      LOCATION, HOST_ID, VAPP_NAME, 
+      VM_USAGE, VNICS, IS_MINCFG
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{vduId,jdbcType=VARCHAR},
+      #{vduType,jdbcType=VARCHAR}, #{vappId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{hostId,jdbcType=VARCHAR}, #{vappName,jdbcType=VARCHAR}, 
+      #{vmUsage,jdbcType=VARCHAR}, #{vnics,jdbcType=VARCHAR}, #{isMincfg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="addVmSelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    insert into vm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+      <if test="vduId != null" >
+        VDU_ID,
+      </if>
+      <if test="vduType != null" >
+        VDU_TYPE,
+      </if>
+      <if test="vappId != null" >
+        VAPP_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="location != null" >
+        LOCATION,
+      </if>
+      <if test="hostId != null" >
+        HOST_ID,
+      </if>
+      <if test="vappName != null" >
+        VAPP_NAME,
+      </if>
+      <if test="vmUsage != null" >
+        VM_USAGE,
+      </if>
+      <if test="vnics != null" >
+        VNICS,
+      </if>
+      <if test="isMincfg != null" >
+        IS_MINCFG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="vduId != null" >
+        #{vduId,jdbcType=VARCHAR},
+      </if>
+      <if test="vduType != null" >
+        #{vduType,jdbcType=VARCHAR},
+      </if>
+      <if test="vappId != null" >
+        #{vappId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="hostId != null" >
+        #{hostId,jdbcType=VARCHAR},
+      </if>
+      <if test="vappName != null" >
+        #{vappName,jdbcType=VARCHAR},
+      </if>
+      <if test="vmUsage != null" >
+        #{vmUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="vnics != null" >
+        #{vnics,jdbcType=VARCHAR},
+      </if>
+      <if test="isMincfg != null" >
+        #{isMincfg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateVmSelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    update vm
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="vduId != null" >
+        VDU_ID = #{vduId,jdbcType=VARCHAR},
+      </if>
+      <if test="vduType != null" >
+        VDU_TYPE = #{vduType,jdbcType=VARCHAR},
+      </if>
+      <if test="vappId != null" >
+        VAPP_ID = #{vappId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="hostId != null" >
+        HOST_ID = #{hostId,jdbcType=VARCHAR},
+      </if>
+      <if test="vappName != null" >
+        VAPP_NAME = #{vappName,jdbcType=VARCHAR},
+      </if>
+      <if test="vmUsage != null" >
+        VM_USAGE = #{vmUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="vnics != null" >
+        VNICS = #{vnics,jdbcType=VARCHAR},
+      </if>
+      <if test="isMincfg != null" >
+        IS_MINCFG = #{isMincfg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateVm" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    update vm
+    set NAME = #{name,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      VDU_ID = #{vduId,jdbcType=VARCHAR},
+      VDU_TYPE = #{vduType,jdbcType=VARCHAR},
+      VAPP_ID = #{vappId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      HOST_ID = #{hostId,jdbcType=VARCHAR},
+      VAPP_NAME = #{vappName,jdbcType=VARCHAR},
+      VM_USAGE = #{vmUsage,jdbcType=VARCHAR},
+      VNICS = #{vnics,jdbcType=VARCHAR},
+      IS_MINCFG = #{isMincfg,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
