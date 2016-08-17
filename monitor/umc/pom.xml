@@ -19,7 +19,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>org.openo.orchestrator</groupId>
-        <artifactId>openoparentpom</artifactId>
+        <artifactId>monitor-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -27,10 +27,6 @@
     <artifactId>umc-parent</artifactId>
     <name>openo/umc</name>
     <packaging>pom</packaging>
-    <properties>
-        <openo.project.gitdev.url>http://${openo.project.git.ip}/oipgit/git/Open-O/umc.git</openo.project.gitdev.url>
-        <openo.project.git.url>http://${openo.project.git.ip}/oipgit/Open-O/umc</openo.project.git.url>
-    </properties>
 
     <modules>
         <module>umc-api</module>
