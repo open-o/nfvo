@@ -18,10 +18,10 @@ package org.openo.nfvo.vimadapter.service.openstack.api;
 
 import java.util.Map;
 
-import net.sf.json.JSONObject;
-
 import org.openo.nfvo.vimadapter.service.constant.Constant;
 import org.openo.nfvo.vimadapter.service.entity.Vim;
+
+import net.sf.json.JSONObject;
 
 public class ConnectInfo {
 

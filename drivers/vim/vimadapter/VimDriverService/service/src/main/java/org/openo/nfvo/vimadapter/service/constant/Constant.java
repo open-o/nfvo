@@ -195,6 +195,8 @@ public interface Constant {
 
     List<String> ENABLEDHCP_LIST = Collections.unmodifiableList(Arrays.asList("False", "True"));
 
+	String WRAP_TOKEN = null;
+
     public interface ServiceName {
 
         String GLANCE = "glance";

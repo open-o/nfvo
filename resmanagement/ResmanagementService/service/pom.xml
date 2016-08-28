@@ -122,11 +122,6 @@
 			<artifactId>spring-expression</artifactId>
 			<version>3.1.0.RELEASE</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>3.1.0.RELEASE</version>
-		</dependency>
 		
 		<dependency>   	
      		<groupId>org.apache.cxf</groupId>

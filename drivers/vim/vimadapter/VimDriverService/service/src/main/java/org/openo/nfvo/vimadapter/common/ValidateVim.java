@@ -76,12 +76,7 @@ public class ValidateVim {
 		String name = vim.getName();
 		String type = vim.getType();
 		List<Vim> vims;
-		try {
-			vims = Collections.unmodifiableList(vimDao.indexVims(0, 0));
-		} catch (ServiceException e) {
-			LOG.error("function=validateVimData, msg=serviceException occurs, e = {}.", e);
-			return false;
-		}
+		vims = Collections.unmodifiableList(vimDao.indexVims(0, 0));
 		if (!Constant.VIMTYPELIST.contains(type)) {
 			LOG.warn("function=validateVimData.msg=The type is unvalidate, type:" + type);
 			result.setOperateStatus(VimOpResult.TaskStatus.FAIL);

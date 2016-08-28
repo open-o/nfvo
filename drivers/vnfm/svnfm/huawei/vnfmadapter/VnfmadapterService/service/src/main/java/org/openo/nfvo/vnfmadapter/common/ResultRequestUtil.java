@@ -22,9 +22,9 @@ import net.sf.json.JSONObject;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmadapter.common.servicetoken.VNFRestfulUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
-import org.openo.nfvo.vnfmadapter.service.csm.api.ConnectInfo;
-import org.openo.nfvo.vnfmadapter.service.csm.connect.ConnectMgrVnfm;
-import org.openo.nfvo.vnfmadapter.service.csm.connect.VnfmConnection;
+import org.openo.nfvo.vnfmadapter.service.vnfm.api.ConnectInfo;
+import org.openo.nfvo.vnfmadapter.service.vnfm.connect.ConnectMgrVnfm;
+import org.openo.nfvo.vnfmadapter.service.vnfm.connect.VnfmConnection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
