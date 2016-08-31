@@ -55,26 +55,26 @@
     from vapp
     <where>
       <if test="id != null">
-		 AND ID = #{id,jdbcType=VARCHAR}
-	  </if>
-	  <if test="name != null">
-		 AND NAME = #{name,jdbcType=VARCHAR}
-	  </if>
-	  <if test="vimId != null">
-		 AND VIM_ID = #{vimId,jdbcType=VARCHAR}
-	  </if>
-	  <if test="vnfmId != null">
-		 AND VNFM_ID = #{vnfmId,jdbcType=VARCHAR}
-	  </if>
-	  <if test="tenant != null">
-		 AND TENANT = #{tenant,jdbcType=VARCHAR}
-	  </if>
-	  <if test="location != null">
-		 AND LOCATION = #{location,jdbcType=VARCHAR}
-	  </if>
-	  <if test="drLocation != null">
-		 AND DR_LOCATION = #{drLocation,jdbcType=VARCHAR}
-	  </if>
+         AND ID = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null">
+         AND NAME = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="vimId != null">
+         AND VIM_ID = #{vimId,jdbcType=VARCHAR}
+      </if>
+      <if test="vnfmId != null">
+         AND VNFM_ID = #{vnfmId,jdbcType=VARCHAR}
+      </if>
+      <if test="tenant != null">
+         AND TENANT = #{tenant,jdbcType=VARCHAR}
+      </if>
+      <if test="location != null">
+         AND LOCATION = #{location,jdbcType=VARCHAR}
+      </if>
+      <if test="drLocation != null">
+         AND DR_LOCATION = #{drLocation,jdbcType=VARCHAR}
+      </if>
     </where>
   </select>
   <delete id="deleteVapp" parameterType="java.lang.String" >
