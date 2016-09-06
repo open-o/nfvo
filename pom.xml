@@ -33,10 +33,10 @@
 
     <modules>
         <module>resmanagement</module>
-        <module>monitor</module>
+        <!--module>monitor</module>
         <module>drivers/vnfm/svnfm/etsi-ia</module>
         <module>drivers/vnfm/svnfm/huawei/vnfmadapter</module>
-        <module>drivers/sdnc/zte/sfc-driver</module>
+        <module>drivers/sdnc/zte/sfc-driver</module-->
     </modules>
 
     <build>
