@@ -1,3 +1,18 @@
+/*
+ * Copyright 2016, CMCC Technologies Co., Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.openo.orchestrator.nfv.dac.common.util;
 
 import java.security.NoSuchAlgorithmException;
@@ -7,36 +22,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 
-/**
- * <p>
- * 文件名称: 加解密算法
- * </p>
- * <p>
- * 文件描述: 加解密算法类，提供加密和解密两种算法
- * </p>
- * <p>
- * 版权所有: 版权所有(C)2001-2004
- * </p>
- * <p>
- * 公 司: 深圳市中兴通讯股份有限公司
- * </p>
- * <p>
- * 内容摘要:
- * </p>
- * <p>
- * 其他说明:
- * </p>
- * <p>
- * 完成日期：2002年10月20日
- * </p>
- * <p>
- * 修改记录1:
- * </p>
- * 
- * @version 1.0
- * @author 孙旭东
- * @JTIUSN
- */
 
 public class CipherAlgorithm {
     private static final DebugPrn dMsg = new DebugPrn(CipherAlgorithm.class.getName());

@@ -16,6 +16,11 @@
 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+      <groupId>org.openo.nfvo</groupId>
+      <artifactId>nfvo-root</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
@@ -450,16 +455,6 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-changes-plugin</artifactId>
 					<version>2.11</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.15</version>
-					<configuration>
-						<configLocation>src/main/resources/ofconfig_checks.xml</configLocation>
-						<failsOnError>true</failsOnError>
-						<includes>**/*.java,**/*.xml,**/*.ini,**/*.sh,**/*.bat</includes>
-						<excludes>**/yang/,**/features/</excludes>
-					</configuration>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
