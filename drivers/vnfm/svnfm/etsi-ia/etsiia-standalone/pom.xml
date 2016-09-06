@@ -19,12 +19,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>etsi-ia</artifactId>
-    <groupId>org.openo.orchestrator.nfv.nsoc.ia.vnfm.etsi</groupId>
+    <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
     <version>0.0.1-SNAPSHOT</version>
-	<relativePath>..</relativePath>
   </parent>
   <artifactId>etsiia-standalone</artifactId>
-  <name>openo/nsoc/etsi-ia/etsiia-standalone</name>
+  <name>openo/nfvo/etsi-ia/etsiia-standalone</name>
   <packaging>pom</packaging>
 
     <properties>
@@ -71,7 +70,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.openo.orchestrator.nfv.nsoc.ia.vnfm.etsi</groupId>
+                                    <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
                                     <artifactId>etsiia</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
@@ -129,7 +128,7 @@
 
   <dependencies>
     <dependency>
-    <groupId>org.openo.orchestrator.nfv.nsoc.ia.vnfm.etsi</groupId>
+    <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
     <artifactId>etsiia</artifactId>
     <version>${project.version}</version>
 	<optional>true</optional>

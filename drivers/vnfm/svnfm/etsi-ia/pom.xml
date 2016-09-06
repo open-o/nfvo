@@ -18,10 +18,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.openo.orchestrator.nfv.nsoc.ia.vnfm.etsi</groupId>
+  <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
   <artifactId>etsi-ia</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>openo/nsoc/etsi-ia</name>
+  <name>etsi-ia</name>
   <packaging>pom</packaging>
   
   <modules>
@@ -39,7 +39,7 @@
 		<!--openo.project.git.ip>xxx</openo.project.git.ip-->
 		<!--openo.project.gitdev.url>http://${openo.project.git.ip}/oipgit/git/Open-O/monitorparentpom.git</openo.project.gitdev.url-->
 		<!--openo.project.git.url>http://${openo.project.git.ip}/oipgit/Open-O/monitorparentpom</openo.project.git.url-->
-		<deploy.openo.groupid>org.openo.orchestrator.assembly</deploy.openo.groupid>
+		<deploy.openo.groupid>org.openo.nfvo.assembly</deploy.openo.groupid>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- ==========maven ip====================== -->
 		<!--openo.project.release.repos.ip>10.74.156.77</openo.project.release.repos.ip-->
@@ -253,7 +253,7 @@
 							<_consumer-policy>"[$(version;===;$(@)),$(version;==+;$(@)))"</_consumer-policy>
 							<_provider-policy>$(@)</_provider-policy>
 							<Import-Package>*</Import-Package>
-							<Export-Package>!org.openo.orchestrator..impl.*,!org.openo.orchestrator..internal.*,org.openo.orchestrator.*;version=${project.version}</Export-Package>
+							<Export-Package>!org.openo.nfvo..impl.*,!org.openo.nfvo..internal.*,org.openo.nfvo.*;version=${project.version}</Export-Package>
 						</instructions>
 					</configuration>
 				</plugin>

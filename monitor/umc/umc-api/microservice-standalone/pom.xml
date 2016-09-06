@@ -18,7 +18,7 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.openo.orchestrator.umc.umc-api</groupId>
+        <groupId>org.openo.nfvo.monitor.umc-api</groupId>
         <artifactId>umc-api-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -72,7 +72,7 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.openo.orchestrator.umc.umc-api</groupId>
+                                    <groupId>org.openo.nfvo.monitor.umc-api</groupId>
                                     <artifactId>umc</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
@@ -130,7 +130,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.openo.orchestrator.umc.umc-api</groupId>
+            <groupId>org.openo.nfvo.monitor.umc-api</groupId>
             <artifactId>umc</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -11,12 +11,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>etsi-ia</artifactId>
-        <groupId>org.openo.orchestrator.nfv.nsoc.ia.vnfm.etsi</groupId>
+        <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
     </parent>
     <artifactId>etsiia</artifactId>
-    <name>openo/nsoc/etsi-ia/etsiia</name>
+    <name>openo/nfvo/etsi-ia/etsiia</name>
     <packaging>jar</packaging>
     <build>
         <pluginManagement>

@@ -18,7 +18,7 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.openo.orchestrator.dac.dac-api</groupId>
+        <groupId>org.openo.nfvo.monitor.dac-api</groupId>
         <artifactId>dac-api-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
