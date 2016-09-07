@@ -1,5 +1,5 @@
 /**
- *       Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+ *       Copyright (C) 2016 ZTE, Inc. and others. All rights reserved. (ZTE)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import java.util.List;
 
 
 public class PortPairGroupReq4S {
+    private String uuid;
     List<String> portPairs;
 
     public List<String> getPortPairs() {
@@ -28,5 +29,13 @@ public class PortPairGroupReq4S {
 
     public void setPortPairs(List<String> portPairs) {
         this.portPairs = portPairs;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

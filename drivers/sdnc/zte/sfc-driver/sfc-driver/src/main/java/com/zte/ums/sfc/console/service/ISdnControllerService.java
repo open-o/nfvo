@@ -1,5 +1,5 @@
 /**
- *       Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+ *       Copyright (C) 2016 ZTE, Inc. and others. All rights reserved. (ZTE)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package com.zte.ums.sfc.console.service;
 
+import com.zte.ums.sfc.console.entity.FlowClassfierReq4S;
+import com.zte.ums.sfc.console.entity.PortChainReq4S;
 import com.zte.ums.sfc.console.entity.PortPairGroupReq4S;
 import com.zte.ums.sfc.console.entity.Result;
 import com.zte.ums.sfc.console.entity.portpair.PortPairReq4S;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 
@@ -30,18 +30,50 @@ import javax.ws.rs.core.MediaType;
 public interface ISdnControllerService {
 
     @Path("/")
-    @GET
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Result querySdnController() throws Exception;
 
-    @Path("/")
-    @GET
+    @Path("/port-pairs")
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public String createPortPair(PortPairReq4S portPairReq4S) throws Exception;
 
-    @Path("/")
-    @GET
+    @Path("/port-pair-groups")
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
     public String createPortPairGroup(PortPairGroupReq4S ppg4S) throws Exception;
+
+    @Path("sfc-flow-classifiers")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public String createFlowCla(FlowClassfierReq4S flowClassfierReq4S) throws Exception;
+
+
+    @Path("/port-chains")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public String createPortChain(PortChainReq4S portChainReq4S) throws Exception;
+
+    @Path("/port-pairs/port-pair/${id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePortPair(String uuid) throws Exception;
+
+
+    @Path("/port-pair-groups/port-pair-group/${id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePortPairGroup(String uuid) throws Exception;
+
+    @Path("sfc-flow-classifiers/sfc-flow-classifier/${id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteFlowClassifiers(String uuid) throws Exception;
+
+    @Path("/port-chains/port-chain/${id}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePortChain(String uuid) throws Exception;
 
 }

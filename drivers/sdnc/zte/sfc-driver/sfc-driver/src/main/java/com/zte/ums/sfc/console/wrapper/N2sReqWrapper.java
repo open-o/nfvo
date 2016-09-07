@@ -1,6 +1,5 @@
-
-/**
- *       Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+ /**
+ *       Copyright (C) 2016 ZTE, Inc. and others. All rights reserved. (ZTE)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +16,10 @@
 
 package com.zte.ums.sfc.console.wrapper;
 
-import com.zte.ums.sfc.console.entity.PortPairGroupReq4N;
-import com.zte.ums.sfc.console.entity.PortPairGroupReq4S;
+import com.zte.ums.sfc.console.entity.*;
 import com.zte.ums.sfc.console.entity.portpair.PortPairReq4N;
 import com.zte.ums.sfc.console.entity.portpair.PortPairReq4S;
+import com.zte.ums.sfc.console.utils.SfcDriverUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +33,14 @@ public class N2sReqWrapper {
         portPairReq4S.setEgress(portPairReq4N.getEgress());
 
         Map serviceParameters = new HashMap<String,String>();
-        serviceParameters.put("ServiceFunctionType",portPairReq4N.getSfType());
-        serviceParameters.put("nshAware",portPairReq4N.isNshAware());
-        serviceParameters.put("requestReclassification",portPairReq4N.isRequestReclassification());
+        serviceParameters.put("SfType",portPairReq4N.getSfType());
+        serviceParameters.put("NshAware",portPairReq4N.isNshAware());
+        serviceParameters.put("RequestReclassification",portPairReq4N.isRequestReclassification());
         if(portPairReq4N.getSfParam()!= null)
         {
             serviceParameters.putAll(portPairReq4N.getSfParam());
         }
+        portPairReq4S.setServiceFunctionParameters(serviceParameters);
 
         return portPairReq4S;
     }
@@ -53,4 +53,30 @@ public class N2sReqWrapper {
         return ppg4S;
     }
 
+    public static FlowClassfierReq4S convertFlowClassfier(FlowClassfierReq4N flowClassfierReq4N)
+    {
+        FlowClassfierReq4S flowClassfierReq4S = new FlowClassfierReq4S();
+        flowClassfierReq4S.setProtocol(String.valueOf(flowClassfierReq4N.getIpProto()));
+        flowClassfierReq4S.setSourcePortRangeMin(Integer.parseInt(flowClassfierReq4N.
+                getSourcePortRange().split(",")[0]));
+        flowClassfierReq4S.setSourcePortRangeMax(Integer.parseInt(flowClassfierReq4N.
+                getSourcePortRange().split(",")[1]));
+        flowClassfierReq4S.setDestinationPortRangeMin(Integer.parseInt(
+                flowClassfierReq4N.getDestPortRange().split(",")[0]));
+        flowClassfierReq4S.setDestinationPortRangeMax(Integer.parseInt(
+                flowClassfierReq4N.getDestPortRange().split(",")[1]));
+        flowClassfierReq4S.setIpDscp(flowClassfierReq4N.getDscp());
+
+
+        return flowClassfierReq4S;
+    }
+
+    public static PortChainReq4S converPortChain(PortChainReq4N portChainReq4N)
+    {
+        PortChainReq4S portChainReq4S = new PortChainReq4S();
+        portChainReq4S.setPortPairGroups(portChainReq4N.getPortPairGroups());
+        portChainReq4S.setFlowClassifiers(portChainReq4N.getFlowClassifiers());
+
+        return portChainReq4S;
+    }
 }
