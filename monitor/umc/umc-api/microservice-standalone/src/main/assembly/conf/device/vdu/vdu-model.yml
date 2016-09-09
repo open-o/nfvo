@@ -2,7 +2,7 @@
 # @Description: This file content contains all attributes values about this device PM/FM attribute value information,
 #    and it structure is mapping with ExtendDeviceModel class. Please make sure each attribute key mapping their class is correct.
 #
-# @see File: org.openo.orchestrator.nfv.umc.pm.task.bean.ExtendDeviceModel.java
+# @see File: org.openo.nfvo.monitor.umc.pm.task.bean.ExtendDeviceModel.java
 #----------------------------
 
 #

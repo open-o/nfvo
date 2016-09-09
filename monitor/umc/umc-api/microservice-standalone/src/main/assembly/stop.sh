@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
-#
+# Copyright 2016, CMCC Technologies Co., Ltd.
+ 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
+ 
+#      http://www.apache.org/licenses/LICENSE-2.0
+
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,7 @@
 
 DIRNAME=`dirname $0`
 HOME=`cd $DIRNAME/; pwd`
-Main_Class="org.openo.orchestrator.nfv.umc.UMCApp"
+Main_Class="org.openo.nfvo.monitor.umc.UMCApp"
 
 echo ================== umc-service info  =============================================
 echo HOME=$HOME

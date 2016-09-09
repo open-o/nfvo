@@ -1,5 +1,5 @@
 @REM
-@REM Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
+@REM Copyright 2016, CMCC Technologies Co., Ltd.
 @REM
 @REM Licensed under the Apache License, Version 2.0 (the "License");
 @REM you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 title stopping dac-service
 
 set HOME=%~dp0
-set Main_Class="org.openo.orchestrator.nfv.dac.DacApp"
+set Main_Class="org.openo.nfvo.monitor.dac.DacApp"
 
 echo ================== dac-service info  =============================================
 echo HOME=$HOME

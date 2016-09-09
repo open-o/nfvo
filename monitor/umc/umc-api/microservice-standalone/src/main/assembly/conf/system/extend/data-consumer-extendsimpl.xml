@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extensions>
 	<!-- Pm data consumer extend point -->
-	<extension-point id="org.openo.orchestrator.nfv.umc.pm.datacollect.IPmDataConsumer">
-		<impl type="pm.data" class="org.openo.orchestrator.nfv.umc.pm.db.PmDataToDB"/>
-		<impl type="pm.data" class="org.openo.orchestrator.nfv.umc.pm.naf.PmDataToNaf"/>
+	<extension-point id="org.openo.nfvo.monitor.umc.pm.datacollect.IPmDataConsumer">
+		<impl type="pm.data" class="org.openo.nfvo.monitor.umc.pm.db.PmDataToDB"/>
+		<impl type="pm.data" class="org.openo.nfvo.monitor.umc.pm.naf.PmDataToNaf"/>
 	</extension-point>
 	
 	<!-- Fm data consumer extend point -->
-	<extension-point id="org.openo.orchestrator.nfv.umc.fm.common.IFmDataConsumer">
-		<impl type="fm.data" class="org.openo.orchestrator.nfv.umc.fm.db.FmDataToDB"/> 
-		<impl type="fm.data" class="org.openo.orchestrator.nfv.umc.fm.naf.FmDataToNaf"/>
+	<extension-point id="org.openo.nfvo.monitor.umc.fm.common.IFmDataConsumer">
+		<impl type="fm.data" class="org.openo.nfvo.monitor.umc.fm.db.FmDataToDB"/> 
+		<impl type="fm.data" class="org.openo.nfvo.monitor.umc.fm.naf.FmDataToNaf"/>
 	</extension-point>
 </extensions>

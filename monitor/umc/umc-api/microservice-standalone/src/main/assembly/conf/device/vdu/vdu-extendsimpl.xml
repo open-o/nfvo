@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extensions>
 	<!--Extend device NeTypeId mapping ROC-MICROSERVICE service interface-->
-	<extension-point id="org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.IPmResourceRestService">
-		<impl type="nfv.vdu.linux" class="org.openo.orchestrator.nfv.umc.pm.adpt.roc.service.resources.IVduRestServiceResource"/>
+	<extension-point id="org.openo.nfvo.monitor.umc.pm.adpt.roc.service.IPmResourceRestService">
+		<impl type="nfv.vdu.linux" class="org.openo.nfvo.monitor.umc.pm.adpt.roc.service.resources.IVduRestServiceResource"/>
 	</extension-point>	
 	
 	<!--Extend device table name mapping dao class-->
-	<extension-point id="org.openo.orchestrator.nfv.umc.pm.db.process.IPmDbQuery">
-		<impl type="NFV_VDU_LINUX_CPU" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvVduLinuxCpuDao"/>
-		<impl type="NFV_VDU_LINUX_RAM" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvVduLinuxRamDao"/>
-		<impl type="NFV_VDU_LINUX_FS" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvVduLinuxFsDao"/>
-		<impl type="NFV_VDU_LINUX_NIC" class="org.openo.orchestrator.nfv.umc.pm.db.dao.NfvVduLinuxNicDao"/>		
+	<extension-point id="org.openo.nfvo.monitor.umc.pm.db.process.IPmDbQuery">
+		<impl type="NFV_VDU_LINUX_CPU" class="org.openo.nfvo.monitor.umc.pm.db.dao.NfvVduLinuxCpuDao"/>
+		<impl type="NFV_VDU_LINUX_RAM" class="org.openo.nfvo.monitor.umc.pm.db.dao.NfvVduLinuxRamDao"/>
+		<impl type="NFV_VDU_LINUX_FS" class="org.openo.nfvo.monitor.umc.pm.db.dao.NfvVduLinuxFsDao"/>
+		<impl type="NFV_VDU_LINUX_NIC" class="org.openo.nfvo.monitor.umc.pm.db.dao.NfvVduLinuxNicDao"/>		
 	</extension-point>	
 	
 	<!--Extend device table name mapping po class-->
-	<extension-point id="org.openo.orchestrator.nfv.umc.pm.db.dao.IHistoryPmDataPo">		
-		<impl type="NFV_VDU_LINUX_CPU" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvVduLinuxCpu"/>
-		<impl type="NFV_VDU_LINUX_RAM" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvVduLinuxRam"/>
-		<impl type="NFV_VDU_LINUX_FS" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvVduLinuxFs"/>
-		<impl type="NFV_VDU_LINUX_NIC" class="org.openo.orchestrator.nfv.umc.pm.db.entity.NfvVduLinuxNic"/>		
+	<extension-point id="org.openo.nfvo.monitor.umc.pm.db.dao.IHistoryPmDataPo">		
+		<impl type="NFV_VDU_LINUX_CPU" class="org.openo.nfvo.monitor.umc.pm.db.entity.NfvVduLinuxCpu"/>
+		<impl type="NFV_VDU_LINUX_RAM" class="org.openo.nfvo.monitor.umc.pm.db.entity.NfvVduLinuxRam"/>
+		<impl type="NFV_VDU_LINUX_FS" class="org.openo.nfvo.monitor.umc.pm.db.entity.NfvVduLinuxFs"/>
+		<impl type="NFV_VDU_LINUX_NIC" class="org.openo.nfvo.monitor.umc.pm.db.entity.NfvVduLinuxNic"/>		
 	</extension-point>	
 </extensions>

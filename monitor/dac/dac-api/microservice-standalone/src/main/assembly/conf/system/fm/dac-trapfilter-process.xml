@@ -8,8 +8,8 @@
 		<Processor index="3" class="com.CMCC.ums.it.trap.service.processor.ItTrapPrivateProcessor"/>
 		<Processor index="4" class="com.CMCC.ums.it.trap.service.processor.ItTrapGeneralProcessor"/>
 	-->
-		<Processor index="0" class="org.openo.orchestrator.nfv.dac.snmptrap.processor.TrapBindVarProcessor"/>
-		<Processor index="1" class="org.openo.orchestrator.nfv.dac.snmptrap.processor.TrapRestoreProcessor"/>
-		<Processor index="2" class="org.openo.orchestrator.nfv.dac.snmptrap.processor.TrapPrivateProcessor"/>
+		<Processor index="0" class="org.openo.nfvo.monitor.dac.snmptrap.processor.TrapBindVarProcessor"/>
+		<Processor index="1" class="org.openo.nfvo.monitor.dac.snmptrap.processor.TrapRestoreProcessor"/>
+		<Processor index="2" class="org.openo.nfvo.monitor.dac.snmptrap.processor.TrapPrivateProcessor"/>
 	</TrapProcessorList>
 </Define>

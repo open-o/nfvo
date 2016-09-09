@@ -1,5 +1,5 @@
 @REM
-@REM Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
+@REM Copyright 2016, CMCC Technologies Co., Ltd.
 @REM
 @REM Licensed under the Apache License, Version 2.0 (the "License");
 @REM you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ set class_path=%RUNHOME%;%RUNHOME%dac.jar
 echo ### jvm_opts: %jvm_opts%
 echo ### class_path: %class_path%
 
-%JAVA% -classpath %class_path% %jvm_opts% org.openo.orchestrator.nfv.dac.DacApp  server %RUNHOME%conf/dac.yml
+%JAVA% -classpath %class_path% %jvm_opts% org.openo.nfvo.monitor.dac.DacApp  server %RUNHOME%conf/dac.yml
 
 IF ERRORLEVEL 1 goto showerror
 exit

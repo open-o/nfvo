@@ -1,12 +1,12 @@
 #
-# Copyright (C) 2015 CMCC, Inc. and others. All rights reserved. (CMCC)
-#
+# Copyright 2016, CMCC Technologies Co., Ltd.
+ 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
+ 
+#      http://www.apache.org/licenses/LICENSE-2.0
+
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,13 +19,14 @@ language: zh_CN
 
 defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
+msbAddress: 10.74.205.123:80
 rocServerAddr: 127.0.0.1:80
 dacIp: 127.0.0.1
 dacServerPort: 8206
 
 cometdServletInfo:
-  servletClass: org.openo.orchestrator.nfv.umc.cometdserver.CometdServlet
-  servletPath: /api/umcnotification/v1
+  servletClass: org.openo.nfvo.monitor.umc.cometdserver.CometdServlet
+  servletPath: /openoapi/umcnotification/v1
 
 loginInfo:
   username: admin
@@ -61,7 +62,7 @@ versionInfo:
 
 server:
   type: simple
-  rootPath: '/api/*'
+  rootPath: '/openoapi/*'
   applicationContextPath: /
   adminContextPath: /admin
   connector:
@@ -75,7 +76,7 @@ logging:
   level: INFO
   # Logger-specific levels.
   loggers:
-    org.openo.orchestrator.nfv.umc.UMCApp: INFO
+    org.openo.nfvo.monitor.umc.UMCApp: INFO
     # org.hibernate.type.descriptor.sql.BasicBinder: trace
     # org.hibernate.type.descriptor.sql.BasicExtractor: debug
     # org.hibernate.SQL: debug
@@ -97,13 +98,13 @@ logging:
 
 database:
   # the name of your JDBC driver
-  driverClass: org.h2.Driver
+  driverClass: com.mysql.jdbc.Driver
   # the username
   user: openo
   # the password
   password: openo
   # the JDBC URL
-  url: jdbc:h2:tcp://localhost:8405/./db/umcdb
+  url: jdbc:mysql://127.0.0.1:3306/umcdb?useUnicode=true&characterEncoding=UTF-8  
   # any properties specific to your JDBC driver:
   properties:
     tcpPort: 8405

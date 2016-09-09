@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension-set>
 	<!-- IDataCollector Inteface Point-->
-	<extension-point-desc id="org.openo.orchestrator.nfv.dac.dataaq.common.IDataCollector">
-		<interface-class>org.openo.orchestrator.nfv.dac.dataaq.common.IDataCollector</interface-class>
+	<extension-point-desc id="org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector">
+		<interface-class>org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector</interface-class>
 	</extension-point-desc>
 	
 	<!-- IDataParser Inteface Point-->
-	<extension-point-desc id="org.openo.orchestrator.nfv.dac.dataaq.common.IDataParser">
-		<interface-class>org.openo.orchestrator.nfv.dac.dataaq.common.IDataParser</interface-class>
+	<extension-point-desc id="org.openo.nfvo.monitor.dac.dataaq.common.IDataParser">
+		<interface-class>org.openo.nfvo.monitor.dac.dataaq.common.IDataParser</interface-class>
 	</extension-point-desc>
 	
 	<!-- IMonitor Inteface Point-->
-	<extension-point-desc id="org.openo.orchestrator.nfv.dac.dataaq.common.IMonitor">
-		<interface-class>org.openo.orchestrator.nfv.dac.dataaq.common.IMonitor</interface-class>
+	<extension-point-desc id="org.openo.nfvo.monitor.dac.dataaq.common.IMonitor">
+		<interface-class>org.openo.nfvo.monitor.dac.dataaq.common.IMonitor</interface-class>
 	</extension-point-desc>
 	
 	<!-- IMonitorTaskInfo Inteface Point-->
-	<extension-point-desc id="org.openo.orchestrator.nfv.dac.dataaq.monitor.bean.common.IMonitorTaskInfo">
-		<interface-class>org.openo.orchestrator.nfv.dac.dataaq.monitor.bean.common.IMonitorTaskInfo</interface-class>
+	<extension-point-desc id="org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.IMonitorTaskInfo">
+		<interface-class>org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.IMonitorTaskInfo</interface-class>
 	</extension-point-desc>
 	
 	<!-- ITrapParser Inteface Point-->
-	<extension-point-desc id="org.openo.orchestrator.nfv.dac.snmptrap.processor.ITrapParser">
-		<interface-class>org.openo.orchestrator.nfv.dac.snmptrap.processor.ITrapParser</interface-class>
+	<extension-point-desc id="org.openo.nfvo.monitor.dac.snmptrap.processor.ITrapParser">
+		<interface-class>org.openo.nfvo.monitor.dac.snmptrap.processor.ITrapParser</interface-class>
 	</extension-point-desc>
 </extension-set>
