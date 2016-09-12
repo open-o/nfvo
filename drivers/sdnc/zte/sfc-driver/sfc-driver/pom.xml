@@ -18,16 +18,16 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.zte.ums.sfc.components.sfc-driver</groupId>
-       <artifactId>sfc-driver-parent</artifactId>
-       <version>1.15.10.B2-SNAPSHOT</version>
+        <groupId>org.openo.nfvo.sfc-driver-parent</groupId>
+        <artifactId>sfc-driver-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zte.ums.sfc.components.sfc-driver</groupId>
+    <groupId>org.openo.nfvo.sfc-driver</groupId>
     <artifactId>sfc-driver</artifactId>
-    <name>sdno/20.components/sfc-driver</name>
+    <name>sfc-driver</name>
     <packaging>jar</packaging>
-    <version>1.15.10.B2-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <properties>
         <dropwizard.version>0.8.0</dropwizard.version>
         <jetty.version>9.2.9.v20150224</jetty.version>
@@ -155,7 +155,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                 <mainClass>com.zte.ums.sfc.console.SfcApp</mainClass>
+                                 <mainClass>com.zte.ums.sfc.console.SfcDriver</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
