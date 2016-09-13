@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
         # 'rest_framework.parsers.FormParser',
         # 'rest_framework.parsers.FileUploadParser',
     )
@@ -85,6 +86,12 @@ DATABASES = {
 
 redis_client = redis.StrictRedis(host='127.0.0.1', port=6379, password='', db=1)
 """
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 TIME_ZONE = 'UTC'
 
@@ -123,14 +130,10 @@ LOGGING = {
     }
 }
 
-
 if 'test' in sys.argv:
-    REDIS_HOST = '127.0.0.1'
-    REDIS_PORT = '6379'
-    REDIS_PASSWD = ''
-    DATABASES = {}
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
-    REST_FRAMEWORK = {}
+    import platform
+    if platform.system() == 'Linux':
+        TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+        TEST_OUTPUT_VERBOSE = True
+        TEST_OUTPUT_DESCRIPTIONS = True
+        TEST_OUTPUT_DIR = 'test-reports'

@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from driver.interfaces import views
 
 urlpatterns = [
-    url(r'^samples/$', views.Interfaces.as_view()),
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs$', views.instantiate_vnf,
+        name='instantiate_vnf'),
+    url(
+        r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<vnfInstanceId>[0-9a-zA-Z\-\_]+)/terminate$',
+        views.terminate_vnf, name='terminate_vnf'),
+    url(
+        r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<vnfInstanceId>[0-9a-zA-Z\-\_]+)$',
+        views.query_vnf, name='query_vnf'),
+    url(
+        r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/jobs/(?P<jobid>[0-9a-zA-Z\-\_]+)$',
+        views.operation_status, name='operation_status'),
+    url(r'^v1/resource/grant$', views.grantvnf, name='grantvnf'),
+    url(r'^v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
 ]

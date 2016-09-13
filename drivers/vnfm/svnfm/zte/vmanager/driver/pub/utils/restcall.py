@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import urllib2
 import uuid
 import httplib2
 
-from lcm.pub.config.config import MSB_SERVICE_IP, MSB_SERVICE_PORT
+from driver.pub.config.config import MSB_SERVICE_IP, MSB_SERVICE_PORT
 
 rest_no_auth, rest_oneway_auth, rest_bothway_auth = 0, 1, 2
 HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED = '200', '201', '204', '202'
@@ -91,6 +91,3 @@ def combine_url(base_url, resource):
     else:
         full_url = base_url + '/' + resource
     return full_url
-
-
-
