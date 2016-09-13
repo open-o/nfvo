@@ -16,35 +16,43 @@
 package org.openo.nfvo.monitor.umc.fm.adpt.resources;
 
 
-import org.glassfish.jersey.client.ClientConfig;
+import net.sf.json.JSONObject;
 
-import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
+import org.glassfish.jersey.client.ClientConfig;
+import org.openo.nfvo.monitor.umc.util.APIHttpClient;
 
 public class ResourceRestServiceProxy {
 
-//    private static final String DB_REST_URL = "http://127.0.0.1:8204";
-    private static IFmResourceRestService dbRestServiceproxy;
-
     static {
         ClientConfig config = new ClientConfig();
-        dbRestServiceproxy =
-                ConsumerFactory.createConsumer(RocResourceConfig.getRocResourceAddr(), config, IFmResourceRestService.class);
     }
 
     public static String getProbableCauseTree(String type) throws Exception {
-        return dbRestServiceproxy.getProbableCauseTree(type);
+    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/definitions?type="+type;
+        String response = APIHttpClient.doGet(url, "", "utf-8", "");
+        return response;
+        //return dbRestServiceproxy.getProbableCauseTree(type);
     }
 
     public static String getProbableCause() throws Exception {
-        return dbRestServiceproxy.getProbableCause();
+        //return dbRestServiceproxy.getProbableCause();
+    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/definitions";
+        String response = APIHttpClient.doGet(url, "", "utf-8", "");
+        return response;
     }
 
     public static String getAllResource() {
-        return dbRestServiceproxy.getAllResource();
+    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/instances?types=all";
+        String response = APIHttpClient.doGet(url, "", "utf-8", "");
+        return response;
+        //return dbRestServiceproxy.getAllResource();
     }
 
     public static String getNeNode(String id) {
-        return dbRestServiceproxy.getNeNode(id);
+    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/instances/"+id;
+        String response = APIHttpClient.doGet(url, "", "utf-8", "");
+        return response;
+        //return dbRestServiceproxy.getNeNode(id);
     }
 
 }

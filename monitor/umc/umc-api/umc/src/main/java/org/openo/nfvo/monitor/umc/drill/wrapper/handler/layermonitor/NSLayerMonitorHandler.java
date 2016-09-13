@@ -15,26 +15,16 @@
  */
 package org.openo.nfvo.monitor.umc.drill.wrapper.handler.layermonitor;
 
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.NSInformation;
 import org.openo.nfvo.monitor.umc.drill.resources.bean.response.NodeInformation;
 import org.openo.nfvo.monitor.umc.drill.resources.bean.response.RootNode;
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.VNFInformation;
 import org.openo.nfvo.monitor.umc.drill.wrapper.common.exception.TopologyException;
-import org.openo.nfvo.monitor.umc.drill.wrapper.common.util.ArrayUtils;
 import org.openo.nfvo.monitor.umc.drill.wrapper.handler.AbstractTopologyHandler;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.IResourceServices;
 import org.openo.nfvo.monitor.umc.drill.wrapper.resources.ResourceServicesStub;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.NsData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.VnfData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQueryListReturnMsg;
 
 /**
  *       The concrete handler that process the list request of the NS layer
  */
 public class NSLayerMonitorHandler extends AbstractTopologyHandler {
-
-    // get the resource service proxy instance
-    IResourceServices serviceProxy = ResourceServicesStub.getServiceProxy();
 
     /**
      * the current node is system itself,so return the RootNode
@@ -59,58 +49,8 @@ public class NSLayerMonitorHandler extends AbstractTopologyHandler {
     @Override
     public NodeInformation[] queryChildNodes(NodeInformation currentNodeDetail)
             throws TopologyException {
-        // the result array that save NSs and VNFs
-        NodeInformation[] nodeInfos = null;
-        // temp array that save the NS nodes
-        NodeInformation[] nsInfos = null;
-        // temp array that save the VNF nodes
-        NodeInformation[] vnfInfos = null;
+    	return ResourceServicesStub.queryNss_vnfsOfConductor(currentNodeDetail);
 
-        // get the id or root
-        RootNode rootNode = (RootNode) currentNodeDetail;
-        String rootId = rootNode.getId();
-
-        /** start process the NS nodes of the system **/
-        RestQueryListReturnMsg<NsData> nsRestResult = null;
-        try {
-            // query the NS nodes of the system
-            nsRestResult = serviceProxy.queryNssOfConductor(rootId);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(nsRestResult);
-        NsData[] nss = nsRestResult.getData();
-        if (ArrayUtils.isArrayNotEmpty(nss)) {
-            nsInfos = new NodeInformation[nss.length];
-            for (int i = 0; i < nss.length; i++) {
-                nsInfos[i] = new NSInformation(nss[i]);
-            }
-        }
-        /** end process the NS nodes of the system **/
-        /** start process the VNFs that not belong to any NS node **/
-        RestQueryListReturnMsg<VnfData> vnfRestResult = null;
-        try {
-            // query the VNFs that belong to the system
-            vnfRestResult = serviceProxy.queryVnfsOfConductor(rootId);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(vnfRestResult);
-        VnfData[] vnfs = vnfRestResult.getData();
-        if (ArrayUtils.isArrayNotEmpty(vnfs)) {
-            vnfInfos = new NodeInformation[vnfs.length];
-            for (int i = 0; i < vnfs.length; i++) {
-                vnfInfos[i] = new VNFInformation(vnfs[i]);
-            }
-        }
-        /** end process the VNFs that not belong to any NS node **/
-
-        // combine the temp NS[] and VNF[]
-        nodeInfos = ArrayUtils.addAll(nsInfos, vnfInfos);
-
-        return nodeInfos;
     }
 
 }

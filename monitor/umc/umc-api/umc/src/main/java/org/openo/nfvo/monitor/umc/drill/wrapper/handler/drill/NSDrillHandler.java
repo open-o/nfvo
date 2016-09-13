@@ -15,52 +15,24 @@
  */
 package org.openo.nfvo.monitor.umc.drill.wrapper.handler.drill;
 
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.NSInformation;
 import org.openo.nfvo.monitor.umc.drill.resources.bean.response.NodeInformation;
 import org.openo.nfvo.monitor.umc.drill.resources.bean.response.RootNode;
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.VNFInformation;
 import org.openo.nfvo.monitor.umc.drill.wrapper.common.exception.TopologyException;
-import org.openo.nfvo.monitor.umc.drill.wrapper.common.util.ArrayUtils;
 import org.openo.nfvo.monitor.umc.drill.wrapper.handler.AbstractTopologyHandler;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.IResourceServices;
 import org.openo.nfvo.monitor.umc.drill.wrapper.resources.ResourceServicesStub;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.NsData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.VnfData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQueryListReturnMsg;
 
 /**
  *       The concrete handler that process the drill request of the NS(Network Service)
  */
 public class NSDrillHandler extends AbstractTopologyHandler {
 
-    // get the resource service proxy instance
-    IResourceServices serviceProxy = ResourceServicesStub.getServiceProxy();
 
     /**
      * query the NS node info
      */
     @Override
     public NodeInformation queryCurrentNode(String resourceid) throws TopologyException {
-        NSInformation nsInfo = null;
-        RestQueryListReturnMsg<NsData> restResult = null;
-        try {
-            restResult = serviceProxy.queryNs(resourceid);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        NsData[] nss = restResult.getData();
-        // whether the current node is null
-        if (ArrayUtils.isArrayNotEmpty(nss)) {
-            nsInfo = new NSInformation(nss[0]);
-        } else {
-            LOGGER.warn("the node dose not exist!Hostid:" + resourceid);
-            // if the id dose not match any node, throw exception
-            throw new TopologyException(TopologyException.ERR_MONITOR_TOPOLOGY_NODENOTFOUND,
-                    "the node dose not exist!");
-        }
-        return nsInfo;
+    	return ResourceServicesStub.queryNs(resourceid);
     }
 
     /**
@@ -79,17 +51,6 @@ public class NSDrillHandler extends AbstractTopologyHandler {
     @Override
     public NodeInformation[] queryChildNodes(NodeInformation currentNodeDetail)
             throws TopologyException {
-        RestQueryListReturnMsg<VnfData> restResult = null;
-        try {
-            NSInformation nsInformation = (NSInformation) currentNodeDetail;
-            String nsId = nsInformation.getId();
-            restResult = serviceProxy.queryVnfsOfNS(nsId);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        // assemble VNFInformation[] according to the VnfData[]
-        return assembleData(restResult, VnfData.class, VNFInformation.class);
+    	return ResourceServicesStub.queryVnfsOfNS(currentNodeDetail);
     }
 }

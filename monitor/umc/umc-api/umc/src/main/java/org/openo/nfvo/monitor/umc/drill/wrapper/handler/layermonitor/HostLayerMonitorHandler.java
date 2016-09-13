@@ -30,9 +30,6 @@ import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQuer
  */
 public class HostLayerMonitorHandler extends AbstractTopologyHandler {
 
-    // get the resource service proxy instance
-    IResourceServices serviceProxy = ResourceServicesStub.getServiceProxy();
-
     /**
      * the current node is system itself,so return the RootNode
      */
@@ -57,15 +54,6 @@ public class HostLayerMonitorHandler extends AbstractTopologyHandler {
     @Override
     public NodeInformation[] queryChildNodes(NodeInformation currentNodeDetail)
             throws TopologyException {
-        RestQueryListReturnMsg<HostData> restResult = null;
-        try {
-            restResult = serviceProxy.queryAllHosts();
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        // assemble HostInformation[] according to the HostData[]
-        return assembleData(restResult, HostData.class, HostInformation.class);
+    	return ResourceServicesStub.queryAllHosts(currentNodeDetail);
     }
 }
