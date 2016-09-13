@@ -30,12 +30,13 @@
     <version>1.0.0-SNAPSHOT</version>
     <name>nfvo-root</name>
     <packaging>pom</packaging>
-
+	
     <modules>
         <module>resmanagement</module>
         <module>monitor</module>
         <module>drivers/vnfm/svnfm/etsi-ia</module>
-        <!--module>drivers/vnfm/svnfm/huawei/vnfmadapter</module-->
+		<module>drivers/vnfm/gvnfm/juju/juju-vnfmadapter</module>
+        <module>drivers/vnfm/svnfm/huawei/vnfmadapter</module>
         <module>drivers/sdnc/zte/sfc-driver</module>
     </modules>
 
