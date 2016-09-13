@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright 2016, Huawei Technologies Co., Ltd.
+/*
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,13 +12,35 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ */
+
 package org.openo.nfvo.vnfmadapter.common;
 
+/**
+ * VNFM exception.
+ * .</br>
+ * 
+ * @author
+ * @version     NFVO 0.5  Sep 10, 2016
+ */
 public class VnfmException extends Exception {
 
-	public VnfmException(String string) {
-		// TODO Auto-generated constructor stub
-	}
+    private static final long serialVersionUID = 1L;
+
+    public VnfmException() {
+        super();
+    }
+
+    public VnfmException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public VnfmException(String message) {
+        super(message);
+    }
+
+    public VnfmException(Throwable cause) {
+        super(cause);
+    }
 
 }
