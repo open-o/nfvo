@@ -29,10 +29,6 @@ import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQuer
  *       The concrete handler that process the list request of the VDU layer
  */
 public class VDULayerMonitorHandler extends AbstractTopologyHandler {
-
-    // get the resource service proxy instance
-    IResourceServices serviceProxy = ResourceServicesStub.getServiceProxy();
-
     /**
      * the current node is system itself,so return the RootNode
      */
@@ -57,16 +53,6 @@ public class VDULayerMonitorHandler extends AbstractTopologyHandler {
     @Override
     public NodeInformation[] queryChildNodes(NodeInformation currentNodeDetail)
             throws TopologyException {
-        RestQueryListReturnMsg<VduData> restResult = null;
-        try {
-            // query all the vdu list
-            restResult = serviceProxy.queryAllVdus();
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        // assemble VDUInformation[] according to the VduData[]
-        return assembleData(restResult, VduData.class, VDUInformation.class);
+    	return ResourceServicesStub.queryAllVdus(currentNodeDetail);
     }
 }

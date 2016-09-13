@@ -15,36 +15,28 @@
  */
 package org.openo.nfvo.monitor.umc.pm.adpt.roc.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONObject;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocConfiguration;
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.entity.ResourceEntity;
+import org.openo.nfvo.monitor.umc.pm.adpt.roc.entity.ResourceResponse;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
-import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
-
-import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
+import org.openo.nfvo.monitor.umc.util.APIHttpClient;
 
 public class ResourceServiceConsumer{
 
     private static final DebugPrn logger = new DebugPrn(ResourceServiceConsumer.class.getName());
-
-    private IPmResourceRestService rocService;
+    
+    private String neType;
 
     public ResourceServiceConsumer(String neType) {
-    	
-    	try
-    	{
-	    	Class<IPmResourceRestService> serviceClass = ExtensionAccess.getExtensionClass(IPmResourceRestService.class.getName(), neType);
-	    	this.rocService = ConsumerFactory.createConsumer(
-	                RocConfiguration.getRocServerAddr(), serviceClass);
-    	}
-    	catch (Exception e)
-    	{
-    		logger.info("No IPmResourceRestService implement for " + neType);
-    	}
+    	this.neType = neType;
     }
 
 
@@ -56,39 +48,49 @@ public class ResourceServiceConsumer{
      * @throws RestRequestException
      */
     @SuppressWarnings("rawtypes")
-    public Map getNeInfoMap(String oid) throws RestRequestException {
-        Map paraMap = null;
-        if (rocService != null)
-        {
-	        try {
-	            String jsonStr = rocService.getResourceList(oid);
-	            logger.info(oid + " jsonstr:" + jsonStr);
-	            ObjectMapper objectMapper = new ObjectMapper();
-	            paraMap = objectMapper.readValue(jsonStr, Map.class);
-	        } catch (Exception e) {
-	            //if get nothing, doesn't throw RestRequestException, just return null
-	            return paraMap;
-	        }
-	        if (paraMap.containsKey("data") && ((List) paraMap.get("data")).size()>0) {
-	            paraMap = (Map) ((List) paraMap.get("data")).get(0);
-	        }
-	        else
-	        {
-	        	paraMap = null;
-	        }
-        }
-        return paraMap;
-    }
+	public Map getNeInfoMap(String oid) throws RestRequestException {
+		String url = "";
+		Map paraMap = null;
+		if (neType.equalsIgnoreCase("nfv.host.linux")) {
+			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/hosts/" + oid;
+		} else if (neType.equalsIgnoreCase("nfv.vdu.linux")) {
+			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/vdus/" + oid;
+		}
+		try {
+			String jsonStr = APIHttpClient.doGet(url, "", "utf-8", "");
+			logger.info(oid + " jsonstr:" + jsonStr);
+			ObjectMapper objectMapper = new ObjectMapper();
+			paraMap = objectMapper.readValue(jsonStr, Map.class);
+		} catch (Exception e) {
+			return paraMap;
+		}
+		if (paraMap.containsKey("data")&& ((List) paraMap.get("data")).size() > 0) {
+			paraMap = (Map) ((List) paraMap.get("data")).get(0);
+		} else {
+			paraMap = null;
+		}
+		return paraMap;
+
+	}
 
 
     public ResourceEntity[] queryAllResource() throws RestRequestException {
-    	if (rocService != null)
-    	{
-    		return this.rocService.queryAllResource().getData();
-    	}
-    	else
-    	{
-    		return null;
-    	}
+		String url = "";
+		Map paraMap = null;
+		if (neType.equalsIgnoreCase("nfv.host.linux")) {
+			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/hosts";
+		} else if (neType.equalsIgnoreCase("nfv.vdu.linux")) {
+			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/vdus";
+		}
+		String response = APIHttpClient.doGet(url, "", "utf-8", "");
+		JSONObject responseObject = JSONObject.fromObject(response);
+		Map<String, Class> map = new HashMap<String, Class>();  
+		map.put("data", ResourceEntity.class);
+		ResourceResponse resourceResponse = (ResourceResponse)JSONObject.toBean(responseObject,ResourceResponse.class,map);
+		if( resourceResponse != null){
+			return resourceResponse.getData();
+		}else{
+			return null;
+		}	
     }
 }

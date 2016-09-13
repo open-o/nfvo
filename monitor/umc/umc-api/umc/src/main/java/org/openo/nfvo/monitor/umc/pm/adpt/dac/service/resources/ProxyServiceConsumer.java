@@ -16,13 +16,13 @@
 package org.openo.nfvo.monitor.umc.pm.adpt.dac.service.resources;
 
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.DacConfiguration;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskCreateAndModifyInfo;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
-
-import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
+import org.openo.nfvo.monitor.umc.util.APIHttpClient;
 
 /**
  * 
@@ -30,14 +30,10 @@ import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
 @Data
 public class ProxyServiceConsumer {
     private static final DebugPrn logger = new DebugPrn(ProxyServiceConsumer.class.getName());
-    private IProxyRestService proxyService;
     private String proxyIp;
 
     public ProxyServiceConsumer(String proxyIp) {
         this.proxyIp = proxyIp;
-        this.proxyService = ConsumerFactory.createConsumer(
-                "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort(),
-                IProxyRestService.class);
     }
 
     /**
@@ -46,9 +42,10 @@ public class ProxyServiceConsumer {
      */
     public void addProxyTask(TaskCreateAndModifyInfo proxyTaskInfo) throws RestRequestException {
         logger.info("addProxyTask.");
-
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/api/dac/v1/tasks";
         try {
-            this.proxyService.addProxyTask(proxyTaskInfo);
+        	JSONObject taskObj = JSONObject.fromObject(proxyTaskInfo);
+        	APIHttpClient.doPost(url, taskObj, "");
             logger.info("addProxyTask end.");
             return;
         } catch (Exception e) {
@@ -62,9 +59,11 @@ public class ProxyServiceConsumer {
      */
     public void modifyProxyTask(TaskCreateAndModifyInfo proxyTaskInfo) throws RestRequestException {
         logger.info("modifyProxyTask.");
-
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/"+proxyTaskInfo.getTaskId() + "";
+        
         try {
-            this.proxyService.modifyProxyTask(proxyTaskInfo.getTaskId() + "", proxyTaskInfo);
+        	JSONObject taskObj = JSONObject.fromObject(proxyTaskInfo);
+        	APIHttpClient.doPut(url, taskObj, "");
             logger.info("modifyProxyTask end.");
             return;
         } catch (Exception e) {
@@ -78,9 +77,9 @@ public class ProxyServiceConsumer {
      */
     public void deleteProxyTask(String taskId) throws RestRequestException {
         logger.info("deleteProxyTask.");
-
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/"+taskId;
         try {
-            this.proxyService.deleteProxyTask(taskId);
+        	APIHttpClient.doDelete(url, "");
             logger.info("deleteProxyTask end.");
             return;
         } catch (Exception e) {

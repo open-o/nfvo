@@ -41,10 +41,10 @@ public class PmWrapperTest {
 		UmcDbUtil.setSessionFactory(HibernateSession.init());
 		
 		dMsg.info("build cache");
-		PmService.getInstance().buildCache();
+		//PmService.getInstance().buildCache();
 		dMsg.info("restart all pm task");
 		try {
-			PmService.getInstance().reStartAllPmTask("127.0.0.1");
+			PmService.reStartAllPmTask("127.0.0.1");
 		} catch (PmException e) {
 			Assert.fail("Exception" + e.getMessage());
 		}

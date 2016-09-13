@@ -15,12 +15,7 @@
  */
 package org.openo.nfvo.monitor.umc.drill.wrapper.handler;
 
-import org.openo.nfvo.monitor.umc.drill.wrapper.common.TopologyConsts;
-import org.openo.nfvo.monitor.umc.drill.wrapper.common.util.ArrayUtils;
 import org.openo.nfvo.monitor.umc.drill.wrapper.resources.ResourceServicesStub;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.VimData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.VnfmData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQueryListReturnMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,23 +32,7 @@ public class ResManagerService {
      * @return
      */
     public static String getVnfmName(String vnfmId) {
-        String vnfmName = vnfmId;
-        RestQueryListReturnMsg<VnfmData> restResult = null;
-        try {
-            restResult = ResourceServicesStub.getServiceProxy().queryVnfm(vnfmId);
-        } catch (Exception e) {
-            LOGGER.error("query vnfm nameError!throw exception!", e);
-            return vnfmName;
-        }
-        if (restResult == null
-                || restResult.getOperationResult().equals(TopologyConsts.OPERATIONS_RESULT_FAIL)) {
-            return vnfmName;
-        }
-        VnfmData[] vnfms = restResult.getData();
-        if (ArrayUtils.isArrayNotEmpty(vnfms)) {
-            vnfmName = vnfms[0].getName();
-        }
-        return vnfmName;
+    	return ResourceServicesStub.queryVnfm(vnfmId);
     }
 
     /**
@@ -63,22 +42,6 @@ public class ResManagerService {
      * @return
      */
     public static String getVimName(String vimId) {
-        String vimName = vimId;
-        RestQueryListReturnMsg<VimData> restResult = null;
-        try {
-            restResult = ResourceServicesStub.getServiceProxy().queryVim(vimId);
-        } catch (Exception e) {
-            LOGGER.error("query vnfm nameError!throw exception!", e);
-            return vimName;
-        }
-        if (restResult == null
-                || restResult.getOperationResult().equals(TopologyConsts.OPERATIONS_RESULT_FAIL)) {
-            return vimName;
-        }
-        VimData[] vims = restResult.getData();
-        if (ArrayUtils.isArrayNotEmpty(vims)) {
-            vimName = vims[0].getName();
-        }
-        return vimName;
+    	return ResourceServicesStub.queryVim(vimId);
     }
 }

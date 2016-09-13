@@ -38,11 +38,11 @@ public class PmServiceImplTest {
 	    UmcDbUtil.setSessionFactory(HibernateSession.init());
 
 		dMsg.info("build cache");
-		PmService.getInstance().buildCache();
+		//PmService.buildCache();
 		
 		dMsg.info("restart all pm task");
 		try {
-			PmService.getInstance().reStartAllPmTask("127.0.0.1");
+			PmService.reStartAllPmTask("127.0.0.1");
 		} catch (PmException e) {
 			Assert.fail("Exception" + e.getMessage());
 		}
@@ -60,12 +60,12 @@ public class PmServiceImplTest {
 
 	@Test
 	public void testTask() {
-		PmTaskService.pmTaskCreate("127.0.0.1", "nfv.vdu.linux=010074149067",
+		PmTaskService.pmTaskCreate("","127.0.0.1", "nfv.vdu.linux=010074149067",
 				"nfv.vdu.linux");
 		PmTaskService.pmThresholdCreate("nfv.vdu.linux=010074149067",
 				"nfv.vdu.linux");
 		PmTaskService.pmTaskModify("nfv.vdu.linux=010074149067");
-		PmTaskService.pmTaskReCreate("10.0.0.1", "nfv.vdu.linux=010074149067",
+		PmTaskService.pmTaskReCreate("","10.0.0.1", "nfv.vdu.linux=010074149067",
 				"nfv.vdu.linux");
 		PmTaskService.pmTaskDelete("nfv.vdu.linux=010074149067");
 		PmTaskService.pmThresholdDelete("nfv.vdu.linux=010074149067");

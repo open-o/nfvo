@@ -16,26 +16,24 @@
 package org.openo.nfvo.monitor.dac.msb;
 
 
-import org.glassfish.jersey.client.ClientConfig;
-import org.openo.nfvo.monitor.dac.msb.bean.MsbRegisterBean;
+import net.sf.json.JSONObject;
 
-import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
+import org.openo.nfvo.monitor.dac.msb.bean.MsbRegisterBean;
+import org.openo.nfvo.monitor.dac.util.APIHttpClient;
+import org.openo.nfvo.monitor.dac.util.Global;
 
 public class MSBRestServiceProxy {
-    private static IMSBService restServiceproxy;
-
-    static {
-        ClientConfig config = new ClientConfig();
-        restServiceproxy =
-                ConsumerFactory.createConsumer(MsbConfiguration.getMsbAddress(), config, IMSBService.class);
-    }
 
     public static String registerService(MsbRegisterBean registerInfo){
-        return restServiceproxy.registerService(registerInfo);
+    	String url = MsbConfiguration.getMsbAddress()+Global.getMsbApiRootDomain();
+    	JSONObject registerObj = JSONObject.fromObject(registerInfo);
+    	String registerResponse = APIHttpClient.doPost2Str(url, registerObj, "");
+        return registerResponse;
     }
 
     public static void unRegiserService(String serviceName,String version,String ip,String port){
-        restServiceproxy.unRegisterService(serviceName, version, ip, port);
+        String url = MsbConfiguration.getMsbAddress()+Global.getMsbApiRootDomain()+"/"+serviceName+"/version/"+version+"/nodes/"+ip+"/"+port;
+        APIHttpClient.doDelete(url, "");
     }
 
 }

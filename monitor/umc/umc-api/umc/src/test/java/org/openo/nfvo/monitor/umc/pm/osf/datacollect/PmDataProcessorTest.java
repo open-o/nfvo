@@ -23,6 +23,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.pm.common.PmException;
 import org.openo.nfvo.monitor.umc.pm.datacollect.PmDataProcessor;
@@ -46,10 +47,11 @@ public class PmDataProcessorTest {
 		UmcDbUtil.setSessionFactory(HibernateSession.init());
 
 		dMsg.info("build cache");
-		PmService.getInstance().buildCache();
+		//PmService.getInstance().buildCache();
+		//CacheService.init();--add by yy
 		dMsg.info("restart all pm task");
 		try {
-			PmService.getInstance().reStartAllPmTask("127.0.0.1");
+			PmService.reStartAllPmTask("127.0.0.1");
 		} catch (PmException e) {
 			Assert.fail("Exception" + e.getMessage());
 		}

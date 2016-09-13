@@ -15,52 +15,22 @@
  */
 package org.openo.nfvo.monitor.umc.drill.wrapper.handler.drill;
 
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.HostInformation;
 import org.openo.nfvo.monitor.umc.drill.resources.bean.response.NodeInformation;
-import org.openo.nfvo.monitor.umc.drill.resources.bean.response.VDUInformation;
 import org.openo.nfvo.monitor.umc.drill.wrapper.common.exception.TopologyException;
-import org.openo.nfvo.monitor.umc.drill.wrapper.common.util.ArrayUtils;
 import org.openo.nfvo.monitor.umc.drill.wrapper.handler.AbstractTopologyHandler;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.IResourceServices;
 import org.openo.nfvo.monitor.umc.drill.wrapper.resources.ResourceServicesStub;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.HostData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.VduData;
-import org.openo.nfvo.monitor.umc.drill.wrapper.resources.bean.response.RestQueryListReturnMsg;
 
 /**
  *       The concrete handler that process the drill request of the HOST
  */
 public class HostDrillHandler extends AbstractTopologyHandler {
 
-    // get the resource service proxy instance
-    IResourceServices serviceProxy = ResourceServicesStub.getServiceProxy();
-
     /**
      * query the Host info
      */
     @Override
     public NodeInformation queryCurrentNode(String resourceid) throws TopologyException {
-        HostInformation hostinfo = null;
-        RestQueryListReturnMsg<HostData> restResult = null;
-        try {
-            restResult = serviceProxy.queryHost(resourceid);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        HostData[] hosts = restResult.getData();
-        // whether the current node is null
-        if (ArrayUtils.isArrayNotEmpty(hosts)) {
-            hostinfo = new HostInformation(hosts[0]);
-            hostinfo.setAlarmCount(queryAlarmCount(hostinfo.getId()));
-        } else {
-            LOGGER.warn("the node dose not exist!Hostid:" + resourceid);
-            // if the id dose not match any node, throw exception
-            throw new TopologyException(TopologyException.ERR_MONITOR_TOPOLOGY_NODENOTFOUND,
-                    "the node dose not exist!");
-        }
-        return hostinfo;
+    	return ResourceServicesStub.qureyHost(resourceid);
     }
 
     /**
@@ -69,24 +39,7 @@ public class HostDrillHandler extends AbstractTopologyHandler {
     @Override
     public NodeInformation[] queryParentNodes(NodeInformation currentNodeDetail)
             throws TopologyException {
-        RestQueryListReturnMsg<VduData> restResult = null;
-        try {
-            HostInformation hostInformation = (HostInformation) currentNodeDetail;
-            String hostId = hostInformation.getId();
-            // query all the VduData using the hostId
-            restResult = serviceProxy.queryVdusOfHost(hostId);
-        } catch (Exception e) {
-            this.handleRestserviceException(e);
-        }
-        // check whether calling resource service succeed,throw exception directly if failed
-        checkRestserviceResult(restResult);
-        // assemble VDUInformation[] according to the VduData[]
-        VDUInformation[] VDUInformations = assembleData(restResult, VduData.class, VDUInformation.class);
-
-        for(int i=0;i<VDUInformations.length;i++){
-            VDUInformations[i].setAlarmCount(queryAlarmCount(VDUInformations[i].getId()));
-        }
-        return VDUInformations;
+    	return ResourceServicesStub.queryVdusOfHost(currentNodeDetail);
     }
 
     /**

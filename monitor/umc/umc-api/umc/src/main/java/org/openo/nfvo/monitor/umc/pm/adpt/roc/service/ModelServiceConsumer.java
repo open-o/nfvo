@@ -15,13 +15,16 @@
  */
 package org.openo.nfvo.monitor.umc.pm.adpt.roc.service;
 
+import java.util.List;
+
+import net.sf.json.JSONArray;
+
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocConfiguration;
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.entity.ResourceTypeResponse;
 import org.openo.nfvo.monitor.umc.pm.bean.ResourceType;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
-
-import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
+import org.openo.nfvo.monitor.umc.util.APIHttpClient;
 
 
 /**
@@ -30,18 +33,6 @@ import com.eclipsesource.jaxrs.consumer.ConsumerFactory;
 public class ModelServiceConsumer {
     private static final DebugPrn logger = new DebugPrn(ModelServiceConsumer.class.getName());
 
-    private static IModelRestService rocModelService;
-
-    private static IModelRestService getRocModelServiceProxy() {
-        if (rocModelService == null) {
-            rocModelService =
-                    ConsumerFactory.createConsumer(RocConfiguration.getRocServerAddr(),
-                            IModelRestService.class);
-        }
-
-        return rocModelService;
-    }
-
     /**
      * @param id
      * @return
@@ -49,14 +40,20 @@ public class ModelServiceConsumer {
      */
     public static ResourceType queryResourceType(String id) throws RestRequestException {
         logger.info("queryResourceType. id = " + id);
-
+        String url = RocConfiguration.getRocServerAddr()+"/api/roc/v1/resource/definitions";
+        String requestQueryString = "id="+id;
+        String response = APIHttpClient.doGet(url, requestQueryString, "utf-8", "");
+        JSONArray jsonArray = JSONArray.fromObject(response);
+	    List<ResourceTypeResponse> templateList = JSONArray.toList(jsonArray, ResourceTypeResponse.class);
         try {
-            ResourceTypeResponse[] response = getRocModelServiceProxy().queryResourceType(id);
-            logger.info("response : " + response[0]);
-            return new ResourceType(response[0].getId(), response[0].getName());
+            logger.info("response : " + templateList.get(0));
+            return new ResourceType(templateList.get(0).getId(), templateList.get(0).getName());
         } catch (Exception e) {
             throw new RestRequestException("roc model rest request error.", e);
         }
     }
+    
+    
+    
 
 }
