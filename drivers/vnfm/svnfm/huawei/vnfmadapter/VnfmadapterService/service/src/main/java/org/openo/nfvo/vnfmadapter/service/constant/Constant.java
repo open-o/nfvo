@@ -17,6 +17,9 @@ package org.openo.nfvo.vnfmadapter.service.constant;
 
 public class Constant {
 
+    public static final String DOWNLOADCSAR_SUCCESS = "Success";
+    
+    public static final String DOWNLOADCSAR_FAIL = "FAIL";    
 	public static final Object HTTP_INNERERROR = null;
 	public static final Object REST_FAIL = null;
 
