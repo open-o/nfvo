@@ -40,7 +40,8 @@ public class CurrentAlarm implements Serializable, IEntityClass {
     private static final long serialVersionUID = 4581696346693379882L;
 
     @Id
-    @Column(name = "alarmKey", length=500, nullable = false)
+    //@Column(name = "alarmKey", length=500, nullable = false)
+    @Column(name = "alarmKey", nullable = false)
     private String alarmKey;
 
     @Column(name = "aid", nullable = true)

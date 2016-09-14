@@ -16,8 +16,6 @@
 package org.openo.nfvo.monitor.umc.fm.adpt.resources;
 
 
-import net.sf.json.JSONObject;
-
 import org.glassfish.jersey.client.ClientConfig;
 import org.openo.nfvo.monitor.umc.util.APIHttpClient;
 

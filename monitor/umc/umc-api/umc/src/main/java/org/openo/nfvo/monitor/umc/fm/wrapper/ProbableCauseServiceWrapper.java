@@ -66,8 +66,19 @@ public class ProbableCauseServiceWrapper {
 
     public ArrayList<ProbableCauseTreeNode> getAllTreeNodes() throws Exception {
         ArrayList<ProbableCauseTreeNode> treeNodes = new ArrayList<ProbableCauseTreeNode>();
-        String tree = ResourceRestServiceProxy.getProbableCauseTree("moc");
-        DBProbableCauseTree[] mocNodes = new Gson().fromJson(tree, DBProbableCauseTree[].class);
+        //String tree = ResourceRestServiceProxy.getProbableCauseTree("moc");
+        //DBProbableCauseTree[] mocNodes = new Gson().fromJson(tree, DBProbableCauseTree[].class);        
+    	DBProbableCauseTree temp1 = new DBProbableCauseTree();
+    	temp1.setId("nfv.vdu.linux");
+    	temp1.setName("VDU(LINUX)");
+    	temp1.setParentId("nfv");
+    	temp1.setType("moc");
+    	DBProbableCauseTree temp2 = new DBProbableCauseTree();
+    	temp2.setId("nfv.host.linux");
+    	temp2.setName("HOST(LINUX)");
+    	temp2.setParentId("nfv");
+    	temp2.setType("moc");
+    	DBProbableCauseTree[] mocNodes = new DBProbableCauseTree[]{temp1,temp2};
         String[] mocIds = new String[mocNodes.length];
         for (int i = 0; i < mocNodes.length; i++) {
             mocIds[i] = mocNodes[i].getParentId();
@@ -97,8 +108,14 @@ public class ProbableCauseServiceWrapper {
             treeNodes.add(mocNode);
         }
 
-        String productTree = ResourceRestServiceProxy.getProbableCauseTree("product");
-        DBProbableCauseTree[] productNodes = new Gson().fromJson(productTree, DBProbableCauseTree[].class);
+        //String productTree = ResourceRestServiceProxy.getProbableCauseTree("product");
+        //DBProbableCauseTree[] productNodes = new Gson().fromJson(productTree, DBProbableCauseTree[].class);
+        DBProbableCauseTree product = new DBProbableCauseTree();
+        product.setId("nfv");
+        product.setName("nfv");
+        product.setParentId("root");
+        product.setType("product");
+        DBProbableCauseTree[] productNodes = new  DBProbableCauseTree[]{product};
         for (int i = 0; i < productNodes.length; i++) {
             ProbableCauseTreeNode productNode = new ProbableCauseTreeNode();
             productNode.setId(productNodes[i].getId());

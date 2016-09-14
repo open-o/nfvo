@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
-<!--
+﻿<!--
 
   Copyright 2016, CMCC Technologies Co., Ltd.
  
@@ -16,6 +15,8 @@
    limitations under the License.
 
 -->
+<?xml version="1.0" encoding="UTF-8" ?>
+
 <monitor-map i18n-file="">
     <!-- ==================================================== vdu/host(linux) ==================================================== -->
     <monitor name="TELNET:FILESYSTEM:NFV_OS:0" availablity="true" accept="string number number number string+" command="df -k | sed '/%/!N;s/\n//'">

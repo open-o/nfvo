@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<!--
+﻿<!--
 
   Copyright 2016, CMCC Technologies Co., Ltd.
  
@@ -16,6 +15,8 @@
    limitations under the License.
 
 -->
+<?xml version="1.0" encoding="UTF-8"?>
+
 <paras>
     <para name="MonitorTaskQueue"  maxQueueSize="50000"   maxThreadNum="250"  runCollectPeriod="1"/>
     <para name="DataMsgQueue"      maxQueueSize="500"   maxThreadNum="50"  runCollectPeriod="1"/>

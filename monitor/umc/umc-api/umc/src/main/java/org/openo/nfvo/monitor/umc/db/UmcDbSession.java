@@ -37,7 +37,8 @@ import io.dropwizard.db.DataSourceFactory;
  */
 public class UmcDbSession {
     private static Boolean show_sql = false;
-    private static String dialect = "org.hibernate.dialect.H2Dialect";
+    //private static String dialect = "org.hibernate.dialect.H2Dialect";
+    private static String dialect = "org.hibernate.dialect.MySQLDialect";
 
     private static String driverclass;
     private static String url;

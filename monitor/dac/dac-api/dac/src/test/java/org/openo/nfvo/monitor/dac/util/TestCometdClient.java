@@ -43,7 +43,7 @@ public class TestCometdClient {
         Map<String, Object> options = new HashMap<>();
         ClientTransport transport = new LongPollingTransport(options, httpClient);
         final BayeuxClient client =
-                new BayeuxClient("http://localhost:8206/api/dacnotification/v1", transport);
+                new BayeuxClient("http://localhost:8206/openoapi/dacnotification/v1", transport);
         client.handshake(new ClientSessionChannel.MessageListener() {
             public void onMessage(ClientSessionChannel channel, Message message) {
                 if (message.isSuccessful()) {

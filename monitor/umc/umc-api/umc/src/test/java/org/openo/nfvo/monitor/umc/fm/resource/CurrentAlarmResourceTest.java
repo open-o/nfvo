@@ -41,6 +41,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.entity.CurrentAlarm;
 import org.openo.nfvo.monitor.umc.fm.adpt.resources.RocResourceConfig;
+import org.openo.nfvo.monitor.umc.fm.cache.FmCacheUtil;
 import org.openo.nfvo.monitor.umc.fm.db.process.FmDBProcess;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.request.AlarmIds;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.request.CurAlarmQueryCond;
@@ -56,6 +57,7 @@ import org.openo.nfvo.monitor.umc.fm.wrapper.ProbableCauseServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;
 import org.openo.nfvo.monitor.umc.pm.osf.db.util.H2DbServer;
 import org.openo.nfvo.monitor.umc.pm.osf.db.util.HibernateSession;
+import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +88,9 @@ public class CurrentAlarmResourceTest {
 
     @Before
     public void setUp() {
-        H2DbServer.startUp();
+        //H2DbServer.startUp();
+/*    	FastFileSystem.init();
+    	FmCacheUtil.init();*/
         UmcDbUtil.setSessionFactory(HibernateSession.init());
 
         itAlarmData = new FmAlarmData();
@@ -107,7 +111,7 @@ public class CurrentAlarmResourceTest {
     public void tearDown() {
         try {
             HibernateSession.destory();
-            H2DbServer.shutDown();
+            //H2DbServer.shutDown();
         } catch (Exception e) {
             Assert.fail("Exception" + e.getMessage());
         }

@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
+import org.openo.nfvo.monitor.umc.db.dao.MonitorInfoDao;
 import org.openo.nfvo.monitor.umc.db.entity.CurrentAlarm;
+import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.fm.adpt.resources.ResourceRestServiceProxy;
-import org.openo.nfvo.monitor.umc.fm.adpt.resources.bean.DBProbableCauseTree;
 import org.openo.nfvo.monitor.umc.fm.adpt.resources.bean.RocInstances;
 import org.openo.nfvo.monitor.umc.fm.cache.FmCacheProcess;
 import org.openo.nfvo.monitor.umc.fm.common.FmException;
@@ -37,6 +39,8 @@ import org.openo.nfvo.monitor.umc.fm.resource.bean.response.ExceedLimitException
 import org.openo.nfvo.monitor.umc.fm.resource.bean.response.NeMap;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.response.NgictAlarmData;
 import org.openo.nfvo.monitor.umc.fm.util.BasicDataTypeConvertTool;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.DACServiceWrapper;
+import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,7 +111,7 @@ public class CurrentAlarmServiceWrapper {
     }
 
     private List<NgictAlarmData> queryByCond(CurAlarmQueryCond condition) throws Exception {
-        HashMap<String, String> neMap = getNeMap();
+        //HashMap<String, String> neMap = getNeMap();
         List<CurrentAlarm> alarms  = FmDBProcess.queryCurAlarm(condition);
         if (alarms == null) {
             return new ArrayList<NgictAlarmData>();
@@ -115,19 +119,21 @@ public class CurrentAlarmServiceWrapper {
 
         ArrayList<NgictAlarmData> result = new ArrayList<NgictAlarmData>();
         for (CurrentAlarm alarm : alarms) {
-            result.add(convert2NgictAlarmData(alarm, neMap));
+            result.add(convert2NgictAlarmData(alarm));
         }
         return result;
     }
 
     private static HashMap<String, String> getAllMocMap() throws Exception {
         HashMap<String, String> map = new HashMap<String, String>();
-        String tree = ResourceRestServiceProxy.getProbableCause();
+       /* String tree = ResourceRestServiceProxy.getProbableCause();
         LOGGER.info("the probableCause got from ROC is: " + tree);
         DBProbableCauseTree[] mocNodes = new Gson().fromJson(tree, DBProbableCauseTree[].class);
         for(int i=0; i<mocNodes.length; i++) {
             map.put(mocNodes[i].getId(), mocNodes[i].getName());
-        }
+        }*/
+        map.put("nfv.vdu.linux", "VDU(LINUX)");
+        map.put("nfv.host.linux", "HOST(LINUX)");
         return map;
     }
 
@@ -159,7 +165,7 @@ public class CurrentAlarmServiceWrapper {
         return neMap;
     }
 
-    private NgictAlarmData convert2NgictAlarmData(CurrentAlarm alarm, HashMap<String, String> neMap) {
+    private NgictAlarmData convert2NgictAlarmData(CurrentAlarm alarm) {
         NgictAlarmData ngictAlarm = new NgictAlarmData();
         getAlarmCustomAttr(alarm);
 
@@ -171,7 +177,12 @@ public class CurrentAlarmServiceWrapper {
             ngictAlarm.setMocName(mocMap.get(alarm.getMoc()));
         }
         ngictAlarm.setPosition1(alarm.getPosition1());
-        ngictAlarm.setPosition1DisplayName(neMap.get(alarm.getPosition1()));
+        //ngictAlarm.setPosition1DisplayName(neMap.get(alarm.getPosition1()));
+        MonitorInfo monitorInfo = queryMonitorInfo(alarm.getPosition1());
+        if(monitorInfo != null){
+        	 ngictAlarm.setPosition1DisplayName(monitorInfo.getLabel());
+        }
+        ngictAlarm.setPosition1DisplayName("");
         ngictAlarm.setSubPosition1(alarm.getSubPosition1());
         ngictAlarm.setSubName1(alarm.getSubName1());
         ngictAlarm.setPosition2(alarm.getPosition2());
@@ -317,6 +328,10 @@ public class CurrentAlarmServiceWrapper {
 
     public int queryCurAlarmsCount(String oid) {
         return FmDBProcess.getCurAlarmsCountByOid(oid);
+    }
+    public MonitorInfo queryMonitorInfo(String oid){
+        MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(PmConst.MONITOR_INFO);
+        return dao.queryByOid(oid);   	
     }
 
 }
