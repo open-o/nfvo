@@ -3,7 +3,7 @@
     <parent>
 		<artifactId>vimadapter</artifactId>
         <groupId>org.openo.nfvo</groupId>
-		<version>2.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>vimadapter-service-root</artifactId>
     <version>1.0.0-SNAPSHOT</version>
