@@ -30,7 +30,6 @@ public class UrlConstant {
     private UrlConstant() {
         // Constructor
     }
-
     public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services?createOrUpdate=false";
 
     public static final String REST_ESRINFO_GET = "/openoapi/extsys/v1/vnfms/%s";
