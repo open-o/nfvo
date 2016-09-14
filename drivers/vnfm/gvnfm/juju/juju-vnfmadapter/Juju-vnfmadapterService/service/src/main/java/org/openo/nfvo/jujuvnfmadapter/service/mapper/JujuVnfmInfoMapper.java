@@ -21,6 +21,11 @@ import org.apache.ibatis.annotations.Param;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample;
 
+/**
+ * 
+ * @author quanzhong
+ *
+ */
 public interface JujuVnfmInfoMapper {
     int countByExample(JujuVnfmInfoExample example);
 
