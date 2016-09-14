@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import os
-import redis
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -73,19 +72,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.parsers.FileUploadParser',
     )
 }
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vmanager',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD':'password',
-    },
-}
 
-redis_client = redis.StrictRedis(host='127.0.0.1', port=6379, password='', db=1)
-"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
