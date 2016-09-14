@@ -43,11 +43,7 @@
   <artifactId>powermock-module-junit4</artifactId>
   <version>1.5.4</version>
 </dependency>
-		<dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-            <version>3.1.6</version>
-        </dependency>		
+				
 		<dependency>
 			<groupId>org.openo.common-services.common-utilities</groupId>
 			<artifactId>commonlib-cbb</artifactId>
@@ -129,10 +125,59 @@
 			<artifactId>spring-tx</artifactId>
 			<version>3.1.2.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.3.5</version>
+		</dependency>
 		
-		
-		
-		
-		  		         
-    </dependencies>
+		<!--dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>com.springsource.org.apache.commons.httpclient</artifactId>
+            <version>3.1.0</version>
+        </dependency-->
+		<dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>  
+        	<groupId>commons-httpclient</groupId>  
+        	<artifactId>commons-httpclient</artifactId>  
+        	<version>3.1</version>  
+	    </dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.3.5</version>
+		</dependency>
+		<dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>3.1.6</version>
+        </dependency>
+
+
+
+
+	</dependencies>
 </project>

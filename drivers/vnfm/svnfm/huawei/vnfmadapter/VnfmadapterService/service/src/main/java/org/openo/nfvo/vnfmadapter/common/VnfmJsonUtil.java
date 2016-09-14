@@ -47,7 +47,7 @@ public final class VnfmJsonUtil {
      * Get the JSON string from input http context.
      * <br/>
      * 
-     * @param VNFreq
+     * @param vnfReq HttpServletRequest
      * @return
      * @since  NFVO 0.5
      */
