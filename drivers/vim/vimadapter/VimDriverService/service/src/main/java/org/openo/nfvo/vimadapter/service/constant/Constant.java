@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, Huawei Technologies Co., Ltd.
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,209 +13,139 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.vimadapter.service.constant;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+/**
+ * The constant of http_status_code, rest_status, etc.<br/>
+ * 
+ * @author
+ * @version NFVO 0.5 Aug 23, 2016
+ */
+public class Constant {
 
-public interface Constant {
+    public static final int DEFAULT_COLLECTION_SIZE = 10;
 
-    int DEFAULT_COLLECTION_SIZE = 10;
+    public static final int REST_SUCCESS = 1;
 
-    int MIN_VLANID = 0;
+    public static final int REST_PART_SUCCESS = 0;
 
-    int MAX_VLANID = 4094;
+    public static final int REST_FAIL = -1;
 
-    int CPUMHZ = 2600;
+    public static final int HTTP_OK_STATUS_CODE = 200;
 
-    int OPENSTACK_NOVAURL_MIN_LENTH = 3;
+    public static final int HTTP_CREATED_STATUS_CODE = 201;
 
-    int TIME_EXCEPT_VALUE = 0;
+    public static final int HTTP_ACCEPTED_STATUS_CODE = 202;
 
-    int REST_SUCCESS = 1;
+    public static final int HTTP_NOCONTENT_STATUS_CODE = 204;
 
-    int REST_PART_SUCCESS = 0;
+    public static final int HTTP_BAD_REQUEST_STATUS_CODE = 400;
 
-    int REST_FAIL = -1;
+    public static final int HTTP_UNAUTHORIZED_STATUS_CODE = 401;
 
-    int HTTP_OK_STATUS_CODE = 200;
+    public static final int HTTP_NOTFOUND_STATUS_CODE = 404;
 
-    int HTTP_CREATED_STATUS_CODE = 201;
+    public static final int HTTP_CONFLICT_STATUS_CODE = 409;
 
-    int HTTP_ACCEPTED_STATUS_CODE = 202;
+    public static final int HTTP_INVALID_PARAMETERS = 415;
 
-    int HTTP_NOCONTENT_STATUS_CODE = 204;
+    public static final int HTTP_INNERERROR = 500;
 
-    int HTTP_BAD_REQUEST_STATUS_CODE = 400;
+    public static final int INTERNAL_EXCEPTION_STATUS_CODE = 600;
 
-    int HTTP_UNAUTHORIZED_STATUS_CODE = 401;
+    public static final int TOKEN_USER_NULL_STATUS_CODE = 602;
 
-    int HTTP_NOTFOUND_STATUS_CODE = 404;
+    public static final int SERVICE_URL_ERROR_STATUS_CODE = 603;
 
-    int HTTP_CONFLICT_STATUS_CODE = 409;
+    public static final int ACCESS_OBJ_NULL_STATUS_CODE = 604;
 
-    int HTTP_INNERERROR = 500;
+    public static final int CONNECT_NOT_FOUND_STATUS_CODE = 605;
 
-    int INTERNAL_EXCEPTION_STATUS_CODE = 600;
+    public static final int TYPE_PARA_ERROR_STATUS_CODE = 606;
 
-    int TOKEN_HEAD_NULL_STATUS_CODE = 601;
+    public static final int CONNECT_FAIL_STATUS_CODE = 607;
 
-    int TOKEN_USER_NULL_STATUS_CODE = 602;
+    public static final int CONNECT_TMOUT_STATUS_CODE = 608;
 
-    int SERVICE_URL_ERROR_STATUS_CODE = 603;
+    public static final int REPEAT_REG_TIME = 60 * 1000;
 
-    int ACCESS_OBJ_NULL_STATUS_CODE = 604;
+    public static final String OPENSTACK = "openstack";
 
-    int CONNECT_NOT_FOUND_STATUS_CODE = 605;
+    public static final String POST = "POST";
 
-    int TYPE_PARA_ERROR_STATUS_CODE = 606;
+    public static final String PUT = "PUT";
 
-    int CONNECT_FAIL_STATUS_CODE = 607;
+    public static final String DEL = "DEL";
 
-    int CONNECT_TMOUT_STATUS_CODE = 608;
+    public static final String GET = "GET";
 
-    int DEFLAUT_SECURE_PORT = 443;
+    public static final String DELETE = "DELETE";
 
-    int ERROR_CODE = -1;
+    public static final String WRAP_TOKEN = "token";
 
-    int MIN_URL_LENGTH = 7;
+    public static final String WRAP_ACCESS = "access";
 
-    int MAX_VIM_NAME_LENGTH = 64;
+    public static final String WRAP_TENANT = "tenant";
 
-    int MIN_VIM_NAME_LENGTH = 1;
+    public static final String WRAP_TENANTS = "tenants";
 
-    int MAX_URL_LENGTH = 256;
+    public static final String WRAP_ENDPOINTS = "endpoints";
 
-    int MAX_SAMPLE_NUM = 1;
+    public static final String WRAP_HOST = "host";
 
-    int INTERVAL_SECOND = 20;
+    public static final String WRAP_HOSTS = "hosts";
 
-    String VIM_DB = "vimdb";
+    public static final String WRAP_PORT = "port";
 
-    String PARAM_MODULE = "VIMDriverService";
+    public static final String WRAP_PORTS = "ports";
 
-    String OPENSTACK = "openstack";
+    public static final String WRAP_PROJECT = "project";
 
-    String POST = "POST";
+    public static final String WRAP_PROJECTS = "projects";
 
-    String PUT = "PUT";
+    public static final String WRAP_NETWORKS = "networks";
 
-    String DEL = "DEL";
+    public static final String WRAP_NETWORK = "network";
 
-    String GET = "GET";
+    public static final String WRAP_LIMITS = "limits";
 
-    String DELETE = "DELETE";
+    public static final String WRAP_QUOTASET = "quota_set";
 
-    String ASYNCPOST = "asyncPost";
+    public static final String ID = "id";
 
-    String ASYNCGET = "asyncGet";
+    public static final String SERVICE_CATALOG = "serviceCatalog";
 
-    String ASYNCPUT = "asyncPut";
+    public static final String REGION = "region";
 
-    String ASYNCDELETE = "asyncDelete";
+    public static final String PUBLICURL = "publicURL";
 
-    String HANDSHAKE = "handShake";
+    public static final String SERVICENAME = "name";
 
-    String FIRST_HANDSHAKE = "first_handShake";
+    public static final String ANONYMOUS = "Anonymous";
 
-    String ENCODEING = "utf-8";
+    public static final String ADMIN = "admin";
 
-    String CONTENT_TYPE = "Content-type";
+    public static final String CERTIFICATE = "Certificate";
 
-    String APPLICATION = "application/json";
+    public static final String GLANCE = "glance";
 
-    String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
+    public static final String NEUTRON = "neutron";
 
-    String HEADER_AUTH_TOKEN = "X-Auth-Token";
+    public static final String NOVA = "nova";
 
-    String WRAP_ERROR = "error";
+    public static final String KEYSTONE = "keystone";
 
-    String ACTIVE = "active";
+    public static final String CEILOMETER = "ceilometer";
 
-    String INACTIVE = "inactive";
+    public static final String CINDER = "cinder";
 
-    String DELETE_FAIL_NETWORK = "delete";
+    public static final String RETCODE = "retCode";
 
-    String MATAIN_CONFLICT_NETWORK = "matain";
+    public static final String VIMID = "vimId";
 
-
-    String WRAP_ACCESS = "access";
-
-    String ISSUED_AT = "issued_at";
-
-    String WRAP_TENANT = "tenant";
-
-    String WRAP_TENANTS = "tenants";
-
-    String WRAP_METADATA = "metadata";
-
-    String WRAP_ENDPOINTS = "endpoints";
-
-    String WRAP_SERVERS = "servers";
-
-    String WRAP_SERVER = "server";
-
-    String WRAP_HOST = "host";
-
-    String WRAP_HOSTS = "hosts";
-
-    String WRAP_NETWORKS = "networks";
-
-    String WRAP_NETWORK = "network";
-
-    String WRAP_HYPERVISOR_STATS = "hypervisor_statistics";
-
-    String WRAP_HYPERVISOR = "hypervisors";
-
-    String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    String ID = "id";
-
-    String SERVICE_CATALOG = "serviceCatalog";
-
-    String REGION = "region";
-
-    String PUBLICURL = "publicURL";
-
-    String SERVICENAME = "name";
-
-    String ADD_VIM_EVENT = "org.openo.nfvo.vim.add";
-
-    String UPDATE_VIM_EVENT = "org.openo.nfvo.vim.update";
-
-    String STATUS_CHANGE_VIM_EVENT = "org.open	.nfvo.vim.status";
-
-    List<String> VIMTYPELIST = Collections.unmodifiableList(Arrays.asList(OPENSTACK));
-
-    List<String> AUTHLIST = Collections.unmodifiableList(Arrays.asList(AuthenticationMode.ANONYMOUS,
-            AuthenticationMode.CERTIFICATE));
-
-    List<String> TENANTS_NAME_LIST = Collections.unmodifiableList(Arrays.asList("elb", "router", "service"));
-
-    List<String> ENABLEDHCP_LIST = Collections.unmodifiableList(Arrays.asList("False", "True"));
-
-	String WRAP_TOKEN = null;
-
-    public interface ServiceName {
-
-        String GLANCE = "glance";
-
-        String NEUTRON = "neutron";
-
-        String NOVA = "nova";
-
-        String KEYSTONE = "keystone";
-
-        String CEILOMETER = "ceilometer";
-
-        String CINDER = "cinder";
+    private Constant() {
+        // Constructor
     }
 
-    public interface AuthenticationMode {
-
-        String ANONYMOUS = "Anonymous";
-
-        String CERTIFICATE = "Certificate";
-    }
 }
