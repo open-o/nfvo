@@ -24,7 +24,6 @@ import org.python.core.PyString;
  * <br/>
  * <p>
  * </p>
- * 
  * @author		quanzhong@huawei.com
  * @version     NFVO 0.5  Aug 22, 2016
  */
