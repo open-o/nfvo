@@ -43,7 +43,11 @@
   <artifactId>powermock-module-junit4</artifactId>
   <version>1.5.4</version>
 </dependency>
-				
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>3.1.6</version>
+		</dependency>
 		<dependency>
 			<groupId>org.openo.common-services.common-utilities</groupId>
 			<artifactId>commonlib-cbb</artifactId>
