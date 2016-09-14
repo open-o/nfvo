@@ -52,7 +52,7 @@ public class ConfigRoa {
      * 
      * @param context
      * @param resp
-     * @return
+     * @return str
      * @since  NFVO 0.5
      */
     @GET
