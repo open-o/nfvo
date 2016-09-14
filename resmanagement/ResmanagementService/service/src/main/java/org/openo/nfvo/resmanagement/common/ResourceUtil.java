@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, Huawei Technologies Co., Ltd.
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.resmanagement.common;
 
+/**
+ * <br/>
+ * <p>
+ * </p>
+ * 
+ * @author
+ * @version NFVO 0.5 Aug 25, 2016
+ */
 public class ResourceUtil {
 
-	private ResourceUtil() {
+    private ResourceUtil() {
 
-	}
+    }
 
-	public static String getMessage(String key) {
-		return key;
-	}
+    /**
+     * It is used to get Message<br/>
+     * 
+     * @param key
+     * @return
+     * @since NFVO 0.5
+     */
+    public static String getMessage(String key) {
+        return key;
+    }
 }

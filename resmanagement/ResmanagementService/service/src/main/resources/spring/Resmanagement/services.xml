@@ -15,18 +15,222 @@
     limitations under the License.
  -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:osgi="http://www.springframework.org/schema/osgi"
-	xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
-	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
-	http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/osgi
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+    xmlns:ctx="http://www.springframework.org/schema/context"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/osgi
     http://www.springframework.org/schema/osgi/spring-osgi.xsd
-	http://www.springframework.org/schema/context	
-	http://www.springframework.org/schema/context/spring-context.xsd
-	http://www.springframework.org/schema/osgi-compendium  
-	http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd">
+    http://www.springframework.org/schema/context    
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/osgi-compendium  
+    http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+    http://cxf.apache.org/jaxrs 
+    http://cxf.apache.org/schemas/jaxrs.xsd
+    http://cxf.apache.org/transports/http/configuration 
+    http://cxf.apache.org/schemas/configuration/http-conf.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+    <!-- these are included in the dependency jar -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+    
+    <bean id="source"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://10.229.33.202:3306/resmanagementdb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+    
+    <bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="source" />
+        <property name="mapperLocations" value="classpath*:mybatis/mysql/*.xml" />
+        <!-- <property name="configLocation" value="classpath:mybatis-config.xml" />  -->
+    </bean>
+    
+    <bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sessionFactory" />
+    </bean>    
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="source" />
+    </bean>
+    
+    <!--location -->
+    <bean id="locationDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.LocationDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="locationBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.LocationBusinessImpl">
+        <property name="locationDao" ref="locationDao"></property>
+    </bean>
+
+    <bean id="location"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.LocationImpl">
+        <property name="locationBusiness" ref="locationBusiness"></property>
+    </bean>
+
+    <bean id="locationRoa" class="org.openo.nfvo.resmanagement.service.rest.LocationRoa">
+        <property name="location" ref="location"></property>
+        <property name="sites" ref="sites"></property>
+    </bean>
+    
+    <!--port -->
+    <bean id="portDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.PortDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="portBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.PortBusinessImpl">
+        <property name="portDao" ref="portDao"></property>
+    </bean>
+
+    <bean id="port"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.PortImpl">
+        <property name="portBusiness" ref="portBusiness"></property>
+    </bean>
+
+    <bean id="portRoa" class="org.openo.nfvo.resmanagement.service.rest.PortRoa">
+        <property name="port" ref="port"></property>
+    </bean>
+    
+    <!--host -->
+    <bean id="hostDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.HostDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="hostBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.HostBusinessImpl">
+        <property name="hostDao" ref="hostDao"></property>
+    </bean>
+
+    <bean id="host"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.HostImpl">
+        <property name="hostBusiness" ref="hostBusiness"></property>
+    </bean>
+
+    <bean id="hostRoa" class="org.openo.nfvo.resmanagement.service.rest.HostRoa">
+        <property name="host" ref="host"></property>
+    </bean>
+
+    <!--network -->
+    <bean id="networkDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.NetworkDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="networkBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.NetworkBusinessImpl">
+        <property name="networkDao" ref="networkDao"></property>
+    </bean>
+
+    <bean id="network"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.NetworkImpl">
+        <property name="networkBusiness" ref="networkBusiness"></property>
+    </bean>
+
+    <bean id="networkRoa" class="org.openo.nfvo.resmanagement.service.rest.NetworkRoa">
+        <property name="network" ref="network"></property>
+    </bean>
+
+    <!--sites -->
+    <bean id="sitesDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.SitesDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="sitesBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.SitesBusinessImpl">
+        <property name="sitesDao" ref="sitesDao"></property>
+    </bean>
+
+    <bean id="sites"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.SitesImpl">
+        <property name="sitesBusiness" ref="sitesBusiness"></property>
+    </bean>
+
+    <bean id="sitesRoa" class="org.openo.nfvo.resmanagement.service.rest.SitesRoa">
+        <property name="sites" ref="sites"></property>
+    </bean>
+    
+    <!--vim -->
+    <bean id="vimDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.VimDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+
+    <bean id="vimBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.VimBusinessImpl">
+        <property name="vimDao" ref="vimDao"></property>
+    </bean>
+
+    <bean id="vim"
+        class="org.openo.nfvo.resmanagement.service.base.fs.impl.VimImpl">
+        <property name="vimBusiness" ref="vimBusiness"></property>
+    </bean>
+    
+    <!-- limits -->
+    <bean id="limitsBusiness"
+        class="org.openo.nfvo.resmanagement.service.business.impl.LimitsBusinessImpl">
+    </bean>
+    
+     <bean id="limitsRoa" class="org.openo.nfvo.resmanagement.service.rest.LimitsRoa">
+        <property name="limitsBusiness" ref="limitsBusiness"></property>
+    </bean>    
+    
+    <!--group_resoperate -->
+    <bean id="resOperateService"
+        class="org.openo.nfvo.resmanagement.service.group.impl.ResOperateServiceImpl">
+        <property name="host" ref="host"></property>
+        <property name="port" ref="port"></property>
+        <property name="sites" ref="sites"></property>
+        <property name="network" ref="network"></property>
+        <property name="vim" ref="vim"></property>
+        <property name="iResourceUpdateServiceImpl" ref="iResourceUpdateServiceImpl"></property>
+        <property name="iResourceAddServiceImpl" ref="iResourceAddServiceImpl"></property>
+        <property name="iResourceDelServiceImpl" ref="iResourceDelServiceImpl"></property>
+    </bean>
+
+    <bean id="iResourceUpdateServiceImpl"
+        class="org.openo.nfvo.resmanagement.service.group.impl.IResourceUpdateServiceImpl">
+    </bean>
+
+    <bean id="iResourceAddServiceImpl"
+        class="org.openo.nfvo.resmanagement.service.group.impl.IResourceAddServiceImpl">
+    </bean>
+
+    <bean id="iResourceDelServiceImpl"
+        class="org.openo.nfvo.resmanagement.service.group.impl.IResourceDelServiceImpl">
+    </bean>
+
+    <bean id="resOperateRoa" class="org.openo.nfvo.resmanagement.service.rest.ResOperateRoa">
+        <property name="resOperateService" ref="resOperateService"></property>
+    </bean>
+    
+    <jaxrs:server id="restContainer" address="/">
+        <jaxrs:serviceBeans>
+        <ref bean="locationRoa" />
+        <ref bean="portRoa" />
+        <ref bean="hostRoa" />
+        <ref bean="networkRoa" />
+        <ref bean="sitesRoa" />
+        <ref bean="resOperateRoa" />
+        <ref bean="limitsRoa" />
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider" />
+        </jaxrs:providers>
+    </jaxrs:server>
 </beans>
