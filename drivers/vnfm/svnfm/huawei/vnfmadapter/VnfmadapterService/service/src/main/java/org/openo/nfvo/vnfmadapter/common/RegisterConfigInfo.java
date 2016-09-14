@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class RegisterConfigInfo {
 
-    private static final Logger Logger = LoggerFactory.getLogger(RegisterConfigInfo.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterConfigInfo.class);
 
     private String serviceName;
 

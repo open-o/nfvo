@@ -44,7 +44,7 @@ public class DownloadCsarManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(DownloadCsarManager.class);
 
-    public static final int cache = 100 * 1024;  
+    public static final int CACHE = 100 * 1024;
 
     private DownloadCsarManager(){
         //private constructor
@@ -82,7 +82,7 @@ public class DownloadCsarManager {
             file.getParentFile().mkdirs();  
             FileOutputStream fileout = new FileOutputStream(file);  
  
-            byte[] buffer=new byte[cache];  
+            byte[] buffer = new byte[CACHE];
             int ch;  
             while ((ch = is.read(buffer)) != -1) {  
                 fileout.write(buffer,0,ch);  

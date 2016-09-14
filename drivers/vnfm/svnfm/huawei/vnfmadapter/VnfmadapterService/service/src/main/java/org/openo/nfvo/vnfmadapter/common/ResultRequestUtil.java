@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright 2016, Huawei Technologies Co., Ltd.
+/*
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,22 +12,32 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ */
+
 package org.openo.nfvo.vnfmadapter.common;
 
-import java.util.Map;
+import java.io.IOException;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 
-import net.sf.json.JSONObject;
-
-import org.openo.baseservice.roa.util.restclient.RestfulResponse;
-import org.openo.nfvo.vnfmadapter.common.servicetoken.VNFRestfulUtil;
+import org.apache.commons.httpclient.HttpMethod;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
-import org.openo.nfvo.vnfmadapter.service.vnfm.api.ConnectInfo;
-import org.openo.nfvo.vnfmadapter.service.vnfm.connect.ConnectMgrVnfm;
-import org.openo.nfvo.vnfmadapter.service.vnfm.connect.VnfmConnection;
+import org.openo.nfvo.vnfmadapter.service.csm.connect.ConnectMgrVnfm;
+import org.openo.nfvo.vnfmadapter.service.csm.connect.HttpRequests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.json.JSONObject;
+
+/**
+ * <br/>
+ * <p>
+ * </p>
+ * 
+ * @author
+ * @version NFVO 0.5 Aug 25, 2016
+ */
 public final class ResultRequestUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResultRequestUtil.class);
@@ -37,8 +47,10 @@ public final class ResultRequestUtil {
     }
 
     /**
-     * @param info
-     *            Connection info
+     * common method
+     * <br/>
+     * 
+     * @param vnfmObject
      * @param path
      *            url defined
      * @param methodName
@@ -47,37 +59,56 @@ public final class ResultRequestUtil {
      *            raw data with json format, if <code>methodName</code> is get
      *            or delete, fill it with null
      * @return
+     * @since NFVO 0.5
      */
-    public static JSONObject call(ConnectInfo info, String path, String methodName, String paramsJson) {
+    public static JSONObject call(JSONObject vnfmObject, String path, String methodName, String paramsJson) {
         JSONObject resultJson = new JSONObject();
-        if(info == null) {
-            LOG.error("function=call, msg= connection info is null.");
-            resultJson.put("retCode", Constant.REST_FAIL);
-            resultJson.put("data", "connection info is null.");
-            return resultJson;
-        }
-        VnfmConnection connect;
-        String result = null;
+
         ConnectMgrVnfm mgrVcmm = new ConnectMgrVnfm();
-        connect = mgrVcmm.getConnection(info);
-        if(connect == null) {
-            connect = new VnfmConnection(info);
-        }
-        String vnfPath = path.contains("%s") ? String.format(path, connect.gotRoaRand()) : path;
-        LOG.info("function=call, msg=url is {}.", info.getUrl() + vnfPath);
-        Map<String, String> paramsMap =
-                VNFRestfulUtil.generateParamsMap(vnfPath, methodName, info.getUrl(), info.getAuthenticateMode());
-        RestfulResponse rsp =
-                VNFRestfulUtil.getRemoteResponse(paramsMap, paramsJson, connect.gotAccessSession(), false);
-        if(rsp == null) {
-            resultJson.put("retCode", Constant.HTTP_INNERERROR);
-            resultJson.put("data", "get restful response error.");
+
+        if(Constant.HTTP_OK != mgrVcmm.connect(vnfmObject)) {
+            resultJson.put(Constant.RETCODE, Constant.HTTP_INNERERROR);
+            resultJson.put("data", "connect fail.");
             return resultJson;
         }
-        result = rsp.getResponseContent();
-        LOG.warn("function=call, msg=response status is {}.", rsp.getStatus());
-        resultJson.put("retCode", rsp.getStatus());
-        resultJson.put("data", result);
+
+        HttpMethod httpMethod = null;
+        try {
+
+            String result = null;
+            String vnfPath = path.contains("%s") ? String.format(path, mgrVcmm.getRoaRand()) : path;
+            LOG.info("function=call, msg=url is {}, session is {}", vnfmObject.getString("url") + vnfPath,
+                    mgrVcmm.getAccessSession());
+            HttpRequests.Builder builder = new HttpRequests.Builder(Constant.ANONYMOUS)
+                    .addHeader(Constant.ACCESSSESSION, mgrVcmm.getAccessSession())
+                    .setUrl(vnfmObject.getString("url"), vnfPath).setParams(paramsJson);
+            MethodType methodType = MethodType.methodType(HttpRequests.Builder.class, new Class[0]);
+            MethodHandle mt =
+                    MethodHandles.lookup().findVirtual(builder.getClass(), methodName, methodType).bindTo(builder);
+
+            builder = (HttpRequests.Builder)mt.invoke();
+            httpMethod = builder.execute();
+            result = httpMethod.getResponseBodyAsString();
+            LOG.warn("function=call, msg=response status is {}. result is {}", httpMethod.getStatusCode(), result);
+            resultJson.put(Constant.RETCODE, httpMethod.getStatusCode());
+            resultJson.put("data", result);
+        } catch(IOException e) {
+            LOG.info("function=call, msg=IOException, e is {}", e);
+        } catch(ReflectiveOperationException e) {
+            LOG.info("function=call, msg=ReflectiveOperationException, e is {}", e);
+        } catch(Throwable e) {
+            LOG.info("function=call, msg=Throwable, e is {}", e);
+        } finally {
+            if(httpMethod != null) {
+                httpMethod.releaseConnection();
+            }
+        }
+
+        if(httpMethod == null) {
+            resultJson.put(Constant.RETCODE, Constant.HTTP_INNERERROR);
+            resultJson.put("data", "get connection error");
+        }
+
         return resultJson;
     }
 }

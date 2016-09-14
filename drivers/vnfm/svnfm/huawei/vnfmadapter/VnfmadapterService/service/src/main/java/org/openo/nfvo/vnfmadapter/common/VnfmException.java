@@ -27,18 +27,46 @@ public class VnfmException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 
+     * Constructor<br>
+     * 
+     * @since  NFVO 0.5
+     */
     public VnfmException() {
         super();
     }
 
+    /**
+     * 
+     * Constructor<br>
+     * 
+     * @param message
+     * @param cause
+     * @since  NFVO 0.5
+     */
     public VnfmException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * 
+     * Constructor<br>
+     * 
+     * @param message
+     * @since  NFVO 0.5
+     */
     public VnfmException(String message) {
         super(message);
     }
 
+    /**
+     * 
+     * Constructor<br>
+     * 
+     * @param cause
+     * @since  NFVO 0.5
+     */
     public VnfmException(Throwable cause) {
         super(cause);
     }

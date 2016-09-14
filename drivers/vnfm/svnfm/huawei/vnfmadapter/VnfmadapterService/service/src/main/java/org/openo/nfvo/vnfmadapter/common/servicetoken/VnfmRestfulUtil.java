@@ -278,6 +278,17 @@ public final class VnfmRestfulUtil {
         return result;
     }
 
+    /**
+     * Make request and get HTTP response
+     * <br>
+     * 
+     * @param paramsMap Map<String, String>
+     * @param params String
+     * @param domainTokens String
+     * @param isNfvoApp boolean
+     * @return
+     * @since  NFVO 0.5
+     */
     public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens,
             boolean isNfvoApp) {
         String utilUrl = paramsMap.get("url");
@@ -331,6 +342,16 @@ public final class VnfmRestfulUtil {
         return rsp;
     }
 
+    /**
+     * Make request and get HTTP response
+     * <br>
+     * 
+     * @param url String
+     * @param methodType String
+     * @param params String
+     * @return
+     * @since  NFVO 0.5
+     */
     public static RestfulResponse getRemoteResponse(String url, String methodType, String params) {
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -361,6 +382,16 @@ public final class VnfmRestfulUtil {
         return rsp;
     }
 
+    /**
+     * Make Params map<br>
+     * 
+     * @param url String
+     * @param methodType String
+     * @param path String
+     * @param authMode String
+     * @return
+     * @since  NFVO 0.5
+     */
     public static Map<String, String> generateParamsMap(String url, String methodType, String path, String authMode) {
         Map<String, String> utilParamsMap = new HashMap<>(6);
         utilParamsMap.put("url", url);
