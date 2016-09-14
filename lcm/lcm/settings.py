@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,12 +13,15 @@
 # limitations under the License.
 
 import os
-import redis
 import sys
+
+import redis
+import redisco
+
+from lcm.pub.config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWD, DB_NAME, DB_IP, DB_USER, DB_PASSWD, DB_PORT
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -30,7 +33,6 @@ SECRET_KEY = '3o-wney!99y)^h3v)0$j16l9=fdjxcb+a8g+q3tfbahcnu2b0o'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -60,31 +62,32 @@ ROOT_URLCONF = 'lcm.urls'
 
 WSGI_APPLICATION = 'lcm.wsgi.application'
 
-
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     ),
 
     'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',
         # 'rest_framework.parsers.FormParser',
         # 'rest_framework.parsers.FileUploadParser',
     )
 }
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vmanager',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD':'password',
+        'NAME': DB_NAME,
+        'HOST': DB_IP,
+        'PORT': DB_PORT,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWD,
     },
 }
 
-redis_client = redis.StrictRedis(host='127.0.0.1', port=6379, password='', db=1)
-"""
+# redisco.connection_setup(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWD, db=0)
+# CACHE_BACKEND = 'redis_cache.cache://%s@%s:%s' % (REDIS_PASSWD, REDIS_HOST, REDIS_PORT)
 
 TIME_ZONE = 'UTC'
 
@@ -123,7 +126,6 @@ LOGGING = {
     }
 }
 
-
 if 'test' in sys.argv:
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = '6379'
@@ -134,3 +136,10 @@ if 'test' in sys.argv:
         'NAME': ':memory:',
     }
     REST_FRAMEWORK = {}
+    import platform
+
+    if platform.system() == 'Linux':
+        TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
+        TEST_OUTPUT_VERBOSE = True
+        TEST_OUTPUT_DESCRIPTIONS = True
+        TEST_OUTPUT_DIR = 'test-reports'
