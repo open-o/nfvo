@@ -70,6 +70,7 @@ public class VnfRoa {
         map.put("Active", "100");
         map.put("Stopped", "50");
         map.put("Error", "100");
+        
         progressItem = UnmodifiableMap.decorate(map);
 
         map = new HashMap<>();
