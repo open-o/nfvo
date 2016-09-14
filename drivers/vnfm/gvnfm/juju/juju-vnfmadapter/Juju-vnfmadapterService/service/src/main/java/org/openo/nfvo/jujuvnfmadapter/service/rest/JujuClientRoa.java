@@ -89,7 +89,6 @@ public class JujuClientRoa {
         JSONObject result = new JSONObject();
         result.put("retCode", Constant.REST_FAIL);
         JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
-        
         logger.debug(reqJsonObject + ":");
         return result.toString();
     }
