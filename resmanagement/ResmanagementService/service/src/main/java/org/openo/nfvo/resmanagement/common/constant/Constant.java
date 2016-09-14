@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, Huawei Technologies Co., Ltd.
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,65 +13,77 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.resmanagement.common.constant;
 
-public interface Constant {
+/**
+ * HTTP constants<br/>
+ * <p>
+ * </p>
+ * 
+ * @author
+ * @version NFVO 0.5 Aug 25, 2016
+ */
+public class Constant {
 
-    String RES_MANAGEMENT_DB = "resmanagementdb";
+    public static final String RES_MANAGEMENT_DB = "resmanagementdb";
 
     /**
      * Database Delete/Modify/Add fail.
      */
-    int ERROR_CODE = -1;
+    public static final int ERROR_CODE = -1;
 
     /**
      * Database Delete/Modify/Add success.
      */
-    int OK_CODE = 1;
+    public static final int OK_CODE = 1;
 
     /**
      * Lack of resource.
      */
-    int RES_NOT_ENOUGH_CODE = -2;
-    
+    public static final int RES_NOT_ENOUGH_CODE = -2;
+
     /**
      * Module name.
      */
-    static final String MODULE_NAME = "Resmanagement";
+    public static final String MODULE_NAME = "Resmanagement";
 
-    static final String RESPONSE_CONTENT = "responseContent";
+    public static final String RESPONSE_CONTENT = "responseContent";
 
-    static final String STATUS_CODE = "statusCode";
+    public static final String STATUS_CODE = "statusCode";
 
     /**
      * Format Time
      */
-    static final String DATE_FORMATE = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_FORMATE = "yyyy-MM-dd HH:mm:ss";
 
-    static final String DATE_UTC_FORMATE = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String DATE_UTC_FORMATE = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
-    static final String UTC_FORMATE = "UTC";
+    public static final String UTC_FORMATE = "UTC";
 
-    static final String DATE_DAY_FORMATE = "yyyy-MM-dd 00:00:00";
+    public static final String DATE_DAY_FORMATE = "yyyy-MM-dd 00:00:00";
 
     /**
      * IAM
      */
 
-    String HTTP_CONTENT_TYPE = "Content-Type";
+    public static final String HTTP_CONTENT_TYPE = "Content-Type";
 
-    String HTTP_CONTENT_TYPE_VALUE = "application/json;charset=UTF-8";
+    public static final String HTTP_CONTENT_TYPE_VALUE = "application/json;charset=UTF-8";
 
-    static final String X_TENANT_ID = "X-Tenant-Id";
+    public static final String X_TENANT_ID = "X-Tenant-Id";
 
-    String IAM_TOKEN = "x-auth-token";
+    public static final String IAM_TOKEN = "x-auth-token";
 
-    String IAM_USER_ID = "X-User-Id";
+    public static final String IAM_USER_ID = "X-User-Id";
 
-    String IAM_USER_NAME = "X-User-Name";
+    public static final String IAM_USER_NAME = "X-User-Name";
 
-    String IAM_DOMAIN_NAME = "X-Domain-Name";
+    public static final String IAM_DOMAIN_NAME = "X-Domain-Name";
 
-    String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
+    public static final String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
 
+    private Constant() {
+        //private constants
+    }
 }
