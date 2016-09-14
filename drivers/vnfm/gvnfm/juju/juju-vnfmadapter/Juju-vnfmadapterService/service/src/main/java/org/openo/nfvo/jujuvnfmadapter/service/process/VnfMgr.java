@@ -42,7 +42,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function for instantiate or terminate VNF
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
