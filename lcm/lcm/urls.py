@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,13 @@
 # limitations under the License.
 
 from django.conf.urls import include, url
+
 urlpatterns = [
     url(r'^', include('lcm.samples.urls')),
+    url(r'^', include('lcm.packages.urls')),
+    url(r'^', include('lcm.ns.vnfs.urls')),
+    url(r'^', include('lcm.ns.vls.urls')),
+    url(r'^', include('lcm.ns.sfcs.urls')),
+    url(r'^', include('lcm.ns.urls')),
+    url(r'^', include('lcm.jobs.urls')),
 ]

@@ -1,35 +1,41 @@
 # Copyright 2016 [ZTE] and others.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import unittest
+import logging
 import json
-from django.test import Client
-from rest_framework import status
+
+from lcm.pub.utils.restcall import req_by_msb
+from lcm.pub.msapi import resmgr
+
+from lcm.pub.exceptions import NSLCMException
 
 
-class SampleViewTest(unittest.TestCase):
-    def setUp(self):
-        self.client = Client()
-    
-    def tearDown(self):
-        pass
-    
-    def test_sample(self):
-        pass
-        """
-        response = self.client.get("/samples/")
-        self.assertEqual(status.HTTP_200_OK, response.status_code, response.content)
-        resp_data = json.loads(response.content)
-        self.assertEqual([{"id": "1"}, {"id": "2"}], resp_data)
-        """
+logger = logging.getLogger(__name__)
+
+
+
+class GrantVnfs(object):
+    def __init__(self, data, job_id):
+        self.job_id = job_id
+        self.vnfm_inst_id = ''
+        self.vnf_uuid = ''
+        self.vnfm_job_id = ''
+        self.data = data
+
+    def send_grant_vnf_to_resMgr(self):
+        req_param = self.data
+        resmgr.grant_vnf(req_param)
+
+
+
