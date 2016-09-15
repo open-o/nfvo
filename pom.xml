@@ -37,6 +37,7 @@
         <module>drivers/vnfm/svnfm/etsi-ia</module>
 		<module>drivers/vnfm/gvnfm/juju/juju-vnfmadapter</module>
         <module>drivers/vnfm/svnfm/huawei/vnfmadapter</module>
+		<module>drivers/vim/vimadapter</module>
         <module>drivers/sdnc/zte/sfc-driver</module>
     </modules>
 
