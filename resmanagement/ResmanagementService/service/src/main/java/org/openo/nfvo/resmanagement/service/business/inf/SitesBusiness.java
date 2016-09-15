@@ -26,7 +26,7 @@ import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
  * DC info interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -34,7 +34,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to get Site info.<br/>
-     * 
+     *
      * @param id
      * @return The get result
      * @throws ServiceException When get failed.
@@ -44,7 +44,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to get Sites info.<br/>
-     * 
+     *
      * @param condition
      * @return The get result
      * @since NFVO 0.5
@@ -53,7 +53,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to delete Site info.<br/>
-     * 
+     *
      * @param id
      * @return The delete result
      * @throws ServiceException When delete failed.
@@ -63,7 +63,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to add Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The add result
      * @throws ServiceException When add failed.
@@ -73,7 +73,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to add Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The add result
      * @throws ServiceException When add failed.
@@ -83,7 +83,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to update Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The update result
      * @throws ServiceException When update failed.
@@ -93,7 +93,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to create update Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The update result
      * @throws ServiceException When update failed.
@@ -103,7 +103,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to update Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The update result
      * @throws ServiceException When update failed.
@@ -113,7 +113,7 @@ public interface SitesBusiness {
 
     /**
      * It is used to update Site info.<br/>
-     * 
+     *
      * @param sitesEntity
      * @return The update result
      * @throws ServiceException When update failed.

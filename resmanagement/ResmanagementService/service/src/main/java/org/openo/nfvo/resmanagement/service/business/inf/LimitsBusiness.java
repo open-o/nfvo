@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  * <br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 10, 2016
  */
@@ -32,7 +32,7 @@ public interface LimitsBusiness {
 
     /**
      * <br>
-     * 
+     *
      * @param paramJson
      * @return
      * @throws ServiceException
@@ -42,7 +42,7 @@ public interface LimitsBusiness {
 
     /**
      * <br>
-     * 
+     *
      * @param paramJson
      * @return
      * @since NFVO 0.5

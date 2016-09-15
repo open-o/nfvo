@@ -50,7 +50,7 @@ import net.sf.json.JSONObject;
  * Sites ROA method<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -65,7 +65,7 @@ public class SitesRoa {
 
     /**
      * getSites ROA method<br/>
-     * 
+     *
      * @param context
      * @return the get result
      * @throws ServiceException When get failed.
@@ -83,7 +83,7 @@ public class SitesRoa {
 
     /**
      * getSite ROA method<br/>
-     * 
+     *
      * @param context
      * @param id
      * @return the get result
@@ -106,7 +106,7 @@ public class SitesRoa {
 
     /**
      * addSites ROA method<br/>
-     * 
+     *
      * @param context
      * @param id
      * @return the add result
@@ -129,7 +129,7 @@ public class SitesRoa {
 
     /**
      * deleteSites ROA method<br/>
-     * 
+     *
      * @param context
      * @param id
      * @return the delete result
@@ -152,7 +152,7 @@ public class SitesRoa {
 
     /**
      * updateSites ROA method<br/>
-     * 
+     *
      * @param context
      * @param id
      * @return the update result

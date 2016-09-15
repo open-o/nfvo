@@ -33,11 +33,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * iResource update service implementation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -46,9 +46,9 @@ public class IResourceUpdateServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(IResourceUpdateServiceImpl.class);
 
     /**
-     * 
+     *
      * Update iResource.<br>
-     * 
+     *
      * @param vimId
      * @param restParametes
      * @param iResMap

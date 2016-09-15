@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
  * Virtualised Infrastructure Manager.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -36,7 +36,7 @@ public interface Vim extends ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException
@@ -46,7 +46,7 @@ public interface Vim extends ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @return
      * @throws ServiceException
      * @since NFVO 0.5
@@ -54,9 +54,9 @@ public interface Vim extends ResManagement {
     List<VimEntity> getList() throws ServiceException;
 
     /**
-     * 
+     *
      * Get VIM information.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -66,7 +66,7 @@ public interface Vim extends ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param vimId
      * @return
      * @throws ServiceException

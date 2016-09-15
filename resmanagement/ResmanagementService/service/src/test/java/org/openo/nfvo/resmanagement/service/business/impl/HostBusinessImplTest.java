@@ -27,66 +27,66 @@ import mockit.MockUp;
 
 public class HostBusinessImplTest {
 
-	@Test
-	public void testGetHost() {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		assertTrue(hostBussinessImp.getHost("") == null);
-	}
+    @Test
+    public void testGetHost() {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        assertTrue(hostBussinessImp.getHost("") == null);
+    }
 
-	@Test
-	public void testGetHostBranch() {
-		new MockUp<HostDaoImpl>() {
+    @Test
+    public void testGetHostBranch() {
+        new MockUp<HostDaoImpl>() {
 
-			@Mock
-			public HostEntity getHost(String id) {
-				return new HostEntity();
-			}
+            @Mock
+            public HostEntity getHost(String id) {
+                return new HostEntity();
+            }
 
-		};
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.setHostDao(new HostDaoImpl());
-		assertTrue(hostBussinessImp.getHost("id") != null);
-	}
+        };
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.setHostDao(new HostDaoImpl());
+        assertTrue(hostBussinessImp.getHost("id") != null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDelete() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.deleteHost("");
-	}
+    @Test(expected = ServiceException.class)
+    public void testDelete() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.deleteHost("");
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateHost() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.updateHost(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testUpdateHost() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.updateHost(null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDeleteHostByVimId() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.deleteHostByVimId("");
-	}
+    @Test(expected = ServiceException.class)
+    public void testDeleteHostByVimId() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.deleteHostByVimId("");
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateHostByVimId() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.updateHostByVimId(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testUpdateHostByVimId() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.updateHostByVimId(null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateHostSelective() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.updateHostSelective(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testUpdateHostSelective() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.updateHostSelective(null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddHost() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.addHost(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddHost() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.addHost(null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddHostSelective() throws ServiceException {
-		HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-		hostBussinessImp.addHostSelective(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddHostSelective() throws ServiceException {
+        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
+        hostBussinessImp.addHostSelective(null);
+    }
 }

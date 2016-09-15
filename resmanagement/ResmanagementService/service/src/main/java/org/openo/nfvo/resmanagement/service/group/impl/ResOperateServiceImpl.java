@@ -41,11 +41,11 @@ import org.springframework.transaction.annotation.Transactional;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Resource operation service implementation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -177,9 +177,9 @@ public class ResOperateServiceImpl implements ResOperateService {
     }
 
     /**
-     * 
+     *
      * Set iResource Add service implemtation.<br>
-     * 
+     *
      * @param iResourceAddServiceImpl
      * @since  NFVO 0.5
      */
@@ -188,9 +188,9 @@ public class ResOperateServiceImpl implements ResOperateService {
     }
 
     /**
-     * 
+     *
      * Set iResource update service implementation.<br>
-     * 
+     *
      * @param iResourceUpdateServiceImpl
      * @since  NFVO 0.5
      */
@@ -199,9 +199,9 @@ public class ResOperateServiceImpl implements ResOperateService {
     }
 
     /**
-     * 
+     *
      * Set iresource delete service implementation.<br>
-     * 
+     *
      * @param iResourceDelServiceImpl
      * @since  NFVO 0.5
      */

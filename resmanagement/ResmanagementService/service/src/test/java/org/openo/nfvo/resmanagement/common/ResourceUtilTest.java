@@ -22,12 +22,12 @@ import org.junit.Test;
 
 public class ResourceUtilTest {
 
-	@Test
-	public void testGetMessage() {
-		String key = "huawei";
-		String result = ResourceUtil.getMessage(key);
-		String expectedResult = "huawei";
-		assertEquals(expectedResult, result);
-	}
+    @Test
+    public void testGetMessage() {
+        String key = "huawei";
+        String result = ResourceUtil.getMessage(key);
+        String expectedResult = "huawei";
+        assertEquals(expectedResult, result);
+    }
 
 }

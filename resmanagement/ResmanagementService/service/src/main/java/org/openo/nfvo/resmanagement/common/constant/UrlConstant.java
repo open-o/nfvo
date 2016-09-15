@@ -21,7 +21,7 @@ package org.openo.nfvo.resmanagement.common.constant;
  * <p>
  * Constant for REST URL.
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016-3-17
  */
@@ -226,7 +226,7 @@ public class UrlConstant {
      * respool url.
      */
     public static final String RESOPERATE_URL = "/openoapi/resmgr/v1/resoperate";
-    
+
     /**
      * limits url.
      */

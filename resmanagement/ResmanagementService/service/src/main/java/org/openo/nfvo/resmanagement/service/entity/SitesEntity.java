@@ -23,11 +23,11 @@ import org.openo.nfvo.resmanagement.common.util.StringUtil;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Sites entity class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -200,9 +200,9 @@ public class SitesEntity {
     }
 
     /**
-     * 
+     *
      * To Entity.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @since  NFVO 0.5
@@ -246,9 +246,9 @@ public class SitesEntity {
     }
 
     /**
-     * 
+     *
      * Check whther the resource is zero.<br>
-     * 
+     *
      * @param siteEntity
      * @return
      * @since  NFVO 0.5
@@ -265,9 +265,9 @@ public class SitesEntity {
     }
 
     /**
-     * 
+     *
      * Check resource.<br>
-     * 
+     *
      * @param siteEntity
      * @return
      * @since  NFVO 0.5
@@ -291,9 +291,9 @@ public class SitesEntity {
     }
 
     /**
-     * 
+     *
      * Format data.<br>
-     * 
+     *
      * @param siteEntity
      * @since  NFVO 0.5
      */

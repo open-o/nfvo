@@ -26,11 +26,11 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Response utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -41,7 +41,7 @@ public final class ResponseUtil {
 
     /**
      * Roa request common return function, default return code 200 <br/>
-     * 
+     *
      * @param retCode
      *         The request return code
      * @param msg
@@ -55,7 +55,7 @@ public final class ResponseUtil {
 
     /**
      * Roa request common return function, default return code 200<br/>
-     * 
+     *
      * @param retCode
      *         The request return code
      * @param msg
@@ -71,7 +71,7 @@ public final class ResponseUtil {
 
     /**
      * Roa request common return method <br/>
-     * 
+     *
      * @param context
      *         The http request context
      * @param httpStatusCode
@@ -88,9 +88,9 @@ public final class ResponseUtil {
     }
 
     /**
-     * 
+     *
      * Roa request common return method.<br>
-     * 
+     *
      * @param context, The http request context
      * @param codeMap
      * @param msg, The message of request
@@ -116,7 +116,7 @@ public final class ResponseUtil {
     /**
      * Create code map to maintenance the relationship between return code and
      * http status code <br/>
-     * 
+     *
      * @param httpStatusCode
      *         The http response code
      * @param retCode

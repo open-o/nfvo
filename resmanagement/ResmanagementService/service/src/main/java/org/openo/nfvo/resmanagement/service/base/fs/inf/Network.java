@@ -25,20 +25,20 @@ import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Network class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface Network extends InterfaceResManagement {
 
     /**
-     * 
+     *
      * Update status by VIM Id.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @throws ServiceException
@@ -47,9 +47,9 @@ public interface Network extends InterfaceResManagement {
     int updateStatusByVimId(JSONObject jsonObject) throws ServiceException;
 
     /**
-     * 
+     *
      * Get list of networks.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -59,7 +59,7 @@ public interface Network extends InterfaceResManagement {
 
     /**
      * <br>
-     * 
+     *
      * @param entity
      * @return
      * @since NFVO 0.5

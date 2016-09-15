@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
  * Host entity class.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */
@@ -144,9 +144,9 @@ public class HostEntity {
     }
 
     /**
-     * 
+     *
      * To entity.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @since  NFVO 0.5

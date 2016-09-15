@@ -25,11 +25,11 @@ import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 import org.openo.nfvo.resmanagement.service.mapper.LocationMapper;
 
 /**
- * 
+ *
  * Location DAO implemetation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */

@@ -33,145 +33,145 @@ import mockit.MockUp;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016年8月18日
  */
 public class VimBusinessImplTest {
 
-	@Test
-	public void testGetVimIdIsNull() {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		VimEntity result = vimBusinessImpl.getVim(null);
-		VimEntity expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+    @Test
+    public void testGetVimIdIsNull() {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        VimEntity result = vimBusinessImpl.getVim(null);
+        VimEntity expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testGetVim() {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		VimEntity vimEntity = new VimEntity();
-		vimEntity.setId("123");
-		new MockUp<VimDaoImpl>() {
+    @Test
+    public void testGetVim() {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        VimEntity vimEntity = new VimEntity();
+        vimEntity.setId("123");
+        new MockUp<VimDaoImpl>() {
 
-			@Mock
-			public VimEntity getVim(String id) {
-				VimEntity vimEntity = new VimEntity();
-				vimEntity.setId("123");
-				return vimEntity;
-			}
-		};
-		VimEntity result = vimBusinessImpl.getVim("id");
-		VimEntity expectedResult = vimEntity;
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public VimEntity getVim(String id) {
+                VimEntity vimEntity = new VimEntity();
+                vimEntity.setId("123");
+                return vimEntity;
+            }
+        };
+        VimEntity result = vimBusinessImpl.getVim("id");
+        VimEntity expectedResult = vimEntity;
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testGetVims() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		new MockUp<VimDaoImpl>() {
+    @Test
+    public void testGetVims() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        new MockUp<VimDaoImpl>() {
 
-			@Mock
-			public List<VimEntity> getVims() {
-				return null;
-			}
-		};
-		List<VimEntity> result = vimBusinessImpl.getVims();
-		List<VimEntity> expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public List<VimEntity> getVims() {
+                return null;
+            }
+        };
+        List<VimEntity> result = vimBusinessImpl.getVims();
+        List<VimEntity> expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testDeleteVimEmpty() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		try {
-			vimBusinessImpl.deleteVim("");
-		} catch (ServiceException e) {
-			assertTrue(true);
-		}
-	}
+    @Test
+    public void testDeleteVimEmpty() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        try {
+            vimBusinessImpl.deleteVim("");
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
 
-	@Test
-	public void testDeleteVim() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		new MockUp<VimDaoImpl>() {
+    @Test
+    public void testDeleteVim() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        new MockUp<VimDaoImpl>() {
 
-			@Mock
-			public int deleteVim(String id) {
-				return 1;
-			}
-		};
-		int result = vimBusinessImpl.deleteVim("xian");
-		int expectedResult = 1;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public int deleteVim(String id) {
+                return 1;
+            }
+        };
+        int result = vimBusinessImpl.deleteVim("xian");
+        int expectedResult = 1;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testAddVimExceptions() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		try {
-			vimBusinessImpl.addVim(null);
-		} catch (ServiceException e) {
-			assertTrue(true);
-		}
-	}
+    @Test
+    public void testAddVimExceptions() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        try {
+            vimBusinessImpl.addVim(null);
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
 
-	@Test
-	public void testAddVimExceptions1() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		new MockUp<VimDaoImpl>() {
+    @Test
+    public void testAddVimExceptions1() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        new MockUp<VimDaoImpl>() {
 
-			@Mock
-			public VimEntity getVim(String id) {
-				return new VimEntity();
-			}
-		};
-		try {
-			vimBusinessImpl.addVim("id");
-		} catch (ServiceException e) {
-			assertTrue(true);
-		}
-	}
+            @Mock
+            public VimEntity getVim(String id) {
+                return new VimEntity();
+            }
+        };
+        try {
+            vimBusinessImpl.addVim("id");
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
 
-	@Test
-	public void testAddVimExceptions2() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		VimEntity vimEntity = new VimEntity();
-		vimEntity.setId("123");
-		try {
-			vimBusinessImpl.addVim("");
-		} catch (ServiceException e) {
-			assertTrue(true);
-		}
-	}
+    @Test
+    public void testAddVimExceptions2() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        VimEntity vimEntity = new VimEntity();
+        vimEntity.setId("123");
+        try {
+            vimBusinessImpl.addVim("");
+        } catch (ServiceException e) {
+            assertTrue(true);
+        }
+    }
 
-	@Test
-	public void testAddVim() throws ServiceException {
-		VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
-		vimBusinessImpl.setVimDao(new VimDaoImpl());
-		new MockUp<VimDaoImpl>() {
+    @Test
+    public void testAddVim() throws ServiceException {
+        VimBusinessImpl vimBusinessImpl = new VimBusinessImpl();
+        vimBusinessImpl.setVimDao(new VimDaoImpl());
+        new MockUp<VimDaoImpl>() {
 
-			@Mock
-			public VimEntity getVim(String id) {
-				return null;
-			}
+            @Mock
+            public VimEntity getVim(String id) {
+                return null;
+            }
 
-			@Mock
-			public int addVim(VimEntity vimEntity) {
-				return 1;
-			}
-		};
-		int result = vimBusinessImpl.addVim("123");
-		int expectedResult = 1;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public int addVim(VimEntity vimEntity) {
+                return 1;
+            }
+        };
+        int result = vimBusinessImpl.addVim("123");
+        int expectedResult = 1;
+        assertEquals(expectedResult, result);
+    }
 
 }

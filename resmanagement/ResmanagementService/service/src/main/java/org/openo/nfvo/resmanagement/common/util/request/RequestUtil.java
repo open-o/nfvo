@@ -36,7 +36,7 @@ import net.sf.json.JSONObject;
  * <p>
  * Utility used for request
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016-3-17
  */
@@ -48,7 +48,7 @@ public final class RequestUtil {
      * Constructor<br/>
      * <p>
      * </p>
-     * 
+     *
      * @since NFVO 0.5
      */
     private RequestUtil() {
@@ -56,7 +56,7 @@ public final class RequestUtil {
 
     /**
      * Get context string from http context
-     * 
+     *
      * @param context
      *         http context
      * @return the needed string in http context
@@ -73,7 +73,7 @@ public final class RequestUtil {
 
     /**
      * Get json parameter from http context
-     * 
+     *
      * @param context
      *         http context
      * @return JSONObject
@@ -90,7 +90,7 @@ public final class RequestUtil {
 
     /**
      * Get the body of all request in json format<br/>
-     * 
+     *
      * @param context
      *         The http context
      * @return JSONObject The body of all request in json format
@@ -109,7 +109,7 @@ public final class RequestUtil {
 
     /**
      * Get the context header<br/>
-     * 
+     *
      * @param context
      *         The http context
      * @return Map context header

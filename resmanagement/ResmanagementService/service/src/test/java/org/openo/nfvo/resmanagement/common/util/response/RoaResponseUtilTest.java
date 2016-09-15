@@ -28,108 +28,108 @@ import net.sf.json.JSONObject;
 
 public class RoaResponseUtilTest {
 
-	@Test
-	public void testGet() {
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testGet() {
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg, Map<String, Object> map) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.get(null);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg, Map<String, Object> map) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.get(null);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testAdd() {
-		int a = 0;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testAdd() {
+        int a = 0;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.add(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.add(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testAdd1() {
-		int a = 2;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testAdd1() {
+        int a = 2;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.add(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.add(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testUpdate() {
-		int a = 0;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testUpdate() {
+        int a = 0;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.update(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.update(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testUpdate1() {
-		int a = 2;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testUpdate1() {
+        int a = 2;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.update(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.update(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testDelete() {
-		int a = -1;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testDelete() {
+        int a = -1;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.delete(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.delete(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testDelete1() {
-		int a = 0;
-		new MockUp<ResponseUtil>() {
+    @Test
+    public void testDelete1() {
+        int a = 0;
+        new MockUp<ResponseUtil>() {
 
-			@Mock
-			public JSONObject genHttpResponse(int retCode, String msg) {
-				return null;
-			}
-		};
-		JSONObject result = RoaResponseUtil.delete(a);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject genHttpResponse(int retCode, String msg) {
+                return null;
+            }
+        };
+        JSONObject result = RoaResponseUtil.delete(a);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
 }

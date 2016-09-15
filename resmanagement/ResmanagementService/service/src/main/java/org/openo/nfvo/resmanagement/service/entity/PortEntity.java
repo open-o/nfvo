@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
  * Port Entity Class.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */
@@ -144,9 +144,9 @@ public class PortEntity {
     }
 
     /**
-     * 
+     *
      * To Entity.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @since  NFVO 0.5

@@ -23,20 +23,20 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 
 /**
- * 
+ *
  * Location Business Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface LocationBusiness {
 
     /**
-     * 
+     *
      * Get Location.<br>
-     * 
+     *
      * @param location
      * @return
      * @throws ServiceException
@@ -45,9 +45,9 @@ public interface LocationBusiness {
     LocationEntity getLocation(String location) throws ServiceException;
 
     /**
-     * 
+     *
      * Get Locations.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -56,9 +56,9 @@ public interface LocationBusiness {
     List<LocationEntity> getLocations(Map<String, Object> condition) throws ServiceException;
 
     /**
-     * 
+     *
      * Delete Location.<br>
-     * 
+     *
      * @param location
      * @return
      * @throws ServiceException
@@ -67,9 +67,9 @@ public interface LocationBusiness {
     int deleteLocation(String location) throws ServiceException;
 
     /**
-     * 
+     *
      * Add Location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException
@@ -78,9 +78,9 @@ public interface LocationBusiness {
     int addLocation(LocationEntity locationEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Add Selective Location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException
@@ -89,9 +89,9 @@ public interface LocationBusiness {
     int addLocationSelective(LocationEntity locationEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update Selective Location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException
@@ -100,9 +100,9 @@ public interface LocationBusiness {
     int updateLocationSelective(LocationEntity locationEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update Location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException
@@ -111,9 +111,9 @@ public interface LocationBusiness {
     int updateLocation(LocationEntity locationEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Get Country.<br>
-     * 
+     *
      * @return
      * @throws ServiceException
      * @since  NFVO 0.5
@@ -121,9 +121,9 @@ public interface LocationBusiness {
     List<String> getCountry() throws ServiceException;
 
     /**
-     * 
+     *
      * Get Location By Country.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException

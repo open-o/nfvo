@@ -25,18 +25,18 @@ import net.sf.json.JSONObject;
 
 public class VimEntityTest {
 
-	private VimEntity vimEntity;
+    private VimEntity vimEntity;
 
-	@Before
-	public void setUp() {
-		vimEntity = new VimEntity();
-	}
+    @Before
+    public void setUp() {
+        vimEntity = new VimEntity();
+    }
 
-	@Test
-	public void testSitesEntity() {
-		vimEntity.setId("id");
-		vimEntity.setName("name");
-		assertTrue(vimEntity.toString() != null);
-		assertTrue(VimEntity.toEntity(new JSONObject()) != null);
-	}
+    @Test
+    public void testSitesEntity() {
+        vimEntity.setId("id");
+        vimEntity.setName("name");
+        assertTrue(vimEntity.toString() != null);
+        assertTrue(VimEntity.toEntity(new JSONObject()) != null);
+    }
 }

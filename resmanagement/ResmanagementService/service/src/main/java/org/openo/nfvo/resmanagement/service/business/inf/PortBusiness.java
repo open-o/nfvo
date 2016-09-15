@@ -26,16 +26,16 @@ import org.openo.nfvo.resmanagement.service.entity.PortEntity;
  * Port Buisiness Class.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */
 public interface PortBusiness {
 
     /**
-     * 
+     *
      * Get Port.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -43,9 +43,9 @@ public interface PortBusiness {
     PortEntity getPort(String id);
 
     /**
-     * 
+     *
      * Get details of ports.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -53,9 +53,9 @@ public interface PortBusiness {
     List<PortEntity> getPorts(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete Port.<br>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException
@@ -64,9 +64,9 @@ public interface PortBusiness {
     int deletePort(String id) throws ServiceException;
 
     /**
-     * 
+     *
      * Delete port by VIM ID.<br>
-     * 
+     *
      * @param vimId
      * @return
      * @throws ServiceException
@@ -75,9 +75,9 @@ public interface PortBusiness {
     int deletePortByVimId(String vimId) throws ServiceException;
 
     /**
-     * 
+     *
      * Add port.<br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException
@@ -86,9 +86,9 @@ public interface PortBusiness {
     int addPort(PortEntity portEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Add selective port.<br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException
@@ -97,9 +97,9 @@ public interface PortBusiness {
     int addPortSelective(PortEntity portEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update selective port.<br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException
@@ -108,9 +108,9 @@ public interface PortBusiness {
     int updatePortSelective(PortEntity portEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update port.<br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException
@@ -119,9 +119,9 @@ public interface PortBusiness {
     int updatePort(PortEntity portEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update port by VIM Id.<br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException

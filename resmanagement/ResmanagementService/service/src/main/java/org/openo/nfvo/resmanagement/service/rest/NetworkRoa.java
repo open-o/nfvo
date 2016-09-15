@@ -48,11 +48,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Network ROA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -66,9 +66,9 @@ public class NetworkRoa {
     private Network network;
 
     /**
-     * 
+     *
      * Get details of networks.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -85,9 +85,9 @@ public class NetworkRoa {
     }
 
     /**
-     * 
+     *
      * Get network details.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -109,9 +109,9 @@ public class NetworkRoa {
     }
 
     /**
-     * 
+     *
      * Add network.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -134,9 +134,9 @@ public class NetworkRoa {
     }
 
     /**
-     * 
+     *
      * Delete network.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -159,9 +159,9 @@ public class NetworkRoa {
     }
 
     /**
-     * 
+     *
      * Update network.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException

@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
  * <p>
  * Utility for generate Roa get/add/update/delete method status
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016-3-17
  */
@@ -47,7 +47,7 @@ public final class RoaResponseUtil {
 
     /**
      * Generate get method response<br/>
-     * 
+     *
      * @param list
      *            The basic response for get method
      * @return JSONObject The response for http request
@@ -62,7 +62,7 @@ public final class RoaResponseUtil {
 
     /**
      * Generate different response by different parameter for add method <br/>
-     * 
+     *
      * @param result
      *            The result
      * @return JSONObject
@@ -79,7 +79,7 @@ public final class RoaResponseUtil {
 
     /**
      * Generate different response by different parameter for update method <br/>
-     * 
+     *
      * @param result
      *            The result
      * @return JSONObject The response for http request
@@ -96,7 +96,7 @@ public final class RoaResponseUtil {
 
     /**
      * Generate different response by different parameter for delete method <br/>
-     * 
+     *
      * @param result
      *            The result
      * @return delete JSONObject of the response for http request

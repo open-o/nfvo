@@ -22,20 +22,20 @@ import java.util.Map;
 import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 
 /**
- * 
+ *
  * Location DAO Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface LocationDao {
 
     /**
-     * 
+     *
      * Get Location.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -43,9 +43,9 @@ public interface LocationDao {
     LocationEntity getLocation(String id);
 
     /**
-     * 
+     *
      * Get Locations.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -53,9 +53,9 @@ public interface LocationDao {
     List<LocationEntity> getLocations(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete Location.<br>
-     * 
+     *
      * @param location
      * @return
      * @since  NFVO 0.5
@@ -63,9 +63,9 @@ public interface LocationDao {
     int deleteLocation(String location);
 
     /**
-     * 
+     *
      * Add Location.<br>
-     * 
+     *
      * @param sodoResEntity
      * @return
      * @since  NFVO 0.5
@@ -73,9 +73,9 @@ public interface LocationDao {
     int addLocation(LocationEntity sodoResEntity);
 
     /**
-     * 
+     *
      * Add Selective Location.<br>
-     * 
+     *
      * @param sodoResEntity
      * @return
      * @since  NFVO 0.5
@@ -83,9 +83,9 @@ public interface LocationDao {
     int addLocationSelective(LocationEntity sodoResEntity);
 
     /**
-     * 
+     *
      * Update selective location.<br>
-     * 
+     *
      * @param sodoResEntity
      * @return
      * @since  NFVO 0.5
@@ -93,9 +93,9 @@ public interface LocationDao {
     int updateLocationSelective(LocationEntity sodoResEntity);
 
     /**
-     * 
+     *
      * Update Location.<br>
-     * 
+     *
      * @param sodoResEntity
      * @return
      * @since  NFVO 0.5
@@ -103,18 +103,18 @@ public interface LocationDao {
     int updateLocation(LocationEntity sodoResEntity);
 
     /**
-     * 
+     *
      * Get Country.<br>
-     * 
+     *
      * @return
      * @since  NFVO 0.5
      */
     List<String> getCountry();
 
     /**
-     * 
+     *
      * Get Location by Country.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5

@@ -25,7 +25,7 @@ import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
  * ResPool info interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -33,7 +33,7 @@ public interface SitesMapper {
 
     /**
      * It is used to get Sites info.<br/>
-     * 
+     *
      * @param id
      * @return The get result
      * @since NFVO 0.5
@@ -41,9 +41,9 @@ public interface SitesMapper {
     SitesEntity getSite(String id);
 
     /**
-     * 
+     *
      * It is used to get Sites info.<br>
-     * 
+     *
      * @param map
      * @return
      * @since  NFVO 0.5
@@ -52,7 +52,7 @@ public interface SitesMapper {
 
     /**
      * It is used to get Sites info.<br/>
-     * 
+     *
      * @param id
      * @return The get result
      * @since NFVO 0.5
@@ -60,9 +60,9 @@ public interface SitesMapper {
     int deleteSite(String id);
 
     /**
-     * 
+     *
      * It is used to delete Site info.<br>
-     * 
+     *
      * @param entity
      * @return
      * @since  NFVO 0.5
@@ -70,9 +70,9 @@ public interface SitesMapper {
     int addSite(SitesEntity entity);
 
     /**
-     * 
+     *
      * It is used to add Sites info.<br>
-     * 
+     *
      * @param entity
      * @return
      * @since  NFVO 0.5
@@ -80,9 +80,9 @@ public interface SitesMapper {
     int addSiteSelective(SitesEntity entity);
 
     /**
-     * 
+     *
      * It is used to add Site info.<br>
-     * 
+     *
      * @param entity
      * @return
      * @since  NFVO 0.5
@@ -90,9 +90,9 @@ public interface SitesMapper {
     int updateSiteSelective(SitesEntity entity);
 
     /**
-     * 
+     *
      * It is used to update Sites info.<br>
-     * 
+     *
      * @param entity
      * @return
      * @since  NFVO 0.5
@@ -100,9 +100,9 @@ public interface SitesMapper {
     int updateSite(SitesEntity entity);
 
     /**
-     * 
+     *
      * It is used to update Site info.<br>
-     * 
+     *
      * @param entity
      * @return
      * @since  NFVO 0.5

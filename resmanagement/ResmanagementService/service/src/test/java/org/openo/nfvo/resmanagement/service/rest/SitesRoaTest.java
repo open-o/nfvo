@@ -34,149 +34,149 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016年8月16日
  */
 public class SitesRoaTest {
 
-	private SitesRoa sitesRoa;
+    private SitesRoa sitesRoa;
 
-	@Before
-	public void setUp() {
-		sitesRoa = new SitesRoa();
-		sitesRoa.setSites(new SitesImpl());
-	}
+    @Before
+    public void setUp() {
+        sitesRoa = new SitesRoa();
+        sitesRoa.setSites(new SitesImpl());
+    }
 
-	@Test
-	public void testAddSites() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testAddSites() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int add(JSONObject jsonObject) throws ServiceException {
-				return 1;
-			}
-		};
-		JSONObject result = sitesRoa.addSites(null);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "org.openo.nfvo.resmanage.common.add.success");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int add(JSONObject jsonObject) throws ServiceException {
+                return 1;
+            }
+        };
+        JSONObject result = sitesRoa.addSites(null);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "org.openo.nfvo.resmanage.common.add.success");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testAddSitesExceptions() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testAddSitesExceptions() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int add(JSONObject jsonObject) throws ServiceException {
-				throw new ServiceException();
-			}
-		};
-		JSONObject result = sitesRoa.addSites(null);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int add(JSONObject jsonObject) throws ServiceException {
+                throw new ServiceException();
+            }
+        };
+        JSONObject result = sitesRoa.addSites(null);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testDeleteSites() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testDeleteSites() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int delete(String id) throws ServiceException {
-				return 1;
-			}
-		};
-		JSONObject result = sitesRoa.deleteSites(null, "123");
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "org.openo.nfvo.resmanage.common.del.success");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int delete(String id) throws ServiceException {
+                return 1;
+            }
+        };
+        JSONObject result = sitesRoa.deleteSites(null, "123");
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "org.openo.nfvo.resmanage.common.del.success");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testDeleteSitesExceptions() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testDeleteSitesExceptions() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int delete(String id) throws ServiceException {
-				throw new ServiceException();
-			}
-		};
-		JSONObject result = sitesRoa.deleteSites(null, "123");
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int delete(String id) throws ServiceException {
+                throw new ServiceException();
+            }
+        };
+        JSONObject result = sitesRoa.deleteSites(null, "123");
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testUpdateSites() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testUpdateSites() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int update(JSONObject jsonObject) throws ServiceException {
-				return 1;
-			}
-		};
-		JSONObject result = sitesRoa.updateSites(null);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "org.openo.nfvo.resmanage.common.update.success");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int update(JSONObject jsonObject) throws ServiceException {
+                return 1;
+            }
+        };
+        JSONObject result = sitesRoa.updateSites(null);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "org.openo.nfvo.resmanage.common.update.success");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 
-	@Test
-	public void testUpdateISitesExceptions() throws ServiceException {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testUpdateISitesExceptions() throws ServiceException {
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
-				return new JSONObject();
-			}
-		};
-		new MockUp<SitesImpl>() {
+            @Mock
+            public JSONObject getAllJsonRequestBody(HttpServletRequest context) {
+                return new JSONObject();
+            }
+        };
+        new MockUp<SitesImpl>() {
 
-			@Mock
-			public int update(JSONObject jsonObject) throws ServiceException {
-				throw new ServiceException();
-			}
-		};
-		JSONObject result = sitesRoa.updateSites(null);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "");
-		assertEquals(expectedResult.toString(), result.toString());
-	}
+            @Mock
+            public int update(JSONObject jsonObject) throws ServiceException {
+                throw new ServiceException();
+            }
+        };
+        JSONObject result = sitesRoa.updateSites(null);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "");
+        assertEquals(expectedResult.toString(), result.toString());
+    }
 }

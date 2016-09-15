@@ -41,11 +41,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Resource Operate ROA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -59,9 +59,9 @@ public class ResOperateRoa {
     private ResOperateService resOperateService;
 
     /**
-     * 
+     *
      * Update iResource pool.<br>
-     * 
+     *
      * @param context
      * @param tenantId
      * @param vimId
@@ -102,9 +102,9 @@ public class ResOperateRoa {
     }
 
     /**
-     * 
+     *
      * Add all resource pool.<br>
-     * 
+     *
      * @param context
      * @param tenantId
      * @param vimId
@@ -132,9 +132,9 @@ public class ResOperateRoa {
     }
 
     /**
-     * 
+     *
      * Delete iResource.<br>
-     * 
+     *
      * @param context
      * @param vimId
      * @return

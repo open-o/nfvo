@@ -23,20 +23,20 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
 
 /**
- * 
+ *
  * Network Business class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface NetworkBusiness {
 
     /**
-     * 
+     *
      * Get network details.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -44,9 +44,9 @@ public interface NetworkBusiness {
     NetworkEntity getNetwork(String id);
 
     /**
-     * 
+     *
      * Get details of available networks.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -54,9 +54,9 @@ public interface NetworkBusiness {
     List<NetworkEntity> getNetworks(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete Network.<br>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException
@@ -65,9 +65,9 @@ public interface NetworkBusiness {
     int deleteNetwork(String id) throws ServiceException;
 
     /**
-     * 
+     *
      * Delete network by Virtual Infrastructure Manager ID.<br>
-     * 
+     *
      * @param vimId
      * @return
      * @throws ServiceException
@@ -76,9 +76,9 @@ public interface NetworkBusiness {
     int deleteNetworkByVimId(String vimId) throws ServiceException;
 
     /**
-     * 
+     *
      * Add Network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @throws ServiceException
@@ -87,9 +87,9 @@ public interface NetworkBusiness {
     int addNetwork(NetworkEntity networkEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Add Selective Network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @throws ServiceException
@@ -98,9 +98,9 @@ public interface NetworkBusiness {
     int addNetworkSelective(NetworkEntity networkEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update Selective Network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @throws ServiceException
@@ -109,9 +109,9 @@ public interface NetworkBusiness {
     int updateNetworkSelective(NetworkEntity networkEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update Network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @throws ServiceException
@@ -120,9 +120,9 @@ public interface NetworkBusiness {
     int updateNetwork(NetworkEntity networkEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update network by Virtual Infrastructure Manager ID.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @throws ServiceException

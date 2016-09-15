@@ -23,7 +23,7 @@ import org.apache.ibatis.session.SqlSession;
  * <p>
  * Database abstract class to get the MapperManager
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016-3-17
  */
@@ -34,7 +34,7 @@ public class AbstractDao {
     protected AbstractDao() {
         //added this private costructor to fix static errors.
     }
-    
+
     public SqlSession getSession() {
         return session;
     }
@@ -45,7 +45,7 @@ public class AbstractDao {
 
     /**
      * get Mybatis Mapper<br/>
-     * 
+     *
      * @param type
      * The type of Class
      * @return Mapper

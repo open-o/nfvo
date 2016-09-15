@@ -30,131 +30,131 @@ import net.sf.json.JSONObject;
 
 public class PortImplTest {
 
-	@Test(expected = ServiceException.class)
-	public void testAdd() throws ServiceException {
-		new MockUp<PortDaoImpl>() {
+    @Test(expected = ServiceException.class)
+    public void testAdd() throws ServiceException {
+        new MockUp<PortDaoImpl>() {
 
-			@Mock
-			public PortEntity getPort(String id) {
-				PortEntity portEntity = new PortEntity();
-				return portEntity;
-			}
-		};
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		JSONObject json = new JSONObject();
-		json.put("id", "id");
-		json.put("name", "name");
-		json.put("status", "status");
-		json.put("tenant_id", "tenant_id");
-		json.put("vimId", "vimId");
-		json.put("vimName", "vimName");
-		json.put("network_id", "network_id");
-		portImpl.add(json);
-	}
+            @Mock
+            public PortEntity getPort(String id) {
+                PortEntity portEntity = new PortEntity();
+                return portEntity;
+            }
+        };
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "id");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("network_id", "network_id");
+        portImpl.add(json);
+    }
 
-	@Test
-	public void testAddBranch() throws ServiceException {
-		new MockUp<PortDaoImpl>() {
+    @Test
+    public void testAddBranch() throws ServiceException {
+        new MockUp<PortDaoImpl>() {
 
-			@Mock
-			public PortEntity getPort(String id) {
-				return null;
-			}
+            @Mock
+            public PortEntity getPort(String id) {
+                return null;
+            }
 
-			@Mock
-			public int addPort(PortEntity portEntity) {
-				return 1;
-			}
-		};
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		JSONObject json = new JSONObject();
-		json.put("id", "");
-		json.put("name", "name");
-		json.put("status", "status");
-		json.put("tenant_id", "tenant_id");
-		json.put("vimId", "vimId");
-		json.put("vimName", "vimName");
-		json.put("network_id", "network_id");
-		assertTrue(portImpl.add(json) == 1);
-	}
+            @Mock
+            public int addPort(PortEntity portEntity) {
+                return 1;
+            }
+        };
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("network_id", "network_id");
+        assertTrue(portImpl.add(json) == 1);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddBranch1() throws ServiceException {
+    @Test(expected = ServiceException.class)
+    public void testAddBranch1() throws ServiceException {
 
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		PortEntity portEntity = null;
-		portImpl.add(portEntity);
-	}
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        PortEntity portEntity = null;
+        portImpl.add(portEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateException() throws ServiceException {
+    @Test(expected = ServiceException.class)
+    public void testUpdateException() throws ServiceException {
 
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		PortEntity portEntity = null;
-		portImpl.update(portEntity);
-	}
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        PortEntity portEntity = null;
+        portImpl.update(portEntity);
+    }
 
-	@Test
-	public void testUpdate() throws ServiceException {
-		new MockUp<PortDaoImpl>() {
+    @Test
+    public void testUpdate() throws ServiceException {
+        new MockUp<PortDaoImpl>() {
 
-			@Mock
-			public int updatePortSelective(PortEntity portEntity) {
-				return 1;
-			}
+            @Mock
+            public int updatePortSelective(PortEntity portEntity) {
+                return 1;
+            }
 
-		};
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		assertTrue(portImpl.update(new JSONObject()) == 1);
-	}
+        };
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        assertTrue(portImpl.update(new JSONObject()) == 1);
+    }
 
-	@Test
-	public void testDeleteResByVimId() throws ServiceException {
-		new MockUp<PortDaoImpl>() {
+    @Test
+    public void testDeleteResByVimId() throws ServiceException {
+        new MockUp<PortDaoImpl>() {
 
-			@Mock
-			public int deletePortByVimId(String vimId) {
-				return 1;
-			}
+            @Mock
+            public int deletePortByVimId(String vimId) {
+                return 1;
+            }
 
-		};
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		assertTrue(portImpl.deleteResByVimId("vimId") == 1);
-	}
+        };
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        assertTrue(portImpl.deleteResByVimId("vimId") == 1);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDeleteResByVimIdException() throws ServiceException {
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		portImpl.deleteResByVimId("");
-	}
+    @Test(expected = ServiceException.class)
+    public void testDeleteResByVimIdException() throws ServiceException {
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        portImpl.deleteResByVimId("");
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDelete() throws ServiceException {
-		PortImpl portImpl = new PortImpl();
-		PortBusinessImpl portBusiness = new PortBusinessImpl();
-		portBusiness.setPortDao(new PortDaoImpl());
-		portImpl.setPortBusiness(portBusiness);
-		portImpl.delete("");
-	}
+    @Test(expected = ServiceException.class)
+    public void testDelete() throws ServiceException {
+        PortImpl portImpl = new PortImpl();
+        PortBusinessImpl portBusiness = new PortBusinessImpl();
+        portBusiness.setPortDao(new PortDaoImpl());
+        portImpl.setPortBusiness(portBusiness);
+        portImpl.delete("");
+    }
 }

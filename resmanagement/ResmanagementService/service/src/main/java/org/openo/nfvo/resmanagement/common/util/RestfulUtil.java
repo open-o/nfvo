@@ -42,11 +42,11 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Restful Utility Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -70,9 +70,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response object.<br>
-     * 
+     *
      * @param url
      * @param type
      * @return
@@ -83,9 +83,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response object.<br>
-     * 
+     *
      * @param url
      * @param parametes
      * @param type
@@ -107,9 +107,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response content.<br>
-     * 
+     *
      * @param url
      * @param restParametes
      * @param type
@@ -121,9 +121,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response map.<br>
-     * 
+     *
      * @param url
      * @param restParametes
      * @param opt
@@ -138,9 +138,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response content map.<br>
-     * 
+     *
      * @param url
      * @param type
      * @return
@@ -161,9 +161,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response content.<br>
-     * 
+     *
      * @param url
      * @param restParametes
      * @param opt
@@ -188,9 +188,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get restful response.<br>
-     * 
+     *
      * @param url
      * @param restParametes
      * @param type
@@ -225,9 +225,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * encapsulate the java reflect exception.<br>
-     * 
+     *
      * @param methodName, Restful's method.
      * @param objects, method param array.
      * @return
@@ -271,9 +271,9 @@ public class RestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get response.<br>
-     * 
+     *
      * @param restParametes
      * @param url
      * @return
@@ -302,7 +302,7 @@ public class RestfulUtil {
 
     /**
      * Get response.<br>
-     * 
+     *
      * @param restParametes
      * @param url
      * @param iResName

@@ -30,28 +30,28 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class LimitsBusinessImplTest {
-	private LimitsBusinessImpl limitsBusinessImpl;
+    private LimitsBusinessImpl limitsBusinessImpl;
 
-	@Before
-	public void setUp() throws ServiceException {
-		limitsBusinessImpl = new LimitsBusinessImpl();
-	}
+    @Before
+    public void setUp() throws ServiceException {
+        limitsBusinessImpl = new LimitsBusinessImpl();
+    }
 
-	@Test
-	public void testGetCpuLimits() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-					throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		JSONObject paramJson = new JSONObject();
-		paramJson.put("vimId", "vimId");
-		paramJson.put("tenantId", "tenantId");
-		assertTrue(limitsBusinessImpl.getCpuLimits(paramJson) != null);
-		assertTrue(limitsBusinessImpl.getDiskLimits(paramJson) != null);
-	}
+    @Test
+    public void testGetCpuLimits() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        JSONObject paramJson = new JSONObject();
+        paramJson.put("vimId", "vimId");
+        paramJson.put("tenantId", "tenantId");
+        assertTrue(limitsBusinessImpl.getCpuLimits(paramJson) != null);
+        assertTrue(limitsBusinessImpl.getDiskLimits(paramJson) != null);
+    }
 }

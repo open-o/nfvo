@@ -30,164 +30,164 @@ import net.sf.json.JSONObject;
 
 public class NetworkImplTest {
 
-	@Test(expected = ServiceException.class)
-	public void testAdd() throws ServiceException {
-		new MockUp<NetworkDaoImpl>() {
+    @Test(expected = ServiceException.class)
+    public void testAdd() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
 
-			@Mock
-			public NetworkEntity getNetwork(String id) {
-				NetworkEntity networkEntity = new NetworkEntity();
-				return networkEntity;
-			}
-		};
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		JSONObject json = new JSONObject();
-		json.put("id", "id");
-		json.put("name", "name");
-		json.put("status", "status");
-		json.put("tenant_id", "tenant_id");
-		json.put("vimId", "vimId");
-		json.put("vimName", "vimName");
-		json.put("provider:physical_network", "provider:physical_network");
-		json.put("provider:network_type", "provider:network_type");
-		json.put("provider:segmentation_id", "provider:segmentation_id");
-		networkImpl.add(json);
-	}
+            @Mock
+            public NetworkEntity getNetwork(String id) {
+                NetworkEntity networkEntity = new NetworkEntity();
+                return networkEntity;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "id");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("provider:physical_network", "provider:physical_network");
+        json.put("provider:network_type", "provider:network_type");
+        json.put("provider:segmentation_id", "provider:segmentation_id");
+        networkImpl.add(json);
+    }
 
-	@Test
-	public void testAddBranch() throws ServiceException {
-		new MockUp<NetworkDaoImpl>() {
+    @Test
+    public void testAddBranch() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
 
-			@Mock
-			public NetworkEntity getNetwork(String id) {
-				return null;
-			}
+            @Mock
+            public NetworkEntity getNetwork(String id) {
+                return null;
+            }
 
-			@Mock
-			public int addNetwork(NetworkEntity networkEntity) {
-				return 1;
-			}
-		};
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		JSONObject json = new JSONObject();
-		json.put("id", "id");
-		json.put("name", "name");
-		json.put("status", "status");
-		json.put("tenant_id", "tenant_id");
-		json.put("vimId", "vimId");
-		json.put("vimName", "vimName");
-		json.put("provider:physical_network", "provider:physical_network");
-		json.put("provider:network_type", "provider:network_type");
-		json.put("provider:segmentation_id", "provider:segmentation_id");
-		assertTrue(networkImpl.add(json) == 1);
-	}
+            @Mock
+            public int addNetwork(NetworkEntity networkEntity) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "id");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("provider:physical_network", "provider:physical_network");
+        json.put("provider:network_type", "provider:network_type");
+        json.put("provider:segmentation_id", "provider:segmentation_id");
+        assertTrue(networkImpl.add(json) == 1);
+    }
 
-	@Test
-	public void testAddBranch1() throws ServiceException {
-		new MockUp<NetworkDaoImpl>() {
+    @Test
+    public void testAddBranch1() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
 
-			@Mock
-			public NetworkEntity getNetwork(String id) {
-				return null;
-			}
+            @Mock
+            public NetworkEntity getNetwork(String id) {
+                return null;
+            }
 
-			@Mock
-			public int addNetwork(NetworkEntity networkEntity) {
-				return 1;
-			}
-		};
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		JSONObject json = new JSONObject();
-		json.put("id", "");
-		json.put("name", "name");
-		json.put("status", "status");
-		json.put("tenant_id", "tenant_id");
-		json.put("vimId", "vimId");
-		json.put("vimName", "vimName");
-		json.put("provider:physical_network", "provider:physical_network");
-		json.put("provider:network_type", "provider:network_type");
-		json.put("provider:segmentation_id", "provider:segmentation_id");
-		assertTrue(networkImpl.add(json) == 1);
-	}
+            @Mock
+            public int addNetwork(NetworkEntity networkEntity) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("provider:physical_network", "provider:physical_network");
+        json.put("provider:network_type", "provider:network_type");
+        json.put("provider:segmentation_id", "provider:segmentation_id");
+        assertTrue(networkImpl.add(json) == 1);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddBranch2() throws ServiceException {
+    @Test(expected = ServiceException.class)
+    public void testAddBranch2() throws ServiceException {
 
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		NetworkEntity networkEntity = null;
-		networkImpl.add(networkEntity);
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        NetworkEntity networkEntity = null;
+        networkImpl.add(networkEntity);
 
-	}
+    }
 
-	@Test
-	public void testDelete() throws ServiceException {
-		new MockUp<NetworkDaoImpl>() {
+    @Test
+    public void testDelete() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
 
-			@Mock
-			public int deleteNetwork(String id) {
-				return 1;
-			}
-		};
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		assertTrue(networkImpl.delete("id") == 1);
-	}
+            @Mock
+            public int deleteNetwork(String id) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        assertTrue(networkImpl.delete("id") == 1);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDelete1() throws ServiceException {
+    @Test(expected = ServiceException.class)
+    public void testDelete1() throws ServiceException {
 
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		networkImpl.delete("");
-	}
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        networkImpl.delete("");
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testDeleteVimByIdException() throws ServiceException {
+    @Test(expected = ServiceException.class)
+    public void testDeleteVimByIdException() throws ServiceException {
 
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		networkImpl.deleteResByVimId("");
-	}
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        networkImpl.deleteResByVimId("");
+    }
 
-	@Test
-	public void testDeleteVimById() throws ServiceException {
-		new MockUp<NetworkDaoImpl>() {
+    @Test
+    public void testDeleteVimById() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
 
-			@Mock
-			public int deleteNetworkByVimId(String vimId) {
-				return 1;
-			}
-		};
-		NetworkImpl networkImpl = new NetworkImpl();
-		NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
-		NetworkDao networkDao = new NetworkDaoImpl();
-		networkBusiness.setNetworkDao(networkDao);
-		networkImpl.setNetworkBusiness(networkBusiness);
-		assertTrue(networkImpl.deleteResByVimId("vimId") == 1);
-	}
+            @Mock
+            public int deleteNetworkByVimId(String vimId) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        assertTrue(networkImpl.deleteResByVimId("vimId") == 1);
+    }
 }

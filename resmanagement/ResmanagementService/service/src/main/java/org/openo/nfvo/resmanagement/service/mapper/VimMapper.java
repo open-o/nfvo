@@ -24,7 +24,7 @@ import org.openo.nfvo.resmanagement.service.entity.VimEntity;
  * Vim info interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -32,7 +32,7 @@ public interface VimMapper {
 
     /**
      * It is used to get Vim info.<br/>
-     * 
+     *
      * @param id
      * @return The get result
      * @since NFVO 0.5
@@ -41,7 +41,7 @@ public interface VimMapper {
 
     /**
      * It is used to get Vims info.<br/>
-     * 
+     *
      * @return The get result
      * @since NFVO 0.5
      */
@@ -49,7 +49,7 @@ public interface VimMapper {
 
     /**
      * It is used to delete Vim info.<br/>
-     * 
+     *
      * @param id
      * @return The delete result
      * @since NFVO 0.5
@@ -58,7 +58,7 @@ public interface VimMapper {
 
     /**
      * It is used to add Vim info.<br/>
-     * 
+     *
      * @param vimEntity
      * @return The add result
      * @since NFVO 0.5

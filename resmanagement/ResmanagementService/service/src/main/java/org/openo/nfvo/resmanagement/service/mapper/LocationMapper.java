@@ -22,20 +22,20 @@ import java.util.Map;
 import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 
 /**
- * 
+ *
  * Location Mapper Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface LocationMapper {
 
     /**
-     * 
+     *
      * Get location.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -43,18 +43,18 @@ public interface LocationMapper {
     LocationEntity getLocation(String id);
 
     /**
-     * 
+     *
      * Get Country.<br>
-     * 
+     *
      * @return
      * @since  NFVO 0.5
      */
     List<String> getCountry();
 
     /**
-     * 
+     *
      * Get location by country.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -62,9 +62,9 @@ public interface LocationMapper {
     List<String> getLocationByCountry(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * get locations.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -72,9 +72,9 @@ public interface LocationMapper {
     List<LocationEntity> getLocations(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete location.<br>
-     * 
+     *
      * @param location
      * @return
      * @since  NFVO 0.5
@@ -82,9 +82,9 @@ public interface LocationMapper {
     int deleteLocation(String location);
 
     /**
-     * 
+     *
      * Add location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @since  NFVO 0.5
@@ -92,9 +92,9 @@ public interface LocationMapper {
     int addLocation(LocationEntity locationEntity);
 
     /**
-     * 
+     *
      * Add selective location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @since  NFVO 0.5
@@ -102,9 +102,9 @@ public interface LocationMapper {
     int addLocationSelective(LocationEntity locationEntity);
 
     /**
-     * 
+     *
      * Update selective location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @since  NFVO 0.5
@@ -112,9 +112,9 @@ public interface LocationMapper {
     int updateLocationSelective(LocationEntity locationEntity);
 
     /**
-     * 
+     *
      * Update location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @since  NFVO 0.5

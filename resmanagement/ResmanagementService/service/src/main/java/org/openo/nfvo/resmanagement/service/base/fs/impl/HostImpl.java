@@ -27,11 +27,11 @@ import org.openo.nfvo.resmanagement.service.entity.HostEntity;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Host implementation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */

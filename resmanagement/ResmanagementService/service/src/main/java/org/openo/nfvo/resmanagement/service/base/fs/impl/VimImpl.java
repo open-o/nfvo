@@ -31,7 +31,7 @@ import net.sf.json.JSONObject;
  * Vim info interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */

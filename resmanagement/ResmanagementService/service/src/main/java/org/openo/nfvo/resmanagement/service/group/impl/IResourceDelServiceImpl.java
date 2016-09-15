@@ -28,11 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * iResource delete service implementation.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -41,9 +41,9 @@ public class IResourceDelServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(IResourceDelServiceImpl.class);
 
     /**
-     * 
+     *
      * Delete iResource.<br>
-     * 
+     *
      * @param vimId
      * @param iResMap
      * @param vim

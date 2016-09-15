@@ -17,11 +17,11 @@
 package org.openo.nfvo.resmanagement.common.constant;
 
 /**
- * 
+ *
  * Http constant class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */

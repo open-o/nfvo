@@ -28,7 +28,7 @@ import org.openo.nfvo.resmanagement.service.mapper.SitesMapper;
  * DC interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */

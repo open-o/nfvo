@@ -25,20 +25,20 @@ import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Location details class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface Location extends ResManagement {
 
     /**
-     * 
+     *
      * <br>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException
@@ -47,9 +47,9 @@ public interface Location extends ResManagement {
     Map<String, Object> get(String id) throws ServiceException;
 
     /**
-     * 
+     *
      * Get list of locations.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -58,9 +58,9 @@ public interface Location extends ResManagement {
     List<LocationEntity> get(Map<String, Object> condition) throws ServiceException;
 
     /**
-     * 
+     *
      * Get location details.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -69,9 +69,9 @@ public interface Location extends ResManagement {
     LocationEntity getLocation(Map<String, Object> condition) throws ServiceException;
 
     /**
-     * 
+     *
      * Get location info.<br>
-     * 
+     *
      * @param locationInfo
      * @return
      * @throws ServiceException
@@ -80,9 +80,9 @@ public interface Location extends ResManagement {
     List<JSONObject> getLocationInfo(List<LocationEntity> locationInfo) throws ServiceException;
 
     /**
-     * 
+     *
      * Get Country.<br>
-     * 
+     *
      * @return
      * @throws ServiceException
      * @since  NFVO 0.5
@@ -90,9 +90,9 @@ public interface Location extends ResManagement {
     List<String> getCountry() throws ServiceException;
 
     /**
-     * 
+     *
      * Get location by country.<br>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -101,9 +101,9 @@ public interface Location extends ResManagement {
     List<String> getLocationByCountry(Map<String, Object> condition) throws ServiceException;
 
     /**
-     * 
+     *
      * Get cloud services.<br>
-     * 
+     *
      * @return
      * @throws ServiceException
      * @since  NFVO 0.5

@@ -41,202 +41,202 @@ import net.sf.json.JSONObject;
 
 public class RequestUtilTest {
 
-	@Test
-	public void testGetStringRequestBody() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @Test
+    public void testGetStringRequestBody() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mocked
-			ServletInputStream input;
+            @Mocked
+            ServletInputStream input;
 
-			@Mock
-			public ServletInputStream getInputStream() throws IOException {
-				return input;
-			}
-		}.getMockInstance();
-		new MockUp<IOUtils>() {
+            @Mock
+            public ServletInputStream getInputStream() throws IOException {
+                return input;
+            }
+        }.getMockInstance();
+        new MockUp<IOUtils>() {
 
-			String data = "{\"NETWORK\":{\"id\": \"123\"}}";
+            String data = "{\"NETWORK\":{\"id\": \"123\"}}";
 
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return data;
-			}
-		};
-		String result = RequestUtil.getStringRequestBody(context);
-		String expectedResult = "{\"NETWORK\":{\"id\": \"123\"}}";
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return data;
+            }
+        };
+        String result = RequestUtil.getStringRequestBody(context);
+        String expectedResult = "{\"NETWORK\":{\"id\": \"123\"}}";
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testGetStringRequestBodyException() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @Test
+    public void testGetStringRequestBodyException() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mock
-			public ServletInputStream getInputStream() throws IOException {
-				throw new IOException();
-			}
-		}.getMockInstance();
-		String result = RequestUtil.getStringRequestBody(context);
-		String expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public ServletInputStream getInputStream() throws IOException {
+                throw new IOException();
+            }
+        }.getMockInstance();
+        String result = RequestUtil.getStringRequestBody(context);
+        String expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testGetJsonRequestBody() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @Test
+    public void testGetJsonRequestBody() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mocked
-			ServletInputStream input;
+            @Mocked
+            ServletInputStream input;
 
-			@Mock
-			public ServletInputStream getInputStream() throws IOException {
-				return input;
-			}
-		}.getMockInstance();
-		new MockUp<IOUtils>() {
+            @Mock
+            public ServletInputStream getInputStream() throws IOException {
+                return input;
+            }
+        }.getMockInstance();
+        new MockUp<IOUtils>() {
 
-			String data = "{\"NETWORK\":{\"id\": \"123\"}}";
+            String data = "{\"NETWORK\":{\"id\": \"123\"}}";
 
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return data;
-			}
-		};
-		JSONObject result = RequestUtil.getJsonRequestBody(context);
-		String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
-		JSONObject expectedResult = JSONObject.fromObject(data1);
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return data;
+            }
+        };
+        JSONObject result = RequestUtil.getJsonRequestBody(context);
+        String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
+        JSONObject expectedResult = JSONObject.fromObject(data1);
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testGetJsonRequestBody1() {
-		new MockUp<RequestUtil>() {
+    @Test
+    public void testGetJsonRequestBody1() {
+        new MockUp<RequestUtil>() {
 
-			String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
+            String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
 
-			@Mock
-			public String getStringRequestBody(HttpServletRequest context) {
-				return data1;
-			}
-		};
-		JSONObject result = RequestUtil.getJsonRequestBody(null);
-		String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
-		JSONObject expectedResult = JSONObject.fromObject(data1);
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public String getStringRequestBody(HttpServletRequest context) {
+                return data1;
+            }
+        };
+        JSONObject result = RequestUtil.getJsonRequestBody(null);
+        String data1 = "{\"NETWORK\":{\"id\": \"123\"}}";
+        JSONObject expectedResult = JSONObject.fromObject(data1);
+        assertEquals(expectedResult, result);
+    }
 
-	@Test
-	public void testGetJsonRequestBodyException() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @Test
+    public void testGetJsonRequestBodyException() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mocked
-			ServletInputStream input;
+            @Mocked
+            ServletInputStream input;
 
-			@Mock
-			public ServletInputStream getInputStream() throws JSONException {
-				throw new JSONException();
-			}
-		}.getMockInstance();
-		JSONObject result = RequestUtil.getJsonRequestBody(context);
-		JSONObject expectedResult = null;
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public ServletInputStream getInputStream() throws JSONException {
+                throw new JSONException();
+            }
+        }.getMockInstance();
+        JSONObject result = RequestUtil.getJsonRequestBody(context);
+        JSONObject expectedResult = null;
+        assertEquals(expectedResult, result);
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Test
-	public void testGetAllJsonRequestBodyRequestBodyIsNull() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @SuppressWarnings("rawtypes")
+    @Test
+    public void testGetAllJsonRequestBodyRequestBodyIsNull() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mocked
-			ServletInputStream input;
+            @Mocked
+            ServletInputStream input;
 
-			@Mock
-			public ServletInputStream getInputStream() throws IOException {
-				return input;
-			}
+            @Mock
+            public ServletInputStream getInputStream() throws IOException {
+                return input;
+            }
 
-			@Mock
-			public Enumeration getHeaderNames() {
-				return new Enumeration() {
+            @Mock
+            public Enumeration getHeaderNames() {
+                return new Enumeration() {
 
-					List<String> a = Arrays.asList(new String[] { "1", "2" });
+                    List<String> a = Arrays.asList(new String[] { "1", "2" });
 
-					@Override
-					public boolean hasMoreElements() {
-						return false;
-					}
+                    @Override
+                    public boolean hasMoreElements() {
+                        return false;
+                    }
 
-					@Override
-					public Object nextElement() {
-						return null;
-					}
+                    @Override
+                    public Object nextElement() {
+                        return null;
+                    }
 
-				};
-			}
+                };
+            }
 
-		}.getMockInstance();
-		new MockUp<RequestUtil>() {
+        }.getMockInstance();
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getJsonRequestBody(HttpServletRequest context) {
-				return null;
-			}
-		};
-		JSONObject result = RequestUtil.getAllJsonRequestBody(context);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("header", new HashMap<String, String>());
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject getJsonRequestBody(HttpServletRequest context) {
+                return null;
+            }
+        };
+        JSONObject result = RequestUtil.getAllJsonRequestBody(context);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("header", new HashMap<String, String>());
+        assertEquals(expectedResult, result);
+    }
 
-	@SuppressWarnings("rawtypes")
-	@Test
-	public void testGetContextHeader() {
-		HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
+    @SuppressWarnings("rawtypes")
+    @Test
+    public void testGetContextHeader() {
+        HttpServletRequestFilter context = new MockUp<HttpServletRequestFilter>() {
 
-			@Mock
-			public String getHeader(String name) {
-				return "1";
-			}
+            @Mock
+            public String getHeader(String name) {
+                return "1";
+            }
 
-			@Mock
-			public Enumeration getHeaderNames() {
-				return new Enumeration() {
+            @Mock
+            public Enumeration getHeaderNames() {
+                return new Enumeration() {
 
-					List<String> a = Arrays.asList(new String[] { "1", "2" });
+                    List<String> a = Arrays.asList(new String[] { "1", "2" });
 
-					int count = 1;
+                    int count = 1;
 
-					@Override
-					public boolean hasMoreElements() {
-						if (count == 1) {
-							count += 1;
-							return true;
-						} else
-							return false;
-					}
+                    @Override
+                    public boolean hasMoreElements() {
+                        if (count == 1) {
+                            count += 1;
+                            return true;
+                        } else
+                            return false;
+                    }
 
-					@Override
-					public Object nextElement() {
-						return "1";
-					}
+                    @Override
+                    public Object nextElement() {
+                        return "1";
+                    }
 
-				};
-			}
+                };
+            }
 
-		}.getMockInstance();
-		new MockUp<RequestUtil>() {
+        }.getMockInstance();
+        new MockUp<RequestUtil>() {
 
-			@Mock
-			public JSONObject getJsonRequestBody(HttpServletRequest context) {
-				return null;
-			}
-		};
-		JSONObject result = RequestUtil.getAllJsonRequestBody(context);
-		JSONObject expectedResult = new JSONObject();
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("1", "1");
-		expectedResult.put("header", map);
-		assertEquals(expectedResult, result);
-	}
+            @Mock
+            public JSONObject getJsonRequestBody(HttpServletRequest context) {
+                return null;
+            }
+        };
+        JSONObject result = RequestUtil.getAllJsonRequestBody(context);
+        JSONObject expectedResult = new JSONObject();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("1", "1");
+        expectedResult.put("header", map);
+        assertEquals(expectedResult, result);
+    }
 
 }

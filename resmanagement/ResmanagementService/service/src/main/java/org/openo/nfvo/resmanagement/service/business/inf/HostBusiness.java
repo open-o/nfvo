@@ -26,16 +26,16 @@ import org.openo.nfvo.resmanagement.service.entity.HostEntity;
  * Host Buisiness Class.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */
 public interface HostBusiness {
 
     /**
-     * 
+     *
      * Get host.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -43,9 +43,9 @@ public interface HostBusiness {
     HostEntity getHost(String id);
 
     /**
-     * 
+     *
      * Get details of hosts.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -53,9 +53,9 @@ public interface HostBusiness {
     List<HostEntity> getHosts(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete host.<br>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException
@@ -64,9 +64,9 @@ public interface HostBusiness {
     int deleteHost(String id) throws ServiceException;
 
     /**
-     * 
+     *
      * Delete host by VIM Id.<br>
-     * 
+     *
      * @param vimId
      * @return
      * @throws ServiceException
@@ -75,9 +75,9 @@ public interface HostBusiness {
     int deleteHostByVimId(String vimId) throws ServiceException;
 
     /**
-     * 
+     *
      * Add host.<br>
-     * 
+     *
      * @param hostEntity
      * @return
      * @throws ServiceException
@@ -86,9 +86,9 @@ public interface HostBusiness {
     int addHost(HostEntity hostEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Add selective host.<br>
-     * 
+     *
      * @param hostEntity
      * @return
      * @throws ServiceException
@@ -97,9 +97,9 @@ public interface HostBusiness {
     int addHostSelective(HostEntity hostEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update selective host.<br>
-     * 
+     *
      * @param hostEntity
      * @return
      * @throws ServiceException
@@ -108,9 +108,9 @@ public interface HostBusiness {
     int updateHostSelective(HostEntity hostEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update host.<br>
-     * 
+     *
      * @param hostEntity
      * @return
      * @throws ServiceException
@@ -119,9 +119,9 @@ public interface HostBusiness {
     int updateHost(HostEntity hostEntity) throws ServiceException;
 
     /**
-     * 
+     *
      * Update host by VIM Id.<br>
-     * 
+     *
      * @param hostEntity
      * @return
      * @throws ServiceException

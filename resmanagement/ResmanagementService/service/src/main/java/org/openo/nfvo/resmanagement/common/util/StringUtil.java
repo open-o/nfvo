@@ -24,11 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * String Utility Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -40,9 +40,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether thestring is valid.<br>
-     * 
+     *
      * @param str
      * @return
      * @since  NFVO 0.5
@@ -55,9 +55,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the value is larger than zero.<br>
-     * 
+     *
      * @param strs
      * @return
      * @since  NFVO 0.5
@@ -73,9 +73,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the value is Integer.<br>
-     * 
+     *
      * @param strs
      * @return
      * @since  NFVO 0.5
@@ -97,9 +97,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the input is Numeric.<br>
-     * 
+     *
      * @param strs
      * @return
      * @since  NFVO 0.5
@@ -121,9 +121,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Compare zero by float.<br>
-     * 
+     *
      * @param tatol
      * @param used
      * @param drTotal
@@ -151,9 +151,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Compare zero by integer.<br>
-     * 
+     *
      * @param tatol
      * @param used
      * @param drTotal
@@ -180,9 +180,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Number format.<br>
-     * 
+     *
      * @param data
      * @return
      * @since  NFVO 0.5
@@ -201,9 +201,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * <br>
-     * 
+     *
      * @param inputStr
      * @return
      * @since  NFVO 0.5

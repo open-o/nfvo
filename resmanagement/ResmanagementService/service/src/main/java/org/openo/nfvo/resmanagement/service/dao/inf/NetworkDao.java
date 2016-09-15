@@ -22,20 +22,20 @@ import java.util.Map;
 import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
 
 /**
- * 
+ *
  * Network DOA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public interface NetworkDao {
 
     /**
-     * 
+     *
      * Get Network Details.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -43,9 +43,9 @@ public interface NetworkDao {
     NetworkEntity getNetwork(String id);
 
     /**
-     * 
+     *
      * Get details of available networks.<br>
-     * 
+     *
      * @param condition
      * @return
      * @since  NFVO 0.5
@@ -53,9 +53,9 @@ public interface NetworkDao {
     List<NetworkEntity> getNetworks(Map<String, Object> condition);
 
     /**
-     * 
+     *
      * Delete Network.<br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5
@@ -63,9 +63,9 @@ public interface NetworkDao {
     int deleteNetwork(String id);
 
     /**
-     * 
+     *
      * Delete network by  VIM ID.<br>
-     * 
+     *
      * @param vimId
      * @return
      * @since  NFVO 0.5
@@ -73,9 +73,9 @@ public interface NetworkDao {
     int deleteNetworkByVimId(String vimId);
 
     /**
-     * 
+     *
      * Add Network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @since  NFVO 0.5
@@ -83,9 +83,9 @@ public interface NetworkDao {
     int addNetwork(NetworkEntity networkEntity);
 
     /**
-     * 
+     *
      * Add selective network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @since  NFVO 0.5
@@ -93,9 +93,9 @@ public interface NetworkDao {
     int addNetworkSelective(NetworkEntity networkEntity);
 
     /**
-     * 
+     *
      * Update selective network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @since  NFVO 0.5
@@ -103,9 +103,9 @@ public interface NetworkDao {
     int updateNetworkSelective(NetworkEntity networkEntity);
 
     /**
-     * 
+     *
      * Update network.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @since  NFVO 0.5
@@ -113,9 +113,9 @@ public interface NetworkDao {
     int updateNetwork(NetworkEntity networkEntity);
 
     /**
-     * 
+     *
      * Update network by VIM ID.<br>
-     * 
+     *
      * @param networkEntity
      * @return
      * @since  NFVO 0.5

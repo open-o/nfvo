@@ -25,25 +25,25 @@ import net.sf.json.JSONObject;
 
 public class NetworkEntityTest {
 
-	private NetworkEntity networkEntity;
+    private NetworkEntity networkEntity;
 
-	@Before
-	public void setUp() {
-		networkEntity = new NetworkEntity();
-	}
+    @Before
+    public void setUp() {
+        networkEntity = new NetworkEntity();
+    }
 
-	@Test
-	public void testSetId() {
-		networkEntity.setId("123");
-		networkEntity.setName("name");
-		networkEntity.setNetworkType("networkType");
-		networkEntity.setPhysicalNetwork("physicalNetwork");
-		networkEntity.setSegmentationId("segmentationId");
-		networkEntity.setStatus("networkStatus");
-		networkEntity.setTenantId("tenantId");
-		networkEntity.setVimId("networkVimId");
-		networkEntity.setVimName("networkVimName");
-		assertTrue(networkEntity.toString() != null);
-		assertTrue(NetworkEntity.toEntity(new JSONObject()) != null);
-	}
+    @Test
+    public void testSetId() {
+        networkEntity.setId("123");
+        networkEntity.setName("name");
+        networkEntity.setNetworkType("networkType");
+        networkEntity.setPhysicalNetwork("physicalNetwork");
+        networkEntity.setSegmentationId("segmentationId");
+        networkEntity.setStatus("networkStatus");
+        networkEntity.setTenantId("tenantId");
+        networkEntity.setVimId("networkVimId");
+        networkEntity.setVimName("networkVimName");
+        assertTrue(networkEntity.toString() != null);
+        assertTrue(NetworkEntity.toEntity(new JSONObject()) != null);
+    }
 }

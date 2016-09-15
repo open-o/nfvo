@@ -29,191 +29,191 @@ import mockit.MockUp;
 
 public class LocationBusinessImplTest {
 
-	private LocationBusinessImpl locationBusinessImpl;
+    private LocationBusinessImpl locationBusinessImpl;
 
-	@Before
-	public void setUp() throws ServiceException {
-		locationBusinessImpl = new LocationBusinessImpl();
-		locationBusinessImpl.setLocationDao(new LocationDaoImpl());
-	}
+    @Before
+    public void setUp() throws ServiceException {
+        locationBusinessImpl = new LocationBusinessImpl();
+        locationBusinessImpl.setLocationDao(new LocationDaoImpl());
+    }
 
-	@Test
-	public void testGet() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test
+    public void testGet() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public LocationEntity getLocation(String id) {
-				LocationEntity localEntity = new LocationEntity();
-				localEntity.setCountry("country");
-				localEntity.setLocation("location");
+            @Mock
+            public LocationEntity getLocation(String id) {
+                LocationEntity localEntity = new LocationEntity();
+                localEntity.setCountry("country");
+                localEntity.setLocation("location");
 
-				return localEntity;
-			}
-		};
-		assertTrue(locationBusinessImpl.getLocation("id") != null);
-	}
+                return localEntity;
+            }
+        };
+        assertTrue(locationBusinessImpl.getLocation("id") != null);
+    }
 
-	@Test
-	public void testGetBranch() throws ServiceException {
+    @Test
+    public void testGetBranch() throws ServiceException {
 
-		assertTrue(locationBusinessImpl.getLocation("") == null);
-	}
+        assertTrue(locationBusinessImpl.getLocation("") == null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocationSelectiveExceptio() throws ServiceException {
-		locationBusinessImpl.addLocationSelective(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocationSelectiveExceptio() throws ServiceException {
+        locationBusinessImpl.addLocationSelective(null);
+    }
 
-	@Test
-	public void testAddLocationSelective() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test
+    public void testAddLocationSelective() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public int addLocationSelective(LocationEntity locationEntity) {
-				return 1;
-			}
-		};
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId("id");
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+            @Mock
+            public int addLocationSelective(LocationEntity locationEntity) {
+                return 1;
+            }
+        };
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId("id");
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test
-	public void testAddLocationSelectiveBranch() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test
+    public void testAddLocationSelectiveBranch() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public int addLocationSelective(LocationEntity locationEntity) {
-				return 1;
-			}
-		};
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId("");
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+            @Mock
+            public int addLocationSelective(LocationEntity locationEntity) {
+                return 1;
+            }
+        };
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId("");
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test
-	public void testAddLocationSelectiveBranch1() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test
+    public void testAddLocationSelectiveBranch1() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public int addLocationSelective(LocationEntity locationEntity) {
-				return 1;
-			}
-		};
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId(null);
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+            @Mock
+            public int addLocationSelective(LocationEntity locationEntity) {
+                return 1;
+            }
+        };
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId(null);
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocationSelectiveException1() throws ServiceException {
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("");
-		locationEntity.setDescription("description");
-		locationEntity.setId("id");
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocationSelectiveException1() throws ServiceException {
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("");
+        locationEntity.setDescription("description");
+        locationEntity.setId("id");
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocationSelectiveException2() throws ServiceException {
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId("id");
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocationSelectiveException2() throws ServiceException {
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId("id");
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocationSelectiveException3() throws ServiceException {
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId("id");
-		locationEntity.setLatitude("");
-		locationEntity.setLongitude("12");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocationSelectiveException3() throws ServiceException {
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId("id");
+        locationEntity.setLatitude("");
+        locationEntity.setLongitude("12");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocationSelectiveException4() throws ServiceException {
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setId("id");
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("");
-		locationEntity.setLocation("location");
-		locationBusinessImpl.addLocationSelective(locationEntity);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocationSelectiveException4() throws ServiceException {
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setId("id");
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("");
+        locationEntity.setLocation("location");
+        locationBusinessImpl.addLocationSelective(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateLocationSelective() throws ServiceException {
-		locationBusinessImpl.updateLocationSelective(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testUpdateLocationSelective() throws ServiceException {
+        locationBusinessImpl.updateLocationSelective(null);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testAddLocation() throws ServiceException {
-		locationBusinessImpl.addLocation(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testAddLocation() throws ServiceException {
+        locationBusinessImpl.addLocation(null);
+    }
 
-	@Test
-	public void testUpdateLocation() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test
+    public void testUpdateLocation() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public int updateLocation(LocationEntity locationEntity) {
-				return 1;
-			}
-		};
-		locationBusinessImpl.getLocationDao();
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setLatitude("1");
-		locationEntity.setLongitude("2");
-		locationBusinessImpl.updateLocation(locationEntity);
-	}
+            @Mock
+            public int updateLocation(LocationEntity locationEntity) {
+                return 1;
+            }
+        };
+        locationBusinessImpl.getLocationDao();
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setLatitude("1");
+        locationEntity.setLongitude("2");
+        locationBusinessImpl.updateLocation(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateLocationException() throws ServiceException {
-		new MockUp<LocationDaoImpl>() {
+    @Test(expected = ServiceException.class)
+    public void testUpdateLocationException() throws ServiceException {
+        new MockUp<LocationDaoImpl>() {
 
-			@Mock
-			public int updateLocation(LocationEntity locationEntity) {
-				return 1;
-			}
-		};
-		locationBusinessImpl.getLocationDao();
-		LocationEntity locationEntity = new LocationEntity();
-		locationEntity.setLatitude("100");
-		locationEntity.setLongitude("2");
-		locationBusinessImpl.updateLocation(locationEntity);
-	}
+            @Mock
+            public int updateLocation(LocationEntity locationEntity) {
+                return 1;
+            }
+        };
+        locationBusinessImpl.getLocationDao();
+        LocationEntity locationEntity = new LocationEntity();
+        locationEntity.setLatitude("100");
+        locationEntity.setLongitude("2");
+        locationBusinessImpl.updateLocation(locationEntity);
+    }
 
-	@Test(expected = ServiceException.class)
-	public void testUpdateLocationException1() throws ServiceException {
-		locationBusinessImpl.getLocationDao();
-		locationBusinessImpl.updateLocation(null);
-	}
+    @Test(expected = ServiceException.class)
+    public void testUpdateLocationException1() throws ServiceException {
+        locationBusinessImpl.getLocationDao();
+        locationBusinessImpl.updateLocation(null);
+    }
 }

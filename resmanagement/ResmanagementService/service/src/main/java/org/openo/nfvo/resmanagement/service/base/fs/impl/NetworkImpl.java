@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Network implementation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */

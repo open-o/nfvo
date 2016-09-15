@@ -33,11 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * Location Business implementation class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -48,9 +48,9 @@ public class LocationBusinessImpl implements LocationBusiness {
     private LocationDao locationDao;
 
     /**
-     * 
+     *
      * Check location.<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException
@@ -68,9 +68,9 @@ public class LocationBusinessImpl implements LocationBusiness {
     }
 
     /**
-     * 
+     *
      * Check Latitude.;<br>
-     * 
+     *
      * @param locationEntity
      * @return
      * @throws ServiceException

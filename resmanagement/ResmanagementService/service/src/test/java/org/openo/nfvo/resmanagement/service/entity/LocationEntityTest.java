@@ -25,21 +25,21 @@ import net.sf.json.JSONObject;
 
 public class LocationEntityTest {
 
-	private LocationEntity locationEntity;
+    private LocationEntity locationEntity;
 
-	@Before
-	public void setUp() {
-		locationEntity = new LocationEntity();
-	}
+    @Before
+    public void setUp() {
+        locationEntity = new LocationEntity();
+    }
 
-	@Test
-	public void testLocationEntity() {
-		locationEntity.setCountry("country");
-		locationEntity.setDescription("description");
-		locationEntity.setLocation("location");
-		locationEntity.setLatitude("latitude");
-		locationEntity.setLongitude("longitude");
-		assertTrue(locationEntity.toString() != null);
-		assertTrue(LocationEntity.toEntity(new JSONObject()) != null);
-	}
+    @Test
+    public void testLocationEntity() {
+        locationEntity.setCountry("country");
+        locationEntity.setDescription("description");
+        locationEntity.setLocation("location");
+        locationEntity.setLatitude("latitude");
+        locationEntity.setLongitude("longitude");
+        assertTrue(locationEntity.toString() != null);
+        assertTrue(LocationEntity.toEntity(new JSONObject()) != null);
+    }
 }

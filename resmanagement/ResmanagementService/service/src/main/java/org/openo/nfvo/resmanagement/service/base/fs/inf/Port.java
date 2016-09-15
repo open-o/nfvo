@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -36,7 +36,7 @@ public interface Port extends InterfaceResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param jsonObject
      * @return
      * @throws ServiceException
@@ -46,7 +46,7 @@ public interface Port extends InterfaceResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param condition
      * @return
      * @throws ServiceException
@@ -56,7 +56,7 @@ public interface Port extends InterfaceResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param resPoolEntity
      * @return
      * @throws ServiceException
@@ -66,7 +66,7 @@ public interface Port extends InterfaceResManagement {
 
     /**
      * <br>
-     * 
+     *
      * @param portEntity
      * @return
      * @throws ServiceException

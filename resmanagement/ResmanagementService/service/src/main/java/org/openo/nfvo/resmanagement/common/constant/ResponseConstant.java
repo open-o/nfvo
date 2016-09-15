@@ -22,7 +22,7 @@ import org.openo.nfvo.resmanagement.common.ResourceUtil;
  * Response constants.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */

@@ -20,7 +20,7 @@ package org.openo.nfvo.resmanagement.common.constant;
  * HTTP constants<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */

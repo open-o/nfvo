@@ -25,7 +25,7 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Json Utility Class.<br/>
  * <p>
  * </p>
@@ -51,9 +51,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field String.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @return
@@ -64,9 +64,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field Integer.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @return
@@ -77,9 +77,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field array.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @return
@@ -90,9 +90,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field Json.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @return
@@ -103,9 +103,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field Long.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @return
@@ -116,9 +116,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Field Object.<br>
-     * 
+     *
      * @param jsonObj
      * @param fieldName
      * @param classType
@@ -159,9 +159,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the Json Object is empty.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @since  NFVO 0.5
@@ -174,9 +174,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get String value by Json.<br>
-     * 
+     *
      * @param json
      * @param key
      * @return
@@ -215,9 +215,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json Value by Json object.<br>
-     * 
+     *
      * @param json
      * @param key
      * @return
@@ -235,9 +235,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get String Value by Json object.<br>
-     * 
+     *
      * @param json
      * @param parentKey
      * @param key
@@ -257,9 +257,9 @@ public final class JsonUtil {
     }
 
     /**
-     * 
+     *
      * Get response Data.<br>
-     * 
+     *
      * @param obj
      * @return
      * @since  NFVO 0.5

@@ -31,104 +31,104 @@ import net.sf.json.JSONObject;
 
 public class VimImplTest {
 
-	@Test
-	public void testAdd() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		new MockUp<VimBusinessImpl>() {
+    @Test
+    public void testAdd() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        new MockUp<VimBusinessImpl>() {
 
-			@Mock
-			public int addVim(String id) throws ServiceException {
-				return 1;
-			}
-		};
-		int result = vimImpl.add("id");
-		int exceptedResult = 1;
-		assertEquals(exceptedResult, result);
-	}
+            @Mock
+            public int addVim(String id) throws ServiceException {
+                return 1;
+            }
+        };
+        int result = vimImpl.add("id");
+        int exceptedResult = 1;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testAdd1() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		JSONObject json = new JSONObject();
-		json.put("id", "123");
-		new MockUp<VimBusinessImpl>() {
+    @Test
+    public void testAdd1() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        JSONObject json = new JSONObject();
+        json.put("id", "123");
+        new MockUp<VimBusinessImpl>() {
 
-			@Mock
-			public int addVim(String id) throws ServiceException {
-				return 1;
-			}
-		};
-		int result = vimImpl.add(json);
-		int exceptedResult = 1;
-		assertEquals(exceptedResult, result);
-	}
+            @Mock
+            public int addVim(String id) throws ServiceException {
+                return 1;
+            }
+        };
+        int result = vimImpl.add(json);
+        int exceptedResult = 1;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testUpdate() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		JSONObject json = new JSONObject();
-		json.put("id", "123");
-		json.put("vimId", "vim123");
-		int result = vimImpl.update(json);
-		int exceptedResult = 0;
-		assertEquals(exceptedResult, result);
-	}
+    @Test
+    public void testUpdate() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        JSONObject json = new JSONObject();
+        json.put("id", "123");
+        json.put("vimId", "vim123");
+        int result = vimImpl.update(json);
+        int exceptedResult = 0;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testDelete() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		new MockUp<VimBusinessImpl>() {
+    @Test
+    public void testDelete() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        new MockUp<VimBusinessImpl>() {
 
-			@Mock
-			public int deleteVim(String id) throws ServiceException {
-				return 1;
-			}
-		};
-		int result = vimImpl.delete("id");
-		int exceptedResult = 1;
-		assertEquals(exceptedResult, result);
-	}
+            @Mock
+            public int deleteVim(String id) throws ServiceException {
+                return 1;
+            }
+        };
+        int result = vimImpl.delete("id");
+        int exceptedResult = 1;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testGetVim() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		new MockUp<VimBusinessImpl>() {
+    @Test
+    public void testGetVim() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        new MockUp<VimBusinessImpl>() {
 
-			@Mock
-			public VimEntity getVim(String id) {
-				return null;
-			}
-		};
-		VimEntity result = vimImpl.getVim("id");
-		VimEntity exceptedResult = null;
-		assertEquals(exceptedResult, result);
-	}
+            @Mock
+            public VimEntity getVim(String id) {
+                return null;
+            }
+        };
+        VimEntity result = vimImpl.getVim("id");
+        VimEntity exceptedResult = null;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testGetList() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-		new MockUp<VimBusinessImpl>() {
+    @Test
+    public void testGetList() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+        new MockUp<VimBusinessImpl>() {
 
-			@Mock
-			public List<VimEntity> getVims() {
-				return null;
-			}
-		};
-		List<VimEntity> result = vimImpl.getList();
-		List<VimEntity> exceptedResult = null;
-		assertEquals(exceptedResult, result);
-	}
+            @Mock
+            public List<VimEntity> getVims() {
+                return null;
+            }
+        };
+        List<VimEntity> result = vimImpl.getList();
+        List<VimEntity> exceptedResult = null;
+        assertEquals(exceptedResult, result);
+    }
 
-	@Test
-	public void testSetVimBusiness() throws ServiceException {
-		VimImpl vimImpl = new VimImpl();
-		vimImpl.setVimBusiness(new VimBusinessImpl());
-	}
+    @Test
+    public void testSetVimBusiness() throws ServiceException {
+        VimImpl vimImpl = new VimImpl();
+        vimImpl.setVimBusiness(new VimBusinessImpl());
+    }
 
 }

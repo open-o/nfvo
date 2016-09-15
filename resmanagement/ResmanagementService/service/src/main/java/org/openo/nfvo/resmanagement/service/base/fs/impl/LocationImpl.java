@@ -35,11 +35,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Location Implementation Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -141,9 +141,9 @@ public class LocationImpl implements Location {
     }
 
     /**
-     * 
+     *
      * Computing site.<br>
-     * 
+     *
      * @param total
      * @param used
      * @return

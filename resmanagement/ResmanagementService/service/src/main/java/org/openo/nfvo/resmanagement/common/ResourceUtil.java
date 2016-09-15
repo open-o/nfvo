@@ -20,7 +20,7 @@ package org.openo.nfvo.resmanagement.common;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -32,7 +32,7 @@ public class ResourceUtil {
 
     /**
      * It is used to get Message<br/>
-     * 
+     *
      * @param key
      * @return
      * @since NFVO 0.5

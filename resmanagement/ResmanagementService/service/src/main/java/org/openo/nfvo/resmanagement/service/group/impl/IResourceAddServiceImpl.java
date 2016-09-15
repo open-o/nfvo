@@ -34,11 +34,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * iResource add service implementation.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -47,9 +47,9 @@ public class IResourceAddServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(IResourceAddServiceImpl.class);
 
     /**
-     * 
+     *
      * Add iResource.<br>
-     * 
+     *
      * @param restParametes
      * @param iResMap
      * @throws ServiceException
@@ -81,7 +81,7 @@ public class IResourceAddServiceImpl {
 
     /**
      * Add Host Resource.<br>
-     * 
+     *
      * @param iResMap
      * @param restParametes
      * @param url
@@ -100,8 +100,8 @@ public class IResourceAddServiceImpl {
                 continue;
             }
             String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get("tenantId"), hostName);
-            
-            
+
+
             String result = RestfulUtil.getResponseContent(hostUrl, restParametes, ParamConstant.PARAM_GET);
             JSONObject hostObj = JSONObject.fromObject(result);
             JSONObject host = hostDataParse(hostObj, hostName);
@@ -116,7 +116,7 @@ public class IResourceAddServiceImpl {
 
     /**
      * <br>
-     * 
+     *
      * @param hostObj
      * @param hostName
      * @return

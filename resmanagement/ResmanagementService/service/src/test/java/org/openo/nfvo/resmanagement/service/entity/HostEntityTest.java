@@ -23,16 +23,16 @@ import org.junit.Test;
 import net.sf.json.JSONObject;
 
 public class HostEntityTest {
-	private HostEntity hostEntity;
+    private HostEntity hostEntity;
 
-	@Before
-	public void setUp() {
-		hostEntity = new HostEntity();
-	}
+    @Before
+    public void setUp() {
+        hostEntity = new HostEntity();
+    }
 
-	@Test
-	public void testHostEntity() {
-		assertTrue(hostEntity.toString() != null);
-		assertTrue(HostEntity.toEntity(new JSONObject()) != null);
-	}
+    @Test
+    public void testHostEntity() {
+        assertTrue(hostEntity.toString() != null);
+        assertTrue(HostEntity.toEntity(new JSONObject()) != null);
+    }
 }

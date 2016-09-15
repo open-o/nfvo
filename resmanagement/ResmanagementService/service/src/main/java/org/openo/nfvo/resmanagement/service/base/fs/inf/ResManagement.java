@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -32,7 +32,7 @@ public interface ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param jsonObject
      * @return
      * @throws ServiceException
@@ -42,7 +42,7 @@ public interface ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param jsonObject
      * @return
      * @throws ServiceException
@@ -55,7 +55,7 @@ public interface ResManagement {
      */
     /**
      * <br/>
-     * 
+     *
      * @param id
      * @return
      * @throws ServiceException

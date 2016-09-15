@@ -39,7 +39,7 @@ import net.sf.json.JSONObject;
  * <br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 10, 2016
  */
@@ -54,7 +54,7 @@ public class LimitsRoa {
 
     /**
      * get Cpu and Memory Limits.<br>
-     * 
+     *
      * @param context
      * @param tenantId
      * @param vimId
@@ -76,7 +76,7 @@ public class LimitsRoa {
 
     /**
      * get Disk Limits.<br>
-     * 
+     *
      * @param context
      * @param tenantId
      * @param vimId

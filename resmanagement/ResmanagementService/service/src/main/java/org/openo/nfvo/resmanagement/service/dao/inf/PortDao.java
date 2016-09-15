@@ -25,7 +25,7 @@ import org.openo.nfvo.resmanagement.service.entity.PortEntity;
  * Port info interface.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -33,7 +33,7 @@ public interface PortDao {
 
     /**
      * It is used to get Port info.<br/>
-     * 
+     *
      * @param id
      * @return The get result
      * @since NFVO 0.5
@@ -42,7 +42,7 @@ public interface PortDao {
 
     /**
      * It is used to get Ports info.<br/>
-     * 
+     *
      * @param condition
      * @return The get result
      * @since NFVO 0.5
@@ -51,7 +51,7 @@ public interface PortDao {
 
     /**
      * It is used to delete Ports info.<br/>
-     * 
+     *
      * @param id
      * @return The delete result
      * @since NFVO 0.5
@@ -60,7 +60,7 @@ public interface PortDao {
 
     /**
      * It is used to delete Ports info.<br/>
-     * 
+     *
      * @param vimId
      * @return The delete result
      * @since NFVO 0.5
@@ -69,7 +69,7 @@ public interface PortDao {
 
     /**
      * It is used to add Ports info. <br/>
-     * 
+     *
      * @param portEntity
      * @return The add result
      * @since NFVO 0.5
@@ -78,7 +78,7 @@ public interface PortDao {
 
     /**
      * It is used to add Ports info. <br/>
-     * 
+     *
      * @param portEntity
      * @return The add result
      * @since NFVO 0.5
@@ -87,7 +87,7 @@ public interface PortDao {
 
     /**
      * It is used to update Ports info. <br/>
-     * 
+     *
      * @param portEntity
      * @return The update result
      * @since NFVO 0.5
@@ -96,7 +96,7 @@ public interface PortDao {
 
     /**
      * It is used to update Ports info. <br/>
-     * 
+     *
      * @param portEntity
      * @return The update result
      * @since NFVO 0.5
@@ -105,7 +105,7 @@ public interface PortDao {
 
     /**
      * It is used to update Ports info. <br/>
-     * 
+     *
      * @param portEntity
      * @return The update result
      * @since NFVO 0.5

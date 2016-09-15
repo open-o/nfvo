@@ -22,7 +22,7 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -30,7 +30,7 @@ public interface InterfaceResManagement extends ResManagement {
 
     /**
      * <br/>
-     * 
+     *
      * @param vimId
      * @return
      * @throws ServiceException

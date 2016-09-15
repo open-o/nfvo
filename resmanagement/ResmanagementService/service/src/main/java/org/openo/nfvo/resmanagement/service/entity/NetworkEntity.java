@@ -22,11 +22,11 @@ import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Network entity class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -87,7 +87,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.ID
-     * 
+     *
      * @param id
      *            the value for network.ID
      */
@@ -104,7 +104,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.NAME
-     * 
+     *
      * @param name
      *            the value for network.NAME
      */
@@ -121,7 +121,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.TENANT_ID
-     * 
+     *
      * @param tenantId
      *            the value for network.TENANT_ID
      */
@@ -138,7 +138,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.VIM_ID
-     * 
+     *
      * @param networkVimId
      *            the value for network.VIM_ID
      */
@@ -155,7 +155,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column ivm.VIM_NAME
-     * 
+     *
      * @param networkVimName
      *            the value for ivm.VIM_NAME
      */
@@ -172,7 +172,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.STATUS
-     * 
+     *
      * @param networkStatus
      *            the value for network.STATUS
      */
@@ -190,7 +190,7 @@ public class NetworkEntity {
     /**
      * This method sets the value of the database column
      * network.PHYSICAL_NETWORK
-     * 
+     *
      * @param physicalNetwork
      *            the value for network.PHYSICAL_NETWORK
      */
@@ -207,7 +207,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.NETWORK_TYPE
-     * 
+     *
      * @param networkType
      *            the value for network.NETWORK_TYPE
      */
@@ -224,7 +224,7 @@ public class NetworkEntity {
 
     /**
      * This method sets the value of the database column network.SEGMENTATION_ID
-     * 
+     *
      * @param segmentationId
      *            the value for network.SEGMENTATION_ID
      */
@@ -233,9 +233,9 @@ public class NetworkEntity {
     }
 
     /**
-     * 
+     *
      * To Entity.<br>
-     * 
+     *
      * @param jsonObject
      * @return
      * @since  NFVO 0.5

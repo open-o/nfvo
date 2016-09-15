@@ -31,7 +31,7 @@ import net.sf.json.JSONObject;
  * <br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 10, 2016
  */
@@ -41,7 +41,7 @@ public class LimitsBusinessImpl implements LimitsBusiness {
 
     /**
      * <br>
-     * 
+     *
      * @param paramJson
      * @return
      * @throws ServiceException
@@ -54,7 +54,7 @@ public class LimitsBusinessImpl implements LimitsBusiness {
 
     /**
      * <br>
-     * 
+     *
      * @param paramJson
      * @return
      * @throws ServiceException
@@ -67,7 +67,7 @@ public class LimitsBusinessImpl implements LimitsBusiness {
 
     /**
      * <br>
-     * 
+     *
      * @param paramJson
      * @param getLimitscpuUrl
      * @return

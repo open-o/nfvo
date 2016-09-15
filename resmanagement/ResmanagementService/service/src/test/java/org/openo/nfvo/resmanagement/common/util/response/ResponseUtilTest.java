@@ -27,55 +27,55 @@ import net.sf.json.JSONObject;
 
 public class ResponseUtilTest {
 
-	@Test
-	public void TestGenHttpResponseWithTwoParam() {
-		int retCode1 = -1;
-		String msg1 = "123";
-		JSONObject result = ResponseUtil.genHttpResponse(retCode1, msg1);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "123");
-		assertEquals(result.toString(), expectedResult.toString());
-		;
-	}
+    @Test
+    public void TestGenHttpResponseWithTwoParam() {
+        int retCode1 = -1;
+        String msg1 = "123";
+        JSONObject result = ResponseUtil.genHttpResponse(retCode1, msg1);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "123");
+        assertEquals(result.toString(), expectedResult.toString());
+        ;
+    }
 
-	@Test
-	public void TestGenHttpResponseWithThreeParam() {
-		int retCode1 = -1;
-		String msg1 = "123";
-		JSONObject result = ResponseUtil.genHttpResponse(retCode1, msg1, null);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "123");
-		assertEquals(result.toString(), expectedResult.toString());
-		;
-	}
+    @Test
+    public void TestGenHttpResponseWithThreeParam() {
+        int retCode1 = -1;
+        String msg1 = "123";
+        JSONObject result = ResponseUtil.genHttpResponse(retCode1, msg1, null);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "123");
+        assertEquals(result.toString(), expectedResult.toString());
+        ;
+    }
 
-	@Test
-	public void TestGenHttpResponseWithFourParam1() {
-		int httpStatusCode = -1;
-		int retCode1 = -1;
-		String msg1 = "123";
-		JSONObject result = ResponseUtil.genHttpResponse(null, httpStatusCode, retCode1, msg1);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "123");
-		assertEquals(result.toString(), expectedResult.toString());
-		;
-	}
+    @Test
+    public void TestGenHttpResponseWithFourParam1() {
+        int httpStatusCode = -1;
+        int retCode1 = -1;
+        String msg1 = "123";
+        JSONObject result = ResponseUtil.genHttpResponse(null, httpStatusCode, retCode1, msg1);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "123");
+        assertEquals(result.toString(), expectedResult.toString());
+        ;
+    }
 
-	@Test
-	public void TestGenHttpResponseWithFourParam2() {
-		Map<String, Integer> codeMap = new HashMap<String, Integer>(5);
-		codeMap.put("httpStatusCode", -1);
-		codeMap.put("retCode", 1);
-		Map<String, Object> map = new HashMap<String, Object>(5);
-		map.put("a", -1);
-		map.put("b", 1);
-		String msg1 = "123";
-		JSONObject result = ResponseUtil.genHttpResponse(null, codeMap, msg1, map);
-		JSONObject expectedResult = new JSONObject();
-		expectedResult.put("msg", "123");
-		expectedResult.put("a", "-1");
-		assertEquals(result.toString(), expectedResult.toString());
-		;
-	}
+    @Test
+    public void TestGenHttpResponseWithFourParam2() {
+        Map<String, Integer> codeMap = new HashMap<String, Integer>(5);
+        codeMap.put("httpStatusCode", -1);
+        codeMap.put("retCode", 1);
+        Map<String, Object> map = new HashMap<String, Object>(5);
+        map.put("a", -1);
+        map.put("b", 1);
+        String msg1 = "123";
+        JSONObject result = ResponseUtil.genHttpResponse(null, codeMap, msg1, map);
+        JSONObject expectedResult = new JSONObject();
+        expectedResult.put("msg", "123");
+        expectedResult.put("a", "-1");
+        assertEquals(result.toString(), expectedResult.toString());
+        ;
+    }
 
 }

@@ -53,11 +53,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Location ROA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -73,9 +73,9 @@ public class LocationRoa {
     private Sites sites;
 
     /**
-     * 
+     *
      * Get Locations Base.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -92,9 +92,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Get Locations Base.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -116,9 +116,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Get Country.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -133,9 +133,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Get Location by Country.<br>
-     * 
+     *
      * @param context
      * @param country
      * @return
@@ -155,9 +155,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Get Cloud Service.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -172,9 +172,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Get location details.<br>
-     * 
+     *
      * @param context
      * @param locations
      * @return
@@ -197,9 +197,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Add Location.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -222,9 +222,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Delete Location Base.<br>
-     * 
+     *
      * @param context
      * @param locations
      * @return
@@ -248,9 +248,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Delete Location.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -283,9 +283,9 @@ public class LocationRoa {
     }
 
     /**
-     * 
+     *
      * Update Location.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException

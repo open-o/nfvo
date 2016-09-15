@@ -48,11 +48,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Port ROA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -66,9 +66,9 @@ public class PortRoa {
     private Port port;
 
     /**
-     * 
+     *
      * Get details of Ports.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -85,9 +85,9 @@ public class PortRoa {
     }
 
     /**
-     * 
+     *
      * Get port details.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -109,9 +109,9 @@ public class PortRoa {
     }
 
     /**
-     * 
+     *
      * Add port.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -132,9 +132,9 @@ public class PortRoa {
     }
 
     /**
-     * 
+     *
      * Delete port.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -155,9 +155,9 @@ public class PortRoa {
     }
 
     /**
-     * 
+     *
      * Update port.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException

@@ -48,11 +48,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Host ROA Class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -66,9 +66,9 @@ public class HostRoa {
     private Host host;
 
     /**
-     * 
+     *
      * Get hosts.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -85,9 +85,9 @@ public class HostRoa {
     }
 
     /**
-     * 
+     *
      * Get host.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -109,9 +109,9 @@ public class HostRoa {
     }
 
     /**
-     * 
+     *
      * Add host.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException
@@ -132,9 +132,9 @@ public class HostRoa {
     }
 
     /**
-     * 
+     *
      * Delete host.<br>
-     * 
+     *
      * @param context
      * @param id
      * @return
@@ -155,9 +155,9 @@ public class HostRoa {
     }
 
     /**
-     * 
+     *
      * Update host.<br>
-     * 
+     *
      * @param context
      * @return
      * @throws ServiceException

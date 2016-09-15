@@ -22,7 +22,7 @@ package org.openo.nfvo.resmanagement.common.constant;
  * <p>
  * Contstant for System interactive.
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 2016-3-17
  */

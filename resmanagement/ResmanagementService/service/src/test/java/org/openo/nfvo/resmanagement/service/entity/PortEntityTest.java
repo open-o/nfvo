@@ -25,23 +25,23 @@ import net.sf.json.JSONObject;
 
 public class PortEntityTest {
 
-	private PortEntity portEntity;
+    private PortEntity portEntity;
 
-	@Before
-	public void setUp() {
-		portEntity = new PortEntity();
-	}
+    @Before
+    public void setUp() {
+        portEntity = new PortEntity();
+    }
 
-	@Test
-	public void testPortEntiry() {
-		portEntity.setId("id:");
-		portEntity.setName("name");
-		portEntity.setNetworkId("networkId");
-		portEntity.setTenantId("tenantId");
-		portEntity.setVimId("vimID");
-		portEntity.setVimName("vimName");
-		assertTrue(portEntity.toString() != null);
-		assertTrue(PortEntity.toEntity(new JSONObject()) != null);
+    @Test
+    public void testPortEntiry() {
+        portEntity.setId("id:");
+        portEntity.setName("name");
+        portEntity.setNetworkId("networkId");
+        portEntity.setTenantId("tenantId");
+        portEntity.setVimId("vimID");
+        portEntity.setVimName("vimName");
+        assertTrue(portEntity.toString() != null);
+        assertTrue(PortEntity.toEntity(new JSONObject()) != null);
 
-	}
+    }
 }
