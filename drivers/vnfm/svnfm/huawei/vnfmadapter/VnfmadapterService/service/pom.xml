@@ -180,16 +180,11 @@
         </dependency>
 		
 		<!-- UT coverage dependency start -->
-        <dependency>
+       <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit</artifactId>
-            <version>1.18</version>
+            <version>1.19</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>org.jmockit</groupId>
@@ -197,7 +192,12 @@
             <version>1.18</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
         <!-- UT coverage dependency end -->
 
 
