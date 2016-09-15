@@ -1,4 +1,4 @@
-# Copyright (C) 2015 ZTE, Inc. and others. All rights reserved. (ZTE)
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,14 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from lcm.packages import views
 
 urlpatterns = [
+    url(r'^openoapi/nslcm/v1/nspackage/(?P<csarId>[0-9a-zA-Z\-\_]+)$', views.ns_access_csar, name='ns_access_csar'),
+    url(r'^openoapi/nslcm/v1/nspackage$', views.ns_on_boarding, name='ns_on_boarding'),
+    url(r'^openoapi/nslcm/v1/nspackage/(?P<csarId>[0-9a-zA-Z\-\_]+)/deletionpending$',
+        views.ns_delete_pending_csar, name='ns_delete_pending_csar'),
+    url(r'^openoapi/nslcm/v1/vnfpackage/(?P<csarId>[0-9a-zA-Z\-\_]+)$', views.nf_access_csar, name='nf_access_csar'),
+    url(r'^openoapi/nslcm/v1/vnfpackage$', views.nf_on_boarding, name='nf_on_boarding'),
+    url(r'^openoapi/nslcm/v1/vnfpackage/(?P<csarId>[0-9a-zA-Z\-\_]+)/deletionpending$',
+        views.nf_delete_pending_csar, name='nf_delete_pending_csar'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
