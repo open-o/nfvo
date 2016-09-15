@@ -38,7 +38,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide interfaces of resource for VNFM.
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -58,7 +58,7 @@ public class VnfResourceRoa {
     /**
      * Provide function of grant resource.
      * <br/>
-     * 
+     *
      * @param context
      * @param vnfId
      * @return

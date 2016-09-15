@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function for authInfo.
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -37,7 +37,7 @@ public class AuthMgr {
     /**
      * Provide function for add authInfo.
      * <br/>
-     * 
+     *
      * @param params
      * @return
      * @since NFVO 0.5

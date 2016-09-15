@@ -28,7 +28,7 @@ import javax.net.ssl.X509TrustManager;
 /**
  * SSL context
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */

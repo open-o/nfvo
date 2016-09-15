@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
@@ -49,7 +49,7 @@ public final class ResultRequestUtil {
     /**
      * common method
      * <br/>
-     * 
+     *
      * @param vnfmObject
      * @param path
      *            url defined

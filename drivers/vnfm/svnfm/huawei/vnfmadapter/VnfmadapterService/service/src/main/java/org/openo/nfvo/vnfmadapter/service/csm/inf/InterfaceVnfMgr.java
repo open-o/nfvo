@@ -21,7 +21,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide interfaces for instantiate or terminate VNF.
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -30,7 +30,7 @@ public interface InterfaceVnfMgr {
     /**
      * Provide interface for instantiate VNF.
      * <br/>
-     * 
+     *
      * @param subJsonObject
      * @param vnfmObjcet
      * @return
@@ -41,7 +41,7 @@ public interface InterfaceVnfMgr {
     /**
      * Provide interface for terminate VNF
      * <br/>
-     * 
+     *
      * @param vnfmObject
      * @param vnfId
      * @param vnfObject
@@ -53,7 +53,7 @@ public interface InterfaceVnfMgr {
     /**
      * Provide interface for get VNF info
      * <br/>
-     * 
+     *
      * @param vnfmObject
      * @param vnfId
      * @return
@@ -64,7 +64,7 @@ public interface InterfaceVnfMgr {
     /**
      * Retrieve job
      * <br>
-     * 
+     *
      * @param vnfmObject
      * @param jobId
      * @return

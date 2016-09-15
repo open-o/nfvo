@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Resource Manager interface.</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 13, 2016
  */
@@ -30,7 +30,7 @@ public interface IResourceManager {
 
     /**
      * Get VNFM CSAR information<br>
-     * 
+     *
      * @param csarid String
      * @return
      * @since  NFVO 0.5
@@ -39,7 +39,7 @@ public interface IResourceManager {
 
     /**
      * Download CSAR.<br>
-     * 
+     *
      * @param url String
      * @param filePath String
      * @return
@@ -49,17 +49,17 @@ public interface IResourceManager {
 
     /**
      * Get all clouds<br>
-     * 
+     *
      * @param url String
      * @return
      * @since  NFVO 0.5
      */
     JSONObject getAllCloud(String url);
-    
-    
+
+
     /**
      * get VNFD Plan Info.<br>
-     * 
+     *
      * @param url String
      * @param vnfdid String
      * @return
@@ -69,7 +69,7 @@ public interface IResourceManager {
 
     /**
      * Upload VNF package.<br>
-     * 
+     *
      * @param vnfpkg JSONObject
      * @param paramsMap Map<String, String>
      * @return

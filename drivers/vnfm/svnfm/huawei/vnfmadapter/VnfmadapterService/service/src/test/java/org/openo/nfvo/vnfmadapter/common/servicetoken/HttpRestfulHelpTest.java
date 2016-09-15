@@ -25,11 +25,11 @@ import org.openo.baseservice.roa.util.restclient.Restful;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
-public class HttpRestfulHelpTest { 
+public class HttpRestfulHelpTest {
 
     @Test
     public void testGetRestInstance() {

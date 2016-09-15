@@ -46,7 +46,7 @@ import net.sf.json.JSONObject;
 /**
  * Resource Manager adapter class.
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 13, 2016
  */
@@ -173,20 +173,20 @@ public class AdapterResourceManager implements IResourceManager {
         } else {
             return vnfdVerObject;
         }
-        
+
         // get vnfd plan info
         String planName = "";
         String planId = "";
-        
+
         JSONObject vnfdPlanInfo = getVNFDPlanInfo(vnfmUrl, vnfdid);
-        
+
         if (!vnfdPlanInfo.isEmpty() && vnfdPlanInfo.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
             planName = vnfdPlanInfo.getString("plan_name");
             planId = vnfdPlanInfo.getString("plan_id");
         } else {
             return vnfdPlanInfo;
         }
-        
+
         //return values
         resultObj.put("retCode", Constant.HTTP_OK);
         resultObj.put("vnfdId", vnfdid);
@@ -314,7 +314,7 @@ public class AdapterResourceManager implements IResourceManager {
 
     /**
      * Upload vnfpackage<br>
-     * 
+     *
      * @param vnfpackage
      * @param vnfmurl
      * @param conntoken
@@ -364,7 +364,7 @@ public class AdapterResourceManager implements IResourceManager {
 
     /**
      * Find vnfd version.<br>
-     * 
+     *
      * @param prefixUrl
      * @param serviceUrl
      * @return
@@ -412,7 +412,7 @@ public class AdapterResourceManager implements IResourceManager {
 
     /**
      *Find VNFM connection information.<br>
-     * 
+     *
      * @param paramsMap
      * @return
      * @since  NFVO 0.5
@@ -467,7 +467,7 @@ public class AdapterResourceManager implements IResourceManager {
 
     /**
      * Get VNF package information.<br>
-     * 
+     *
      * @return
      * @throws IOException
      * @since  NFVO 0.5

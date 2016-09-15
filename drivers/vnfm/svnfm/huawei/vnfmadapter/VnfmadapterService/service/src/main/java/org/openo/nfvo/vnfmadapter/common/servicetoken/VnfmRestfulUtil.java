@@ -40,7 +40,7 @@ import net.sf.json.JSONObject;
 /**
  * VNFM Restful Utility.
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -66,7 +66,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * within our module, we support a default method to invoke
-     * 
+     *
      * @param path
      *            rest service url
      * @param methodNames
@@ -114,7 +114,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     * 
+     *
      * @param methodName
      *            Restful's method
      * @param objects
@@ -143,7 +143,7 @@ public final class VnfmRestfulUtil {
     /**
      * Helps to invoke http methods Restful
      * <br>
-     * 
+     *
      * @param methodName String
      * @param objects String
      * @return
@@ -197,7 +197,7 @@ public final class VnfmRestfulUtil {
     /**
      * Helps to send Request to vnfm.
      * <br>
-     * 
+     *
      * @param path String
      * @param methodName String
      * @param paraJson JSONObject
@@ -249,7 +249,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     * 
+     *
      * @param vnfmId
      * @param dataJson
      * @return
@@ -281,7 +281,7 @@ public final class VnfmRestfulUtil {
     /**
      * Make request and get HTTP response
      * <br>
-     * 
+     *
      * @param paramsMap Map<String, String>
      * @param params String
      * @param domainTokens String
@@ -345,7 +345,7 @@ public final class VnfmRestfulUtil {
     /**
      * Make request and get HTTP response
      * <br>
-     * 
+     *
      * @param url String
      * @param methodType String
      * @param params String
@@ -384,7 +384,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * Make Params map<br>
-     * 
+     *
      * @param url String
      * @param methodType String
      * @param path String

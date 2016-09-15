@@ -58,10 +58,10 @@ public class VnfRoaTest {
         restJson.put("retCode", Constant.REST_SUCCESS);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -95,10 +95,10 @@ public class VnfRoaTest {
         restJson.put("retCode", Constant.REST_FAIL);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -119,17 +119,17 @@ public class VnfRoaTest {
 
         assertEquals(restJson.toString(), result);
 
-    }    
-    
+    }
+
     @Test
     public void testAddVnfBySubJsonObjectNull() throws ServiceException {
         final JSONObject restJson = new JSONObject();
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfmJsonUtil>() {
 
             @Mock
@@ -150,10 +150,10 @@ public class VnfRoaTest {
         restJson.put("retCode", Constant.REST_SUCCESS);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -173,7 +173,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.delVnf("vnfmId", mockResInstance, "vnfId", mockInstance);
         JSONObject retJson = new JSONObject();
         retJson.put("id", "123");
@@ -197,7 +197,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.delVnf("vnfmId", mockResInstance, "", mockInstance);
 
         assertEquals(restJson.toString(), result);
@@ -211,7 +211,7 @@ public class VnfRoaTest {
 
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -220,7 +220,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.delVnf("", mockResInstance, "vnfId", mockInstance);
 
         assertEquals(restJson.toString(), result);
@@ -234,7 +234,7 @@ public class VnfRoaTest {
 
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -242,23 +242,23 @@ public class VnfRoaTest {
             public <T> T getJsonFromContexts(HttpServletRequest VNFreq) {
                 return (T)restJson;
             }
-        };        
-        
+        };
+
         String result = vnfRoa.delVnf("", mockResInstance, "", mockInstance);
 
         assertEquals(restJson.toString(), result);
     }
-    
+
     @Test
     public void testDelVnfFail() throws ServiceException {
         final JSONObject restJson = new JSONObject();
         restJson.put("retCode", Constant.REST_FAIL);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -275,11 +275,11 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.delVnf("vnfmId", mockResInstance, "vnfId", mockInstance);
         assertEquals(restJson.toString(), result);
     }
-    
+
     @Test
     public void testGetVnfByVnfIdIsEmpty() throws ServiceException {
         final JSONObject restJson = new JSONObject();
@@ -297,7 +297,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.getVnf("vnfmId", mockResInstance, "", mockInstance);
 
         assertEquals(restJson.toString(), result);
@@ -311,7 +311,7 @@ public class VnfRoaTest {
 
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -320,7 +320,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.getVnf("", mockResInstance, "vnfId", mockInstance);
 
         assertEquals(restJson.toString(), result);
@@ -332,10 +332,10 @@ public class VnfRoaTest {
         restJson.put("retCode", Constant.REST_FAIL);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -352,21 +352,21 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.getVnf("vnfmId", mockResInstance, "vnfId", mockInstance);
         assertEquals(restJson.toString(), result);
     }
-    
+
     @Test
     public void testGetVnf() throws ServiceException {
         final JSONObject restJson = new JSONObject();
         restJson.put("retCode", Constant.REST_SUCCESS);
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        
+
         MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
         HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
-        
+
         new MockUp<VnfMgr>() {
 
             @Mock
@@ -396,7 +396,7 @@ public class VnfRoaTest {
                 return (T)restJson;
             }
         };
-        
+
         String result = vnfRoa.getVnf("vnfmId", mockResInstance, "vnfId", mockInstance);
         JSONObject basicInfoJson = new JSONObject();
         JSONObject retJson = new JSONObject();

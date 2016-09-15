@@ -43,7 +43,7 @@ import org.springframework.http.HttpRequest;
 
 /**
  * HTTP Request class.</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -68,7 +68,7 @@ public final class HttpRequests {
 
     /**
      * Request builder.</br>
-     * 
+     *
      * @author
      * @version     NFVO 0.5  Sep 14, 2016
      */
@@ -89,9 +89,9 @@ public final class HttpRequests {
         private String authenticateMode;
 
         /**
-         * 
+         *
          * Constructor<br>
-         * 
+         *
          * @param authenticateMode
          * @since  NFVO 0.5
          */
@@ -106,7 +106,7 @@ public final class HttpRequests {
         /**
          * Add header
          * <br>
-         * 
+         *
          * @param name
          * @param value
          * @return
@@ -120,7 +120,7 @@ public final class HttpRequests {
         /**
          * Add headers
          * <br>
-         * 
+         *
          * @param header
          * @param headers
          * @return
@@ -141,7 +141,7 @@ public final class HttpRequests {
         /**
          * Add headers
          * <br>
-         * 
+         *
          * @param headers
          * @return
          * @since  NFVO 0.5
@@ -156,7 +156,7 @@ public final class HttpRequests {
         /**
          * Update URL
          * <br>
-         * 
+         *
          * @param url
          * @param path
          * @return
@@ -181,7 +181,7 @@ public final class HttpRequests {
         /**
          * Update URL
          * <br>
-         * 
+         *
          * @param url
          * @param path
          * @param defPort
@@ -207,7 +207,7 @@ public final class HttpRequests {
         /**
          * HTTP POST
          * <br>
-         * 
+         *
          * @return
          * @since  NFVO 0.5
          */
@@ -219,7 +219,7 @@ public final class HttpRequests {
         /**
          * HTTP GET
          * <br>
-         * 
+         *
          * @return
          * @since  NFVO 0.5
          */
@@ -231,7 +231,7 @@ public final class HttpRequests {
         /**
          * HTTP PUT
          * <br>
-         * 
+         *
          * @return
          * @since  NFVO 0.5
          */
@@ -243,7 +243,7 @@ public final class HttpRequests {
         /**
          * HTTP DELETE
          * <br>
-         * 
+         *
          * @return
          * @since  NFVO 0.5
          */
@@ -255,7 +255,7 @@ public final class HttpRequests {
         /**
          * Update Params
          * <br>
-         * 
+         *
          * @param json
          * @return
          * @since  NFVO 0.5
@@ -268,7 +268,7 @@ public final class HttpRequests {
         /**
          * Set the encoding
          * <br>
-         * 
+         *
          * @param encode
          * @return
          * @since  NFVO 0.5
@@ -281,7 +281,7 @@ public final class HttpRequests {
         /**
          * Make HTTP request
          * <br>
-         * 
+         *
          * @return
          * @since  NFVO 0.5
          */
@@ -316,7 +316,7 @@ public final class HttpRequests {
         /**
          * Execute the HTTP method
          * <br>
-         * 
+         *
          * @return
          * @throws VnfmException
          * @throws IOException

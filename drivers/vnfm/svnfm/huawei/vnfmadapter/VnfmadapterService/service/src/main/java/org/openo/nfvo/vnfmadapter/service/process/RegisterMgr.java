@@ -31,7 +31,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function for register or unregister service to Bus.
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -42,7 +42,7 @@ public class RegisterMgr {
     /**
      * Register service to the Bus
      * <br/>
-     * 
+     *
      * @since NFVO 0.5
      */
     public void register() {
@@ -55,7 +55,7 @@ public class RegisterMgr {
     /**
      * UnRegister service to the Bus
      * <br/>
-     * 
+     *
      * @since NFVO 0.5
      */
     public void unRegister() {

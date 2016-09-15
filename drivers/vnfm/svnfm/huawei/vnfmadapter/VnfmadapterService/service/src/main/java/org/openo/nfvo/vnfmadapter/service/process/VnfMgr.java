@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function for instantiate or terminate VNF
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -52,7 +52,7 @@ public class VnfMgr {
     /**
      * Provide function for instantiate VNF
      * <br/>
-     * 
+     *
      * @param vnfObject
      * @param vnfmId
      * @return
@@ -96,7 +96,7 @@ public class VnfMgr {
     /**
      * Provide function for terminate VNF
      * <br/>
-     * 
+     *
      * @param vnfId
      * @param vnfmId
      * @param vnfObject
@@ -124,7 +124,7 @@ public class VnfMgr {
     /**
      * Provide function for get VNF
      * <br/>
-     * 
+     *
      * @param vnfId
      * @param vnfmId
      * @return
@@ -202,7 +202,7 @@ public class VnfMgr {
     /**
      * Provide function for get job
      * <br/>
-     * 
+     *
      * @param jobId
      * @param vnfmId
      * @return
@@ -231,7 +231,7 @@ public class VnfMgr {
     /**
      * Provide function for save vnfInfo
      * <br/>
-     * 
+     *
      * @param vnfObject
      * @param resObject
      * @since NFVO 0.5

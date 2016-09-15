@@ -43,7 +43,7 @@ public class SslAnonymousSocket extends AbstractSslContext implements SecureProt
     /**
      * Initialize
      * <br>
-     * 
+     *
      * @throws VnfmException
      * @since  NFVO 0.5
      */

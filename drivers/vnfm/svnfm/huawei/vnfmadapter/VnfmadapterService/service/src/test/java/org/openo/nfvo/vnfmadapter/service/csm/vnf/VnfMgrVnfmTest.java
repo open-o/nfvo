@@ -31,7 +31,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
@@ -190,16 +190,16 @@ public class VnfMgrVnfmTest {
                 obj.put("data", basicsData);
                 return obj;
             }
-            
+
         };
         VnfMgrVnfm vnfMgrVnfm = new VnfMgrVnfm();
         JSONObject vnfmObject = new JSONObject();
-        
+
         String jobId = "1234";
         JSONObject resp = vnfMgrVnfm.getJob(vnfmObject, jobId);
         assertEquals(resp.get("retCode"),1);
     }
-    
+
     @Test
     public void getJobTestCreatedNormal(){
         new MockUp<ResultRequestUtil>(){
@@ -216,16 +216,16 @@ public class VnfMgrVnfmTest {
                 obj.put("data", basicsData);
                 return obj;
             }
-            
+
         };
         VnfMgrVnfm vnfMgrVnfm = new VnfMgrVnfm();
         JSONObject vnfmObject = new JSONObject();
-        
+
         String jobId = "1234";
         JSONObject resp = vnfMgrVnfm.getJob(vnfmObject, jobId);
         assertEquals(resp.get("retCode"),1);
     }
-    
+
     @Test
     public void getJobTestNullData(){
         new MockUp<ResultRequestUtil>(){
@@ -242,16 +242,16 @@ public class VnfMgrVnfmTest {
                 obj.put("data", null);
                 return obj;
             }
-            
+
         };
         VnfMgrVnfm vnfMgrVnfm = new VnfMgrVnfm();
         JSONObject vnfmObject = new JSONObject();
-        
+
         String jobId = "1234";
         JSONObject resp = vnfMgrVnfm.getJob(vnfmObject, jobId);
         assertEquals(resp.get("retCode"),-1);
     }
-    
+
     @Test
     public void getJobTestInternalError(){
         new MockUp<ResultRequestUtil>(){
@@ -268,11 +268,11 @@ public class VnfMgrVnfmTest {
                 obj.put("data", null);
                 return obj;
             }
-            
+
         };
         VnfMgrVnfm vnfMgrVnfm = new VnfMgrVnfm();
         JSONObject vnfmObject = new JSONObject();
-        
+
         String jobId = "1234";
         JSONObject resp = vnfMgrVnfm.getJob(vnfmObject, jobId);
         assertEquals(resp.get("retCode"),-1);

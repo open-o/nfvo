@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Aug 25, 2016
  */
@@ -47,8 +47,8 @@ public class RegisterConfigInfo {
 
     private String port;
 
-    private String ttl;    
-    
+    private String ttl;
+
     private static RegisterConfigInfo regConfig = new RegisterConfigInfo();
 
     private RegisterConfigInfo() {

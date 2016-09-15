@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Aug 25, 2016
  */
@@ -34,7 +34,7 @@ public interface InterfaceConnectMgr {
     /**
      * Provide interface for connecting
      * <br/>
-     * 
+     *
      * @param obj
      * @return
      * @throws VnfmException

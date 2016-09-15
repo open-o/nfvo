@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ConnectInfoTest {
-    
+
     @Test
     public void constructorTestNullUrl(){
         ConnectInfo info = new ConnectInfo(null);
@@ -35,13 +35,13 @@ public class ConnectInfoTest {
     @Test
     public void constructorTest2NullData(){
         ConnectInfo info = new ConnectInfo(null,null,null,null);
-        assertTrue(info.getUrl().equals("") && info.getUserName().equals("") 
+        assertTrue(info.getUrl().equals("") && info.getUserName().equals("")
                 && info.getUserPwd().equals("") && info.getAuthenticateMode().equals(""));
     }
     @Test
     public void constructorTestValidData(){
         ConnectInfo info = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(info.getUrl().equals("localhost") && info.getUserName().equals("user") 
+        assertTrue(info.getUrl().equals("localhost") && info.getUserName().equals("user")
                 && info.getUserPwd().equals("password") && info.getAuthenticateMode().equals("auth"));
     }
     @Test
@@ -50,40 +50,40 @@ public class ConnectInfoTest {
         ConnectInfo info2 = new ConnectInfo("localhost","user","password","auth");
         assertTrue(info1.hashCode() == info2.hashCode());
     }
-    
+
     @Test
     public void equalsTest(){
         ConnectInfo info1 = new ConnectInfo("localhost","user","password","auth");
         ConnectInfo info2 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(info1.equals(info2));  
+        assertTrue(info1.equals(info2));
     }
     @Test
     public void equalsTest2(){
         ConnectInfo info1 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(info1.equals(info1));  
+        assertTrue(info1.equals(info1));
     }
     @Test
     public void equalsTest3(){
         ConnectInfo info1 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(!info1.equals(null));  
+        assertTrue(!info1.equals(null));
     }
     @Test
     public void equalsTest4(){
         ConnectInfo info1 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(!info1.equals(new Object()));  
+        assertTrue(!info1.equals(new Object()));
     }
     @Test
     public void equalsTest5(){
         ConnectInfo info1 = new ConnectInfo(null,"user","password","auth");
         ConnectInfo info2 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(!info1.equals(info2));  
+        assertTrue(!info1.equals(info2));
     }
     @Test
     public void equalsTest6(){
         ConnectInfo info1 = new ConnectInfo("testurl","user","password","auth");
         ConnectInfo info2 = new ConnectInfo("localhost","user","password","auth");
-        assertTrue(!info1.equals(info2));  
+        assertTrue(!info1.equals(info2));
     }
-    
+
 
 }

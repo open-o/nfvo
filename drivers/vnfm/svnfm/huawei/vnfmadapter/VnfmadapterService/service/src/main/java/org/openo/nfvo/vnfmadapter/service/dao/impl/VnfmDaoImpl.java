@@ -27,7 +27,7 @@ import org.openo.nfvo.vnfmadapter.service.mapper.VnfmMapper;
 /**
  * VNFM DAO
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */

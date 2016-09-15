@@ -23,7 +23,7 @@ import org.openo.nfvo.vnfmadapter.service.entity.Vnfm;
 
 /**
  * VNFM mapper.</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -32,7 +32,7 @@ public interface VnfmMapper {
     /**
      * Add VNFM
      * <br>
-     * 
+     *
      * @param vnfm Vnfm
      * @return
      * @since  NFVO 0.5
@@ -42,7 +42,7 @@ public interface VnfmMapper {
     /**
      * Update VNFM
      * <br>
-     * 
+     *
      * @param vnfm Vnfm
      * @return
      * @since  NFVO 0.5
@@ -52,7 +52,7 @@ public interface VnfmMapper {
     /**
      * Delete VNFM
      * <br>
-     * 
+     *
      * @param vnfmDn
      * @return
      * @since  NFVO 0.5
@@ -62,7 +62,7 @@ public interface VnfmMapper {
     /**
      * Index VNFM
      * <br>
-     * 
+     *
      * @param offset
      * @param pageSize
      * @return
@@ -73,7 +73,7 @@ public interface VnfmMapper {
     /**
      * Get VNFM counts.
      * <br>
-     * 
+     *
      * @return
      * @since  NFVO 0.5
      */
@@ -82,7 +82,7 @@ public interface VnfmMapper {
     /**
      * Get VNFM by id
      * <br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5

@@ -39,7 +39,7 @@ public class AbstractDao {
 
     /**
      * get Mybatis Mapper.
-     * 
+     *
      * @param type : The class of the instance
      * @param <T> : The type of the instance
      * @return Mapper : The instance

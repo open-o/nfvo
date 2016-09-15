@@ -26,7 +26,7 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class ResultRequestUtilTest {
-    
+
     @Test
     public void callTestInternalError(){
         new MockUp<ConnectMgrVnfm>(){
@@ -42,7 +42,7 @@ public class ResultRequestUtilTest {
         JSONObject resp = ResultRequestUtil.call(vnfmObject, path, methodName, paramsJson);
         assertTrue(resp.get("data").equals("connect fail."));
     }
-    
+
     @Test
     public void callTestConnectionErrot(){
         new MockUp<ConnectMgrVnfm>(){

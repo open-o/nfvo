@@ -29,7 +29,7 @@ import net.sf.json.JSONObject;
 /**
  * create or terminate VNF to M
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */

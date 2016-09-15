@@ -29,7 +29,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function of getting vnfmInfo
  * <br/>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Aug 25, 2016
  */
@@ -44,7 +44,7 @@ public final class VnfmUtil {
     /**
      * Get vnfmInfo by ip
      * <br/>
-     * 
+     *
      * @param vnfmId
      * @return
      * @since  NFVO 0.5
@@ -62,7 +62,7 @@ public final class VnfmUtil {
     /**
      * Get vnfmInfo by id
      * <br/>
-     * 
+     *
      * @param ip
      * @return
      * @since  NFVO 0.5

@@ -28,13 +28,13 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class VnfmUtilTest {
-    
+
     @Test
     public void getVnfmByIdTestNullResp(){
         JSONObject resp = VnfmUtil.getVnfmById("1234");
         assertNull(resp);
     }
-    
+
     @Test
     public void getVnfmByIdTestSuccess(){
         new MockUp<VnfmRestfulUtil>(){
@@ -48,13 +48,13 @@ public class VnfmUtilTest {
         JSONObject resp = VnfmUtil.getVnfmById("1234");
         assertNotNull(resp);
     }
-    
+
     @Test
     public void getVnfmIdByIpTestNullResp(){
         String resp = VnfmUtil.getVnfmIdByIp("localhost");
         assertTrue("".equals(resp));
     }
-    
+
     @Test
     public void getVnfmIdByIpTestSuccess(){
         new MockUp<VnfmRestfulUtil>(){
@@ -74,7 +74,7 @@ public class VnfmUtilTest {
         String resp = VnfmUtil.getVnfmIdByIp("localhost");
         assertTrue("1234".equals(resp));
     }
-    
+
     @Test
     public void getVnfmIdByIpTestSuccessInvalidIP(){
         new MockUp<VnfmRestfulUtil>(){

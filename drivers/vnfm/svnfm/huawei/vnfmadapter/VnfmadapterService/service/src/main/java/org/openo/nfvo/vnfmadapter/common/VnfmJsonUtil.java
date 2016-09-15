@@ -31,7 +31,7 @@ import net.sf.json.util.JSONTokener;
 
 /**
  * VNFM JSON utils.</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -46,7 +46,7 @@ public final class VnfmJsonUtil {
     /**
      * Get the JSON string from input http context.
      * <br/>
-     * 
+     *
      * @param vnfReq HttpServletRequest
      * @return
      * @since  NFVO 0.5

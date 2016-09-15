@@ -45,7 +45,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide interfaces for instantiate or terminate VNF.
  * <br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -86,7 +86,7 @@ public class VnfRoa {
     /**
      * Provide function for instantiate VNF
      * <br/>
-     * 
+     *
      * @param context
      * @param resp
      * @param vnfmId
@@ -122,7 +122,7 @@ public class VnfRoa {
     /**
      * Provide function for terminate VNF
      * <br/>
-     * 
+     *
      * @param vnfmId
      * @param resp
      * @param vnfInstanceId
@@ -158,7 +158,7 @@ public class VnfRoa {
     /**
      * Provide function for get VNF
      * <br/>
-     * 
+     *
      * @param vnfmId
      * @param resp
      * @param vnfInstanceId
@@ -194,7 +194,7 @@ public class VnfRoa {
     /**
      * Provide function for get job
      * <br/>
-     * 
+     *
      * @param jobId
      * @param vnfmId
      * @param resp

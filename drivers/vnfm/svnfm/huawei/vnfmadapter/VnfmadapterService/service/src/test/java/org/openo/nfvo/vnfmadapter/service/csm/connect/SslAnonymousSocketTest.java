@@ -25,7 +25,7 @@ import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.junit.Test;
 
 public class SslAnonymousSocketTest {
-    
+
     @Test(expected = IOException.class)
     public void createSocketTestException() throws IOException, ConnectTimeoutException {
         String host= "localhost";
@@ -36,7 +36,7 @@ public class SslAnonymousSocketTest {
         SslAnonymousSocket sslsocket = new SslAnonymousSocket();
         Socket socket  = sslsocket.createSocket(host, port, localAddress, localPort, params);
     }
-    
+
     @Test(expected = Exception.class)
     public void createSocketTestException2() throws IOException, ConnectTimeoutException {
         String host= "localhost";

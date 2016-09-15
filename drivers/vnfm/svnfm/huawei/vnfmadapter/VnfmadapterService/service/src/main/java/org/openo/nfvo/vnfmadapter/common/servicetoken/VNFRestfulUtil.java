@@ -39,7 +39,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Utility class.</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -69,7 +69,7 @@ public final class VNFRestfulUtil {
 
     /**
      * within our module, we support a default method to invoke
-     * 
+     *
      * @param methodNames String
      * @param path
      *            rest service url
@@ -119,7 +119,7 @@ public final class VNFRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     * 
+     *
      * @param methodName
      *            Restful's method
      * @param objects
@@ -148,7 +148,7 @@ public final class VNFRestfulUtil {
     /**
      * Helps to invoke methods on Restful.
      * <br>
-     * 
+     *
      * @param methodName
      * @param objects
      * @return
@@ -251,7 +251,7 @@ public final class VNFRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     * 
+     *
      * @param vnfmId
      * @param dataJson
      * @return
@@ -282,7 +282,7 @@ public final class VNFRestfulUtil {
 
     /**
      * Make HTTP method calls<br>
-     * 
+     *
      * @param paramsMap Map<String, String>
      * @param params String
      * @param domainTokens String
@@ -346,7 +346,7 @@ public final class VNFRestfulUtil {
     /**
      * Make HTTP method calls
      * <br>
-     * 
+     *
      * @param paramsMap
      * @param params
      * @return
@@ -385,12 +385,12 @@ public final class VNFRestfulUtil {
         }
         return rsp;
     }
-  
-   
+
+
     /**
      * Helps to make the parameter map.
      * <br>
-     * 
+     *
      * @param url
      * @param methodType
      * @param path
@@ -409,7 +409,7 @@ public final class VNFRestfulUtil {
 
     /**
      * Helps to make the parameter map.<br>
-     * 
+     *
      * @param url
      * @param methodType
      * @param path
@@ -428,7 +428,7 @@ public final class VNFRestfulUtil {
     /**
      * Cookup the response
      * <br>
-     * 
+     *
      * @param vnfmInfo
      * @param vnfmId
      * @return

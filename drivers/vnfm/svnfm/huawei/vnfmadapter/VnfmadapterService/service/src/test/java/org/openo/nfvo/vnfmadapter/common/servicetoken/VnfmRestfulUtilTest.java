@@ -32,7 +32,7 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class VnfmRestfulUtilTest {
-	@Test
+    @Test
     public void testGetRestResByDefaultByNull() {
         RestfulResponse result = VnfmRestfulUtil.getRestResByDefault("path", "methodNames", new JSONObject());
         assertNull(result);
@@ -129,11 +129,11 @@ public class VnfmRestfulUtilTest {
     }
     @Test
     public void getRemoteResponseTestGet(){
-    	Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "get");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "get");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
         boolean isNfvoApp = false;
         RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
@@ -151,49 +151,49 @@ public class VnfmRestfulUtilTest {
     }
     @Test
     public void getRemoteResponseTestPost(){
-    	Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "post");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
-    	
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "post");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
     @Test
     public void getRemoteResponseTestPut(){
-    	Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "put");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
-    	
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "put");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-    
+
     @Test
     public void getRemoteResponseTestDelete(){
-    	Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "delete");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
-    	
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "delete");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-    
+
     @Test
     public void getRemoteResponse2TestDelete(){
-    	Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "delete");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "delete");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
         RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse("/test/123", "", "test123");
         assertNull(resp);
     }

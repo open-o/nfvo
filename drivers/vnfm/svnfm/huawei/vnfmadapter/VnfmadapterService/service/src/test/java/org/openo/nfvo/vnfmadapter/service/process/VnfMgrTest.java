@@ -215,7 +215,7 @@ public class VnfMgrTest {
         assertEquals(restJson, result);
 
     }
-    
+
     @Test
     public void testGetVnf() {
         new MockUp<VnfmUtil>() {

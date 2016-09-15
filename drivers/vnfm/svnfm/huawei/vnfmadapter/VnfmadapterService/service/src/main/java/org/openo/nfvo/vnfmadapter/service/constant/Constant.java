@@ -24,7 +24,7 @@ import java.util.List;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 3, 2016
  */
@@ -59,10 +59,10 @@ public class Constant {
     public static final String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
 
     public static final String HEADER_AUTH_TOKEN = "X-Auth-Token";
-    
+
     public static final String DOWNLOADCSAR_SUCCESS = "Success";
-    
-    public static final String DOWNLOADCSAR_FAIL = "FAIL";    
+
+    public static final String DOWNLOADCSAR_FAIL = "FAIL";
 
     public static final int HTTP_OK = 200;
 
@@ -111,7 +111,7 @@ public class Constant {
     public static final String CERTIFICATE = "Certificate";
 
     public static final String RETCODE = "retCode";
-      
+
     public static final String STATUS = "status";
 
     public static final String VNFPKGINFO="vnfpkginfo.json";

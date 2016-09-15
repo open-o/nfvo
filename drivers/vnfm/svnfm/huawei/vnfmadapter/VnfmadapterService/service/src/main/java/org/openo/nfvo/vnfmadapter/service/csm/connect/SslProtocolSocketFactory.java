@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 /**
  * SSL Socket Factory.
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -44,7 +44,7 @@ public class SslProtocolSocketFactory {
     /**
      * Generate instance of SslProtocolSocketFactory
      * <br>
-     * 
+     *
      * @return
      * @since  NFVO 0.5
      */
@@ -56,9 +56,9 @@ public class SslProtocolSocketFactory {
     }
 
     /**
-     * 
+     *
      * <br>
-     * 
+     *
      * @param authenticateMode
      * @return
      * @throws VnfmException
@@ -82,7 +82,7 @@ public class SslProtocolSocketFactory {
     /**
      * Refresh local socket map
      * <br>
-     * 
+     *
      * @param autherMode
      * @throws VnfmException
      * @since  NFVO 0.5

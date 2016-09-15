@@ -42,7 +42,7 @@ public class AuthMgrTest {
         restJson.put("data", "JSONException");
         assertEquals(restJson, result);
     }
-    
+
     @Test
     public void testAuthToken() {
         new MockUp<VnfmRestfulUtil>() {
@@ -52,8 +52,8 @@ public class AuthMgrTest {
                 RestfulResponse response = null;
                 return response;
             }
-        };        
-        
+        };
+
         AuthMgr authMgr = new AuthMgr();
         String data = "{\"auth\":{\"identity\":{\"password\":{\"user\":{\"name\":\"om_team\",\"password\":\"123\"}}}}}";
         JSONObject params = JSONObject.fromObject(data);

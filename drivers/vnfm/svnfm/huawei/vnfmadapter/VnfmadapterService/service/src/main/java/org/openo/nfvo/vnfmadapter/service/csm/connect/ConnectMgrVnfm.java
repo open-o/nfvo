@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 /**
  * VNFM connection manager
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -45,7 +45,7 @@ public class ConnectMgrVnfm {
     private String accessSession;
 
     private String roaRand;
-    
+
     public String getAccessSession() {
         return accessSession;
     }
@@ -65,7 +65,7 @@ public class ConnectMgrVnfm {
     /**
      * Make connection
      * <br>
-     * 
+     *
      * @param vnfmObj
      * @return
      * @since  NFVO 0.5

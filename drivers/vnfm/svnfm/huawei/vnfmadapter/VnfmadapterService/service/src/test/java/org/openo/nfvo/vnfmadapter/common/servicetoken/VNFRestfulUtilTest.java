@@ -36,23 +36,23 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
 public class VNFRestfulUtilTest {
-	
-	@Test
-	public void getRestResByDefaultTestGet(){
-		String path="http://localhost:8080";
-		String methodNames = "get";
-		JSONObject bodyParam = new JSONObject();
-		bodyParam.put("id", "1234");
-		RestfulResponse resp = VNFRestfulUtil.getRestResByDefault(path, methodNames, bodyParam);
-		assertNotNull(resp);
-	}
-	
-	@Test
+
+    @Test
+    public void getRestResByDefaultTestGet(){
+        String path="http://localhost:8080";
+        String methodNames = "get";
+        JSONObject bodyParam = new JSONObject();
+        bodyParam.put("id", "1234");
+        RestfulResponse resp = VNFRestfulUtil.getRestResByDefault(path, methodNames, bodyParam);
+        assertNotNull(resp);
+    }
+
+    @Test
     public void getRestResByDefaultTestDelete(){
         String path="http://localhost:8080";
         String methodNames = "delete";
@@ -61,7 +61,7 @@ public class VNFRestfulUtilTest {
         RestfulResponse resp = VNFRestfulUtil.getRestResByDefault(path, methodNames, bodyParam);
         assertNotNull(resp);
     }
-	@Test
+    @Test
     public void getRestResByDefaultTestPost(){
         String path="http://localhost:8080";
         String methodNames = "post";
@@ -70,129 +70,129 @@ public class VNFRestfulUtilTest {
         RestfulResponse resp = VNFRestfulUtil.getRestResByDefault(path, methodNames, bodyParam);
         assertNotNull(resp);
     }
-	
-	@Test
-	public void sendReqToAppTestNullResp(){
-		String path="http://localhost:8080";
-		String methodNames = "get";
-		JSONObject bodyParam = new JSONObject();
-		bodyParam.put("id", "1234");
-		JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
-		assertNotNull(resp);
-	}
-	@Test
-	public void sendReqToAppTest(){
-		new MockUp<VNFRestfulUtil>(){
-			@Mock
-			public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
-				RestfulResponse resp = new RestfulResponse();
-				resp.setStatus(200);
-				Map<String,Object> map = new HashMap<>();
-				map.put("retCode", 1);
-				resp.setResponseJson(toJson(map));
-				return resp;
-			}
-		};
-		String path="http://localhost:8080/vnfdmgr/v1";
-		String methodNames = "get";
-		JSONObject bodyParam = new JSONObject();
-		bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
-		JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
-		assertNotNull(resp);
-	}
-	
-	@Test
-	public void sendReqToAppTest2(){
-		new MockUp<VNFRestfulUtil>(){
-			@Mock
-			public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
-				RestfulResponse resp = new RestfulResponse();
-				resp.setStatus(200);
-				Map<String,Object> map = new HashMap<>();
-				map.put("retCode", -1);
-				resp.setResponseJson(toJson(map));
-				return resp;
-			}
-		};
-		String path="http://localhost:8080/vnfdmgr/v1";
-		String methodNames = "get";
-		JSONObject bodyParam = new JSONObject();
-		bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
-		JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
-		assertNotNull(resp);
-	}
-	@Test
-	public void sendReqToAppTest3(){
-		new MockUp<VNFRestfulUtil>(){
-			@Mock
-			public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
-				RestfulResponse resp = new RestfulResponse();
-				resp.setStatus(500);
-				Map<String,Object> map = new HashMap<>();
-				map.put("retCode", -1);
-				resp.setResponseJson(toJson(map));
-				return resp;
-			}
-		};
-		String path="http://localhost:8080/vnfdmgr/v1";
-		String methodNames = "get";
-		JSONObject bodyParam = new JSONObject();
-		bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
-		JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
-		assertNotNull(resp);
-	}
-	
-	@Test
-	public void getRemoteResponseTest(){
-		Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "delete");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
-    	
+
+    @Test
+    public void sendReqToAppTestNullResp(){
+        String path="http://localhost:8080";
+        String methodNames = "get";
+        JSONObject bodyParam = new JSONObject();
+        bodyParam.put("id", "1234");
+        JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
+        assertNotNull(resp);
+    }
+    @Test
+    public void sendReqToAppTest(){
+        new MockUp<VNFRestfulUtil>(){
+            @Mock
+            public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
+                RestfulResponse resp = new RestfulResponse();
+                resp.setStatus(200);
+                Map<String,Object> map = new HashMap<>();
+                map.put("retCode", 1);
+                resp.setResponseJson(toJson(map));
+                return resp;
+            }
+        };
+        String path="http://localhost:8080/vnfdmgr/v1";
+        String methodNames = "get";
+        JSONObject bodyParam = new JSONObject();
+        bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
+        JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
+        assertNotNull(resp);
+    }
+
+    @Test
+    public void sendReqToAppTest2(){
+        new MockUp<VNFRestfulUtil>(){
+            @Mock
+            public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
+                RestfulResponse resp = new RestfulResponse();
+                resp.setStatus(200);
+                Map<String,Object> map = new HashMap<>();
+                map.put("retCode", -1);
+                resp.setResponseJson(toJson(map));
+                return resp;
+            }
+        };
+        String path="http://localhost:8080/vnfdmgr/v1";
+        String methodNames = "get";
+        JSONObject bodyParam = new JSONObject();
+        bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
+        JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
+        assertNotNull(resp);
+    }
+    @Test
+    public void sendReqToAppTest3(){
+        new MockUp<VNFRestfulUtil>(){
+            @Mock
+            public RestfulResponse getRestResByDefault(String path, String methodNames, JSONObject bodyParam) {
+                RestfulResponse resp = new RestfulResponse();
+                resp.setStatus(500);
+                Map<String,Object> map = new HashMap<>();
+                map.put("retCode", -1);
+                resp.setResponseJson(toJson(map));
+                return resp;
+            }
+        };
+        String path="http://localhost:8080/vnfdmgr/v1";
+        String methodNames = "get";
+        JSONObject bodyParam = new JSONObject();
+        bodyParam.put("vnfmInfo", new JSONObject().put("id", "6775"));
+        JSONObject resp = VNFRestfulUtil.sendReqToApp(path, methodNames, bodyParam);
+        assertNotNull(resp);
+    }
+
+    @Test
+    public void getRemoteResponseTest(){
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "delete");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
-	}
-	
-	@Test
+    }
+
+    @Test
     public void getRemoteResponse2Test(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "get");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-        
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-	
-	@Test
+
+    @Test
     public void getRemoteResponse3Test(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "post");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-       
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponse4Test(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "put");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-       
+
         boolean isNfvoApp = false;
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponse5Test(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
@@ -203,7 +203,7 @@ public class VNFRestfulUtilTest {
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponseTrueTest(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
@@ -214,105 +214,105 @@ public class VNFRestfulUtilTest {
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "", "test123", isNfvoApp);
         assertNull(resp);
     }
-	
-	@Test
-	public void getRemoteResponseDeleteTest(){
-		Map<String, String> paramsMap = new HashMap<>();
-    	paramsMap.put("url", "/test/123");
-    	paramsMap.put("methodType", "delete");
-    	paramsMap.put("path", "http://localhost:8080");
-    	paramsMap.put("authMode", "test");
+
+    @Test
+    public void getRemoteResponseDeleteTest(){
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/test/123");
+        paramsMap.put("methodType", "delete");
+        paramsMap.put("path", "http://localhost:8080");
+        paramsMap.put("authMode", "test");
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "");
         assertNull(resp);
-	}
-	@Test
+    }
+    @Test
     public void getRemoteResponseGetTest(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "get");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-        
+
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "");
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponsePostTest(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "post");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-        
+
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "");
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponsePutTest(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "put");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-        
+
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "");
         assertNull(resp);
     }
-	@Test
+    @Test
     public void getRemoteResponsePatchTest(){
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", "/test/123");
         paramsMap.put("methodType", "patch");
         paramsMap.put("path", "http://localhost:8080");
         paramsMap.put("authMode", "test");
-        
+
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, "");
         assertNull(resp);
     }
-	
-	@Test
+
+    @Test
     public void getRemoteResponseNullTest(){
-        
+
         RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(null, "");
         assertNull(resp);
     }
-	@Test
-	public void generateParamsMapTest(){
-		String url = "/test/123";
-		String methodType="get";
-		String path="http://localhost:8080";
-		String authMode="test";
-		Map<String, String> res = VNFRestfulUtil.generateParamsMap(url, methodType, path, authMode);
-		assertTrue(res.get("url").equals("/test/123"));
-	}
-	
-	@Test
-	public void generateParams2MapTest(){
-		String url = "/test/123";
-		String methodType="get";
-		String path="http://localhost:8080";
-		Map<String, String> res = VNFRestfulUtil.generateParamsMap(url, methodType, path);
-		assertTrue(res.get("url").equals("/test/123"));
-	}
-	@Test
-	public void getResultToVnfmTest(){
-		JSONObject vnfmInfo= new JSONObject();
-		vnfmInfo.put("retCode", 1);
-		String vnfmId="123";
-		JSONObject res = VNFRestfulUtil.getResultToVnfm(vnfmInfo, vnfmId);
-		assertNotNull(res);
-	}
-	
-	@Test
-	public void getResultToVnfm2Test(){
-		JSONObject vnfmInfo= new JSONObject();
-		vnfmInfo.put("retCode", -1);
-		String vnfmId="123";
-		JSONObject res = VNFRestfulUtil.getResultToVnfm(vnfmInfo, vnfmId);
-		assertNotNull(res);
-	}
+    @Test
+    public void generateParamsMapTest(){
+        String url = "/test/123";
+        String methodType="get";
+        String path="http://localhost:8080";
+        String authMode="test";
+        Map<String, String> res = VNFRestfulUtil.generateParamsMap(url, methodType, path, authMode);
+        assertTrue(res.get("url").equals("/test/123"));
+    }
 
-	public static String toJson(Map o) {
+    @Test
+    public void generateParams2MapTest(){
+        String url = "/test/123";
+        String methodType="get";
+        String path="http://localhost:8080";
+        Map<String, String> res = VNFRestfulUtil.generateParamsMap(url, methodType, path);
+        assertTrue(res.get("url").equals("/test/123"));
+    }
+    @Test
+    public void getResultToVnfmTest(){
+        JSONObject vnfmInfo= new JSONObject();
+        vnfmInfo.put("retCode", 1);
+        String vnfmId="123";
+        JSONObject res = VNFRestfulUtil.getResultToVnfm(vnfmInfo, vnfmId);
+        assertNotNull(res);
+    }
+
+    @Test
+    public void getResultToVnfm2Test(){
+        JSONObject vnfmInfo= new JSONObject();
+        vnfmInfo.put("retCode", -1);
+        String vnfmId="123";
+        JSONObject res = VNFRestfulUtil.getResultToVnfm(vnfmInfo, vnfmId);
+        assertNotNull(res);
+    }
+
+    public static String toJson(Map o) {
         try {
             return JsonUtil.marshal(o);
         } catch (IOException e) {

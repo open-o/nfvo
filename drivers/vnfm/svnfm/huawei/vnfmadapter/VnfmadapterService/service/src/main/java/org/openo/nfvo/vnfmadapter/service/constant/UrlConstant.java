@@ -19,7 +19,7 @@ package org.openo.nfvo.vnfmadapter.service.constant;
 /**
  * URL constant
  * @author
- * 
+ *
  * @version NFVO 0.5 Sep 6, 2016
  */
 public class UrlConstant {
@@ -33,9 +33,9 @@ public class UrlConstant {
     public static final String URL_VNFPACKAGE_POST = "/v2/vapps/templates";
 
     public static final String URL_VNFDINFO_GET = "/v2/vapps/templates/%s";
-    
+
     public static final String URL_VNFDPLANINFO_GET = "/v2/vapps/templates/%s/plans";
-    
+
     public static final String PORT_COMMON = "31943";
 
     public static final String PORT_UPLOADVNFPKG = "30001";

@@ -29,7 +29,7 @@ public class SslProtocolSocketFactoryTest {
         SslProtocolSocketFactory factory = SslProtocolSocketFactory.getInstance();
         assertNotNull(factory);
     }
-    
+
     @Test(expected = VnfmException.class)
     public void getTest() throws VnfmException{
         ProtocolSocketFactory factory =  SslProtocolSocketFactory.getInstance().get("test");

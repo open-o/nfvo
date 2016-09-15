@@ -8,7 +8,7 @@
         <result property="vnfdId" javaType="String" column="VNFDID" jdbcType="VARCHAR" />
         <result property="vnfPackageId" javaType="String" column="VNFPACKAGEID" jdbcType="VARCHAR" />
     </resultMap>
-    
+
     <sql id="Base_Column_List">
         ID, VERSION, VNFDID, VNFPACKAGEID
     </sql>
@@ -17,8 +17,8 @@
         INSERT INTO VNFM (ID, VERSION, VNFDID, VNFPACKAGEID)
         VALUES(#{id},#{version},#{vnfdId},#{vnfPackageId})
     </insert>
-    
-    <update id="updateVnfm" parameterType="org.openo.nfvo.vnfmadapter.service.entity.Vnfm"> 
+
+    <update id="updateVnfm" parameterType="org.openo.nfvo.vnfmadapter.service.entity.Vnfm">
         UPDATE VNFM
         <set>
             <if test="id != null">
@@ -44,19 +44,19 @@
     <select id="indexVnfms" resultMap="VnfmResultMap" >
         select
         <include refid="Base_Column_List" />
-            FROM VNFM 
+            FROM VNFM
         ORDER BY NAME DESC
         <if test="offset!=0 and pageSize!=0 ">
             limit ${offset}, ${pageSize}
-        </if>   
+        </if>
     </select>
 
     <select id="getCountVnfms" parameterType="String" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM VNFM
     </select>
-    
+
     <select id="getVnfmById" parameterType="java.lang.String" resultType="org.openo.nfvo.vnfmadapter.service.entity.Vnfm">
-        SELECT * FROM VNFM 
+        SELECT * FROM VNFM
         WHERE id = #{id}
     </select>
 </mapper>

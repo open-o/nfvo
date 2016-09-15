@@ -26,26 +26,26 @@ import org.codehaus.jackson.type.TypeReference;
 import net.sf.json.JSON;
 
 public final class JsonUtil {
-	private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
-	public static <T> T unMarshal(String jsonstr, Class<T> type) throws IOException {
-		return MAPPER.readValue(jsonstr, type);
-	}
+    public static <T> T unMarshal(String jsonstr, Class<T> type) throws IOException {
+        return MAPPER.readValue(jsonstr, type);
+    }
 
-	public static <T> T unMarshal(String jsonstr, TypeReference<T> type) throws IOException {
-		return MAPPER.readValue(jsonstr, type);
-	}
+    public static <T> T unMarshal(String jsonstr, TypeReference<T> type) throws IOException {
+        return MAPPER.readValue(jsonstr, type);
+    }
 
-	public static String marshal(Object srcObj) throws IOException {
-		return srcObj instanceof JSON ? srcObj.toString() : MAPPER.writeValueAsString(srcObj);
-	}
+    public static String marshal(Object srcObj) throws IOException {
+        return srcObj instanceof JSON ? srcObj.toString() : MAPPER.writeValueAsString(srcObj);
+    }
 
-	public static ObjectMapper getMapper() {
-		return MAPPER;
-	}
+    public static ObjectMapper getMapper() {
+        return MAPPER;
+    }
 
-	static {
-		MAPPER.setDeserializationConfig(
-				MAPPER.getDeserializationConfig().without(new Feature[] { Feature.FAIL_ON_UNKNOWN_PROPERTIES }));
-	}
+    static {
+        MAPPER.setDeserializationConfig(
+                MAPPER.getDeserializationConfig().without(new Feature[] { Feature.FAIL_ON_UNKNOWN_PROPERTIES }));
+    }
 }

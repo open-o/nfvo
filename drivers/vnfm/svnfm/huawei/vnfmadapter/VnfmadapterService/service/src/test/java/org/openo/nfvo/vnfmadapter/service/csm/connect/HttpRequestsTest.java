@@ -26,73 +26,73 @@ import org.junit.Test;
 import org.openo.nfvo.vnfmadapter.common.VnfmException;
 
 public class HttpRequestsTest {
-	
-	String authenticateMode = "test";
-	HttpRequests.Builder builder = new HttpRequests.Builder(authenticateMode);
-	
-	@Test
-	public void addHeaderTest(){
-		builder.addHeader("id", "1234");
-		assertTrue(true);
-	}
-	@Test
-	public void addHeadersTest(){
-		Header header = new Header();
-		builder.addHeaders(header, header);
-		assertNotNull(builder);
-	}
-	@Test
-	public void addHeadersListTest(){
-		List<Header> list = new ArrayList<>();
-		Header header = new Header();
-		list.add(header);
-		builder.addHeaders(list);
-		assertNotNull(builder);
-	}
-	
-	@Test(expected = VnfmException.class)
-	public void setUrlTestException() throws VnfmException{
-		String url=null;
-		String path=null;
-		builder.setUrl(url, path);
-	}
-	@Test(expected = VnfmException.class)
-	public void setUrlTestException2() throws VnfmException{
-		String url="";
-		String path=null;
-		builder.setUrl(url, path);
-	}
-	
-	@Test(expected = VnfmException.class)
-	public void setUrlTestNormal() throws VnfmException{
-		String url="/test/123";
-		String path="http://localhost:8080";
-		builder.setUrl(url, path);
-	}
-	
-	@Test(expected = VnfmException.class)
-	public void setUrl2TestException() throws VnfmException{
-		String url=null;
-		String path=null;
-		builder.setUrl(url, path,101);
-	}
-	@Test(expected = VnfmException.class)
-	public void setUrl2TestException2() throws VnfmException{
-		String url="";
-		String path=null;
-		builder.setUrl(url, path,101);
-	}
-	
-	@Test(expected = VnfmException.class)
-	public void setUrl2TestNormal() throws VnfmException{
-		String url="/test/123";
-		String path="http://localhost:8080";
-		builder.setUrl(url, path,101);
-	}
-	@Test(expected = Exception.class)
-	public void requestTestException(){
-		String res = builder.request();
-		assertNotNull(res);
-	}
+
+    String authenticateMode = "test";
+    HttpRequests.Builder builder = new HttpRequests.Builder(authenticateMode);
+
+    @Test
+    public void addHeaderTest(){
+        builder.addHeader("id", "1234");
+        assertTrue(true);
+    }
+    @Test
+    public void addHeadersTest(){
+        Header header = new Header();
+        builder.addHeaders(header, header);
+        assertNotNull(builder);
+    }
+    @Test
+    public void addHeadersListTest(){
+        List<Header> list = new ArrayList<>();
+        Header header = new Header();
+        list.add(header);
+        builder.addHeaders(list);
+        assertNotNull(builder);
+    }
+
+    @Test(expected = VnfmException.class)
+    public void setUrlTestException() throws VnfmException{
+        String url=null;
+        String path=null;
+        builder.setUrl(url, path);
+    }
+    @Test(expected = VnfmException.class)
+    public void setUrlTestException2() throws VnfmException{
+        String url="";
+        String path=null;
+        builder.setUrl(url, path);
+    }
+
+    @Test(expected = VnfmException.class)
+    public void setUrlTestNormal() throws VnfmException{
+        String url="/test/123";
+        String path="http://localhost:8080";
+        builder.setUrl(url, path);
+    }
+
+    @Test(expected = VnfmException.class)
+    public void setUrl2TestException() throws VnfmException{
+        String url=null;
+        String path=null;
+        builder.setUrl(url, path,101);
+    }
+    @Test(expected = VnfmException.class)
+    public void setUrl2TestException2() throws VnfmException{
+        String url="";
+        String path=null;
+        builder.setUrl(url, path,101);
+    }
+
+    @Test(expected = VnfmException.class)
+    public void setUrl2TestNormal() throws VnfmException{
+        String url="/test/123";
+        String path="http://localhost:8080";
+        builder.setUrl(url, path,101);
+    }
+    @Test(expected = Exception.class)
+    public void requestTestException(){
+        String res = builder.request();
+        assertNotNull(res);
+    }
 
 }

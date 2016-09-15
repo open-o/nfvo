@@ -24,7 +24,7 @@ import org.openo.nfvo.vnfmadapter.service.entity.Vnfm;
 /**
  * VNFM DAO
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -33,7 +33,7 @@ public interface VnfmDao {
     /**
      * Add VNFM
      * <br>
-     * 
+     *
      * @param vnfm
      * @return
      * @throws ServiceException
@@ -44,7 +44,7 @@ public interface VnfmDao {
     /**
      * Delete VNFM
      * <br>
-     * 
+     *
      * @param vnfmDn
      * @return
      * @throws ServiceException
@@ -55,7 +55,7 @@ public interface VnfmDao {
     /**
      * Update VNFM
      * <br>
-     * 
+     *
      * @param vnfm
      * @return
      * @throws ServiceException
@@ -66,7 +66,7 @@ public interface VnfmDao {
     /**
      * Index VNFM
      * <br>
-     * 
+     *
      * @param pageSize
      * @param pageNo
      * @return
@@ -78,7 +78,7 @@ public interface VnfmDao {
     /**
      * Get VNFM by id.
      * <br>
-     * 
+     *
      * @param id
      * @return
      * @since  NFVO 0.5

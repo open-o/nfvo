@@ -25,7 +25,7 @@ import org.openo.baseservice.roa.util.restclient.Restful;
 /**
  * HTTP Restful helper.
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -44,7 +44,7 @@ public class HttpRestfulHelp {
     /**
      * Factory method to create Restful instances.
      * <br>
-     * 
+     *
      * @param ssloptionfile
      * @param restoptionfile
      * @return

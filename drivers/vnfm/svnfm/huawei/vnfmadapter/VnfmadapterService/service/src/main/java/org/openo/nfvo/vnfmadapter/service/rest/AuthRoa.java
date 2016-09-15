@@ -44,7 +44,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -64,7 +64,7 @@ public class AuthRoa {
     /**
      * Provide interface for add authInfo
      * <br/>
-     * 
+     *
      * @param context
      * @return
      * @since NFVO 0.5
@@ -105,7 +105,7 @@ public class AuthRoa {
     /**
      * Provide interface for delete authInfo
      * <br/>
-     * 
+     *
      * @param context
      * @param userName
      * @param roarand
@@ -128,7 +128,7 @@ public class AuthRoa {
     /**
      * Provide interface for handshake authInfo
      * <br/>
-     * 
+     *
      * @param context
      * @param roattr
      * @return

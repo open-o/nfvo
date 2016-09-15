@@ -19,7 +19,7 @@ package org.openo.nfvo.vnfmadapter.common;
 /**
  * VNFM exception.
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -28,9 +28,9 @@ public class VnfmException extends Exception {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @since  NFVO 0.5
      */
     public VnfmException() {
@@ -38,9 +38,9 @@ public class VnfmException extends Exception {
     }
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @param message
      * @param cause
      * @since  NFVO 0.5
@@ -50,9 +50,9 @@ public class VnfmException extends Exception {
     }
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @param message
      * @since  NFVO 0.5
      */
@@ -61,9 +61,9 @@ public class VnfmException extends Exception {
     }
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @param cause
      * @since  NFVO 0.5
      */

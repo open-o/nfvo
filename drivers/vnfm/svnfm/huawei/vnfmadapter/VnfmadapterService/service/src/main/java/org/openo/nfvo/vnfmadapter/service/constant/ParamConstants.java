@@ -17,7 +17,7 @@
 package org.openo.nfvo.vnfmadapter.service.constant;
 
 /**
- * 
+ *
  * @author
  *
  * @version NFVO 0.5 Sep 6, 2016

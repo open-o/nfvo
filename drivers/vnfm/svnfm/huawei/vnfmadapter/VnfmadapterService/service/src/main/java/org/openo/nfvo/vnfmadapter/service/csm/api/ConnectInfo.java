@@ -20,7 +20,7 @@ import org.openo.nfvo.vnfmadapter.service.constant.Constant;
 /**
  * Connection Information
  * .</br>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 14, 2016
  */
@@ -35,9 +35,9 @@ public class ConnectInfo {
     private String authenticateMode;
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @param url
      * @since  NFVO 0.5
      */
@@ -47,9 +47,9 @@ public class ConnectInfo {
     }
 
     /**
-     * 
+     *
      * Constructor<br>
-     * 
+     *
      * @param url
      * @param userName
      * @param userPwd
