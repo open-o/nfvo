@@ -36,11 +36,11 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
-public class JujuVnfmRestfulUtilTest {  
+public class JujuVnfmRestfulUtilTest {
 
 
     @Test
@@ -51,14 +51,14 @@ public class JujuVnfmRestfulUtilTest {
 
     @Test
     public void testGetRemoteResponseByPost() {
-    	Map testMap = new HashMap();
-    	testMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-    	testMap.put("methodType","post");
+        Map testMap = new HashMap();
+        testMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+        testMap.put("methodType","post");
         RestfulResponse result = JujuVnfmRestfulUtil.getRemoteResponse(testMap, "");
 
         assertEquals(null, result);
     }
-    
+
     @Test
     public void testGetRemoteResponseByVnfmInfo() {
         Map testMap = new HashMap();
@@ -68,7 +68,7 @@ public class JujuVnfmRestfulUtilTest {
 
         assertEquals(null, result);
     }
-    
+
     @Test
     public void testGetRemoteResponseByVnfmInfoPut() {
         Map testMap = new HashMap();
@@ -78,7 +78,7 @@ public class JujuVnfmRestfulUtilTest {
 
         assertEquals(null, result);
     }
-    
+
     @Test
     public void testGetRemoteResponseByVnfmInfoDelete() {
         Map testMap = new HashMap();
@@ -88,7 +88,7 @@ public class JujuVnfmRestfulUtilTest {
 
         assertEquals(null, result);
     }
-    
+
     @Test
     public void getVimResponseContentGetInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
@@ -101,7 +101,7 @@ public class JujuVnfmRestfulUtilTest {
         Map<String, Object> result = JujuVnfmRestfulUtil.getVimResponseContent("http://127.0.0.1:8080", restParametes, null, "add");
         assertTrue(result.isEmpty());
     }
-    
+
     @Test
     public void getVimResponseContentPutInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
@@ -114,7 +114,7 @@ public class JujuVnfmRestfulUtilTest {
         Map<String, Object> result = JujuVnfmRestfulUtil.getVimResponseContent("http://127.0.0.1:8080", restParametes, null, "delete");
         assertTrue(result.isEmpty());
     }
-    
+
     @Test
     public void getVimResponseContentPatchInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
@@ -145,7 +145,7 @@ public class JujuVnfmRestfulUtilTest {
         retJson.put("retCode", Constant.REST_FAIL);
         assertEquals(retJson, result);
     }
-    
+
     @Test
     public void vimRestfulResponseTestGetInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
@@ -158,28 +158,28 @@ public class JujuVnfmRestfulUtilTest {
         RestfulResponse resp = JujuVnfmRestfulUtil.vimRestfulResponse("http://127.0.0.1:8080", restParametes, null, "add");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void vimRestfulResponseTestPutInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
         RestfulResponse resp = JujuVnfmRestfulUtil.vimRestfulResponse("http://127.0.0.1:8080", restParametes, null, "put");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void vimRestfulResponseTestDeleteInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
         RestfulResponse resp = JujuVnfmRestfulUtil.vimRestfulResponse("http://127.0.0.1:8080", restParametes, null, "delete");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void vimRestfulResponseTestPatchInvalid(){
         RestfulParametes restParametes = new RestfulParametes();
         RestfulResponse resp = JujuVnfmRestfulUtil.vimRestfulResponse("http://127.0.0.1:8080", restParametes, null, "patch");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestGetInvalid(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -187,9 +187,9 @@ public class JujuVnfmRestfulUtilTest {
         paramsMap.put("methodType","get");
         RestfulResponse resp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test", false);
         assertNull(resp);
-        
+
     }
-    
+
     @Test
     public void getRemoteResponseTestGetHttpsInvalid(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -197,9 +197,9 @@ public class JujuVnfmRestfulUtilTest {
         paramsMap.put("methodType","get");
         RestfulResponse resp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test", true);
         assertNull(resp);
-        
+
     }
-    
+
     @Test
     public void getRemoteResponseTestPostInvalid(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -207,9 +207,9 @@ public class JujuVnfmRestfulUtilTest {
         paramsMap.put("methodType","post");
         RestfulResponse resp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test", false);
         assertNull(resp);
-        
+
     }
-    
+
     @Test
     public void getRemoteResponseTestPutInvalid(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -217,9 +217,9 @@ public class JujuVnfmRestfulUtilTest {
         paramsMap.put("methodType","put");
         RestfulResponse resp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test", false);
         assertNull(resp);
-        
+
     }
-    
+
     @Test
     public void getRemoteResponseTestDeleteInvalid(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -227,7 +227,7 @@ public class JujuVnfmRestfulUtilTest {
         paramsMap.put("methodType","delete");
         RestfulResponse resp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test", false);
         assertNull(resp);
-        
+
     }
     @Test
     public void generateParametesMapTest(){

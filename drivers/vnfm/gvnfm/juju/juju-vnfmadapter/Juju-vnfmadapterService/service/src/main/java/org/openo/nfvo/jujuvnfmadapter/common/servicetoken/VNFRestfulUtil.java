@@ -39,11 +39,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * VNF Restful utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -68,9 +68,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * within our module, we support a default method to invoke.<br>
-     * 
+     *
      * @param path, rest service url
      * @param methodNames, [post, delete, put, get, asyncPost, asyncDelete, asyncPut,asyncGet]
      * @param bodyParam, rest body msg
@@ -115,7 +115,7 @@ public final class VNFRestfulUtil {
 
     /**
      * send restful notification to other module
-     * 
+     *
      * @param path
      *            service url
      * @param methodName
@@ -135,7 +135,7 @@ public final class VNFRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     * 
+     *
      * @param methodName
      *            Restful's method
      * @param objects
@@ -162,9 +162,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get restful resource.<br>
-     * 
+     *
      * @param methodName
      * @param objects
      * @return
@@ -216,9 +216,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Send request to application.<br>
-     * 
+     *
      * @param path
      * @param methodName
      * @param paraJson
@@ -270,7 +270,7 @@ public final class VNFRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     * 
+     *
      * @param vnfmId
      * @param dataJson
      * @return
@@ -300,9 +300,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get remote response.<br>
-     * 
+     *
      * @param paramsMap
      * @param params
      * @param domainTokens
@@ -364,9 +364,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Generate parameters map.<br>
-     * 
+     *
      * @param url
      * @param methodType
      * @param path
@@ -384,9 +384,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Generate parameters map.<br>
-     * 
+     *
      * @param url
      * @param methodType
      * @param path
@@ -403,9 +403,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     * 
+     *
      * Get result to vnfm.<br>
-     * 
+     *
      * @param vnfmInfo
      * @param vnfmId
      * @return

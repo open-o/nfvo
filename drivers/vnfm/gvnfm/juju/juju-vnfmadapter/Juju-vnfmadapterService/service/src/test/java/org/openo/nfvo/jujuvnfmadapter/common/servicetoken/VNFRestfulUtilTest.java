@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
@@ -188,10 +188,10 @@ public class VNFRestfulUtilTest {
         paramsMap.put("url", "/openoapi/test");
         paramsMap.put("methodType","get");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);   
+        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestInvalidPut(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -199,10 +199,10 @@ public class VNFRestfulUtilTest {
         paramsMap.put("url", "/openoapi/test");
         paramsMap.put("methodType","put");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);   
+        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestInvalidPost(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -210,7 +210,7 @@ public class VNFRestfulUtilTest {
         paramsMap.put("url", "/openoapi/test");
         paramsMap.put("methodType","post");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);   
+        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);
         assertTrue(resp == null);
     }
     @Test
@@ -220,10 +220,10 @@ public class VNFRestfulUtilTest {
         paramsMap.put("url", "/openoapi/test");
         paramsMap.put("methodType","delete");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);   
+        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", true);
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestFalseNfvoApp(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -231,10 +231,10 @@ public class VNFRestfulUtilTest {
         paramsMap.put("url", "/openoapi/test");
         paramsMap.put("methodType","delete");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", false);   
+        RestfulResponse resp = VNFRestfulUtil.getRemoteResponse(paramsMap, null, "test123", false);
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void sentEvtByRestTest(){
         VNFRestfulUtil.sentEvtByRest("http://localhost:8080", "get", null);

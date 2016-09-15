@@ -17,11 +17,11 @@
 package org.openo.nfvo.jujuvnfmadapter.service.constant;
 
 /**
- * 
+ *
  * Url constant class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -46,5 +46,5 @@ public class UrlConstant {
 
     public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/%s/status";
 
-    
+
 }

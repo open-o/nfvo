@@ -33,11 +33,11 @@ import net.sf.json.JSONObject;
 import net.sf.json.util.JSONTokener;
 
 /**
- * 
+ *
  * String utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -50,9 +50,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whther the string is valid or not.<br>
-     * 
+     *
      * @param str
      * @return
      * @since  NFVO 0.5
@@ -62,9 +62,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the Url is valid or not.<br>
-     * 
+     *
      * @param url
      * @return
      * @since  NFVO 0.5
@@ -78,9 +78,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Get the JSON string from input http context.<br>
-     * 
+     *
      * @param vnfReq
      * @return
      * @since  NFVO 0.5
@@ -111,9 +111,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Translate sites to site array.<br>
-     * 
+     *
      * @param sites
      * @return
      * @since  NFVO 0.5
@@ -130,9 +130,9 @@ public final class StringUtil {
     }
 
     /**
-     * 
+     *
      * Check whether the string is valid or not.<br>
-     * 
+     *
      * @param fields
      * @return
      * @since  NFVO 0.5

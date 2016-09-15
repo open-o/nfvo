@@ -26,11 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * Vnf Authentication configuration information class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -90,7 +90,7 @@ public class VNFAuthConfigInfo {
     private String getAuthCofigPath() {
         return AUTH_CONFIG_FILE;
     }
-    
+
     public static VNFAuthConfigInfo getInstance() {
         return authConfig;
     }

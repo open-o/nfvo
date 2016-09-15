@@ -43,11 +43,11 @@ import net.sf.json.util.JSONTokener;
 import net.sf.json.util.JSONUtils;
 
 /**
- * 
+ *
  * Virtual Network Function Json Utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -65,9 +65,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * UnMarshal method.<br>
-     * 
+     *
      * @param vnfJsonstr
      * @param type
      * @return
@@ -79,9 +79,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * UnMarshal method.<br>
-     * 
+     *
      * @param vnfJsonstr
      * @param type
      * @return
@@ -93,9 +93,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Marshal method.<br>
-     * 
+     *
      * @param srcObj
      * @return
      * @throws IOException
@@ -113,9 +113,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json field string.<br>
-     * 
+     *
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -131,9 +131,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json field integer.<br>
-     * 
+     *
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -148,9 +148,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Get Json field long.<br>
-     * 
+     *
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -165,9 +165,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Parse error information.<br>
-     * 
+     *
      * @param errorInfo
      * @return
      * @since  NFVO 0.5
@@ -188,9 +188,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Convert VNF Json to objects.<br>
-     * 
+     *
      * @param vnfJsonString
      * @param pojoCalss
      * @return
@@ -203,9 +203,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Convert VNF Json to objects.<br>
-     * 
+     *
      * @param vnfJsonString
      * @param vnfJsonConfig
      * @return
@@ -218,9 +218,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Convert VNF Json to lists.<br>
-     * 
+     *
      * @param vnfJsonString
      * @param pojoClass
      * @return
@@ -239,9 +239,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Convert VNF Json to list.<br>
-     * 
+     *
      * @param vnfJsonString
      * @param pojoClass
      * @param dataFormat
@@ -262,9 +262,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Object to json string.<br>
-     * 
+     *
      * @param javaObj
      * @return
      * @since  NFVO 0.5
@@ -275,9 +275,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * object to json.<br>
-     * 
+     *
      * @param javaObj
      * @return
      * @since  NFVO 0.5
@@ -287,9 +287,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Object to json.<br>
-     * 
+     *
      * @param javaObj
      * @param vnfJsonConfig
      * @return
@@ -301,9 +301,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Object to json.<br>
-     * 
+     *
      * @param javaObj
      * @param dataFormat
      * @return
@@ -317,9 +317,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * List to json.<br>
-     * 
+     *
      * @param list
      * @return
      * @since  NFVO 0.5
@@ -330,9 +330,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * List to json.<br>
-     * 
+     *
      * @param list
      * @param dataFormat
      * @return
@@ -345,9 +345,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     * 
+     *
      * Config json.<br>
-     * 
+     *
      * @param datePattern
      * @return
      * @since  NFVO 0.5

@@ -23,38 +23,38 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 
 /**
- * 
+ *
  * ROA juju service post processor class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public class ROAJujuServicePostProcessor implements DestructionAwareBeanPostProcessor{
-	private static final Logger LOG = LoggerFactory.getLogger(ROAJujuServicePostProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ROAJujuServicePostProcessor.class);
 
-	@Override
-	public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
-		if(bean instanceof IJujuAdapterMgrService){
-			IJujuAdapterMgrService jujuAdapterSvc = (IJujuAdapterMgrService)bean;
-			jujuAdapterSvc.register();
-			LOG.info("Successfully Registered to Microservice BUS!", ROAJujuServicePostProcessor.class);
-		}
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
+        if(bean instanceof IJujuAdapterMgrService){
+            IJujuAdapterMgrService jujuAdapterSvc = (IJujuAdapterMgrService)bean;
+            jujuAdapterSvc.register();
+            LOG.info("Successfully Registered to Microservice BUS!", ROAJujuServicePostProcessor.class);
+        }
 
-		return bean;
-	}
+        return bean;
+    }
 
-	@Override
-	public Object postProcessBeforeInitialization(Object bean, String name) throws BeansException {
-		// TODO Auto-generated method stub
-		return bean;
-	}
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String name) throws BeansException {
+        // TODO Auto-generated method stub
+        return bean;
+    }
 
-	@Override
-	public void postProcessBeforeDestruction(Object bean, String name) throws BeansException {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void postProcessBeforeDestruction(Object bean, String name) throws BeansException {
+        // TODO Auto-generated method stub
+
+    }
 
 }

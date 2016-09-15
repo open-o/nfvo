@@ -33,22 +33,22 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author quanzhong@huawei.com
  * @version NFVO 0.5 Aug 30, 2016
  */
 public class EntityUtils {
 
     private static Logger log = LoggerFactory.getLogger(EntityUtils.class);
-    
+
     public static final String RESULT_CODE_KEY = "retCode";
     public static final String MSG_KEY = "msg";
     public static final String DATA_KEY = "data";
     public static final String STATUS = "status";
     /**
-     * 
+     *
      */
-    
+
 
     @SuppressWarnings("unchecked")
     public static <T> T toEntity(JSONObject jsonObject, Class<?> clazz) throws Exception {
@@ -64,7 +64,7 @@ public class EntityUtils {
     /**
      * format the obj to str style as json format.
      * <br/>
-     * 
+     *
      * @param obj
      * @param clazz
      * @return
@@ -139,7 +139,7 @@ public class EntityUtils {
             }
         }
         return builder.toString();
-            
+
     }
 
     public static ExeRes execute(String dir, String... command) {
@@ -148,15 +148,15 @@ public class EntityUtils {
             commands.add(arg);
         }
         return execute(dir,commands);
-           
+
     }
     /**
-     * execute local command 
+     * execute local command
      * <br/>
-     * 
+     *
      * @param dir the command path
      * @param command
-     * @return response msg 
+     * @return response msg
      * @since  NFVO 0.5
      */
     public static ExeRes execute(String dir, List<String> command) {
@@ -168,7 +168,7 @@ public class EntityUtils {
             }
             ProcessBuilder pb = new ProcessBuilder(command);
             if(StringUtils.isNotBlank(dir)){
-                pb.directory(new File(dir)); 
+                pb.directory(new File(dir));
             }
             pb.redirectErrorStream(true);
             Process p = pb.start();
@@ -197,9 +197,9 @@ public class EntityUtils {
     }
     /**
      * <br/>
-     * 
+     *
      * @param args
-     * @throws IOException 
+     * @throws IOException
      * @throws Exception
      * @since NFVO 0.5
      */

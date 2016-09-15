@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 
+ *
  *
  * @author quanzhong
  * @date 2016-9-12

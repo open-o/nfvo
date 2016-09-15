@@ -20,11 +20,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 
+ *
  * Constant class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -91,13 +91,13 @@ public class Constant {
     public static final int HTTP_NOTFOUND = 404;
 
     public static final int HTTP_CONFLICT = 409;
-    
+
     public static final int INVALID_PARAMETERS = 415;
 
     public static final int HTTP_INNERERROR = 500;
-    
+
     public static final int REPEAT_REG_TIME = 60 * 1000;
-    
+
     public static final String JUJUADAPTERINFO = "jujuadapterinfo.json";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -164,11 +164,11 @@ public class Constant {
     public static final String ROARAND = "?roarand=%s";
 
     /**
-     * 
+     *
      * Authentication mode.<br>
      * <p>
      * </p>
-     * 
+     *
      * @author
      * @version     NFVO 0.5  Sep 12, 2016
      */
@@ -180,7 +180,7 @@ public class Constant {
 
         private AuthenticationMode()
         {
-            
+
         }
     }
 }

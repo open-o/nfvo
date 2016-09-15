@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author quanzhong@huawei.com
  * @version NFVO 0.5 Sep 7, 2016
  */
@@ -34,7 +34,7 @@ public interface IJujuClientManager {
      * juju deploy $HOME/charms/example --series trusty --constraints mem=2G --config
      * /path/to/custom/charm-config.yaml
      * <br/>
-     * 
+     *
      * @param charmPath
      * @param mem (at least 2 GB RAM) unit/GB
      * @param appName
@@ -47,7 +47,7 @@ public interface IJujuClientManager {
      * * remove a charm completely
      * juju remove-application example
      * <br/>
-     * 
+     *
      * @param appName
      * @return
      * @since NFVO 0.5
@@ -61,7 +61,7 @@ public interface IJujuClientManager {
      * Here is an example output from juju status --format=json
      * http://paste.ubuntu.com/23113992/
      * <br/>
-     * 
+     *
      * @param appName
      * @return
      * @since NFVO 0.5

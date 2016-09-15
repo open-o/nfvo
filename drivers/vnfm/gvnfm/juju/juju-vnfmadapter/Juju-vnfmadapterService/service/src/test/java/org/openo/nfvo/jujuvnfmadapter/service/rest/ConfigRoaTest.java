@@ -28,12 +28,12 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 public class ConfigRoaTest {
     ConfigRoa roa;
-    
+
     @Before
     public void setUp(){
-        roa = new ConfigRoa();        
+        roa = new ConfigRoa();
     }
-    
+
     @Test
     public void initUITest(){
         HttpServletRequest context = null;
@@ -47,12 +47,12 @@ public class ConfigRoaTest {
         HttpServletResponse resp = new MockHttpServletResponse();
         boolean res = roa.setDebugModel(1, context, resp);
         assertTrue(res);
-    } 
+    }
     @Test
     public void setDebug2ModelTest() throws ServiceException{
         HttpServletRequest context = null;
         HttpServletResponse resp = new MockHttpServletResponse();
         boolean res = roa.setDebugModel(2, context, resp);
         assertFalse(res);
-    } 
+    }
 }

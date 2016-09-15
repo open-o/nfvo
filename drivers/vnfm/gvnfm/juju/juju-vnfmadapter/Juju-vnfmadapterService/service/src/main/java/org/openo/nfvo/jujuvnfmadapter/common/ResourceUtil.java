@@ -17,11 +17,11 @@
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 /**
- * 
+ *
  * Resource utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -32,9 +32,9 @@ public class ResourceUtil {
     }
 
     /**
-     * 
+     *
      * Get message.<br>
-     * 
+     *
      * @param key
      * @return
      * @since  NFVO 0.5

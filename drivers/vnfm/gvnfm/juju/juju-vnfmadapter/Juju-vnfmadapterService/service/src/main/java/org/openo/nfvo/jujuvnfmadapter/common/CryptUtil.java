@@ -20,11 +20,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * Cryptographic utility class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -37,9 +37,9 @@ public final class CryptUtil {
     }
 
     /**
-     * 
+     *
      * Decription.<br>
-     * 
+     *
      * @param pwd
      * @return
      * @since  NFVO 0.5
@@ -49,9 +49,9 @@ public final class CryptUtil {
     }
 
     /**
-     * 
+     *
      * Encryption.<br>
-     * 
+     *
      * @param pwd
      * @return
      * @since  NFVO 0.5

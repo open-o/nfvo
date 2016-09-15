@@ -18,9 +18,9 @@
         <developerConnection>scm:git:http://szxgit01-rd.huawei.com:8080/SPO/SPO_CloudSOP_GIT/CronService</developerConnection>
       <tag>HEAD</tag>
     </scm>-->
-    
+
     <modules>
         <module>service</module>
     </modules>
-    
+
 </project>

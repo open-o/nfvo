@@ -38,11 +38,11 @@ import java.util.concurrent.Executors;
 import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 
 /**
- * 
+ *
  * Juju adapter manager service class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -75,9 +75,9 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
     }
 
     /**
-     * 
+     *
      * Read juju adapter information from Json.<br>
-     * 
+     *
      * @return
      * @throws IOException
      * @since  NFVO 0.5
@@ -178,18 +178,18 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
         }
 
     }
-    
+
     @Override
     public void unregister() {
         // TODO Auto-generated method stub
-        
+
     }
 
 
     /**
-     * 
+     *
      * Main method.<br>
-     * 
+     *
      * @param args
      * @since  NFVO 0.5
      */

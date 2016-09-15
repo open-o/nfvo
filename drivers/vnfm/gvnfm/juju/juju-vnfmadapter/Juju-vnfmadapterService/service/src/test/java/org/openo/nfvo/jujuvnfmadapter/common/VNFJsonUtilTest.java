@@ -159,38 +159,38 @@ public class VNFJsonUtilTest {
         String res = VNFJsonUtil.marshal(json);
         assertTrue(res.equals("{}"));
     }
-    
+
     @Test
     public void marshalTestException() throws IOException{
         String str="test";
         String res = VNFJsonUtil.marshal(str);
-        assertTrue(res != null);        
+        assertTrue(res != null);
     }
-    
+
     @Test
     public void VNFJsonToListsTest(){
         List<TestPojo> pojoList = VNFJsonUtil.vnfJsonToLists("[{\"name\":\"test\",\"id\":\"123\"}]",TestPojo.class);
         assertTrue(pojoList.size()==1);
     }
-    
+
     @Test
     public void VNFJsonToListTest(){
         List<TestPojo> pojoList = VNFJsonUtil.vnfJsonToList("[{\"name\":\"test\",\"id\":\"123\"}]", TestPojo.class, "test");
         assertTrue(pojoList.size()==1);
     }
-    
+
     @Test
     public void VNFJsonToObjectsTest(){
         TestPojo pojo = VNFJsonUtil.vnfJsonToObjects("{\"name\":\"test\",\"id\":\"123\"}", TestPojo.class);
         assertTrue("test".equals(pojo.getName()) && "123".equals(pojo.getId()));
     }
-    
+
     @Test(expected = Exception.class)
     public void VNFJsonToObjectsTestException(){
         JsonConfig VNFJsonConfig = new JsonConfig();
         TestPojo pojo = VNFJsonUtil.vnfJsonToObjects("{\"id\":\"123\",\"name\":\"test\"}", VNFJsonConfig);
     }
-    
+
     @Test
     public void objectToJsonTest(){
         JsonConfig VNFJsonConfig = new JsonConfig();
@@ -200,7 +200,7 @@ public class VNFJsonUtilTest {
         String res = VNFJsonUtil.objectToJson(pojo, VNFJsonConfig);
         assertTrue("{\"id\":\"123\",\"name\":\"test\"}".equals(res));
     }
-    
+
     @Test
     public void objectToJsonTest2(){
         TestPojo pojo = new TestPojo();
@@ -209,7 +209,7 @@ public class VNFJsonUtilTest {
         String res = VNFJsonUtil.objectToJson(pojo, "");
         assertTrue("{\"id\":\"123\",\"name\":\"test\"}".equals(res));
     }
-    
+
     @Test
     public void listToJsonTest(){
         List<TestPojo> pojoList = new ArrayList<TestPojo>();
@@ -220,7 +220,7 @@ public class VNFJsonUtilTest {
         String res = VNFJsonUtil.listToJson(pojoList);
         assertTrue("[{\"id\":\"123\",\"name\":\"test\"}]".equals(res));
     }
-    
+
     @Test
     public void listToJsonTest2(){
         List<TestPojo> pojoList = new ArrayList<TestPojo>();

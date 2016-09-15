@@ -36,8 +36,8 @@ import org.slf4j.LoggerFactory;
  * <br/>
  * <p>
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Sep 13, 2016
  */
 @Path("/config")
@@ -45,11 +45,11 @@ import org.slf4j.LoggerFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public class ConfigRoa {
     private static Logger logger = LoggerFactory.getLogger(ConfigRoa.class);
-    
+
     /**
-     * 
+     *
      * <br/>
-     * 
+     *
      * @param context
      * @param resp
      * @return str
@@ -62,9 +62,9 @@ public class ConfigRoa {
         return EntityUtils.toString(sw, SwitchController.class);
     }
     /**
-     * 
+     *
      * <br/>
-     * 
+     *
      * @param type
      * @param context
      * @param resp

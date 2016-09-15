@@ -140,7 +140,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.deleteVnf("vnfId", "vnfmId", vnfObject);
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void deleteVnfTestValidJson() {
 
@@ -167,7 +167,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.deleteVnf("vnfId", "vnfmId", vnfObject);
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void deleteVnf2TestNormal() {
 
@@ -219,7 +219,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getVnf("vnfId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getVnfTestValidJson() {
         new MockUp<VnfmUtil>() {
@@ -257,7 +257,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getVnf("vnfId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getJobTestNullResp(){
         new MockUp<VnfmUtil>() {
@@ -269,7 +269,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getJobTestNullHttpResp(){
         new MockUp<VnfmUtil>() {
@@ -298,7 +298,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(201);
-                
+
                 return res;
             }
         };
@@ -320,7 +320,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(200);
-                
+
                 return res;
             }
         };
@@ -342,7 +342,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(500);
-                
+
                 return res;
             }
         };

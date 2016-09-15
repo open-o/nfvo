@@ -60,7 +60,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * within our module, we support a default method to invoke
-     * 
+     *
      * @param path
      *            rest service url
      * @param methodNames
@@ -108,7 +108,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     * 
+     *
      * @param methodName
      *            Restful's method
      * @param objects
@@ -224,7 +224,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     * 
+     *
      * @param vnfmId
      * @param dataJson
      * @return
@@ -279,7 +279,7 @@ public final class VnfmRestfulUtil {
            opt.setPort(Integer.parseInt(strs[2]));
            for(int i=strs.length-1;i>=0;i--){
                 if(i > 2){
-                    path = "/"+strs[i]+path;  
+                    path = "/"+strs[i]+path;
                 }
             }
 
@@ -307,12 +307,12 @@ public final class VnfmRestfulUtil {
        LOG.info("request :{},response:{}",params,EntityUtils.toString(rsp, RestfulResponse.class));
        return rsp;
    }
-   
+
 
    /**
     * read DEFAULT config
     * <br/>
-    * 
+    *
     * @param url
     * @param methodType
     * @param params

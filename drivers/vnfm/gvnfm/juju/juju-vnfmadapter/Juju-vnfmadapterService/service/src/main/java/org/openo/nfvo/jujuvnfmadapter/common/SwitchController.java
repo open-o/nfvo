@@ -21,12 +21,12 @@ package org.openo.nfvo.jujuvnfmadapter.common;
  * <p>
  *   to assist debug
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Sep 13, 2016
  */
 public class SwitchController {
-    
+
     /**
      * turn debug model
      */
@@ -40,12 +40,12 @@ public class SwitchController {
         return debugModel;
     }
 
-    
+
     /**
      * @param debugModel The debugModel to set.
      */
     public static void setDebugModel(boolean debugModel) {
         SwitchController.debugModel = debugModel;
     }
-    
+
 }

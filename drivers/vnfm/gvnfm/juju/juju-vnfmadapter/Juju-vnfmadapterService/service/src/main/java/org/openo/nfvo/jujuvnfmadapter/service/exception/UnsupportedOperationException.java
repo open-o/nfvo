@@ -19,16 +19,16 @@ package org.openo.nfvo.jujuvnfmadapter.service.exception;
 /**
  * <br/>
  * <p>
- * 
+ *
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Aug 18, 2016
  */
 public class UnsupportedOperationException extends RuntimeException {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 7599989642681309581L;
 }

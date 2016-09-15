@@ -25,7 +25,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VNFAuthConfigInfo;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */

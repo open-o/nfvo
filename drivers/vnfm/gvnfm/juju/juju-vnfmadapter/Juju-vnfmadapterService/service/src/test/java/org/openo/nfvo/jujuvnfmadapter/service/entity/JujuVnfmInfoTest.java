@@ -23,40 +23,40 @@ import org.junit.Test;
 
 public class JujuVnfmInfoTest {
 
-	JujuVnfmInfo jujuVnInfo = new JujuVnfmInfo();
+    JujuVnfmInfo jujuVnInfo = new JujuVnfmInfo();
 
-	@Test
-	public void testJujuVnfmInfo() {
-		String appName = "appName";
-		jujuVnInfo.setAppName(appName);
-		Date createTime = new Date();
-		jujuVnInfo.setCreateTime(createTime);
-		Date deleteTime = new Date();
-		jujuVnInfo.setDeleteTime(deleteTime);
-		String extend = "extends";
-		jujuVnInfo.setExtend(extend );
-		String id = "id";
-		jujuVnInfo.setId(id );
-		String jobId = "jobId";
-		jujuVnInfo.setJobId(jobId);
-		Date modifyTime = new Date();
-		jujuVnInfo.setModifyTime(modifyTime);
-		Integer status = 1;
-		jujuVnInfo.setStatus(status);
-		String vnfId = "vnfId";
-		jujuVnInfo.setVnfId(vnfId);
-		String vnfmId = "vnfmId";
-		jujuVnInfo.setVnfmId(vnfmId );
-		assertEquals(jujuVnInfo.getAppName(), appName);
-		assertEquals(jujuVnInfo.getCreateTime(), createTime);
-		assertEquals(jujuVnInfo.getDeleteTime(), deleteTime);
-		assertEquals(jujuVnInfo.getExtend(), extend);
-		assertEquals(jujuVnInfo.getId(), id);
-		assertEquals(jujuVnInfo.getJobId(), jobId);
-		assertEquals(jujuVnInfo.getModifyTime(), modifyTime);
-		assertEquals(jujuVnInfo.getStatus(), status);
-		assertEquals(jujuVnInfo.getVnfId(), vnfId);
-		assertEquals(jujuVnInfo.getVnfmId(), vnfmId);
-		
-	}
+    @Test
+    public void testJujuVnfmInfo() {
+        String appName = "appName";
+        jujuVnInfo.setAppName(appName);
+        Date createTime = new Date();
+        jujuVnInfo.setCreateTime(createTime);
+        Date deleteTime = new Date();
+        jujuVnInfo.setDeleteTime(deleteTime);
+        String extend = "extends";
+        jujuVnInfo.setExtend(extend );
+        String id = "id";
+        jujuVnInfo.setId(id );
+        String jobId = "jobId";
+        jujuVnInfo.setJobId(jobId);
+        Date modifyTime = new Date();
+        jujuVnInfo.setModifyTime(modifyTime);
+        Integer status = 1;
+        jujuVnInfo.setStatus(status);
+        String vnfId = "vnfId";
+        jujuVnInfo.setVnfId(vnfId);
+        String vnfmId = "vnfmId";
+        jujuVnInfo.setVnfmId(vnfmId );
+        assertEquals(jujuVnInfo.getAppName(), appName);
+        assertEquals(jujuVnInfo.getCreateTime(), createTime);
+        assertEquals(jujuVnInfo.getDeleteTime(), deleteTime);
+        assertEquals(jujuVnInfo.getExtend(), extend);
+        assertEquals(jujuVnInfo.getId(), id);
+        assertEquals(jujuVnInfo.getJobId(), jobId);
+        assertEquals(jujuVnInfo.getModifyTime(), modifyTime);
+        assertEquals(jujuVnInfo.getStatus(), status);
+        assertEquals(jujuVnInfo.getVnfId(), vnfId);
+        assertEquals(jujuVnInfo.getVnfmId(), vnfmId);
+
+    }
 }

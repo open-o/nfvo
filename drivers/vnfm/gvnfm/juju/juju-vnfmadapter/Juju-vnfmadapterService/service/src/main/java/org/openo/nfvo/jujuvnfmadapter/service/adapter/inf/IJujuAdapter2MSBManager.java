@@ -22,20 +22,20 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * iJuju adapter to msb manager class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public interface IJujuAdapter2MSBManager{
 
     /**
-     * 
+     *
      * Register juju adapter.<br>
-     * 
+     *
      * @param paramsMap
      * @param driverInfo
      * @return
@@ -44,9 +44,9 @@ public interface IJujuAdapter2MSBManager{
     JSONObject registerJujuAdapter(Map<String,String> paramsMap, JSONObject driverInfo);
 
     /**
-     * 
+     *
      * Unregister juju adapter.<br>
-     * 
+     *
      * @param paramsMap
      * @return
      * @since  NFVO 0.5

@@ -28,11 +28,11 @@ import org.openo.nfvo.jujuvnfmadapter.common.CryptUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 
 /**
- * 
+ *
  * VNFM class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -199,9 +199,9 @@ public class Vnfm {
     }
 
     /**
-     * 
+     *
      * Update Vnfm.<br>
-     * 
+     *
      * @param otherVnfm
      * @since  NFVO 0.5
      */

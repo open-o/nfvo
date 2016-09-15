@@ -25,32 +25,32 @@ import org.junit.Test;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.MSBRequestEntity.Node;
 
 public class MSBRequestEntityTest {
-	MSBRequestEntity msbRequestEntity = new MSBRequestEntity();
+    MSBRequestEntity msbRequestEntity = new MSBRequestEntity();
 
-	@Test
-	public void testMSBRequestEntity() {
-		List<Node> nodes = new ArrayList<>();
-		msbRequestEntity.setNodes(nodes);
-		String protocol = "protocol";
-		msbRequestEntity.setProtocol(protocol);
-		String serviceName = "serviceName";
-		msbRequestEntity.setServiceName(serviceName);
-		String status = "status";
-		msbRequestEntity.setStatus(status);
-		String url = "url";
-		msbRequestEntity.setUrl(url);
-		String version = "version";
-		msbRequestEntity.setVersion(version);
-		String visualRange = " visualRange";
-		msbRequestEntity.setVisualRange(visualRange);
-		msbRequestEntity.toString();
-		assertEquals(msbRequestEntity.getNodes(), nodes);;
-		assertEquals(msbRequestEntity.getNodes(), nodes);
-		assertEquals(msbRequestEntity.getProtocol(), protocol);
-		assertEquals(msbRequestEntity.getServiceName(), serviceName);
-		assertEquals(msbRequestEntity.getStatus(), status);
-		assertEquals(msbRequestEntity.getUrl(), url);
-		assertEquals(msbRequestEntity.getVersion(), version);
-		assertEquals(msbRequestEntity.getVisualRange(), visualRange);
-	}
+    @Test
+    public void testMSBRequestEntity() {
+        List<Node> nodes = new ArrayList<>();
+        msbRequestEntity.setNodes(nodes);
+        String protocol = "protocol";
+        msbRequestEntity.setProtocol(protocol);
+        String serviceName = "serviceName";
+        msbRequestEntity.setServiceName(serviceName);
+        String status = "status";
+        msbRequestEntity.setStatus(status);
+        String url = "url";
+        msbRequestEntity.setUrl(url);
+        String version = "version";
+        msbRequestEntity.setVersion(version);
+        String visualRange = " visualRange";
+        msbRequestEntity.setVisualRange(visualRange);
+        msbRequestEntity.toString();
+        assertEquals(msbRequestEntity.getNodes(), nodes);;
+        assertEquals(msbRequestEntity.getNodes(), nodes);
+        assertEquals(msbRequestEntity.getProtocol(), protocol);
+        assertEquals(msbRequestEntity.getServiceName(), serviceName);
+        assertEquals(msbRequestEntity.getStatus(), status);
+        assertEquals(msbRequestEntity.getUrl(), url);
+        assertEquals(msbRequestEntity.getVersion(), version);
+        assertEquals(msbRequestEntity.getVisualRange(), visualRange);
+    }
 }

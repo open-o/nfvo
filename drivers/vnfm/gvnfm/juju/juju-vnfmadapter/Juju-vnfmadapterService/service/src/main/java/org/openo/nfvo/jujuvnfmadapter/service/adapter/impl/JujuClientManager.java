@@ -33,8 +33,8 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Sep 7, 2016
  */
 public class JujuClientManager implements IJujuClientManager {
@@ -42,7 +42,7 @@ public class JujuClientManager implements IJujuClientManager {
 
     /**
      * <br/>
-     * 
+     *
      * @param charmPath
      * @param mem
      * @param appName
@@ -83,13 +83,13 @@ public class JujuClientManager implements IJujuClientManager {
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "deploy failed:"+exeRes.getBody());
         }
-        
+
         return result;
     }
 
     /**
      * <br/>
-     * 
+     *
      * @param appName
      * @return
      * @since   NFVO 0.5
@@ -101,7 +101,7 @@ public class JujuClientManager implements IJujuClientManager {
         commands.add("juju");
         commands.add("remove-application");
         commands.add(appName);
-        
+
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
             log.info("remove success. command:"+EntityUtils.formatCommand(commands));
@@ -112,14 +112,14 @@ public class JujuClientManager implements IJujuClientManager {
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "remove failed:"+exeRes.getBody());
         }
-        
+
         return result;
-       
+
     }
 
     /**
      * <br/>
-     * 
+     *
      * @param appName
      * @return
      * @since   NFVO 0.5
@@ -131,10 +131,10 @@ public class JujuClientManager implements IJujuClientManager {
         commands.add("juju");
         commands.add("status");
         if(StringUtils.isNotBlank(appName)){
-            commands.add(appName); 
+            commands.add(appName);
         }
         commands.add("--format=json");
-        
+
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
             log.info("getStatus success. command:"+EntityUtils.formatCommand(commands));
@@ -146,13 +146,13 @@ public class JujuClientManager implements IJujuClientManager {
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "getStatus failed:"+exeRes.getBody());
         }
-        
+
         return result;
     }
 
     /**
      * <br/>
-     * 
+     *
      * @param exeRes
      * @return
      * @since  NFVO 0.5
@@ -166,5 +166,5 @@ public class JujuClientManager implements IJujuClientManager {
         return dataObj;
     }
 
-    
+
 }

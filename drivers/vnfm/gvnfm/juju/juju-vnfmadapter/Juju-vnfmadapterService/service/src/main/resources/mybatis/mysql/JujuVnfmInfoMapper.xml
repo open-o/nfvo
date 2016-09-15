@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
     Copyright 2016 Huawei Technologies Co., Ltd.
-   
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-   
+
         http://www.apache.org/licenses/LICENSE-2.0
-   
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -129,7 +129,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -147,13 +147,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo" >
-    insert into jujuvnfm (ID, VNFM_ID, VNF_ID, 
-      APP_NAME, JOB_ID, STATUS, 
-      CREATE_TIME, MODIFY_TIME, DELETE_TIME, 
+    insert into jujuvnfm (ID, VNFM_ID, VNF_ID,
+      APP_NAME, JOB_ID, STATUS,
+      CREATE_TIME, MODIFY_TIME, DELETE_TIME,
       EXTEND)
-    values (#{id,jdbcType=VARCHAR}, #{vnfmId,jdbcType=VARCHAR}, #{vnfId,jdbcType=VARCHAR}, 
-      #{appName,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=VARCHAR}, #{vnfmId,jdbcType=VARCHAR}, #{vnfId,jdbcType=VARCHAR},
+      #{appName,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP},
       #{extend,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo" >

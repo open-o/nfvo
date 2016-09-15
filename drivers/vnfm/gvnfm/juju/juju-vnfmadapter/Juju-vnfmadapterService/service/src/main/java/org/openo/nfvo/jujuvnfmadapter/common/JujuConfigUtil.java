@@ -22,19 +22,19 @@ import java.util.ResourceBundle;
  * <br/>
  * <p>
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public class JujuConfigUtil {
     private static ResourceBundle bundle = ResourceBundle.getBundle("juju-config");
-    
+
     private JujuConfigUtil(){};
-    
+
     /**
      * read the juju-config.properties file
      * <br/>
-     * 
+     *
      * @param key
      * @return
      * @since  NFVO 0.5

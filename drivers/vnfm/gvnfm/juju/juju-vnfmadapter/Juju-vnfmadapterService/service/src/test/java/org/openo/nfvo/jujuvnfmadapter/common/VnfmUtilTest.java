@@ -28,9 +28,9 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class VnfmUtilTest {
-    
+
     @Test
-    public void getVnfmByIdTestNull(){ 
+    public void getVnfmByIdTestNull(){
         JSONObject resp = VnfmUtil.getVnfmById("vnfmId");
         //assertNull(resp);
     }
@@ -100,7 +100,7 @@ public class VnfmUtilTest {
         String resp = VnfmUtil.getVnfmIdByIp("1.1.1.1");
         assertEquals(resp,"1111");
     }
-    
+
     @Test
     public void getVnfmIdByIpInvalidIP(){
         new MockUp<VnfmRestfulUtil>(){

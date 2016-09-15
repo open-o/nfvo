@@ -20,20 +20,20 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * iResource manager interface.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public interface IResourceManager {
 
     /**
-     * 
+     *
      * Get juju vnfm information.<br>
-     * 
+     *
      * @param paramsMap
      * @return
      * @since  NFVO 0.5
@@ -41,9 +41,9 @@ public interface IResourceManager {
     JSONObject getJujuVnfmInfo(Map<String,String> paramsMap);
 
     /**
-     * 
+     *
      * Get vfnfd information.<br>
-     * 
+     *
      * @param paramsMap
      * @return
      * @since  NFVO 0.5

@@ -33,13 +33,13 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class JujuClientRoaTest {
-    
+
     JujuClientRoa roa;
-    
+
     @Before
     public void setUp(){
         roa = new JujuClientRoa();
-        roa.setJujuClientManager(new JujuClientManager());   
+        roa.setJujuClientManager(new JujuClientManager());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class JujuClientRoaTest {
         String res = roa.deploySerivce(context,resp);
         assertNotNull(res);
     }
-    
+
     @Test
     public void destroySerivceTestFail() throws ServiceException {
         new MockUp<StringUtil>(){

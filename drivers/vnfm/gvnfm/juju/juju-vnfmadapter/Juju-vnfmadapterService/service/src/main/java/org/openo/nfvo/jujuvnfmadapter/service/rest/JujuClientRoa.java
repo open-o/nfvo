@@ -44,7 +44,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author quanzhong@huawei.com
  * @version NFVO 0.5 Aug 18, 2016
  */
@@ -70,12 +70,12 @@ public class JujuClientRoa {
     public void setJujuClientManager(IJujuClientManager jujuClientManager) {
         this.jujuClientManager = jujuClientManager;
     }
-    
+
 
     /**
      * Set Charm url for juju deployment
      * <br/>
-     * 
+     *
      * @param resp
      * @param context
      *            parameter : charmUrl
@@ -97,7 +97,7 @@ public class JujuClientRoa {
      * Get VNF status
      * parameter: vnfInstanceId
      * <br/>
-     * 
+     *
      * @param appName
      * @param resp
      * @param context
@@ -119,7 +119,7 @@ public class JujuClientRoa {
      * Instance VNF to juju-client
      * <br/>
      * deployParam: depend on juju require
-     * 
+     *
      * @param resp
      * @param context
      * @return status: deplay result <br>
@@ -140,7 +140,7 @@ public class JujuClientRoa {
             JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
             if(reqJsonObject == null || reqJsonObject.get("appName") == null){
                 result.put(EntityUtils.MSG_KEY, "the param 'appName' can't be null");
-                resp.setStatus(Constant.HTTP_INNERERROR); 
+                resp.setStatus(Constant.HTTP_INNERERROR);
                 return result.toString();
             }
             String charmPath = (String)reqJsonObject.get("charmPath");
@@ -152,21 +152,21 @@ public class JujuClientRoa {
             }
             result = jujuClientManager.deploy(charmPath, mem, appName);
             if(result.getInt(EntityUtils.RESULT_CODE_KEY) == EntityUtils.ExeRes.SUCCESS){
-                resp.setStatus(Constant.HTTP_CREATED); 
+                resp.setStatus(Constant.HTTP_CREATED);
             }
             return result.toString();
         } catch(Exception e) {
             msg = e.getMessage();
            logger.error("deploy fail in method deployService",e);
         }
-        resp.setStatus(Constant.HTTP_INNERERROR); 
+        resp.setStatus(Constant.HTTP_INNERERROR);
         result.put(EntityUtils.MSG_KEY, msg);
         return result.toString();
     }
 
     /**
      * <br/>
-     * 
+     *
      * @param resp
      * @param context
      * @return
@@ -184,7 +184,7 @@ public class JujuClientRoa {
             JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
             if(reqJsonObject == null || reqJsonObject.get("appName") == null){
                 result.put(EntityUtils.MSG_KEY, "the param 'appName' can't be null");
-                resp.setStatus(Constant.HTTP_INNERERROR); 
+                resp.setStatus(Constant.HTTP_INNERERROR);
                 return result.toString();
             }
             String appName = reqJsonObject.getString("appName");
@@ -194,9 +194,9 @@ public class JujuClientRoa {
         } catch(Exception e) {
             msg = e.getMessage();
             logger.error("destory fail in method destroyService",e);
-         
+
         }
-        resp.setStatus(Constant.HTTP_INNERERROR); 
+        resp.setStatus(Constant.HTTP_INNERERROR);
         result.put(EntityUtils.MSG_KEY, msg);
         return result.toString();
     }

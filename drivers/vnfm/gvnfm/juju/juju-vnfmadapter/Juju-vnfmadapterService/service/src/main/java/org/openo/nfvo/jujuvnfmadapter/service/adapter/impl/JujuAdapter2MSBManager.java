@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Juju adapter to msb manager class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -40,12 +40,12 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(JujuAdapter2MSBManager.class);
 
-	@Override
-	public JSONObject registerJujuAdapter(Map<String, String> paramsMap, JSONObject adapterInfo) {
+    @Override
+    public JSONObject registerJujuAdapter(Map<String, String> paramsMap, JSONObject adapterInfo) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-        
-		RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,adapterInfo.toString());
+
+        RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,adapterInfo.toString());
         if(null == rsp) {
             LOG.error("function=registerJujuAdapter,  RestfulResponse is null");
             resultObj.put("reason", "RestfulResponse is null.");
@@ -69,15 +69,15 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
             resultObj.put("reason", "MSB return fail,internal system error.");
         }
         resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-		return resultObj;
-	}
+        return resultObj;
+    }
 
-	@Override
-	public JSONObject unregisterJujuAdapter(Map<String, String> paramsMap) {
+    @Override
+    public JSONObject unregisterJujuAdapter(Map<String, String> paramsMap) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-        
-		RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
+
+        RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
         if(null == rsp) {
             LOG.error("function=unregisterJujuAdapter,  RestfulResponse is null");
             resultObj.put("reason", "RestfulResponse is null.");
@@ -105,6 +105,6 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
             resultObj.put("reason", "MSB return fail,internal system error.");
         }
         resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-		return resultObj;
-	}
+        return resultObj;
+    }
 }

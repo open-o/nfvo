@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * Adapter resource manager class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -41,12 +41,12 @@ public class AdapterResourceManager implements IResourceManager {
     private static final Logger LOG = LoggerFactory.getLogger(AdapterResourceManager.class);
 
 
-	@Override
-	public JSONObject getJujuVnfmInfo(Map<String, String> paramsMap) {
+    @Override
+    public JSONObject getJujuVnfmInfo(Map<String, String> paramsMap) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-        
-		RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
+
+        RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
         if(null == rsp) {
             LOG.error("function=getJujuVnfmInfo,  RestfulResponse is null");
             resultObj.put("reason", "RestfulResponse is null.");
@@ -66,15 +66,15 @@ public class AdapterResourceManager implements IResourceManager {
             resultObj.put("reason", "ESR return fail.");
         }
         resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-		return resultObj;
-	}
+        return resultObj;
+    }
 
-	@Override
-	public JSONObject getVnfdInfo(Map<String, String> paramsMap) {
+    @Override
+    public JSONObject getVnfdInfo(Map<String, String> paramsMap) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-        
-		RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
+
+        RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
         if(null == rsp) {
             LOG.error("function=getVnfdInfo,  RestfulResponse is null");
             resultObj.put("reason", "RestfulResponse is null.");
@@ -94,6 +94,6 @@ public class AdapterResourceManager implements IResourceManager {
             resultObj.put("reason", "catalog return fail.");
         }
         resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-		return resultObj;
-	}
+        return resultObj;
+    }
 }

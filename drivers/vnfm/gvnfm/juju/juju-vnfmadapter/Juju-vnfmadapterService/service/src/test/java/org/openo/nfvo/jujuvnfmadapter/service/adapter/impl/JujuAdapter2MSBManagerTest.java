@@ -38,230 +38,230 @@ import net.sf.json.JSONObject;
 
 public class JujuAdapter2MSBManagerTest {
 
-	private JujuAdapter2MSBManager adapter2MSBManager;
+    private JujuAdapter2MSBManager adapter2MSBManager;
 
-	private JSONObject jsonObj;
+    private JSONObject jsonObj;
 
-	@Test
-	public void registerJujuAdapterTest() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
-		JSONObject resultObj = new JSONObject();
+    @Test
+    public void registerJujuAdapterTest() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
+        JSONObject resultObj = new JSONObject();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
-		assertTrue(resp != null);
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
+        assertTrue(resp != null);
+    }
 
-	@Test
-	public void registerJujuAdapterTest2() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(500);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
-		JSONObject resultObj = new JSONObject();
+    @Test
+    public void registerJujuAdapterTest2() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(500);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
+        JSONObject resultObj = new JSONObject();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
-		assertTrue(resp != null);
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
+        assertTrue(resp != null);
+    }
 
-	@Test
-	public void registerJujuAdapterTest3() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(415);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
-		JSONObject resultObj = new JSONObject();
+    @Test
+    public void registerJujuAdapterTest3() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(415);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
+        JSONObject resultObj = new JSONObject();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
-		assertTrue(resp != null);
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
+        assertTrue(resp != null);
+    }
 
-	@Test
-	public void registerJujuAdapterTest4() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(201);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				return json;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
-		JSONObject resultObj = new JSONObject();
+    @Test
+    public void registerJujuAdapterTest4() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(201);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                return json;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
+        JSONObject resultObj = new JSONObject();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
-		assertTrue(resp != null);
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.registerJujuAdapter(paramsMap, resultObj);
+        assertTrue(resp != null);
+    }
 
-	@Test
-	public void registerJujuAdapterTest1() {
-		Map<String, String> paramsMap = new HashMap<>();
-		JSONObject resultObj = new JSONObject();
+    @Test
+    public void registerJujuAdapterTest1() {
+        Map<String, String> paramsMap = new HashMap<>();
+        JSONObject resultObj = new JSONObject();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.registerJujuAdapter(null, resultObj);
-		assertTrue(resp.get("reason").equals("RestfulResponse is null."));
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.registerJujuAdapter(null, resultObj);
+        assertTrue(resp.get("reason").equals("RestfulResponse is null."));
+    }
 
-	@Test
-	public void unregisterJujuAdapterTest() {
-		Map<String, String> paramsMap = new HashMap<>();
+    @Test
+    public void unregisterJujuAdapterTest() {
+        Map<String, String> paramsMap = new HashMap<>();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp.get("reason").equals("RestfulResponse is null."));
-	}
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp.get("reason").equals("RestfulResponse is null."));
+    }
 
-	@Test
-	public void unregisterJujuAdapterTest1() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(204);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				return json;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
+    @Test
+    public void unregisterJujuAdapterTest1() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(204);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                return json;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp != null);
-	}
-	
-	@Test
-	public void unregisterJujuAdapterTest2() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(404);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp != null);
+    }
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+    @Test
+    public void unregisterJujuAdapterTest2() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(404);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp != null);
-	}
-	
-	@Test
-	public void unregisterJujuAdapterTest3() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(415);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp != null);
+    }
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp != null);
-	}
-	
-	@Test
-	public void unregisterJujuAdapterTest4() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(500);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
+    @Test
+    public void unregisterJujuAdapterTest3() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(415);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp != null);
-	}
-	
-	@Test
-	public void unregisterJujuAdapterTest5() {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		Map<String, String> paramsMap = new HashMap<>();
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp != null);
+    }
 
-		paramsMap.put("url", "/openoapi/microservices/v1/services");
-		paramsMap.put("methodType", "post");
+    @Test
+    public void unregisterJujuAdapterTest4() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(500);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
 
-		JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
-		JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
-		assertTrue(resp != null);
-	}
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
+
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp != null);
+    }
+
+    @Test
+    public void unregisterJujuAdapterTest5() {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse post(String arg0, RestfulParametes arg1) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        Map<String, String> paramsMap = new HashMap<>();
+
+        paramsMap.put("url", "/openoapi/microservices/v1/services");
+        paramsMap.put("methodType", "post");
+
+        JujuAdapter2MSBManager mgr = new JujuAdapter2MSBManager();
+        JSONObject resp = mgr.unregisterJujuAdapter(paramsMap);
+        assertTrue(resp != null);
+    }
 }

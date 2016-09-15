@@ -50,8 +50,8 @@ public class VnfMgr {
 
     private static final Logger LOG = LoggerFactory.getLogger(VnfMgr.class);
     private JujuVnfmInfoMapper jujuVnfmInfoMapper;
-    
-    
+
+
     /**
      * @return Returns the jujuVnfmInfoMapper.
      */
@@ -59,7 +59,7 @@ public class VnfMgr {
         return jujuVnfmInfoMapper;
     }
 
-    
+
     /**
      * @param jujuVnfmInfoMapper The jujuVnfmInfoMapper to set.
      */
@@ -70,7 +70,7 @@ public class VnfMgr {
     /**
      * Provide function for instantiate VNF
      * <br/>
-     * 
+     *
      * @param vnfObject
      * @param vnfmId
      * @return
@@ -130,11 +130,11 @@ public class VnfMgr {
         LOG.info("request:{},response:{}", vnfmId, restJson.toString());
         return restJson;
     }
-    
+
     /**
      * save object to db
      * <br/>
-     * 
+     *
      * @param appName
      * @param jobId
      * @param vnfId
@@ -156,7 +156,7 @@ public class VnfMgr {
     /**
      * delete the object by vnfid
      * <br/>
-     * 
+     *
      * @param vnfId
      * @since  NFVO 0.5
      */
@@ -165,11 +165,11 @@ public class VnfMgr {
         example.createCriteria().andVnfIdEqualTo(vnfId);
         jujuVnfmInfoMapper.deleteByExample(example);
     }
-    
+
     /**
      * findByVnfId from db
      * <br/>
-     * 
+     *
      * @param vnfId
      * @return
      * @since  NFVO 0.5
@@ -187,7 +187,7 @@ public class VnfMgr {
     /**
      * Provide function for terminate VNF
      * <br/>
-     * 
+     *
      * @param vnfId
      * @param vnfmId
      * @param vnfObject
@@ -247,7 +247,7 @@ public class VnfMgr {
     /**
      * Provide function for get VNF
      * <br/>
-     * 
+     *
      * @param vnfId
      * @param vnfmId
      * @return
@@ -263,7 +263,7 @@ public class VnfMgr {
                 LOG.error("function=getVnf, msg=vnfm not exists, vnfmId: {}", vnfmId);
                 return restJson;
             }
-            
+
             String appName = "";
             JujuVnfmInfo jujuInfo = findByVnfId(vnfId);
             if(jujuInfo != null){
@@ -328,7 +328,7 @@ public class VnfMgr {
     /**
      * Provide function for get job
      * <br/>
-     * 
+     *
      * @param jobId
      * @param vnfmId
      * @return

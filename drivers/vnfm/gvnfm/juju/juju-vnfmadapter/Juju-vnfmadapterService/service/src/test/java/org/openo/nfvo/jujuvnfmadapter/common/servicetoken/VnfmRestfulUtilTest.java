@@ -50,7 +50,7 @@ public class VnfmRestfulUtilTest {
         RestfulResponse result = VnfmRestfulUtil.getRestResByDefault("path", "put", new JSONObject());
         assertNotNull(result);
     }
-    
+
     ////
     @Test
     public void testSendReqToAppByFail() {
@@ -67,7 +67,7 @@ public class VnfmRestfulUtilTest {
         JSONObject result = VnfmRestfulUtil.sendReqToApp("path", "put", paraJson);
         assertEquals(Constant.REST_FAIL, result.get("retCode"));
     }
-    
+
     @Test
     public void testSendReqToAppByVnfmInfoPutNormal() {
         new MockUp<VnfmRestfulUtil>(){
@@ -126,10 +126,10 @@ public class VnfmRestfulUtilTest {
         paramsMap.put("url", "http://localhost:8080");
         paramsMap.put("methodType","get");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestInvalidPut(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -137,10 +137,10 @@ public class VnfmRestfulUtilTest {
         paramsMap.put("url", "http://localhost:8080");
         paramsMap.put("methodType","put");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestInvalidPost(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -148,7 +148,7 @@ public class VnfmRestfulUtilTest {
         paramsMap.put("url", "http://localhost:8080");
         paramsMap.put("methodType","post");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");
         assertTrue(resp == null);
     }
     @Test
@@ -158,39 +158,39 @@ public class VnfmRestfulUtilTest {
         paramsMap.put("url", "http://localhost:8080");
         paramsMap.put("methodType","delete");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponse2TestInvalidGet(){
         String url = "http://localhost:8080";
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "get", "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "get", "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponse2TestInvalidPut(){
         String url = "http://localhost:8080";
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "put", "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "put", "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponse2TestInvalidPost(){
         String url = "http://localhost:8080";
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "post", "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "post", "test123");
         assertTrue(resp == null);
     }
     @Test
     public void getRemoteResponse2TestInvalidDelete(){
-        
+
         String url = "http://localhost:8080";
-        
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "delete", "test123");   
+
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(url, "delete", "test123");
         assertTrue(resp == null);
     }
-    
+
     @Test
     public void getRemoteResponseTestFalseNfvoApp(){
         Map<String,String> paramsMap = new HashMap<>();
@@ -198,10 +198,10 @@ public class VnfmRestfulUtilTest {
         paramsMap.put("url", "http://localhost:8080");
         paramsMap.put("methodType","delete");
         paramsMap.put("authMode","test");
-        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");   
+        RestfulResponse resp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, "test123");
         assertTrue(resp == null);
     }
-    
+
    /* @Test
     public void sentEvtByRestTest(){
         VnfmRestfulUtil.sentEvtByRest("http://localhost:8080", "get", null);

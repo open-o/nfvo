@@ -22,11 +22,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
- * 
+ *
  * Spring context holder class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -46,9 +46,9 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     /**
-     * 
+     *
      * Get spring bean.<br>
-     * 
+     *
      * @param name
      * @return
      * @since  NFVO 0.5
@@ -60,9 +60,9 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     /**
-     * 
+     *
      * Get spring bean.<br>
-     * 
+     *
      * @param requiredType
      * @return
      * @since  NFVO 0.5
@@ -81,9 +81,9 @@ public class SpringContextHolder implements ApplicationContextAware {
     }
 
     /**
-     * 
+     *
      * Clean application context.<br>
-     * 
+     *
      * @since  NFVO 0.5
      */
     public static void cleanApplicationContext() {

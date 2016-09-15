@@ -87,14 +87,14 @@ import java.util.List;
  * ttl: time to live, this parameter is reserved for later use
  * status: service status, 1: eanbled, 0:disabled
  * </p>
- * 
+ *
  * @author quanzhong@huawei.com
  * @version NFVO 0.5 Aug 18, 2016
  */
 public class MSBRequestEntity implements Serializable {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -4548158998952436572L;
 
@@ -201,7 +201,7 @@ public class MSBRequestEntity implements Serializable {
         this.visualRange = visualRange;
     }
 
-    
+
     /**
      * @return Returns the status.
      */
@@ -209,7 +209,7 @@ public class MSBRequestEntity implements Serializable {
         return status;
     }
 
-    
+
     /**
      * @param status The status to set.
      */
@@ -235,14 +235,14 @@ public class MSBRequestEntity implements Serializable {
      * <br/>
      * <p>
      * </p>
-     * 
+     *
      * @author quanzhong@huawei.com
      * @version NFVO 0.5 Aug 18, 2016
      */
     public static class Node implements Serializable {
 
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 7618395945064516270L;
 
@@ -344,7 +344,7 @@ public class MSBRequestEntity implements Serializable {
 
         /**
          * <br/>
-         * 
+         *
          * @return
          * @since NFVO 0.5
          */
@@ -358,7 +358,7 @@ public class MSBRequestEntity implements Serializable {
 
     /**
      * <br/>
-     * 
+     *
      * @return
      * @since NFVO 0.5
      */

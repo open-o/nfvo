@@ -27,93 +27,93 @@ import net.sf.json.JSONObject;
 
 public class JujuClientManagerTest {
 
-	@Test
-	public void testdeploy() {
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
-		assertTrue(json != null);
-	}
+    @Test
+    public void testdeploy() {
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testdeploy3() {
-		new MockUp<ProcessBuilder>() {
-			@Mock
-			public Process start() throws IOException {
-				Process process = new ProcessMockImpl();
-				return process;
-			}
-		};
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
-		assertTrue(json != null);
-	}
+    @Test
+    public void testdeploy3() {
+        new MockUp<ProcessBuilder>() {
+            @Mock
+            public Process start() throws IOException {
+                Process process = new ProcessMockImpl();
+                return process;
+            }
+        };
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testdeploy1() {
+    @Test
+    public void testdeploy1() {
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 1, null);
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.deploy("charmPath", 1, null);
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testdeploy2() {
+    @Test
+    public void testdeploy2() {
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy(null, 1, null);
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.deploy(null, 1, null);
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testdestroy() {
+    @Test
+    public void testdestroy() {
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.destroy("appName");
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.destroy("appName");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testdestroy1() {
-		new MockUp<ProcessBuilder>() {
-			@Mock
-			public Process start() throws IOException {
-				Process process = new ProcessMockImpl();
-				return process;
-			}
-		};
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.destroy("appName");
-		assertTrue(json != null);
-	}
+    @Test
+    public void testdestroy1() {
+        new MockUp<ProcessBuilder>() {
+            @Mock
+            public Process start() throws IOException {
+                Process process = new ProcessMockImpl();
+                return process;
+            }
+        };
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.destroy("appName");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testgetStatus() {
+    @Test
+    public void testgetStatus() {
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.getStatus("appName");
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.getStatus("appName");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testgetStatus1() {
+    @Test
+    public void testgetStatus1() {
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.getStatus("");
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.getStatus("");
+        assertTrue(json != null);
+    }
 
-	@Test
-	public void testgetStatus2() {
-		new MockUp<ProcessBuilder>() {
-			@Mock
-			public Process start() throws IOException {
-				Process process = new ProcessMockImpl();
-				return process;
-			}
-		};
+    @Test
+    public void testgetStatus2() {
+        new MockUp<ProcessBuilder>() {
+            @Mock
+            public Process start() throws IOException {
+                Process process = new ProcessMockImpl();
+                return process;
+            }
+        };
 
-		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.getStatus("");
-		assertTrue(json != null);
-	}
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        JSONObject json = jujuClientManager.getStatus("");
+        assertTrue(json != null);
+    }
 }

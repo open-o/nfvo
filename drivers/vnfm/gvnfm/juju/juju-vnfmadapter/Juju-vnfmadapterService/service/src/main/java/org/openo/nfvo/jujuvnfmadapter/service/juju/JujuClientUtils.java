@@ -24,24 +24,24 @@ import org.python.core.PyString;
  * <br/>
  * <p>
  * </p>
- * @author		quanzhong@huawei.com
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Aug 22, 2016
  */
 public class JujuClientUtils {
 
     private static  PyObjectFactory factory ;
-    
+
     /**
      * call this to connect JUJU VNFM
      * <br/>
-     * 
+     *
      * @param envName
      * @since  NFVO 0.5
      */
     public static void init(String envName){
             factory = PyObjectFactory.build(envName);
     }
-    
+
     public static PyObject setCharm(String serviceName,String charmUrl){
        return factory.execute("set_charm", new PyString(serviceName), new PyString(charmUrl));
     }
@@ -50,7 +50,7 @@ public class JujuClientUtils {
 
         return null;
      }
-    
+
     public static PyObject deployService(String serviceName,String charmUrl, int numUnits){
         PyObject[] arrys = new PyObject[]{new PyString(serviceName), new PyString(charmUrl), new PyInteger(numUnits)};
         return factory.execute("deploy", arrys);
@@ -58,7 +58,7 @@ public class JujuClientUtils {
     /**
      * Destory a service and all of it's units.
      * <br/>
-     * 
+     *
      * @param serviceName
      * @param charmUrl
      * @param numUnits

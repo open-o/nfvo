@@ -25,53 +25,53 @@ import java.io.OutputStream;
 
 public class ProcessMockImpl extends Process  {
 
-	@Override
-	public OutputStream getOutputStream() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public OutputStream getOutputStream() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public InputStream getInputStream() {
-		// TODO Auto-generated method stub
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    ObjectOutputStream oos;
-		/*try {
-			oos = new ObjectOutputStream(baos);
-			oos.writeObject(new Object());
-			oos.flush();
-		    oos.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
+    @Override
+    public InputStream getInputStream() {
+        // TODO Auto-generated method stub
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos;
+        /*try {
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(new Object());
+            oos.flush();
+            oos.close();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }*/
 
-	    InputStream is = new ByteArrayInputStream(baos.toByteArray());
-		return is;
-	}
+        InputStream is = new ByteArrayInputStream(baos.toByteArray());
+        return is;
+    }
 
-	@Override
-	public InputStream getErrorStream() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public InputStream getErrorStream() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public int waitFor() throws InterruptedException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int waitFor() throws InterruptedException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public int exitValue() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public int exitValue() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void destroy() {
+        // TODO Auto-generated method stub
+
+    }
 
 }

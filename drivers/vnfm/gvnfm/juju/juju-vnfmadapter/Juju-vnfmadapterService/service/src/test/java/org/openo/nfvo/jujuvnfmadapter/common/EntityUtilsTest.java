@@ -29,7 +29,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
 import net.sf.json.JSONObject;
 
 public class EntityUtilsTest {
-    
+
     @Test
     public void formatCommandTest(){
         List<String> command = new ArrayList<>();
