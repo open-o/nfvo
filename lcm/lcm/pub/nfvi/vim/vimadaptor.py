@@ -19,7 +19,6 @@ import traceback
 from requests import RequestException
 
 from lcm.pub.nfvi.vim.lib.syscomm import fun_name
-from lcm.pub.nfvi.vim.api.openstack.api import OpenstackApi
 from lcm.pub.nfvi.vim import const
 from lcm.pub.nfvi.vim.lib.vimexception import VimException
 
@@ -37,6 +36,7 @@ class VimAdaptor:
         vimtype = connectInfo['vimtype'] if 'vimtype' in connectInfo else None
         logger.info("call %s, vimtype=%s" % (fun_name(), vimtype))
         if vimtype == const.VIM_OPENSTACK:
+            from lcm.pub.nfvi.vim.api.openstack.api import OpenstackApi
             self.apiImpl = OpenstackApi()
         else:
             self.authInfo = [1, "Unsupported vimtype(%s)" % vimtype]

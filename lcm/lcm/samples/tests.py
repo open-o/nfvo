@@ -26,10 +26,7 @@ class SampleViewTest(unittest.TestCase):
         pass
     
     def test_sample(self):
-        pass
-        """
         response = self.client.get("/samples/")
         self.assertEqual(status.HTTP_200_OK, response.status_code, response.content)
         resp_data = json.loads(response.content)
         self.assertEqual([{"id": "1"}, {"id": "2"}], resp_data)
-        """
