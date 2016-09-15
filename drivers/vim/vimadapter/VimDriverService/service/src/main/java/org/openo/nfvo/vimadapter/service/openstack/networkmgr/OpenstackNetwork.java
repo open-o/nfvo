@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Create or delete network to openstack.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -51,7 +51,7 @@ public class OpenstackNetwork {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @since NFVO 0.5
      */
@@ -63,7 +63,7 @@ public class OpenstackNetwork {
 
     /**
      * Create network to openstack.<br/>
-     * 
+     *
      * @param network the information of network to create
      * @return the result of creating network to openstack
      * @since NFVO 0.5
@@ -150,7 +150,7 @@ public class OpenstackNetwork {
 
     /**
      * Delete network to openstack.<br/>
-     * 
+     *
      * @param networkId the information of network to delete
      * @return the result of deleting network to openstack
      * @since NFVO 0.5

@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
 
 /**
  * It provides openstack connection function.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -58,7 +58,7 @@ public class OpenstackConnection {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param info ConnectInfo of openstack
      * @since NFVO 0.5
      */
@@ -72,7 +72,7 @@ public class OpenstackConnection {
 
     /**
      * Connect to openstack<br/>
-     * 
+     *
      * @return the status of connection
      * @since NFVO 0.5
      */
@@ -191,7 +191,7 @@ public class OpenstackConnection {
 
     /**
      * Disconnect to openstack<br/>
-     * 
+     *
      * @since NFVO 0.5
      */
     public void disconnect() {
@@ -214,7 +214,7 @@ public class OpenstackConnection {
 
     /**
      * Judge to need new ConnectInfo to openstack.<br/>
-     * 
+     *
      * @param info ConnectInfo to openstack
      * @return the result of need new connect
      * @since NFVO 0.5
@@ -241,7 +241,7 @@ public class OpenstackConnection {
 
     /**
      * Get service url by serviceName<br/>
-     * 
+     *
      * @param serviceName the name of service
      * @return the url of service
      * @since NFVO 0.5

@@ -25,26 +25,26 @@ import org.openo.nfvo.vimadapter.service.openstack.entry.ResourceMgrOpenstack;
 
 public class AdapterResourceManagerTest {
 
-	private AdapterResourceManager resource = null;
+    private AdapterResourceManager resource = null;
 
-	@Before
-	public void setUp() throws Exception {
-		Constructor<AdapterResourceManager> constructor = AdapterResourceManager.class
-				.getDeclaredConstructor(new Class[0]);
-		constructor.setAccessible(true);
-		resource = constructor.newInstance(new Object[0]);
-	}
+    @Before
+    public void setUp() throws Exception {
+        Constructor<AdapterResourceManager> constructor = AdapterResourceManager.class
+                .getDeclaredConstructor(new Class[0]);
+        constructor.setAccessible(true);
+        resource = constructor.newInstance(new Object[0]);
+    }
 
-	@Test
-	public void createResourceMgrTestInvalid() {
-		ResourceMgrOpenstack result = AdapterResourceManager.createResourceMgr("test");
-		assertTrue(result == null);
-	}
+    @Test
+    public void createResourceMgrTestInvalid() {
+        ResourceMgrOpenstack result = AdapterResourceManager.createResourceMgr("test");
+        assertTrue(result == null);
+    }
 
-	@Test
-	public void createResourceMgrTest() {
-		ResourceMgrOpenstack result = AdapterResourceManager.createResourceMgr("openstack");
-		assertTrue(result != null);
-	}
+    @Test
+    public void createResourceMgrTest() {
+        ResourceMgrOpenstack result = AdapterResourceManager.createResourceMgr("openstack");
+        assertTrue(result != null);
+    }
 
 }

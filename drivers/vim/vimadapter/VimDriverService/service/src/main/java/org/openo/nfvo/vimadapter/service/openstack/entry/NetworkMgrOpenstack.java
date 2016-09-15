@@ -26,7 +26,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Openstack network management.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -36,7 +36,7 @@ public class NetworkMgrOpenstack {
 
     /**
      * Create network to openstack.<br/>
-     * 
+     *
      * @param network the JSONObject of network information
      * @param conInfoMap the openstack info map
      * @return the result of creating network to openstack
@@ -50,7 +50,7 @@ public class NetworkMgrOpenstack {
 
     /**
      * Delete network to openstack.<br/>
-     * 
+     *
      * @param network the JSONObject of network information
      * @param conInfoMap the openstack info map
      * @param networkId String network id

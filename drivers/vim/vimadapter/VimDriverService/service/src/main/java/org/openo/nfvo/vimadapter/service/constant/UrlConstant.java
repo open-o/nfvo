@@ -18,7 +18,7 @@ package org.openo.nfvo.vimadapter.service.constant;
 
 /**
  * The url constant information.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */

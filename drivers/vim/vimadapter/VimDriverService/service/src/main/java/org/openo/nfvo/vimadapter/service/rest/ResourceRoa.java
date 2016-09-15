@@ -38,7 +38,7 @@ import net.sf.json.JSONObject;
 
 /**
  * The rest interface of querying resources.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */
@@ -63,7 +63,7 @@ public class ResourceRoa {
 
     /**
      * Get CPU limit.<br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param tenantId String
@@ -93,7 +93,7 @@ public class ResourceRoa {
 
     /**
      * Get disk limit.<br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param tenantId String
@@ -123,7 +123,7 @@ public class ResourceRoa {
 
     /**
      * Get Networks.<br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param vimId String
@@ -151,7 +151,7 @@ public class ResourceRoa {
 
     /**
      * Get Network.<br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param networkId String
@@ -181,7 +181,7 @@ public class ResourceRoa {
 
     /**
      * Rest interface to perform query hosts operation.<br/>
-     * 
+     *
      * @param context HttpServletRequest Object
      * @param resp HttpServletResponse
      * @param tenantId String
@@ -213,7 +213,7 @@ public class ResourceRoa {
 
     /**
      * Get Host. <br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param hostName String
@@ -246,7 +246,7 @@ public class ResourceRoa {
 
     /**
      * Get ports.<br/>
-     * 
+     *
      * @param context
      * @param resp
      * @param vimId
@@ -274,7 +274,7 @@ public class ResourceRoa {
 
     /**
      * Get Port.<br/>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param id String port id
@@ -304,7 +304,7 @@ public class ResourceRoa {
 
     /**
      * Get Projects.</br>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param vimId String
@@ -332,7 +332,7 @@ public class ResourceRoa {
 
     /**
      * Get Project.</br>
-     * 
+     *
      * @param context HttpServletRequest
      * @param resp HttpServletResponse
      * @param id String project id

@@ -35,57 +35,57 @@ import mockit.MockUp;
 
 public class VimUtilTest {
 
-	@Test
-	public void getVimsTestNullResp() {
-		List<Vim> vimList = VimUtil.getVims();
-		assertNull(vimList);
-	}
+    @Test
+    public void getVimsTestNullResp() {
+        List<Vim> vimList = VimUtil.getVims();
+        assertNull(vimList);
+    }
 
-	@Test
-	public void getVimsTestInvalidStatus() {
-		new MockUp<VimRestfulUtil>() {
-			@Mock
-			public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
-				RestfulResponse response = new RestfulResponse();
-				response.setStatus(500);
-				return response;
-			}
-		};
-		List<Vim> vimList = VimUtil.getVims();
-		assertNull(vimList);
-	}
+    @Test
+    public void getVimsTestInvalidStatus() {
+        new MockUp<VimRestfulUtil>() {
+            @Mock
+            public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
+                RestfulResponse response = new RestfulResponse();
+                response.setStatus(500);
+                return response;
+            }
+        };
+        List<Vim> vimList = VimUtil.getVims();
+        assertNull(vimList);
+    }
 
-	@Test
-	public void getVimsTest() {
-		new MockUp<VimRestfulUtil>() {
-		    private String toJson(List list) {
-		        try {
-		            return JsonUtil.marshal(list);
-		        } catch (IOException e) {
-		            return "";
-		        }
-		    }
-			@Mock
-			public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
-				RestfulResponse response = new RestfulResponse();
-				response.setStatus(200);
-				List<Map<String, String>> vims = new ArrayList<>();
-				Map<String, String> vim = new HashMap<String, String>();
-				vim.put("vimId", "123");
-				vim.put("name", "123");
-				vim.put("url", "123");
-				vim.put("userName", "123");
-				vim.put("password", "123");
-				vim.put("type", "123");
-				vim.put("version", "123");
-				vims.add(vim);
-				String vimStr = this.toJson(vims);
-				response.setResponseJson(vimStr);
-				return response;
-			}
-		};
-		List<Vim> vimList = VimUtil.getVims();
-		assertTrue(!vimList.isEmpty());
-	}
+    @Test
+    public void getVimsTest() {
+        new MockUp<VimRestfulUtil>() {
+            private String toJson(List list) {
+                try {
+                    return JsonUtil.marshal(list);
+                } catch (IOException e) {
+                    return "";
+                }
+            }
+            @Mock
+            public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
+                RestfulResponse response = new RestfulResponse();
+                response.setStatus(200);
+                List<Map<String, String>> vims = new ArrayList<>();
+                Map<String, String> vim = new HashMap<String, String>();
+                vim.put("vimId", "123");
+                vim.put("name", "123");
+                vim.put("url", "123");
+                vim.put("userName", "123");
+                vim.put("password", "123");
+                vim.put("type", "123");
+                vim.put("version", "123");
+                vims.add(vim);
+                String vimStr = this.toJson(vims);
+                response.setResponseJson(vimStr);
+                return response;
+            }
+        };
+        List<Vim> vimList = VimUtil.getVims();
+        assertTrue(!vimList.isEmpty());
+    }
 
 }

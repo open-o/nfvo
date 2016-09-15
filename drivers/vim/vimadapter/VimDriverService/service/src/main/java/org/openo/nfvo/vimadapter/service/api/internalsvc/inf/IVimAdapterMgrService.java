@@ -20,7 +20,7 @@ package org.openo.nfvo.vimadapter.service.api.internalsvc.inf;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */

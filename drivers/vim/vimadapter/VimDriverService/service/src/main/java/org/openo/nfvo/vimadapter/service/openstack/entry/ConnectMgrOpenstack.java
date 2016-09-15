@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Openstack connection management.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -34,7 +34,7 @@ public class ConnectMgrOpenstack {
 
     /**
      * Connect to openstack.<br/>
-     * 
+     *
      * @param vim the information of vim
      * @param type the operation type of vim connection
      * @return the status of connection

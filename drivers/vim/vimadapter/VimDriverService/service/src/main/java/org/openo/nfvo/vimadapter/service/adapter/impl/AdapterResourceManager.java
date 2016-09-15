@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 
 /**
  * It is used to adapter resource management.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -44,7 +44,7 @@ public class AdapterResourceManager implements InterfaceResourceManager {
 
     /**
      * Create vim resource management<br/>
-     * 
+     *
      * @param type the type of vim
      * @return resource management of openstack
      * @since NFVO 0.5

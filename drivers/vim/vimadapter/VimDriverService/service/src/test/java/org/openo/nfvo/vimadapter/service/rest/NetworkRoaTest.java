@@ -36,158 +36,158 @@ import net.sf.json.JSONObject;
 
 public class NetworkRoaTest {
 
-	private NetworkRoa roa;
-	private HttpServletResponse resp;
+    private NetworkRoa roa;
+    private HttpServletResponse resp;
 
-	@Before
-	public void setUp() {
-		roa = new NetworkRoa();
-		resp = new MockHttpServletResponse();
-		roa.setAdapter(new AdapterNetworkManager());
-	}
+    @Before
+    public void setUp() {
+        roa = new NetworkRoa();
+        resp = new MockHttpServletResponse();
+        roa.setAdapter(new AdapterNetworkManager());
+    }
 
-	@Test
-	public void addNetworkTest() throws ServiceException {
-		new MockUp<IOUtils>() {
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return "data";
-			}
-		};
+    @Test
+    public void addNetworkTest() throws ServiceException {
+        new MockUp<IOUtils>() {
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "data";
+            }
+        };
 
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				return json;
-			}
-		};
-		HttpServletRequest mock = new MockHttpServletRequest();
-		String result = roa.addNetwork(mock, resp, "vimID");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                return json;
+            }
+        };
+        HttpServletRequest mock = new MockHttpServletRequest();
+        String result = roa.addNetwork(mock, resp, "vimID");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void addNetworkTestBranch() throws ServiceException {
-		new MockUp<IOUtils>() {
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return "data";
-			}
-		};
+    @Test
+    public void addNetworkTestBranch() throws ServiceException {
+        new MockUp<IOUtils>() {
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "data";
+            }
+        };
 
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("key", "value");
-				return json;
-			}
-		};
-		HttpServletRequest mock = new MockHttpServletRequest();
-		//String result = roa.addNetwork(mock, resp, "vimID");
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("key", "value");
+                return json;
+            }
+        };
+        HttpServletRequest mock = new MockHttpServletRequest();
+        //String result = roa.addNetwork(mock, resp, "vimID");
 
-	}
+    }
 
-	@Test
-	public void addNetworkTestBranch1() throws ServiceException {
-		new MockUp<IOUtils>() {
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return "data";
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("key", "value");
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
-				return json;
-			}
-		};
-		HttpServletRequest mock = new MockHttpServletRequest();
-		String result = roa.addNetwork(mock, resp, "");
-	}
+    @Test
+    public void addNetworkTestBranch1() throws ServiceException {
+        new MockUp<IOUtils>() {
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "data";
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("key", "value");
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
+                return json;
+            }
+        };
+        HttpServletRequest mock = new MockHttpServletRequest();
+        String result = roa.addNetwork(mock, resp, "");
+    }
 
-	@Test
-	public void addNetworkTestBranch2() throws ServiceException {
-		new MockUp<IOUtils>() {
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return "data";
-			}
-		};
+    @Test
+    public void addNetworkTestBranch2() throws ServiceException {
+        new MockUp<IOUtils>() {
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "data";
+            }
+        };
 
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				return null;
-			}
-		};
-		HttpServletRequest mock = new MockHttpServletRequest();
-		String result = roa.addNetwork(mock, resp, "vimId");
-	}
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                return null;
+            }
+        };
+        HttpServletRequest mock = new MockHttpServletRequest();
+        String result = roa.addNetwork(mock, resp, "vimId");
+    }
 
-	@Test
-	public void addNetworkTestBranch3() throws ServiceException {
-		new MockUp<IOUtils>() {
-			@Mock
-			public String toString(InputStream input) throws IOException {
-				return "data";
-			}
-		};
+    @Test
+    public void addNetworkTestBranch3() throws ServiceException {
+        new MockUp<IOUtils>() {
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "data";
+            }
+        };
 
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				return null;
-			}
-		};
-		HttpServletRequest mock = new MockHttpServletRequest();
-		String result = roa.addNetwork(mock, resp, null);
-	}
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                return null;
+            }
+        };
+        HttpServletRequest mock = new MockHttpServletRequest();
+        String result = roa.addNetwork(mock, resp, null);
+    }
 
-	@Test
-	public void delNetworkTest() throws ServiceException {
-//		String result = roa.delNetwork(null, resp, "networkId", "vimId");
-//		String expectedRes = "{}";
-//		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void delNetworkTest() throws ServiceException {
+//        String result = roa.delNetwork(null, resp, "networkId", "vimId");
+//        String expectedRes = "{}";
+//        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void delNetworkTestBranch() throws ServiceException {
-		String result = roa.delNetwork(null, resp, "networkId", "");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void delNetworkTestBranch() throws ServiceException {
+        String result = roa.delNetwork(null, resp, "networkId", "");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void delNetworkTestBranch1() throws ServiceException {
-		String result = roa.delNetwork(null, resp, "", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void delNetworkTestBranch1() throws ServiceException {
+        String result = roa.delNetwork(null, resp, "", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void delNetworkTestBranch2() throws ServiceException {
-		String result = roa.delNetwork(null, resp, "networkId", null);
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void delNetworkTestBranch2() throws ServiceException {
+        String result = roa.delNetwork(null, resp, "networkId", null);
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void delNetworkTestBranch3() throws ServiceException {
-		String result = roa.delNetwork(null, resp, null, "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void delNetworkTestBranch3() throws ServiceException {
+        String result = roa.delNetwork(null, resp, null, "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
 }

@@ -19,10 +19,10 @@ import org.junit.Test;
 
 public class VimAdapterMgrServiceTest {
 
-	VimAdapterMgrService vimAdapterMgrService = new VimAdapterMgrService();
+    VimAdapterMgrService vimAdapterMgrService = new VimAdapterMgrService();
 
-	@Test
-	public void testRegister() {
-		vimAdapterMgrService.register();
-	}
+    @Test
+    public void testRegister() {
+        vimAdapterMgrService.register();
+    }
 }

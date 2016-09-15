@@ -23,7 +23,7 @@ import org.openo.nfvo.vimadapter.service.entity.Vim;
 
 /**
  * The Connect Info about openstack.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */
@@ -45,7 +45,7 @@ public class ConnectInfo {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the information of openstack connection
      * @since NFVO 0.5
      */
@@ -59,7 +59,7 @@ public class ConnectInfo {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param vim the information of vim connection
      * @since NFVO 0.5
      */
@@ -133,7 +133,7 @@ public class ConnectInfo {
 
     /**
      * It is to generate conMap.<br/>
-     * 
+     *
      * @param conMap the information of openstack connection
      * @return ConnectInfo about openstack
      * @since NFVO 0.5
@@ -164,7 +164,7 @@ public class ConnectInfo {
 
     /**
      * It judges to need renew info or not.<br/>
-     * 
+     *
      * @param info ConnectInfo about openstack
      * @return the result to need renew info
      * @since NFVO 0.5

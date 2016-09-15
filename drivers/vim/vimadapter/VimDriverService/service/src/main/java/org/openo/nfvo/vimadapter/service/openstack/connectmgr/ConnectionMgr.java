@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * It provides connection management of OpenstackConnection.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */
@@ -54,7 +54,7 @@ public final class ConnectionMgr {
 
     /**
      * Add connection to openstack.<br/>
-     * 
+     *
      * @param vim the information of vim
      * @return the status about connect openstack
      * @throws LoginException when login failed
@@ -72,7 +72,7 @@ public final class ConnectionMgr {
 
     /**
      * Get connection with openstack.<br/>
-     * 
+     *
      * @param info ConnectInfo
      * @return The openstack connection
      * @throws LoginException when login failed
@@ -98,7 +98,7 @@ public final class ConnectionMgr {
 
     /**
      * Remove the connection with openstack.<br/>
-     * 
+     *
      * @param vim the information of vim
      * @since NFVO 0.5
      */
@@ -113,7 +113,7 @@ public final class ConnectionMgr {
 
     /**
      * Judge the connection is present.<br/>
-     * 
+     *
      * @param vim the information of vim
      * @return the status of connection
      * @throws LoginException when login failed

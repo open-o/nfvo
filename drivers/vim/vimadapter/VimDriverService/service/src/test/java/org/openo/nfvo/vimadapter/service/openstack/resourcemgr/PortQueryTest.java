@@ -23,7 +23,7 @@ import java.util.Map;
 import org.junit.Test;
 
 public class PortQueryTest {
-    
+
     @Test
     public void initTest(){
         Map<String, String> conMap = new HashMap<>();

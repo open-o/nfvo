@@ -43,7 +43,7 @@ public class Driver2MSBManager implements IDriver2MSBManager {
     @Override
     public JSONObject registerDriver(Map<String, String> paramsMap, JSONObject driverInfo) {
         JSONObject resultObj = new JSONObject();
-  
+
         RestfulResponse rsp = VimRestfulUtil.getRemoteResponse(paramsMap, driverInfo.toString());
         if(null == rsp) {
             LOG.error("function=registerDriver,  RestfulResponse is null");

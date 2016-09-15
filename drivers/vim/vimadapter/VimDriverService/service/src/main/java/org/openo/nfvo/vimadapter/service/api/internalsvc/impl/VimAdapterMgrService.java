@@ -40,7 +40,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 31, 2016
  */
@@ -106,7 +106,7 @@ public class VimAdapterMgrService implements IVimAdapterMgrService {
             }
             if (bins != null) {
                 bins.close();
-            }            
+            }
         }
 
         return fileContent;

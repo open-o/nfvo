@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
  * Host Query Class.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 26, 2016
  */
@@ -61,7 +61,7 @@ public class HostQuery {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @since NFVO 0.5
      */
@@ -92,7 +92,7 @@ public class HostQuery {
 
     /**
      * Get Networks from openstack.<br/>
-     * 
+     *
      * @return the result of network information
      * @since NFVO 0.5
      */
@@ -120,7 +120,7 @@ public class HostQuery {
 
     /**
      * <br/>
-     * 
+     *
      * @param hostsObj
      * @return
      * @since NFVO 0.5

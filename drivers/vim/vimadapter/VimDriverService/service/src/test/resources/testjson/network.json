@@ -42,7 +42,7 @@
 	        "provider:segmentation_id": "4005",
 	        "router:external": "123"
         },
-        "subnet":{ 
+        "subnet":{
 	        "id": "123",
 	        "projectId": "12s3",
 	        "backendId": "1",

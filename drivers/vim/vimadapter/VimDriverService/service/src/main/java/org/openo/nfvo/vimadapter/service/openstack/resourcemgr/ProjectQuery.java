@@ -35,7 +35,7 @@ import net.sf.json.JSONObject;
  * Class for Port Query.<br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 26, 2016
  */
@@ -59,7 +59,7 @@ public class ProjectQuery {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @since NFVO 0.5
      */
@@ -88,7 +88,7 @@ public class ProjectQuery {
 
     /**
      * Get ports from openstack.<br/>
-     * 
+     *
      * @return the result of ports information
      * @since NFVO 0.5
      */
@@ -117,7 +117,7 @@ public class ProjectQuery {
 
     /**
      * <br/>
-     * 
+     *
      * @param hostsObj
      * @return
      * @since NFVO 0.5

@@ -41,7 +41,7 @@ import net.sf.json.JSONObject;
 
 /**
  * The rest interface of network.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */
@@ -60,7 +60,7 @@ public class NetworkRoa {
 
     /**
      * create a virtual network in vim.<br/>
-     * 
+     *
      * @param resp HttpServletResponse
      * @param vimId String
      * @param context
@@ -107,7 +107,7 @@ public class NetworkRoa {
 
     /**
      * delete a virtual network create by NFVO from vim.<br/>
-     * 
+     *
      * @param resp HttpServletResponse
      * @param vimId String
      * @param context

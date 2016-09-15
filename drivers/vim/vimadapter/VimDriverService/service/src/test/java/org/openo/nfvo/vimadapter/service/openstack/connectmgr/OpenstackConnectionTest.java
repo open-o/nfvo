@@ -25,7 +25,7 @@ import mockit.Mock;
 import mockit.MockUp;
 
 public class OpenstackConnectionTest {
-    
+
     OpenstackConnection connection = new OpenstackConnection();
     @Test
     public void connectTest(){
@@ -40,7 +40,7 @@ public class OpenstackConnectionTest {
                 retMap.put("authMode", "test");
                 return retMap;
             }
-            
+
         };*/
         new MockUp<VimRestfulUtil>(){
             @Mock
@@ -48,7 +48,7 @@ public class OpenstackConnectionTest {
                 RestfulResponse resp = new RestfulResponse();
                 return resp;
             }
-            
+
         };
         //int res = connection.connect();
         //assertTrue(res > 0);

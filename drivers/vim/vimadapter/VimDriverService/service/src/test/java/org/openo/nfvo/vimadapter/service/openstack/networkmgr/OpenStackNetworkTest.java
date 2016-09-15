@@ -34,170 +34,170 @@ import net.sf.json.JSONObject;
 
 public class OpenStackNetworkTest {
 
-	OpenstackNetwork openstackNetwork;
+    OpenstackNetwork openstackNetwork;
 
-	@Before
-	public void setUp() {
-		Map<String, String> conMap = new HashMap<>();
-		conMap.put("url", "http://1.1.1.1:2345");
-		conMap.put("userName", "userName");
-		conMap.put("userPwd", "userPwd");
-		conMap.put("vimId", "vimId");
-		conMap.put("vimName", "vimName");
-		conMap.put("neutron", "neutron");
-		openstackNetwork = new OpenstackNetwork(conMap);
+    @Before
+    public void setUp() {
+        Map<String, String> conMap = new HashMap<>();
+        conMap.put("url", "http://1.1.1.1:2345");
+        conMap.put("userName", "userName");
+        conMap.put("userPwd", "userPwd");
+        conMap.put("vimId", "vimId");
+        conMap.put("vimName", "vimName");
+        conMap.put("neutron", "neutron");
+        openstackNetwork = new OpenstackNetwork(conMap);
 
-	}
+    }
 
-	@Test
-	public void testCreateNetwork() {
-		/*
-		 * new MockUp<OpenstackConnection>() {
-		 * 
-		 * @Mock public int connect() { return Constant.HTTP_OK_STATUS_CODE; }
-		 * };
-		 */
-		new MockUp<HttpRest>() {
-			@Mock
-			public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-					throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				JSONObject networkJson = new JSONObject();
-				JSONObject finalJson = new JSONObject();
-				finalJson.put("id", "id");
-				JSONObject tenant = new JSONObject();
-				tenant.put("id", "id");
-				finalJson.put("tenant", tenant);
-				networkJson.put("token", finalJson);
-				JSONArray serviceCatalog = new JSONArray();
-				JSONObject json1 = new JSONObject();
-				json1.put("endpoints", new JSONArray());
-				json1.put("name", "name");
-				serviceCatalog.add(json1);
-				networkJson.put("serviceCatalog", serviceCatalog);
-				json.put("access", networkJson);
+    @Test
+    public void testCreateNetwork() {
+        /*
+         * new MockUp<OpenstackConnection>() {
+         *
+         * @Mock public int connect() { return Constant.HTTP_OK_STATUS_CODE; }
+         * };
+         */
+        new MockUp<HttpRest>() {
+            @Mock
+            public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                JSONObject networkJson = new JSONObject();
+                JSONObject finalJson = new JSONObject();
+                finalJson.put("id", "id");
+                JSONObject tenant = new JSONObject();
+                tenant.put("id", "id");
+                finalJson.put("tenant", tenant);
+                networkJson.put("token", finalJson);
+                JSONArray serviceCatalog = new JSONArray();
+                JSONObject json1 = new JSONObject();
+                json1.put("endpoints", new JSONArray());
+                json1.put("name", "name");
+                serviceCatalog.add(json1);
+                networkJson.put("serviceCatalog", serviceCatalog);
+                json.put("access", networkJson);
 
-				return json;
-			}
-		};
-		new MockUp<OpenstackConnection>() {
-			@Mock
-			public String getServiceUrl(String serviceName) {
-				return "http://1.1.1.1:2345";
+                return json;
+            }
+        };
+        new MockUp<OpenstackConnection>() {
+            @Mock
+            public String getServiceUrl(String serviceName) {
+                return "http://1.1.1.1:2345";
 
-			}
-		};
-		JSONObject network = new JSONObject();
-		openstackNetwork.createNetwork(network);
-	}
-	
-	@Test
-	public void testRemoveNetwork() {
-		/*
-		 * new MockUp<OpenstackConnection>() {
-		 * 
-		 * @Mock public int connect() { return Constant.HTTP_OK_STATUS_CODE; }
-		 * };
-		 */
-		new MockUp<HttpRest>() {
-			@Mock
-			public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-					throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				JSONObject networkJson = new JSONObject();
-				JSONObject finalJson = new JSONObject();
-				finalJson.put("id", "id");
-				JSONObject tenant = new JSONObject();
-				tenant.put("id", "id");
-				finalJson.put("tenant", tenant);
-				networkJson.put("token", finalJson);
-				JSONArray serviceCatalog = new JSONArray();
-				JSONObject json1 = new JSONObject();
-				json1.put("endpoints", new JSONArray());
-				json1.put("name", "name");
-				serviceCatalog.add(json1);
-				networkJson.put("serviceCatalog", serviceCatalog);
-				json.put("access", networkJson);
+            }
+        };
+        JSONObject network = new JSONObject();
+        openstackNetwork.createNetwork(network);
+    }
 
-				return json;
-			}
-		};
-		new MockUp<OpenstackConnection>() {
-			@Mock
-			public String getServiceUrl(String serviceName) {
-				return "http://1.1.1.1:2345";
+    @Test
+    public void testRemoveNetwork() {
+        /*
+         * new MockUp<OpenstackConnection>() {
+         *
+         * @Mock public int connect() { return Constant.HTTP_OK_STATUS_CODE; }
+         * };
+         */
+        new MockUp<HttpRest>() {
+            @Mock
+            public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                JSONObject networkJson = new JSONObject();
+                JSONObject finalJson = new JSONObject();
+                finalJson.put("id", "id");
+                JSONObject tenant = new JSONObject();
+                tenant.put("id", "id");
+                finalJson.put("tenant", tenant);
+                networkJson.put("token", finalJson);
+                JSONArray serviceCatalog = new JSONArray();
+                JSONObject json1 = new JSONObject();
+                json1.put("endpoints", new JSONArray());
+                json1.put("name", "name");
+                serviceCatalog.add(json1);
+                networkJson.put("serviceCatalog", serviceCatalog);
+                json.put("access", networkJson);
 
-			}
-		};
-		openstackNetwork.removeNetwork("id");
-	}
-	
-	@Test
-	public void testRemoveNetwork1() {
-		
-		new MockUp<HttpRest>() {
-			@Mock
-			public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-					throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<HttpRest>() {
-			@Mock
-			public RestfulResponse delete(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-					throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				JSONObject networkJson = new JSONObject();
-				JSONObject finalJson = new JSONObject();
-				finalJson.put("id", "id");
-				JSONObject tenant = new JSONObject();
-				tenant.put("id", "id");
-				finalJson.put("tenant", tenant);
-				networkJson.put("token", finalJson);
-				JSONArray serviceCatalog = new JSONArray();
-				JSONObject json1 = new JSONObject();
-				json1.put("endpoints", new JSONArray());
-				json1.put("name", "name");
-				serviceCatalog.add(json1);
-				networkJson.put("serviceCatalog", serviceCatalog);
-				json.put("access", networkJson);
+                return json;
+            }
+        };
+        new MockUp<OpenstackConnection>() {
+            @Mock
+            public String getServiceUrl(String serviceName) {
+                return "http://1.1.1.1:2345";
 
-				return json;
-			}
-		};
-		new MockUp<OpenstackConnection>() {
-			@Mock
-			public String getServiceUrl(String serviceName) {
-				return "http://1.1.1.1:2345";
+            }
+        };
+        openstackNetwork.removeNetwork("id");
+    }
 
-			}
-		};
-		openstackNetwork.removeNetwork("id");
-	}
+    @Test
+    public void testRemoveNetwork1() {
+
+        new MockUp<HttpRest>() {
+            @Mock
+            public RestfulResponse post(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<HttpRest>() {
+            @Mock
+            public RestfulResponse delete(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                JSONObject networkJson = new JSONObject();
+                JSONObject finalJson = new JSONObject();
+                finalJson.put("id", "id");
+                JSONObject tenant = new JSONObject();
+                tenant.put("id", "id");
+                finalJson.put("tenant", tenant);
+                networkJson.put("token", finalJson);
+                JSONArray serviceCatalog = new JSONArray();
+                JSONObject json1 = new JSONObject();
+                json1.put("endpoints", new JSONArray());
+                json1.put("name", "name");
+                serviceCatalog.add(json1);
+                networkJson.put("serviceCatalog", serviceCatalog);
+                json.put("access", networkJson);
+
+                return json;
+            }
+        };
+        new MockUp<OpenstackConnection>() {
+            @Mock
+            public String getServiceUrl(String serviceName) {
+                return "http://1.1.1.1:2345";
+
+            }
+        };
+        openstackNetwork.removeNetwork("id");
+    }
 }

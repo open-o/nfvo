@@ -36,7 +36,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 1, 2016
  */
@@ -93,7 +93,7 @@ public final class VimUtil {
 
     /**
      * <br/>
-     * 
+     *
      * @param responseContent
      * @return
      * @since NFVO 0.5

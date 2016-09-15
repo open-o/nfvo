@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Sep 6, 2016
  */
@@ -55,7 +55,7 @@ public class CpuLimitQuery {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @since NFVO 0.5
      */
@@ -69,7 +69,7 @@ public class CpuLimitQuery {
 
     /**
      * Get Limits from openstack.<br/>
-     * 
+     *
      * @return the result of Limits information
      * @since NFVO 0.5
      */

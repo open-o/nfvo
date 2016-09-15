@@ -20,7 +20,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Resource management interface.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -28,7 +28,7 @@ public interface InterfaceResourceManager {
 
     /**
      * It is used to query respool.<br/>
-     * 
+     *
      * @param paramJson the information of VIM
      * @return the result of querying respool
      * @since NFVO 0.5
@@ -37,7 +37,7 @@ public interface InterfaceResourceManager {
 
     /**
      * It is used to query limit.<br/>
-     * 
+     *
      * @param paramJson the information of VIM
      * @return the result of querying limit
      * @since NFVO 0.5
@@ -46,7 +46,7 @@ public interface InterfaceResourceManager {
 
     /**
      * It is used to query networks.<br/>
-     * 
+     *
      * @param paramJson the information of VIM
      * @return the result of querying networks
      * @since NFVO 0.5
@@ -55,7 +55,7 @@ public interface InterfaceResourceManager {
 
     /**
      * It is used to query hosts.<br/>
-     * 
+     *
      * @param paramJson the information of VIM
      * @return the result of querying hosts
      * @since NFVO 0.5
@@ -64,7 +64,7 @@ public interface InterfaceResourceManager {
 
     /**
      * It is used to query ports.<br/>
-     * 
+     *
      * @param paramJson the information of VIM
      * @return the result of querying ports
      * @since NFVO 0.5

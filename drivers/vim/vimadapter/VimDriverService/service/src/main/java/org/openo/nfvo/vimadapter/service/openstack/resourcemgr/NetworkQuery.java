@@ -33,7 +33,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Query network from openstack.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -57,7 +57,7 @@ public class NetworkQuery {
 
     /**
      * Constructor<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @since NFVO 0.5
      */
@@ -73,7 +73,7 @@ public class NetworkQuery {
 
     /**
      * Initialise the url<br/>
-     * 
+     *
      * @since NFVO 0.5
      */
     public void init() {
@@ -87,7 +87,7 @@ public class NetworkQuery {
 
     /**
      * Get Networks from openstack.<br/>
-     * 
+     *
      * @return the result of network information
      * @since NFVO 0.5
      */

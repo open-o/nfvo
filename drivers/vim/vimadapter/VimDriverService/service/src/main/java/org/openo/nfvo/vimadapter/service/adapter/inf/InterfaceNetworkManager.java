@@ -20,7 +20,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Network management interface.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -28,7 +28,7 @@ public interface InterfaceNetworkManager {
 
     /**
      * It is used to create network.<br/>
-     * 
+     *
      * @param network the network information to create
      * @param vimId String
      * @return the result of creating network

@@ -38,493 +38,493 @@ import net.sf.json.JSONObject;
 
 public class ResourceRoaTest {
 
-	private ResourceRoa roa;
-	HttpServletResponse resp;
+    private ResourceRoa roa;
+    HttpServletResponse resp;
 
-	@Before
-	public void setUp() throws Exception {
-		roa = new ResourceRoa();
-		Constructor<AdapterResourceManager> constructor = AdapterResourceManager.class
-				.getDeclaredConstructor(new Class[0]);
-		constructor.setAccessible(true);
-		AdapterResourceManager adapter = constructor.newInstance(new Object[0]);
-		roa.setAdapter(adapter);
-		resp = new MockHttpServletResponse();
-	}
+    @Before
+    public void setUp() throws Exception {
+        roa = new ResourceRoa();
+        Constructor<AdapterResourceManager> constructor = AdapterResourceManager.class
+                .getDeclaredConstructor(new Class[0]);
+        constructor.setAccessible(true);
+        AdapterResourceManager adapter = constructor.newInstance(new Object[0]);
+        roa.setAdapter(adapter);
+        resp = new MockHttpServletResponse();
+    }
 
-	@Test
-	public void getCpuLimitTest() throws ServiceException {
-		String result = roa.getCpuLimit(null, resp, "", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getCpuLimitTest() throws ServiceException {
+        String result = roa.getCpuLimit(null, resp, "", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getCpuLimitTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getCpuLimitTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getCpuLimits(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getCpuLimits(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getCpuLimit(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getCpuLimit(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getDiskLimitTest() throws ServiceException {
-		String result = roa.getDiskLimit(null, resp, "", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getDiskLimitTest() throws ServiceException {
+        String result = roa.getDiskLimit(null, resp, "", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getDiskLimitTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getDiskLimitTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getDiskLimits(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getDiskLimits(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getDiskLimit(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getDiskLimit(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getNetworksTest() throws ServiceException {
-		String result = roa.getNetworks(null, resp, "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getNetworksTest() throws ServiceException {
+        String result = roa.getNetworks(null, resp, "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getNetworksTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getNetworksTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getNetworks(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getNetworks(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getNetworks(null, resp, "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getNetworks(null, resp, "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getNetworkTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getNetworkTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getNetworks(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getNetworks(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getNetwork(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getNetwork(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getNetworkTest() throws ServiceException {
-		String result = roa.getNetwork(null, resp, "networkId", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getNetworkTest() throws ServiceException {
+        String result = roa.getNetwork(null, resp, "networkId", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getHostsTest() throws ServiceException {
-		String result = roa.getHosts(null, resp, "networkId", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getHostsTest() throws ServiceException {
+        String result = roa.getHosts(null, resp, "networkId", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getHostTest() throws ServiceException {
-		String result = roa.getHost(null, resp, "tenantId", "localhost", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getHostTest() throws ServiceException {
+        String result = roa.getHost(null, resp, "tenantId", "localhost", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getHostTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getHostTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getHosts(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getHosts(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getHost(null, resp, "vimId", "localHost", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getHost(null, resp, "vimId", "localHost", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getHostTestException() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(504);
-				return rsp;
-			}
-		};
+    @Test
+    public void getHostTestException() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(504);
+                return rsp;
+            }
+        };
 
-		String result = roa.getHost(null, resp, "vimId", "localHost", "vimId");
-		assertTrue(true);
-	}
+        String result = roa.getHost(null, resp, "vimId", "localHost", "vimId");
+        assertTrue(true);
+    }
 
-	@Test
-	public void getHostsTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getHostsTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getHosts(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getHosts(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getHosts(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getHosts(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getPortsTest() throws ServiceException {
-		String result = roa.getPorts(null, resp, "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getPortsTest() throws ServiceException {
+        String result = roa.getPorts(null, resp, "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getPortTest() throws ServiceException {
-		String result = roa.getPort(null, resp, "id", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getPortTest() throws ServiceException {
+        String result = roa.getPort(null, resp, "id", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getPortsTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getPortsTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getPorts(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getPorts(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getPorts(null, resp, "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getPorts(null, resp, "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getPortTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getPortTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getPorts(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getPorts(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getPort(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getPort(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getProjectsTest() throws ServiceException {
-		String result = roa.getProjects(null, resp, "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getProjectsTest() throws ServiceException {
+        String result = roa.getProjects(null, resp, "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getProjectTest() throws ServiceException {
-		String result = roa.getProject(null, resp, "id", "vimId");
-		String expectedRes = "{\"retCode\":-1}";
-		//assertTrue(expectedRes.equals(result));
-	}
+    @Test
+    public void getProjectTest() throws ServiceException {
+        String result = roa.getProject(null, resp, "id", "vimId");
+        String expectedRes = "{\"retCode\":-1}";
+        //assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getProjectsTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getProjectsTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getProjects(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getProjects(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getProjects(null, resp, "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getProjects(null, resp, "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
-	@Test
-	public void getProjectTest1() throws ServiceException {
-		new MockUp<HttpRest>() {
-			@Mock
-			RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
-				RestfulResponse rsp = new RestfulResponse();
-				rsp.setStatus(200);
-				return rsp;
-			}
-		};
-		new MockUp<JSONObject>() {
-			@Mock
-			public JSONObject fromObject(Object object) {
-				JSONObject json = new JSONObject();
-				json.put("vimId", "vimId");
-				json.put("userName", "userName");
-				json.put("url", "url");
-				json.put("password", "password");
-				json.put("type", "openstack");
-				json.put("name", "name");
-				json.put("version", "version");
+    @Test
+    public void getProjectTest1() throws ServiceException {
+        new MockUp<HttpRest>() {
+            @Mock
+            RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+        };
+        new MockUp<JSONObject>() {
+            @Mock
+            public JSONObject fromObject(Object object) {
+                JSONObject json = new JSONObject();
+                json.put("vimId", "vimId");
+                json.put("userName", "userName");
+                json.put("url", "url");
+                json.put("password", "password");
+                json.put("type", "openstack");
+                json.put("name", "name");
+                json.put("version", "version");
 
-				return json;
-			}
-		};
-		new MockUp<ResourceMgrOpenstack>() {
-			@Mock
-			public JSONObject getProjects(Map<String, String> conMap) {
-				JSONObject rsp = new JSONObject();
-				rsp.put("retCode", "200");
-				return rsp;
-			}
-		};
+                return json;
+            }
+        };
+        new MockUp<ResourceMgrOpenstack>() {
+            @Mock
+            public JSONObject getProjects(Map<String, String> conMap) {
+                JSONObject rsp = new JSONObject();
+                rsp.put("retCode", "200");
+                return rsp;
+            }
+        };
 
-		String result = roa.getProject(null, resp, "vimId", "vimId");
-		String expectedRes = "{}";
-		assertTrue(expectedRes.equals(result));
-	}
+        String result = roa.getProject(null, resp, "vimId", "vimId");
+        String expectedRes = "{}";
+        assertTrue(expectedRes.equals(result));
+    }
 
 }

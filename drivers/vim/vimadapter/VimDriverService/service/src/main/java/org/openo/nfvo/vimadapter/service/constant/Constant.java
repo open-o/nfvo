@@ -18,7 +18,7 @@ package org.openo.nfvo.vimadapter.service.constant;
 
 /**
  * The constant of http_status_code, rest_status, etc.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */

@@ -23,7 +23,7 @@ import java.util.Map;
 import org.junit.Test;
 
 public class ProjectQueryTest {
-    
+
     @Test
     public void initTest(){
         Map<String, String> conMap = new HashMap<>();

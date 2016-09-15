@@ -28,7 +28,7 @@ import net.sf.json.JSONObject;
 
 /**
  * It is used to adapter network management.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */

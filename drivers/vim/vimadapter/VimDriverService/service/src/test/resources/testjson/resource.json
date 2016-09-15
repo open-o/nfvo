@@ -41,7 +41,7 @@
             }
         }]
     },
-    
+
     "Rp1": {
         "retCode": 1,
         "msg": "query sucessfully",
@@ -118,7 +118,7 @@
             },
             "name": "huawei",
             "hostId": "huawei"
-        	
+
         },
         "data": [{
             "id": "NE=34603416",
@@ -151,7 +151,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             },
             {
                 "incoming_rate": "1",
@@ -169,7 +169,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             },
             {
                 "incoming_rate": "1",
@@ -187,7 +187,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             }],
             "isMincfg": "no"
         }]
@@ -208,7 +208,7 @@
             },
             "name": "huawei",
             "hostId": "huawei"
-        	
+
         }],
         "data": [{
             "id": "NE=34603416",
@@ -241,7 +241,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             },
             {
                 "incoming_rate": "1",
@@ -259,7 +259,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             },
             {
                 "incoming_rate": "1",
@@ -277,7 +277,7 @@
                 "network_type": "",
                 "port_id": "",
                 "ip_address": "",
-                "network_name": ""                
+                "network_name": ""
             }],
             "isMincfg": "no"
         }]

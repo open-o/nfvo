@@ -29,7 +29,7 @@ import net.sf.json.JSONObject;
 
 /**
  * Openstack resource management.<br/>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -37,7 +37,7 @@ public class ResourceMgrOpenstack {
 
     /**
      * Get limits information from openstack.<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @param param the limits param
      * @return the limits information of openstack
@@ -50,7 +50,7 @@ public class ResourceMgrOpenstack {
 
     /**
      * Get limits information from openstack.<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @param param the limits param
      * @return the limits information of openstack
@@ -63,7 +63,7 @@ public class ResourceMgrOpenstack {
 
     /**
      * Get networks information from openstack.<br/>
-     * 
+     *
      * @param conMap the openstack info map
      * @param param the networks param
      * @return the networks information of openstack
