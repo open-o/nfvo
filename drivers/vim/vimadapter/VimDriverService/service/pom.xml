@@ -50,14 +50,14 @@
         <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit</artifactId>
-            <version>1.18</version>
+            <version>1.19</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jmockit</groupId>
             <artifactId>jmockit-coverage</artifactId>
-            <version>1.18</version>
+            <version>1.19</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
