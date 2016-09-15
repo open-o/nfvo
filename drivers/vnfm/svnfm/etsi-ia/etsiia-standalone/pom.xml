@@ -21,7 +21,7 @@
   <parent>
     <artifactId>etsi-ia</artifactId>
     <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>etsiia-standalone</artifactId>
   <name>openo/nfvo/etsi-ia/etsiia-standalone</name>
