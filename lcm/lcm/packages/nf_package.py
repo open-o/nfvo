@@ -67,7 +67,7 @@ class NfOnBoardingThread(threading.Thread):
         self.nfd_id = None
         self.img_save_path = os.path.join(IMAGE_ROOT_PATH, self.job_id)
 
-        self.need_update_process_state_when_failed = True
+        self.need_rollback_when_failed = False
 
     def run(self):
         try:
@@ -90,6 +90,7 @@ class NfOnBoardingThread(threading.Thread):
         JobUtil.add_job_status(self.job_id, 5, "Start CSAR(%s) onBoarding." % self.csar_id)
         self.on_boarding_pre_deal()
         self.nf_package_save()
+        self.need_rollback_when_failed = True
         nf_images = self.download_nf_images()
         self.upload_nf_images(nf_images)
         set_csar_state(self.csar_id, "onBoardState", STATUS_ONBOARDED)
@@ -103,12 +104,10 @@ class NfOnBoardingThread(threading.Thread):
 
         on_board_state = ignore_case_get(self.csar_info, "onBoardState")
         if on_board_state == STATUS_ONBOARDED:
-            self.need_update_process_state_when_failed = False
             raise NSLCMException("CSAR(%s) already onBoarded." % self.csar_id)
 
         process_state = ignore_case_get(self.csar_info, "processState")
         if process_state == P_STATUS_ONBOARDING:
-            self.need_update_process_state_when_failed = False
             raise NSLCMException("CSAR(%s) is onBoarding now." % self.csar_id)
 
         JobUtil.add_job_status(self.job_id, 20, "Get model of CSAR(%s) from catalog." % self.csar_id)
@@ -116,7 +115,6 @@ class NfOnBoardingThread(threading.Thread):
         nfd = query_rawdata_from_catalog(self.csar_id)  # TODO: convert to inner model
         nfd_id = nfd["rawData"]["metadata"]["id"]
         if NfPackageModel.objects.filter(vnfdid=nfd_id):
-            self.need_update_process_state_when_failed = False
             raise NSLCMException("NFD(%s) already exists." % nfd_id)
 
     def nf_package_save(self):
@@ -211,10 +209,11 @@ class NfOnBoardingThread(threading.Thread):
             raise NSLCMException("Failed to create image:timeout(%s seconds.)" % timeout_seconds)
 
     def rollback_on_boarding(self):
+        if not self.need_rollback_when_failed:
+            return
         try:
-            if self.need_update_process_state_when_failed:
-                set_csar_state(self.csar_id, "processState", P_STATUS_ONBOARDFAILED)
-            VnfPackageFileModel.objects.filter(nfpackageid=self.csar_id).delete()
+            set_csar_state(self.csar_id, "processState", P_STATUS_ONBOARDFAILED)
+            NfPackageModel.objects.filter(nfpackageid=self.csar_id).delete()
             VnfPackageFileModel.objects.filter(vnfpid=self.csar_id).delete()
             delete_dirs(self.img_save_path)
         except:
@@ -327,34 +326,33 @@ class NfPackage(object):
             pkg_info["vnfdVersion"] = nf_pkg[0].vnfdversion
             pkg_info["vnfVersion"] = nf_pkg[0].vnfversion
 
-        ret = query_csar_from_catalog(csar_id)
-        if ret[0] == 0:
-            props_of_catalog = [
-                "name", "provider", "version", "operationalState", "usageState",
-                "onBoardState", "processState", "deletionPending", "downloadUri",
-                "createTime", "modifyTime", "format", "size"]
-            for prop in props_of_catalog:
-                pkg_info[prop] = ignore_case_get(ret[1], prop)
+        casrinfo = query_csar_from_catalog(csar_id)
+        props_of_catalog = [
+            "name", "provider", "version", "operationalState", "usageState",
+            "onBoardState", "processState", "deletionPending", "downloadUri",
+            "createTime", "modifyTime", "format", "size"]
+        for prop in props_of_catalog:
+            pkg_info[prop] = ignore_case_get(casrinfo, prop)
 
         nf_pkg_files = VnfPackageFileModel.objects.filter(vnfpid=csar_id)
         img_info = [{
-                        "index": str(i),
-                        "fileName": nf_pkg_files[i].filename,
-                        "imageId": nf_pkg_files[i].imageid,
-                        "vimId": nf_pkg_files[i].vimid,
-                        "vimUser": nf_pkg_files[i].vimuser,
-                        "tenant": nf_pkg_files[i].tenant,
-                        "status": nf_pkg_files[i].status}
-                    for i in range(len(nf_pkg_files))]
+            "index": str(i),
+            "fileName": nf_pkg_files[i].filename,
+            "imageId": nf_pkg_files[i].imageid,
+            "vimId": nf_pkg_files[i].vimid,
+            "vimUser": nf_pkg_files[i].vimuser,
+            "tenant": nf_pkg_files[i].tenant,
+            "status": nf_pkg_files[i].status} \
+            for i in range(len(nf_pkg_files))]
 
         vnf_insts = NfInstModel.objects.filter(package_id=csar_id)
         vnf_inst_info = [{"vnfInstanceId": vnf_inst.nfinstid,
                           "vnfInstanceName": vnf_inst.nf_name} for vnf_inst in vnf_insts]
 
-        return {"csarId": csar_id,
+        return [0, {"csarId": csar_id,
                 "packageInfo": pkg_info,
                 "imageInfo": img_info,
-                "vnfInstanceInfo": vnf_inst_info}
+                "vnfInstanceInfo": vnf_inst_info}]
 
     def delete_csar(self, csar_id):
         JobUtil.add_job_status(self.job_id, 10, "Set processState of CSAR(%s)." % self.csar_id)
