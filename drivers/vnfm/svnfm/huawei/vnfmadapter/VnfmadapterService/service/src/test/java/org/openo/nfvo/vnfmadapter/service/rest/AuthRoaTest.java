@@ -176,7 +176,10 @@ public class AuthRoaTest {
     public void testDelAuthToken() {
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        String result = authRoa.delAuthToken(mockInstance, null, null);
+
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+        String result = authRoa.delAuthToken(mockInstance, null, null, mockResInstance);
 
         JSONObject resultJson = new JSONObject();
         resultJson.put("Information", "Operation success");
@@ -187,7 +190,10 @@ public class AuthRoaTest {
     public void testShakehand() {
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
-        String result = authRoa.shakehand(mockInstance, null);
+
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+        String result = authRoa.shakehand(mockInstance, null, mockResInstance);
 
         JSONObject resultJson = new JSONObject();
         resultJson.put("status", "running");
