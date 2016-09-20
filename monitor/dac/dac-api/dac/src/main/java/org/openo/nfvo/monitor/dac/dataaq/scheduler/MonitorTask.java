@@ -56,6 +56,7 @@ public class MonitorTask extends TimerTask {
 
 	@Override
 	public void run() {
+		LOGGER.info("task {} begin",monitorTaskInfo.getJobId());
 		long timerRunStart = System.currentTimeMillis();
 		Map<String, Vector<String>> result;
 
@@ -92,7 +93,9 @@ public class MonitorTask extends TimerTask {
 
 		String ip = (String) monitorTaskInfo.getMonitorProperty(DacConst.IPADDRESS);
 		String provider = monitorTaskInfo.getProvider();
-
+        if(null == provider || provider.equals("")){
+        	provider = DacConst.TELNET;
+        }
 		if (provider.equals(DacConst.SSH)) {
 			provider = DacConst.TELNET;
 		}

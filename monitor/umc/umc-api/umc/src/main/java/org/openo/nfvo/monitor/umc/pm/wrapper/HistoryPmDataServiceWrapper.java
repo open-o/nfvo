@@ -91,13 +91,7 @@ public class HistoryPmDataServiceWrapper {
     }
 
     private static ResourceType getResourceTypeById(String id) {
-        try {
-            return ModelServiceConsumer.queryResourceType(id);
-        } catch (RestRequestException e) {
-            logger.warn(e.getMessage(), e);
-        }
-
-        return null;
+    	return ModelServiceConsumer.queryResourceType(id);
     }
 
     private static Map<String, String> buildResourceId2NameMap(PmQueryConditionBean queryCond) {

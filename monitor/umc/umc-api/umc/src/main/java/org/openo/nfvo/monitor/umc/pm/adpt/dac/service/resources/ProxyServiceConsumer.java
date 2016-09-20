@@ -42,7 +42,7 @@ public class ProxyServiceConsumer {
      */
     public void addProxyTask(TaskCreateAndModifyInfo proxyTaskInfo) throws RestRequestException {
         logger.info("addProxyTask.");
-        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/api/dac/v1/tasks";
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/openoapi/dac/v1/tasks";
         try {
         	JSONObject taskObj = JSONObject.fromObject(proxyTaskInfo);
         	APIHttpClient.doPost(url, taskObj, "");
@@ -59,7 +59,7 @@ public class ProxyServiceConsumer {
      */
     public void modifyProxyTask(TaskCreateAndModifyInfo proxyTaskInfo) throws RestRequestException {
         logger.info("modifyProxyTask.");
-        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/"+proxyTaskInfo.getTaskId() + "";
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/openoapi/dac/v1/tasks/"+proxyTaskInfo.getTaskId() + "";
         
         try {
         	JSONObject taskObj = JSONObject.fromObject(proxyTaskInfo);
@@ -77,7 +77,7 @@ public class ProxyServiceConsumer {
      */
     public void deleteProxyTask(String taskId) throws RestRequestException {
         logger.info("deleteProxyTask.");
-        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/"+taskId;
+        String url =  "http://" + this.proxyIp + ":" + DacConfiguration.getInstance().getDacServerPort()+"/openoapi/dac/v1/tasks/"+taskId;
         try {
         	APIHttpClient.doDelete(url, "");
             logger.info("deleteProxyTask end.");

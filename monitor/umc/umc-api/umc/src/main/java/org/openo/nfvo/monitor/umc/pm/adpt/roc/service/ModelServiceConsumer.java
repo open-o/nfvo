@@ -15,6 +15,7 @@
  */
 package org.openo.nfvo.monitor.umc.pm.adpt.roc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -32,13 +33,39 @@ import org.openo.nfvo.monitor.umc.util.APIHttpClient;
  */
 public class ModelServiceConsumer {
     private static final DebugPrn logger = new DebugPrn(ModelServiceConsumer.class.getName());
-
+    private static List<ResourceType> resourceTypeList= new ArrayList<ResourceType>();
+    static {
+    	ResourceType vdu = new ResourceType("nfv.vdu.linux","VDU(LINUX)");
+    	ResourceType host = new ResourceType("nfv.host.linux","HOST(LINUX)");
+    	resourceTypeList.add(vdu);
+    	resourceTypeList.add(host);
+    }
+    
+    
+    
     /**
      * @param id
      * @return
      * @throws RestRequestException
      */
-    public static ResourceType queryResourceType(String id) throws RestRequestException {
+    public static ResourceType queryResourceType(String id) {
+        logger.info("queryResourceType. id = " + id);
+        if(id!=null && !id.equalsIgnoreCase("")){
+        	if(id.equalsIgnoreCase("nfv.vdu.linux")){
+        		return resourceTypeList.get(0);
+        	}if(id.equalsIgnoreCase("nfv.host.linux")){
+        		return resourceTypeList.get(1);
+        	}
+        }
+        return null;
+    }
+    
+    /**
+     * @param id
+     * @return
+     * @throws RestRequestException
+     */
+    public static ResourceType queryResourceType_bak(String id) throws RestRequestException {
         logger.info("queryResourceType. id = " + id);
         String url = RocConfiguration.getRocServerAddr()+"/api/roc/v1/resource/definitions";
         String requestQueryString = "id="+id;

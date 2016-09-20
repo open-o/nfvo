@@ -26,9 +26,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.dao.PmTaskDao;
 import org.openo.nfvo.monitor.umc.db.entity.PmTask;
-import org.openo.nfvo.monitor.umc.pm.osf.db.util.H2DbServer;
 import org.openo.nfvo.monitor.umc.pm.osf.db.util.HibernateSession;
 
 /**
@@ -41,14 +41,14 @@ public class ItPmTaskDaoTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        H2DbServer.startUp();
+    	UmcDbUtil.setSessionFactory(HibernateSession.init());
     }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
         try {
             HibernateSession.destory();
-            H2DbServer.shutDown();
+          
         } catch (Exception e) {
             Assert.fail("Exception" + e.getMessage());
         }
@@ -96,6 +96,16 @@ public class ItPmTaskDaoTest {
         List<PmTask> res = itPmTaskDao.findByTaskId("10010");
         assertTrue(res.size() > 0 && res.get(0).getTaskId() == 10010 && res.get(0).getJobId() == 9999);
     }
+    
+    /**
+     * Test method for
+     * {@link org.openo.nfvo.monitor.umc.db.dao.PmTaskDao#getMaxPmJobId()}.
+     */
+    @Test
+    public void testGetMaxPmJobId() {
+        int maxPmJobId = itPmTaskDao.getMaxPmJobId();
+        assertEquals(maxPmJobId, 9999);
+    }
 
     /**
      * Test method for
@@ -109,14 +119,6 @@ public class ItPmTaskDaoTest {
         assertEquals(res.size(), 0);
     }
 
-    /**
-     * Test method for
-     * {@link org.openo.nfvo.monitor.umc.db.dao.PmTaskDao#getMaxPmJobId()}.
-     */
-    @Test
-    public void testGetMaxPmJobId() {
-        int maxPmJobId = itPmTaskDao.getMaxPmJobId();
-        assertEquals(maxPmJobId, 9999);
-    }
+
 
 }

@@ -193,7 +193,7 @@ public class UnixPerformDataCollector implements IDataCollector {
             }
             sb.append("TaskId: ").append(taskId).append(" Telnet session result total [")
                     .append(vector.size()).append("]").append("\n");
-
+            LOGGER.info("result is :{}",sb.toString());
             taskInfo.cachedMessage = sb.toString();
             return result;
         } catch (IOException e) {

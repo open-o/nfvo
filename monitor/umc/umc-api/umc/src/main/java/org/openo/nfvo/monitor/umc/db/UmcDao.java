@@ -15,12 +15,15 @@
  */
 package org.openo.nfvo.monitor.umc.db;
 
+import io.dropwizard.hibernate.AbstractDAO;
+
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 
-import io.dropwizard.hibernate.AbstractDAO;
 
 
 /**
@@ -95,5 +98,26 @@ public class UmcDao<E> extends AbstractDAO<E> implements IUmcDao{
         }
         closeTransaction();
     }
-
+    
+    public void clear(String tablename){
+    	beginTransaction();
+    	String deleteString = "";
+    	if(tablename.equalsIgnoreCase(PmConst.PM_TASK)){
+    		deleteString = "delete from PmTask";
+    	}if(tablename.equalsIgnoreCase(PmConst.PM_TASK_THRESHOLD)){
+    		deleteString = "delete from PmTaskThreshold";
+    	}if(tablename.equals("NFV_HOST_LINUX_CPU")){
+    		deleteString = "delete from NfvHostLinuxCpu";
+    	}if(tablename.equals("NFV_HOST_LINUX_RAM")){
+    		deleteString = "delete from NfvHostLinuxRam";
+    	}if(tablename.equals("NFV_HOST_LINUX_FS")){
+    		deleteString = "delete from NfvHostLinuxFs";
+    	}if(tablename.equals("CurrentAlarm")){
+    		deleteString = "delete from CurrentAlarm";
+    	}
+    	
+    	Query query = session.createQuery(deleteString);
+    	query.executeUpdate();
+    	closeTransaction();
+    }
 }

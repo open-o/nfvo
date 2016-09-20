@@ -61,6 +61,7 @@ public class HibernateSession {
         final String filename = "Hibernate.cfg.xml";
 
         String folder = System.getProperty("java.io.tmpdir");
+        System.out.println("folder is:"+folder);
         cfgfile = new File(folder + filename);
         if (!cfgfile.exists()) {
             try {
