@@ -63,6 +63,31 @@ public class RocAdptImpl {
 	@SuppressWarnings("rawtypes")
 	public static Properties getCommPara(String oid, String neType) throws PmTaskException
 	{
+		dMsg.error(oid);
+		Properties p = new Properties();
+		p.put(PmConst.MOC, neType);
+		MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(PmConst.MONITOR_INFO);
+		MonitorInfo itPmMonitorInfo = dao.queryByOid(oid);
+		p.put(PmConst.RESID, oid);
+		if(itPmMonitorInfo!=null){
+			p.put(PmConst.IPADDRESS, itPmMonitorInfo.getIpAddress());
+			p.put(PmConst.CUSTOMPARA, itPmMonitorInfo.getCustomPara());			
+		}else{
+			p.put(PmConst.IPADDRESS, "");
+			p.put(PmConst.CUSTOMPARA, "");	
+		}
+		return p;
+	}
+	/**
+	 * get ne customPara from roc
+	 * @param oid
+	 * @param neType
+	 * @return
+	 * @throws PmTaskException
+	 */
+	@SuppressWarnings("rawtypes")
+	public static Properties getCommPara_bak(String oid, String neType) throws PmTaskException
+	{
 		Properties p = new Properties();
 		p.put(PmConst.MOC, neType);
 		if (RocConfiguration.getRocServerAddr() != null) {

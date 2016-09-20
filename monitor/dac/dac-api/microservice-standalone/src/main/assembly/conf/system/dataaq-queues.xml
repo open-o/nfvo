@@ -15,7 +15,6 @@
    limitations under the License.
 
 -->
-<?xml version="1.0" encoding="UTF-8"?>
 
 <paras>
     <para name="MonitorTaskQueue"  maxQueueSize="50000"   maxThreadNum="250"  runCollectPeriod="1"/>

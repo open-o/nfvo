@@ -31,10 +31,17 @@ public class HostTaskInfo extends MonitorTaskInfo {
 	@Override
 	protected void addNeMonitorProperty(Properties paras) {
         addMonitorProperty(DacConst.IPADDRESS, paras.getProperty(DacConst.IPADDRESS));
-        addMonitorProperty(DacConst.PORT, paras.getProperty("LOGINPORT"));
+        //todo 9-19
+/*        addMonitorProperty(DacConst.PORT, paras.getProperty("LOGINPORT"));
         addMonitorProperty(DacConst.PROTOCOL, paras.getProperty("LOGINPROTOCOL"));
         addMonitorProperty(DacConst.USERNAME, paras.getProperty("LOGINUSER"));
+        addMonitorProperty(DacConst.PASSWORD,  paras.getProperty(DacConst.PASSWORD));*/
+        
+        addMonitorProperty(DacConst.PORT, paras.getProperty(DacConst.PORT));
+        addMonitorProperty(DacConst.PROTOCOL, paras.getProperty(DacConst.PROTOCOL));
+        addMonitorProperty(DacConst.USERNAME, paras.getProperty(DacConst.USERNAME));
         addMonitorProperty(DacConst.PASSWORD,  paras.getProperty(DacConst.PASSWORD));
+        
 
         if (!remoteHostMap.containsKey(paras.getProperty(DacConst.IPADDRESS))) {
             setCreateHostMap(paras.getProperty(DacConst.IPADDRESS));
@@ -42,7 +49,8 @@ public class HostTaskInfo extends MonitorTaskInfo {
 
         if (provider == null || provider.length() == 0)
         {
-	        String loginProtocol = paras.getProperty("LOGINPROTOCOL");
+	        //String loginProtocol = paras.getProperty("LOGINPROTOCOL");
+        	String loginProtocol = paras.getProperty(DacConst.PROTOCOL);
 	        setProvider(loginProtocol);
         }
 

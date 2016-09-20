@@ -57,6 +57,16 @@ public class PmCommonProcess {
         UmcDao dao = UmcDbUtil.getDao(tablename);
         dao.delete(entity);
     }
+    
+    public static void clear(String tablename){
+        if (tablename == null ) {
+            dMsg.warn("Param:tablename is null ! ignore to delete.");
+            return;
+        }
+
+        UmcDao dao = UmcDbUtil.getDao(tablename);
+        dao.clear(tablename);
+    }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void delete(String tablename, List<Object> entity) throws PmException {
@@ -90,4 +100,5 @@ public class PmCommonProcess {
         UmcDao dao = UmcDbUtil.getDao(tablename);
         dao.update(entity);
     }
+    
 }

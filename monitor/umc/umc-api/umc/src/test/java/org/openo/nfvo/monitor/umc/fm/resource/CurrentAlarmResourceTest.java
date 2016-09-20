@@ -18,7 +18,9 @@ package org.openo.nfvo.monitor.umc.fm.resource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import io.dropwizard.testing.junit.ResourceTestRule;
 
+import java.io.File;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,17 +56,16 @@ import org.openo.nfvo.monitor.umc.fm.resource.bean.response.DeleteCurAlarmResult
 import org.openo.nfvo.monitor.umc.fm.resource.bean.response.NgictAlarmData;
 import org.openo.nfvo.monitor.umc.fm.resources.CurrentAlarmResource;
 import org.openo.nfvo.monitor.umc.fm.wrapper.ProbableCauseServiceWrapper;
+import org.openo.nfvo.monitor.umc.i18n.I18n;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;
-import org.openo.nfvo.monitor.umc.pm.osf.db.util.H2DbServer;
 import org.openo.nfvo.monitor.umc.pm.osf.db.util.HibernateSession;
+import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
-
-import io.dropwizard.testing.junit.ResourceTestRule;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -87,10 +88,11 @@ public class CurrentAlarmResourceTest {
     private AlarmIds delPara = new AlarmIds();
 
     @Before
-    public void setUp() {
-        //H2DbServer.startUp();
-/*    	FastFileSystem.init();
-    	FmCacheUtil.init();*/
+    public void setUp() {;
+    	String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
+    	initFastFileSystem(filePath);
+    	FmCacheUtil.init();
+    	I18n.init();
         UmcDbUtil.setSessionFactory(HibernateSession.init());
 
         itAlarmData = new FmAlarmData();
@@ -145,7 +147,7 @@ public class CurrentAlarmResourceTest {
         EasyMock.replay(request);
         
         CurAlarmQueryResult result = new CurAlarmQueryResult();
-        result = alarmResource.getCurAlarms(request, "en_US");
+        result = alarmResource.getCurAlarms(request, "en-US");
         String resultStr = objectToString(result);
         assertThat(resultStr).isNotEmpty();
         String str = "{\"totalCount\":1," +
@@ -154,14 +156,15 @@ public class CurrentAlarmResourceTest {
         		"\"moc\":\"test\"," +
         		"\"mocName\":\"\"," +
         		"\"position1\":\"123456\"," +
+        		"\"position1DisplayName\":\"\","+
         		"\"alarmRaisedTime\":"+String.valueOf(result.getAlarms()[0].getAlarmRaisedTime())+"," +
         		"\"alarmChangedTime\":"+String.valueOf(result.getAlarms()[0].getAlarmChangedTime())+"," +
         		"\"systemType\":11," +
         		"\"systemTypeName\":\"SystemTypeName: 11\"," +
         		"\"probableCauseCode\":11111111111," +
         		"\"probableCauseCodeName\":\"11111111111\"," +
-        		"\"alarmType\":3," +
-        		"\"alarmTypeName\":\"alarmTypeName: 3\"," +
+        		"\"alarmType\":0," +
+        		"\"alarmTypeName\":\"alarmTypeName: 0\"," +
         		"\"perceivedSeverity\":4," +
         		"\"reasonCode\":0," +
         		"\"additionalText\":\"test insert alarm data\"," +
@@ -181,7 +184,7 @@ public class CurrentAlarmResourceTest {
         assertThat(resultStr).isEqualTo(str);
         EasyMock.verify(request);
     }
-    
+ 
     @Test
     public void updateCurrentAlarm() throws Exception {
         CurrentAlarmResource alarmResource = new CurrentAlarmResource();
@@ -198,7 +201,7 @@ public class CurrentAlarmResourceTest {
         EasyMock.expect(request.getParameter("request")).andReturn(objectToString(updatePara));
         EasyMock.expect(request.getSession(false)).andReturn(null);
         EasyMock.replay(request);
-        result = alarmResource.updateCurrentAlarm(request, "en_US");
+        result = alarmResource.updateCurrentAlarm(request, "en-US");
         String resultStr = objectToString(result[0]);
         assertThat(resultStr).isNotEmpty();
         String assertStr = "{\"id\":" + String.valueOf(result[0].getId())+"," +
@@ -206,14 +209,15 @@ public class CurrentAlarmResourceTest {
         		"\"moc\":\"test\"," +
         		"\"mocName\":\"\"," +
         		"\"position1\":\"123456\"," +
+        		"\"position1DisplayName\":\"\","+
         		"\"alarmRaisedTime\":" + String.valueOf(result[0].getAlarmRaisedTime())+"," +
         		"\"alarmChangedTime\":" + String.valueOf(result[0].getAlarmChangedTime())+"," +
         		"\"systemType\":11," +
         		"\"systemTypeName\":\"SystemTypeName: 11\"," +
         		"\"probableCauseCode\":11111111111," +
         		"\"probableCauseCodeName\":\"11111111111\"," +
-        		"\"alarmType\":3," +
-        		"\"alarmTypeName\":\"alarmTypeName: 3\"," +
+        		"\"alarmType\":0," +
+        		"\"alarmTypeName\":\"alarmTypeName: 0\"," +
         		"\"perceivedSeverity\":4," +
         		"\"reasonCode\":0," +
         		"\"additionalText\":\"test insert alarm data\"," +
@@ -235,6 +239,7 @@ public class CurrentAlarmResourceTest {
         
         EasyMock.verify(request);
     }
+    
     
     @Test
     public void zdeleteCurrentAlarm() throws Exception {
@@ -297,5 +302,14 @@ public class CurrentAlarmResourceTest {
         String str = gson.toJson(o);
         return str;
     } 
+    
+	public static void initFastFileSystem(String configPath)
+	{
+		FastFileSystem.setInitDir(configPath);
+		FastFileSystem.getInstance();
+		File descFiles[] = FastFileSystem.getFiles("*-extendsdesc.xml");
+		File implFiles[] = FastFileSystem.getFiles("*-extendsimpl.xml");
+		ExtensionAccess.tryToInjectExtensionBindings(descFiles, implFiles);
+	}
     
 }

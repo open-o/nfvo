@@ -90,7 +90,7 @@ public class GeneralFileLocaterImpl
         return this.configPath;
     }
 
-    protected void setConfigPath(String configPath)
+    public void setConfigPath(String configPath)
     {
         this.configPath = configPath;
     }

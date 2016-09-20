@@ -18,6 +18,7 @@ package org.openo.nfvo.monitor.umc.fm.db.process;
 import java.util.List;
 import java.util.Random;
 
+import org.openo.nfvo.monitor.umc.db.UmcDao;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.dao.CurrentAlarmDao;
 import org.openo.nfvo.monitor.umc.db.entity.CurrentAlarm;
@@ -137,4 +138,5 @@ public class FmDBProcess {
         count = dao.getAlarmsCountByOid(oid);
         return count;
     }
+    
 }
