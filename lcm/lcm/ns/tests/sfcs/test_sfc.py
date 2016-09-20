@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import mock
-from rest_framework import status
-from django.test import TestCase
-from django.test import Client
 import json
+
+import mock
+from django.test import Client
+from django.test import TestCase
+from rest_framework import status
 
 from lcm.pub.database.models import FPInstModel, CPInstModel, PortInstModel, NfInstModel
 from lcm.pub.database.models import VNFFGInstModel
@@ -45,80 +46,81 @@ class TestSfc(TestCase):
 
     @mock.patch.object(restcall, 'call_req')
     def test_sfc_instanciate(self, mock_call_req):
-        data={
-            "nsinstanceid":"ns_inst_1",
-            "context":json.dumps(nsd_model),
-            "fpindex":"fpd_1",
-            "sdncontrollerid":"sdnControllerId_1"
+        data = {
+            "nsinstanceid": "ns_inst_1",
+            "context": json.dumps(nsd_model),
+            "fpindex": "fpd_1",
+            "sdncontrollerid": "sdnControllerId_1"
         }
 
         resp = self.client.post("/openoapi/nslcm/v1/ns/sfc_instance", data, format='json')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
-    # @mock.patch.object(extsys, "get_sdn_controller_by_id")
-    # @mock.patch.object(sdncdriver, "create_flow_classfier")
-    # @mock.patch.object(restcall, 'call_req')
-    # def test_create_flow_classfier(self, mock_call_req, mock_create_flow_classfier,mock_get_sdn_controller_by_id):
-    #     data = {
-    #         "fpinstid": "fp_inst_1",
-    #         "context": json.dumps(nsd_model)
-    #     }
-    #     mock_create_flow_classfier.return_value = [0, json.dumps({'id': '1'})]
-    #     mock_get_sdn_controller_by_id.return_value = [0, '{"test":"test_name","url":"url_add"}']
-    #     resp = self.client.post("/openoapi/nslcm/v1/ns/create_flow_classifier", data)
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
-    #
-    # @mock.patch.object(extsys, "get_sdn_controller_by_id")
-    # @mock.patch.object(sdncdriver, 'create_port_pair_group')
-    # @mock.patch.object(sdncdriver, 'create_port_pair')
-    # @mock.patch.object(restcall, 'call_req')
-    # def test_create_port_pair_group(self, mock_call_req, mock_create_port_pair, mock_create_port_pair_group
-    #                                 ,mock_get_sdn_controller_by_id):
-    #     data = {
-    #         "nsinstanceid": "ns_inst_1",
-    #         "fpinstid": "fp_inst_1",
-    #         "context": json.dumps(nsd_model)
-    #     }
-    #     mock_create_port_pair.return_value = [0, json.dumps({'id': '1'})]
-    #     mock_create_port_pair_group.return_value = [0, json.dumps({'id': '1'})]
-    #     mock_get_sdn_controller_by_id.return_value = [0, '{"test":"test_name","url":"url_add"}']
-    #     resp = self.client.post("/openoapi/nslcm/v1/ns/create_port_pair_group", data)
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
-    #
-    # @mock.patch.object(extsys, "get_sdn_controller_by_id")
-    # @mock.patch.object(sdncdriver, 'create_port_chain')
-    # @mock.patch.object(restcall, 'call_req')
-    # def test_create_port_chain(self, mock_call_req, mock_create_port_chain
-    #                            ,mock_get_sdn_controller_by_id):
-    #     data = {
-    #         "nsinstanceid": "ns_inst_1",
-    #         "fpinstid": "fp_inst_1",
-    #         "context": json.dumps(nsd_model)
-    #     }
-    #     self.update_fp_inst_data()
-    #     mock_create_port_chain.return_value = [0, json.dumps({'id': '1'})]
-    #     mock_get_sdn_controller_by_id.return_value = [0, '{"test":"test_name","url":"url_add"}']
-    #     resp = self.client.post("/openoapi/nslcm/v1/ns/create_port_chain", data)
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
-    #
+    @mock.patch.object(extsys, "get_sdn_controller_by_id")
+    @mock.patch.object(sdncdriver, "create_flow_classfier")
+    @mock.patch.object(restcall, 'call_req')
+    def test_create_flow_classfier(self, mock_call_req, mock_create_flow_classfier, mock_get_sdn_controller_by_id):
+        data = {
+            "fpinstid": "fp_inst_1",
+            "context": json.dumps(nsd_model)
+        }
+        mock_create_flow_classfier.return_value = [0, json.dumps({'id': '1'})]
+        mock_get_sdn_controller_by_id.return_value = json.loads('{"test":"test_name","url":"url_add"}')
+        resp = self.client.post("/openoapi/nslcm/v1/ns/create_flow_classifier", data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    @mock.patch.object(extsys, "get_sdn_controller_by_id")
+    @mock.patch.object(sdncdriver, 'create_port_pair_group')
+    @mock.patch.object(sdncdriver, 'create_port_pair')
+    @mock.patch.object(restcall, 'call_req')
+    def test_create_port_pair_group(self, mock_call_req, mock_create_port_pair, mock_create_port_pair_group
+                                    , mock_get_sdn_controller_by_id):
+        data = {
+            "nsinstanceid": "ns_inst_1",
+            "fpinstid": "fp_inst_1",
+            "context": json.dumps(nsd_model)
+        }
+        mock_create_port_pair.return_value = [0, json.dumps({'id': '1'})]
+        mock_create_port_pair_group.return_value = [0, json.dumps({'id': '1'})]
+        mock_get_sdn_controller_by_id.return_value = json.loads('{"test":"test_name","url":"url_add"}')
+        resp = self.client.post("/openoapi/nslcm/v1/ns/create_port_pair_group", data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+    @mock.patch.object(extsys, "get_sdn_controller_by_id")
+    @mock.patch.object(sdncdriver, 'create_port_chain')
+    @mock.patch.object(restcall, 'call_req')
+    def test_create_port_chain(self, mock_call_req, mock_create_port_chain
+                               , mock_get_sdn_controller_by_id):
+        data = {
+            "nsinstanceid": "ns_inst_1",
+            "fpinstid": "fp_inst_1",
+            "context": json.dumps(nsd_model)
+        }
+        self.update_fp_inst_data()
+        mock_create_port_chain.return_value = [0, json.dumps({'id': '1'})]
+        mock_get_sdn_controller_by_id.return_value = json.loads('{"test":"test_name","url":"url_add"}')
+        resp = self.client.post("/openoapi/nslcm/v1/ns/create_port_chain", data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
     # @mock.patch.object(restcall, 'call_req')
     # def test_create_sfc(self, mock_call_req):
     #     data = {
     #         "nsinstanceid": "ns_inst_1",
     #         "context": json.dumps(nsd_model),
     #         "fpindex": "fpd_1",
+    #         'fpinstid': str(uuid.uuid4()),
     #         "sdncontrollerid": "sdnControllerId_1"
     #     }
     #
-    #     resp = self.client.post("/api/v1/ns_o_i/createsfc", data, format='json')
+    #     resp = self.client.post("/openoapi/nslcm/v1/ns/sfc", data, format='json')
     #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
 
     def update_fp_inst_data(self):
-        FPInstModel.objects.filter(fpinstid="fp_inst_1").update(flowclassifiers="1",portpairgroups=json.JSONEncoder().encode([{
-            "groupid":"1",
-            "portpair":["2"]
-        }]))
-
+        FPInstModel.objects.filter(fpinstid="fp_inst_1").update(flowclassifiers="1",
+                                                                portpairgroups=json.JSONEncoder().encode([{
+                                                                    "groupid": "1",
+                                                                    "portpair": ["2"]
+                                                                }]))
 
     def save_vnffg_inst_data(self):
         VNFFGInstModel(
@@ -192,6 +194,7 @@ class TestSfc(TestCase):
             sdncontrollerid="sdn_controller_1"
 
         ).save()
+
     #
     # def save_sdnc_inst_data(self):
     #     SDNCModel(
@@ -217,7 +220,7 @@ class TestSfc(TestCase):
             networkid="network_inst_1",
             subnetworkid="subnetwork_inst_1",
             vimid="vim_1",
-           # insttype="2",
+            # insttype="2",
             resourceid="res_1",
             ipaddress="10.43.25.2",
             macaddress="EC-F4-BB-20-43-F1"
@@ -228,7 +231,7 @@ class TestSfc(TestCase):
             networkid="network_inst_1",
             subnetworkid="subnetwork_inst_1",
             vimid="vim_1",
-            #insttype="2",
+            # insttype="2",
             resourceid="res_1",
             ipaddress="10.43.25.3",
             macaddress="EC-F4-BB-20-43-F2"
@@ -250,8 +253,6 @@ class TestSfc(TestCase):
             vnfd_model=json.dumps(vnfd_model_dict2)
 
         ).save()
-
-
 
 
 vnfd_model_dict1 = {
@@ -329,8 +330,7 @@ vnfd_model_dict1 = {
             ],
             'cps': [
 
-
-],
+            ],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -663,16 +663,16 @@ vnfd_model_dict1 = {
 
     ],
     'cps': [
-            {'cp_id': 'cpd_1',
-                "description":"",
-                "properties":{
-                    "mac_address": "00:d9:00:82:11:e1",
-                   "ip_address": "10.43.25.2",
-                    "ip_range_start": "192.168.1.20",
-                    "ip_range_end": "192.168.1.29",
-                    "sfc_encapsulation": ""
-                }
-            },
+        {'cp_id': 'cpd_1',
+         "description": "",
+         "properties": {
+             "mac_address": "00:d9:00:82:11:e1",
+             "ip_address": "10.43.25.2",
+             "ip_range_start": "192.168.1.20",
+             "ip_range_end": "192.168.1.29",
+             "sfc_encapsulation": ""
+         }
+         },
     ],
     'metadata': {
         'vendor': u'zte',
@@ -688,24 +688,24 @@ vnfd_model_dict1 = {
         'name': u'sss-vnf-template'
     },
 
-    'vnf_exposed':{
+    'vnf_exposed': {
         "external_cps": [
-		    {
-			    "key_name": "virtualLink1",
-			    "cp_id": "cp1",
-			},
-		],
-	    "forward_cps": [
-		    {
-			    "key_name": "forwarder1",
-			    "cp_id": "cpd_1",
-			},
             {
-			    "key_name": "forwarder2",
-			    "cp_id": "cpd_2",
-			},
-		],
-	}
+                "key_name": "virtualLink1",
+                "cp_id": "cp1",
+            },
+        ],
+        "forward_cps": [
+            {
+                "key_name": "forwarder1",
+                "cp_id": "cpd_1",
+            },
+            {
+                "key_name": "forwarder2",
+                "cp_id": "cpd_2",
+            },
+        ],
+    }
 }
 
 vnfd_model_dict2 = {
@@ -1119,15 +1119,15 @@ vnfd_model_dict2 = {
     ],
     'cps': [
         {'cp_id': 'cpd_2',
-                "description":"",
-                "properties":{
-                    "mac_address": "00:d9:00:82:11:e2",
-                   "ip_address": "10.43.25.3",
-                    "ip_range_start": "192.168.1.20",
-                    "ip_range_end": "192.168.1.29",
-                    "sfc_encapsulation": ""
-                }
-            },
+         "description": "",
+         "properties": {
+             "mac_address": "00:d9:00:82:11:e2",
+             "ip_address": "10.43.25.3",
+             "ip_range_start": "192.168.1.20",
+             "ip_range_end": "192.168.1.29",
+             "sfc_encapsulation": ""
+         }
+         },
     ],
     'metadata': {
         'vendor': u'zte',
@@ -1142,24 +1142,24 @@ vnfd_model_dict2 = {
         'id': u'sss-vnf-template',
         'name': u'vnfd_2'
     },
-    'vnf_exposed':{
+    'vnf_exposed': {
         "external_cps": [
-		    {
-			    "key_name": "virtualLink1",
-			    "cp_id": "cp1",
-			},
-		],
-	    "forward_cps": [
-		    {
-			    "key_name": "forwarder2",
-			    "cp_id": "cpd_2",
-			},
             {
-			    "key_name": "forwarder3",
-			    "cp_id": "cpd_2",
-			},
-		],
-	}
+                "key_name": "virtualLink1",
+                "cp_id": "cp1",
+            },
+        ],
+        "forward_cps": [
+            {
+                "key_name": "forwarder2",
+                "cp_id": "cpd_2",
+            },
+            {
+                "key_name": "forwarder3",
+                "cp_id": "cpd_2",
+            },
+        ],
+    }
 }
 
 nsd_model = {
@@ -1514,7 +1514,7 @@ nsd_model = {
                 "constituent_vnfs": ["vnf_id1", "vnf_id2"],
                 "constituent_pnfs": ["pnf1", "pnf2"],
             },
-            "members": ["fpd_1","fpd_2"],
+            "members": ["fpd_1", "fpd_2"],
         }
     ],
 
@@ -1551,7 +1551,6 @@ nsd_model = {
                 "key_name": "forwarder_brasDP_dcPort",
                 "cp_id": "cpd_5",
             },
-
 
         ],
     },

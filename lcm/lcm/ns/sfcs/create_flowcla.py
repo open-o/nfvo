@@ -20,7 +20,6 @@ from lcm.pub.database.models import FPInstModel
 from lcm.pub.msapi import extsys
 from lcm.pub.msapi import sdncdriver
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +38,7 @@ class CreateFlowClassifier(object):
     def init_data(self, flow_classfiers_model):
         fp_database_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
         self.sdnControllerId = fp_database_info.sdncontrollerid
-        self.url = extsys.get_url_by_sdncontrollerid(self.sdnControllerId)["url"]
+        self.url = extsys.get_sdn_controller_by_id(self.sdnControllerId)["url"]
         self.dscp = flow_classfiers_model["criteria"]["dscp"]
         self.ip_proto = flow_classfiers_model["criteria"]["ip_protocol"],
         self.source_port_range = flow_classfiers_model["criteria"]["source_port_range"],
