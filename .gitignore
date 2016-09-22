@@ -3,4 +3,5 @@
 .settings/
 .checkstyle
 target/
+logs/
 *.pyc

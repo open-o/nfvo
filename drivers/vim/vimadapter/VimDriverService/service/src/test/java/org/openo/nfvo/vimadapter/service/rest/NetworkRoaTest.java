@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.vimadapter.service.adapter.impl.AdapterNetworkManager;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import mockit.Mock;
