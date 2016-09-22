@@ -1,4 +1,4 @@
-# Copyright 2016 [ZTE] and others.
+# Copyright (C) 2016 ZTE, Inc. and others. All rights reserved. (ZTE)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -153,11 +153,19 @@ class TestTerminateVnfViews(TestCase):
     def test_terminate_vnf(self, mock_call_req):
         job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, self.nf_inst_id)
 
+        nfinst = NfInstModel.objects.filter(nfinstid=self.nf_inst_id)
+        if nfinst:
+            self.failUnlessEqual(1, 1)
+        else:
+            self.failUnlessEqual(1, 0)
+
         mock_vals = {
-            "/openoapi/zte-vnfm/v1/1/vnfs":
+            "/openoapi/zte-vnfm/v1/1/vnfs/1/terminate":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
-            "/openoapi/zte-vnfm/v1/jobs/"+ self.job_id + "&responseId=0":
-                [0, json.JSONEncoder().encode({"jobid": job_id,
+            "/openoapi/resmgr/v1/vnf":
+                [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
+            "/openoapi/zte-vnfm/v1/jobs/"+ job_id + "&responseId=0":
+                [0, json.JSONEncoder().encode({"jobId": job_id,
                    "responsedescriptor": {"progress": "100", "status": JOB_MODEL_STATUS.FINISHED,
                                           "responseid": "3", "statusdescription": "creating",
                                           "errorcode": "0",
@@ -174,15 +182,15 @@ class TestTerminateVnfViews(TestCase):
         }
 
         def side_effect(*args):
-            return mock_vals[args[1]]
+            return mock_vals[args[4]]
         mock_call_req.side_effect = side_effect
 
         TerminateVnfs(req_data, self.nf_inst_id, job_id).run()
-        nfinst = NfInstModel.objects.get(nfinstid=self.nf_inst_id)
+        nfinst = NfInstModel.objects.filter(nfinstid=self.nf_inst_id)
         if nfinst:
-            self.assertTrue(1, 0)
+            self.failUnlessEqual(1, 0)
         else:
-            self.assertTrue(1, 1)
+            self.failUnlessEqual(1, 1)
 
 
 vnfd_model_dict = {
