@@ -76,7 +76,12 @@ public class PmDataProcessorTest {
 		monitorInfo.setLabel("computer-node02");
 		monitorInfo.setExtendPara("");
 		monitorInfo.setOrigin("roc");
-    	
+		try {
+			PmCommonProcess.delete(PmConst.MONITOR_INFO, monitorInfo);
+		} catch (PmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initMonitorInfo();
 		dMsg.info("restart all pm task");
 		try {
@@ -152,12 +157,12 @@ public class PmDataProcessorTest {
 		pmDataList2.add(pmData2);
 		PmDataProcessor.getInstance().pmTaskResultProcess(proxyIp, pmDataList2);
 		
-		try {
+/*		try {
 			Thread.sleep(120000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 		public static void initMonitorInfo() {

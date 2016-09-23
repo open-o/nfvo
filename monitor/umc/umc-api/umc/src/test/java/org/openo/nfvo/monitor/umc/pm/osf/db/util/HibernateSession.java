@@ -93,9 +93,9 @@ public class HibernateSession {
             + "    <property name=\"show_sql\">true</property>\n"
             + "    <property name=\"dialect\">org.hibernate.dialect.MySQLDialect</property>\n"
             + "    <property name=\"hibernate.connection.driver_class\">com.mysql.jdbc.Driver</property>\n"
-            + "    <property name=\"hibernate.connection.url\">jdbc:mysql://127.0.0.1:3306/umcdb</property>\n"
-            + "    <property name=\"hibernate.connection.username\">root</property>\n"
-            + "    <property name=\"hibernate.connection.password\"></property>\n"
+            + "    <property name=\"hibernate.connection.url\">jdbc:mysql://127.0.0.1:3306/umc</property>\n"
+            + "    <property name=\"hibernate.connection.username\">umc</property>\n"
+            + "    <property name=\"hibernate.connection.password\">umc</property>\n"
             + "    <property name=\"hbm2ddl.auto\">update</property>\n"
             + "    <property name=\"current_session_context_class\">thread</property>\n"
 

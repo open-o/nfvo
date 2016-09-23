@@ -107,6 +107,12 @@ public class HistoryPmDataResourceTest {
 		} catch (PmException e) {
 			Assert.fail("Exception" + e.getMessage());
 		}*/
+		try {
+			PmCommonProcess.delete(PmConst.MONITOR_INFO, monitorInfo);
+		} catch (PmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PmCommonProcess.save(PmConst.MONITOR_INFO, monitorInfo);
 		NeHandler.createHandle("127.0.0.1", "nfv.host.linux=010074149067", "nfv.host.linux");
     }

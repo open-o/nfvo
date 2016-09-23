@@ -151,12 +151,12 @@ public class ChangeResourcTest {
         String resultStr = objectToString(result);
         assertThat(result.getResult()).isEqualTo("SUCCESS");
         assertThat(result.getOid()[0]).isEqualTo("nfv.host.linux=010074149067");
-        try {
+/*        try {
 			Thread.sleep(120000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
       
     }
 

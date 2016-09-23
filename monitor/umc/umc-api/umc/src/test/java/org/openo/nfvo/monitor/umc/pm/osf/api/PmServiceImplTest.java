@@ -62,11 +62,11 @@ public class PmServiceImplTest {
     	CacheService.init();
     	I18n.init();
 		dMsg.info("restart all pm task");
-		try {
+/*		try {
 			PmService.reStartAllPmTask("127.0.0.1");
 		} catch (PmException e) {
 			Assert.fail("Exception" + e.getMessage());
-		}
+		}*/
 		
 		monitorInfo = new MonitorInfo();
 		String oid = "nfv.host.linux=010074149067";
@@ -78,6 +78,12 @@ public class PmServiceImplTest {
 		monitorInfo.setLabel("computer-node02");
 		monitorInfo.setExtendPara("");
 		monitorInfo.setOrigin("roc");
+		try {
+			PmCommonProcess.delete(PmConst.MONITOR_INFO, monitorInfo);
+		} catch (PmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initMonitorInfo();
 	}
 
