@@ -100,11 +100,11 @@ database:
   # the name of your JDBC driver
   driverClass: com.mysql.jdbc.Driver
   # the username
-  user: openo
+  user: umc
   # the password
-  password: openo
+  password: umc
   # the JDBC URL
-  url: jdbc:mysql://127.0.0.1:3306/umcdb?useUnicode=true&amp;characterEncoding=UTF-8  
+  url: jdbc:mysql://127.0.0.1:3306/umc?useUnicode=true&amp;characterEncoding=UTF-8  
   # any properties specific to your JDBC driver:
   properties:
     tcpPort: 8405
