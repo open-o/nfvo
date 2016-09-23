@@ -18,7 +18,8 @@ package com.zte.ums.sfc.console.utils;
 import java.util.UUID;
 
 public class SfcDriverUtil {
-
+	
+	//Generate UUID
     public static String generateUuid()
     {
         return UUID.randomUUID().toString();
