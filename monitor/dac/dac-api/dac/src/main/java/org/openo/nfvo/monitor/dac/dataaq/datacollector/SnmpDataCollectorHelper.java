@@ -18,7 +18,8 @@ package org.openo.nfvo.monitor.dac.dataaq.datacollector;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
 import org.openo.nfvo.monitor.dac.dataaq.datacollector.para.SnmpCollectorPara;
@@ -162,17 +163,17 @@ public class SnmpDataCollectorHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Vector<VariableBinding> sendRequest(String requestOid,  PDU pdu, Snmp snmp, Target target)  
+	public static List<VariableBinding> sendRequest(String requestOid,  PDU pdu, Snmp snmp, Target target)  
 	    throws IOException, MonitorException {  
 	        ResponseEvent responseEvent = snmp.send(pdu, target);  
 	        PDU response = responseEvent.getResponse();  
-	        Vector<VariableBinding> allVbs = new Vector<VariableBinding>(); 
+	        List<VariableBinding> allVbs = new ArrayList<VariableBinding>(); 
 	        if (response == null) {  
 				throw new MonitorException("sendRequest timeout to" + " Hostip:" + target.getAddress() + " ReqOid:"
 						+ requestOid.substring(0, requestOid.length() - 1));
 	        } else {  
 	            if (response.getErrorStatus() == PDU.noError) {  
-	                Vector<VariableBinding> vbs = response.getVariableBindings();  
+	                List<VariableBinding> vbs = response.getVariableBindings();  
 	                VariableBinding lastVb = vbs.get(vbs.size() - 1);
 	                String oid = lastVb.getOid().toString();
 	//                
@@ -185,7 +186,7 @@ public class SnmpDataCollectorHelper {
 	                }
 	                else
 	                {
-	                	 Vector<VariableBinding> newVbs = new Vector<VariableBinding>(); 
+	                    List<VariableBinding> newVbs = new ArrayList<VariableBinding>(); 
 	                	for (VariableBinding vb : vbs)
 	                	{
 	                		String toid = vb.getOid().toString();
@@ -206,9 +207,9 @@ public class SnmpDataCollectorHelper {
 	    }
 
 	@SuppressWarnings("unchecked")
-	public static Vector<VariableBinding> sendRequest(PDU pdu, Snmp snmp, Target target)  
+	public static List<VariableBinding> sendRequest(PDU pdu, Snmp snmp, Target target)  
 	throws IOException, MonitorException {  
-		Vector<VariableBinding> allVbs = new Vector<VariableBinding>(); 
+	    List<VariableBinding> allVbs = new ArrayList<VariableBinding>(); 
 	    ResponseEvent responseEvent = snmp.send(pdu, target);  
 	    PDU response = responseEvent.getResponse();  
 	    VariableBinding vb = (VariableBinding)pdu.getVariableBindings().get(0);

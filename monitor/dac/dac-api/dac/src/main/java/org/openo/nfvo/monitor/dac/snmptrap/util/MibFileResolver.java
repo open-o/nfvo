@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import org.jsmiparser.parser.SmiDefaultParser;
 import org.jsmiparser.phase.file.FileParserPhase;
@@ -48,21 +48,21 @@ public class MibFileResolver
     private static MibFileResolver instance = null;
 //    private MibUtil mibUtil;
     private SmiDefaultParser parser;
-    private Vector<File> vecMibs;
+    private List<File> vecMibs;
 //    private StringBuffer vecMibPaths;
-    private Vector<File> mibFiles;
+    private List<File> mibFiles;
 //    private MibNodeInfo nodeInfo;
-    private String serializedFile;
-    private Vector<String> modules;
+    private String serializedFile; 
+    private List<String> modules;
 
     private MibFileResolver(String serializedFilePath)
     {
 //        vecMibPaths = new StringBuffer();
 //    	mibUtil = new MibUtil();
-        vecMibs = new Vector<File>();
-        mibFiles = new Vector<File>();
+        vecMibs = new ArrayList<File>();
+        mibFiles = new ArrayList<File>();
 //        nodeInfo = new MibNodeInfo();
-        modules = new Vector<String>();
+        modules = new ArrayList<String>();
 
         serializedFile = serializedFilePath;
 
@@ -82,14 +82,14 @@ public class MibFileResolver
         return instance;
     }
 
-    private Vector getCurMibFiles()
+    private List getCurMibFiles()
     {
     	 File[] files = FastFileSystem.getFiles(DacConst.MIBFILES);
     	 mibFiles.addAll(Arrays.asList(files));
     	 return mibFiles;
     }
 
-    private static boolean isNewFileAdd(ArrayList<String> oldFiles, Vector<File> newFiles)
+    private static boolean isNewFileAdd(ArrayList<String> oldFiles, List<File> newFiles)
     {
     	for (File file : newFiles)
     	{

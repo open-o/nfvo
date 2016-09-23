@@ -29,7 +29,7 @@ import java.util.Properties;
 public class TaskBean {
     private int taskId;
     private int granularity;
-    private String[] columnName;
+//    private String[] columnName;
     private String monitorName;
     private Properties CommParam;
 }

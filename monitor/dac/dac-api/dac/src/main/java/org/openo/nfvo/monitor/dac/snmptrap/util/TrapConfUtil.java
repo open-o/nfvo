@@ -17,7 +17,7 @@ package org.openo.nfvo.monitor.dac.snmptrap.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.List;
 
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -112,7 +112,7 @@ public class TrapConfUtil {
         }
         else
         {
-            Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+            List<VariableBinding> allVars = trapPDU.getVariableBindings();
 
                 for (VariableBinding vb : allVars)
                 {

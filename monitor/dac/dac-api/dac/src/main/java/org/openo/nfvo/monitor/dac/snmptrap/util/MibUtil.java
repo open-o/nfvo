@@ -29,7 +29,8 @@ public class MibUtil {
 
 	public static void setNodeInfo(MibNodeInfo newNodeInfo) {
 		nodeInfo = newNodeInfo;
-		nodesOids = nodeInfo.getNodesMap().keySet();
+		Set<String> oids = nodeInfo.getNodesMap().keySet();
+		nodesOids.addAll(oids);
 	}
 
 	public static void addNodeInfo(String strOid, String strLable)

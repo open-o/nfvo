@@ -16,8 +16,11 @@
 package org.openo.nfvo.monitor.umc.monitor.wrapper;
 
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
+import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
+import org.openo.nfvo.monitor.umc.db.dao.MonitorInfoDao;
 import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorParamInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorResult;
@@ -27,6 +30,7 @@ import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.db.process.PmCommonProcess;
 import org.openo.nfvo.monitor.umc.pm.db.process.PmDBProcess;
 import org.openo.nfvo.monitor.umc.pm.services.NeHandler;
+import org.openo.nfvo.monitor.umc.pm.task.PmTaskException;
 import org.openo.nfvo.monitor.umc.pm.task.PmTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,9 +68,9 @@ public class MonitorServiceWrapper {
 
         try {
             if (ifProxyIPChange == MonitorConst.IF_PROXYIP_CHANGE_TRUE) {
-                PmTaskService.pmTaskReCreate(null, monitorTaskInfo.getCustomPara().getProxyIp(),
+                PmTaskService.pmTaskReCreate(null, monitorTaskInfo.getProxyIp(),
                         monitorTaskInfo.getOid(), monitorTaskInfo.getMoc());
-                LOGGER.info(monitorTaskInfo.getOid() + " pmTask ReCreate to ProxyIp: "+monitorTaskInfo.getCustomPara().getProxyIp());
+                LOGGER.info(monitorTaskInfo.getOid() + " pmTask ReCreate to ProxyIp: "+monitorTaskInfo.getProxyIp());
 
             } else {
                 PmTaskService.pmTaskModify(monitorTaskInfo.getOid());
@@ -160,5 +164,60 @@ public class MonitorServiceWrapper {
         }
 
         return monitorResult;
+    }
+    
+    /**
+     * 
+     * @date 2016/5/27 9:55:34
+     * @description update monitor info 
+     */
+    public MonitorResult updateMonitorInfo(String oid, MonitorParamInfo paramInfo) {
+        MonitorResult monitorResult = new MonitorResult();
+        
+        try{
+            MonitorInfo monitorInfo = (MonitorInfo) PmDBProcess.queryDbByOid(PmConst.MONITOR_INFO, oid);
+            paramInfo.setNeTypeId(monitorInfo.getNeTypeId());
+            deleteMonitorInfo(oid);
+            addMonitorInfo(paramInfo);
+
+            monitorResult.setResult(MonitorConst.REQUEST_SUCCESS);
+            monitorResult.setInfo(oid + " monitorParamInfo update ok");
+            LOGGER.info(oid + " monitorParamInfo update ok");
+            
+        }catch(Exception e){
+            monitorResult.setResult(MonitorConst.REQUEST_FAIL);
+            monitorResult.setInfo(oid + " monitorParamInfo update fail:"
+                    + e.getMessage());
+            LOGGER.error(oid + " monitorParamInfo update fail:"
+                    + e.getMessage());
+        }
+        
+        return monitorResult;
+    }
+    
+    /**
+     *
+     * @date 2016/5/27 15:57:42
+     * @description get monitor info from table. 
+     */
+    public Properties getMonitorInfoByOid(String oid) throws PmTaskException{
+        Properties p = new Properties();
+        
+        MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(PmConst.MONITOR_INFO);
+        MonitorInfo itPmMonitorInfo = dao.queryByOid(oid);
+        
+        if(itPmMonitorInfo == null){
+            LOGGER.error("get monitorInfo param null! oid=" + oid);
+            throw new PmTaskException("get monitorInfo param null! oid=" + oid);
+        }
+        
+        p.put(PmConst.RESID, itPmMonitorInfo.getOid());
+        p.put(PmConst.MOC, itPmMonitorInfo.getNeTypeId());
+        p.put(PmConst.IPADDRESS, itPmMonitorInfo.getIpAddress());
+        p.put(PmConst.CUSTOMPARA, itPmMonitorInfo.getCustomPara());
+        p.put(PmConst.LABEL, itPmMonitorInfo.getLabel());
+        p.put(PmConst.ORIGIN, itPmMonitorInfo.getOrigin());
+        
+        return p;
     }
 }

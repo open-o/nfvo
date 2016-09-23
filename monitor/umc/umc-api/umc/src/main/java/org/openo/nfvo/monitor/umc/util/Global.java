@@ -43,11 +43,11 @@ public class Global {
 
 	public static String getGrantApiRootDomain() {
 		//return "/api/vim/v1/vnfgrantinfo";
-		return "http://127.0.0.1:80/api/vim/v1";
+		return "http://127.0.0.1:80/openoapi/vim/v1";
 	}
 
 	public static String getRocApiDomain() {
-		return "http://127.0.0.1:80/api/roc/v1";
+		return "http://127.0.0.1:80/openoapi/roc/v1";
 	}
 
 	public static String getVnfCreateByTackerApiDomain(){

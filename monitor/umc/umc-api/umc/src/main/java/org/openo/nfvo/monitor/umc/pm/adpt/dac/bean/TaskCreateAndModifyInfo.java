@@ -34,6 +34,6 @@ public class TaskCreateAndModifyInfo
     private int taskId;
     private int granularity;
     private String monitorName;
-    private String[] columnName; 
+//    private String[] columnName; 
     private Properties commParam; //properties[0] = {key, value}
 }

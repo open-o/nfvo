@@ -36,7 +36,7 @@ public class TrapFilter {
         trapData.setTrapOid(trapOID);
         trapData.setIpAddress(ipAddress);
         trapData.setEventKey(ipAddress);
-        LOGGER.info("recive trap ip: " + ipAddress + " trapOid: " + trapOID);
+        LOGGER.info("receive trap ip: " + ipAddress + " trapOid: " + trapOID);
         if (trapData.getTrapOid() != null && !trapData.getTrapOid().equals(""))
             {
                 // first trap processor

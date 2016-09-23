@@ -25,7 +25,7 @@ public class ServiceAccessUtil {
      *
      */
     public static String getRocApiRootDomain() {
-        return "/api/roc/v1";
+        return "/openoapi/roc/v1";
     }
 
 }

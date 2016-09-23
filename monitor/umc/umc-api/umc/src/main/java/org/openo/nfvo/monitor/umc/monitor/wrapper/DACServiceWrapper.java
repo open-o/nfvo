@@ -23,7 +23,9 @@ import java.util.UUID;
 import org.openo.nfvo.monitor.umc.cometdclient.DacCometdClient;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.dao.DACInfoDao;
+import org.openo.nfvo.monitor.umc.db.dao.MonitorInfoDao;
 import org.openo.nfvo.monitor.umc.db.entity.DACInfo;
+import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorResult;
 import org.openo.nfvo.monitor.umc.monitor.common.HttpClientUtil;
 import org.openo.nfvo.monitor.umc.monitor.common.MonitorConst;
@@ -235,14 +237,43 @@ public class DACServiceWrapper {
         return monitorResult;
     }
 
-    /**
-    * @Title generateOid
-    * @Description TODO(generate only a Oid by UUID)
-    * @return
-    * @return String
+    /** 
+    * @Title generateOid 
+    * @Description generate only a Oid by UUID
+    * @return      
+    * @return String    
     */
     private String generateOid() {
         return UUID.randomUUID().toString();
     }
 
+    /**
+     * 
+     * @date 2016/5/19 16:17:28
+     * @description Get all Monitor infos from table.
+     */
+    public List<MonitorInfo> getMonitorInfos() {
+        MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(MonitorConst.MONITOR_INFO_TABLE);
+        return dao.findAll();
+    }
+
+    /**
+     * 
+     * @date 2016/5/30 15:20:07
+     * @description Get Monitor info by oid from table. 
+     */
+    public MonitorInfo getMonitorInfoByOid(String oid) {
+        MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(MonitorConst.MONITOR_INFO_TABLE);
+        return dao.queryByOid(oid);
+    }
+    
+    /**
+     * 
+     * @date 2016/5/19 16:18:08
+     * @description Get Monitor infos by neTypeId from table. 
+     */
+    public List<MonitorInfo> getMonitorInfoByNeTypeId(String neTypeId) {
+        MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(MonitorConst.MONITOR_INFO_TABLE);
+        return dao.queryByNeTypeId(neTypeId);
+    }
 }

@@ -19,11 +19,12 @@ package org.openo.nfvo.monitor.dac.common.util;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
@@ -82,7 +83,7 @@ public class Calculator {
             }
             JexlEngine jexlEngine = new JexlEngine();
             Expression expression = jexlEngine.createExpression(formula);
-            Object result = (Object)expression.evaluate(jexlContext);
+            Object result = expression.evaluate(jexlContext);
             if (result instanceof Double) {
                 Double dd = (Double) result;
 
@@ -121,8 +122,8 @@ public class Calculator {
         }
         return (i + 1);
     }
-
-    public Vector<String> calculate(Map<String, Vector<String>> vectorMap, String formula)
+    //<"cpuidleratio",{92.12}>,100-cpuidleratio
+    public List<String> calculate(Map<String, List<String>> listMap, String formula)
             throws MonitorException {
         while (true) {
             int index = formula.indexOf("SUM(");
@@ -134,11 +135,11 @@ public class Calculator {
                 throw new MonitorException(
                         "Right braces doesn't appear to exist in SUM():" + formula);
             }
-            String vecName = formula.substring(index + 4, rightbrace);
-            Vector<String> vec = vectorMap.get(vecName);
+            String listName = formula.substring(index + 4, rightbrace);
+            List<String> vec = listMap.get(listName);
             if (vec == null) {
                 throw new MonitorException(
-                        "Vector " + vecName + " doesn't appear to exist in vectorMap.");
+                        "List " + listName + " doesn't appear to exist in listMap.");
             }
             double sumResult = 0;
             for (String numString : vec) {
@@ -146,7 +147,7 @@ public class Calculator {
                 sumResult = sumResult + thisNum;
             }
             String sumString = Double.toString(sumResult);
-            String nameString = "SUM(" + vecName + ")";
+            String nameString = "SUM(" + listName + ")";
             formula = DacUtil.replace(formula, nameString, sumString);
         }
         while (true) {
@@ -159,75 +160,75 @@ public class Calculator {
                 throw new MonitorException(
                         "Right braces doesn't appear to exist in COUNT():" + formula);
             }
-            String vecName = formula.substring(index + 6, rightbrace);
-            Vector<String> vec = vectorMap.get(vecName);
-            if (vec == null) {
+            String listName = formula.substring(index + 6, rightbrace);
+            List<String> list = listMap.get(listName);
+            if (list == null) {
                 throw new MonitorException(
-                        "Vector " + vecName + " doesn't appear to exist in vectorMap.");
+                        "List " + listName + " doesn't appear to exist in listMap.");
             }
-            int count = vec.size();
+            int count = list.size();
             if (count == 0) {
-                throw new MonitorException("Vector " + vecName + "'s lenght is zero.");
+                throw new MonitorException("List " + listName + "'s lenght is zero.");
             }
             String countString = Integer.toString(count);
-            formula = DacUtil.replace(formula, "COUNT(" + vecName + ")", countString);
+            formula = DacUtil.replace(formula, "COUNT(" + listName + ")", countString);
         }
 
-        Vector<String> vecVariables = new Vector<>();
-        Set<String> keySet = vectorMap.keySet();
-        for (String vecName : keySet) {
-            if (formula.contains(vecName)) {
-                vecVariables.add(vecName);
+        List<String> listVariables = new ArrayList<>();
+        Set<String> keySet = listMap.keySet();
+        for (String listName : keySet) {
+            if (formula.contains(listName)) {
+                listVariables.add(listName);
             }
         }
-        if (vecVariables.size() == 0) {
-            Vector<String> result = new Vector<>();
+        if (listVariables.size() == 0) {
+            List<String> result = new ArrayList<>();
             result.add(calculateItem(new HashMap(), formula));
             return result;
         } else {
-            Vector<String> vec = vectorMap.get(vecVariables.get(0));
-            int longestSize = vec.size();
+            List<String> list = listMap.get(listVariables.get(0));
+            int longestSize = list.size();
             if (longestSize == 0) {
-                throw new MonitorException("Vector " + vecVariables.get(0) + "'s size is 0");
+                throw new MonitorException("List " + listVariables.get(0) + "'s size is 0");
             }
             int longestIndex = 0;
 
-            for (int i = 1, size = vecVariables.size(); i < size; i++) {
-                Vector<String> otherVec = vectorMap.get(vecVariables.get(i));
-                if (otherVec.size() > longestSize) {
-                    longestSize = otherVec.size();
+            for (int i = 1, size = listVariables.size(); i < size; i++) {
+                List<String> otherList = listMap.get(listVariables.get(i));
+                if (otherList.size() > longestSize) {
+                    longestSize = otherList.size();
                     longestIndex = i;
                 }
-                if (otherVec.size() == 0) {
-                    throw new MonitorException("Vector " + vecVariables.get(i) + "'s size is 0");
+                if (otherList.size() == 0) {
+                    throw new MonitorException("ArrayList " + listVariables.get(i) + "'s size is 0");
                 }
             }
 
             if (longestSize > 1) {
-                for (int i = 0, size = vecVariables.size(); i < size; i++) {
+                for (int i = 0, size = listVariables.size(); i < size; i++) {
                     if (i == longestIndex) {
                         continue;
                     }
-                    Vector<String> otherVec = vectorMap.get(vecVariables.get(i));
-                    if (otherVec.size() != longestSize && otherVec.size() != 1) {
-                        throw new MonitorException("Vector " + vecVariables.get(i)
+                    List<String> otherList = listMap.get(listVariables.get(i));
+                    if (otherList.size() != longestSize && otherList.size() != 1) {
+                        throw new MonitorException("List " + listVariables.get(i)
                                 + "'s size is not " + longestSize + " and it is not 1");
                     }
                 }
             }
 
-            Vector<String> result = new Vector<>();
+            List<String> result = new ArrayList<>();
             for (int j = 0; j < longestSize; j++) {
                 String newFormula = formula;
-                for (String vecVariable : vecVariables) {
-                    Vector<String> thisVec = vectorMap.get(vecVariable);
-                    String thisVecItem;
-                    if (thisVec.size() > j) {
-                        thisVecItem = String.valueOf(thisVec.get(j));
+                for (String listVariable : listVariables) {
+                    List<String> thislist = listMap.get(listVariable);
+                    String thisListItem;
+                    if (thislist.size() > j) {
+                        thisListItem = String.valueOf(thislist.get(j));
                     } else {
-                        thisVecItem = String.valueOf(thisVec.get(0));
+                        thisListItem = String.valueOf(thislist.get(0));
                     }
-                    newFormula = newFormula.replaceAll(String.valueOf(vecVariable), thisVecItem);
+                    newFormula = newFormula.replaceAll(String.valueOf(listVariable), thisListItem);//100-92.12
                 }
                 String resultItem;
                 try {
@@ -241,25 +242,25 @@ public class Calculator {
             return result;
         }
     }
-	public Vector fcalculate(Map vectorMap, String formula, String[] variable) throws MonitorException
+	public List fcalculate(Map listMap, String formula, String[] variable) throws MonitorException
 	{
-		Vector retVec = new Vector();
+	    List retList = new ArrayList();
 		Object obj = null;
 		try
 		{
 			JexlContext jexlContext = new MapContext();
             JexlEngine jexlEngine = new JexlEngine();
             Expression expression = jexlEngine.createExpression(formula);
-			int sizej = ((Vector) (vectorMap.get(variable[0]))).size();
-			// 对Vector中的每一项进行计算
-			for (int j = 0; j < sizej; j++)
+			int sizej = ((List) (listMap.get(variable[0]))).size();
+			// 瀵筁ist涓殑姣忎竴椤硅繘琛岃绠�			for (int j = 0; j < sizej; j++)
 			{
 				// 将每一项数据代入表达式。
 				for (int i = 0, sizei = variable.length; i < sizei; i++)
 				{
-					jexlContext.set(variable[i], ((Vector) (vectorMap.get(variable[i]))).get(j));
+					//jexlContext.set(variable[i], ((List) (listMap.get(variable[i]))).get(j));
+					jexlContext.set(variable[i], ((List) (listMap.get(variable[i]))).get(i));
 				}
-				obj = (Object)expression.evaluate(jexlContext);
+				obj = expression.evaluate(jexlContext);
 				if (obj instanceof Double)
 				{
 					Double dd = (Double) obj;
@@ -267,14 +268,14 @@ public class Calculator {
 					long ld1 = (long) dd1;
 					double dd2 = ld1 / 1000.0;
 					String sResult = Double.toString(dd2);
-					retVec.add(sResult);
+					retList.add(sResult);
 				} else
 				{
 					throw new MonitorException("formular's result is not double type" + formula);
 				}
 			}
 
-			return retVec;
+			return retList;
 		}
 		catch (Exception e)
 		{

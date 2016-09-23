@@ -53,21 +53,17 @@ public class PmDataToDB implements IPmDataConsumer {
 		String tableName = CacheUtil.getDataTableNameByPMType(pmType);
 
 		List<List<Object>> pmDataList = (List<List<Object>>)attrList.get(PmConst.pmDataList);
-		List<IHistoryPmDataPo> pmDataPoList = new ArrayList<>();
+
 		for (List<Object> data : pmDataList) {
             Map<String, Object> columnName2ValueMap = buildPoColumnName2ValueMap(data);
             IHistoryPmDataPo pmDataPo = (IHistoryPmDataPo) ExtensionAccess.getExtension(IHistoryPmDataPo.class.getName(), tableName);
-            pmDataPo.initValue(columnName2ValueMap);
+            pmDataPo.initValue(columnName2ValueMap);//
             
-            pmDataPoList.add(pmDataPo);
-		}
-		
-		if (pmDataPoList.size() > 0) {
-	        try {
-	            PmDBProcess.save(tableName, pmDataPoList);
-	        } catch (PmException e) {
-	            LOGGER.info("PmDBProcess.insert failed.", e);
-	        }
+            try{
+                PmDBProcess.save(tableName, pmDataPo);
+            }catch (PmException e) {
+                LOGGER.info("PmDBProcess.insert failed.", e);
+            }
 		}
 	}
 	

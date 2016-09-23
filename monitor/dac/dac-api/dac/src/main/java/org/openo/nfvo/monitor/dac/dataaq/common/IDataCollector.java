@@ -23,6 +23,8 @@ import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
  * Data Collector interface
  */
 public interface IDataCollector {
+	
+	public static final String EXTENSIONID = "org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector";
     /**
      * Perform data collection
      * @param para Data acquisition parameter
@@ -30,7 +32,8 @@ public interface IDataCollector {
      * @return Data acquisition result
      * @throws MonitorException
      */
-    Map collectData(ICollectorPara para, Map commands) throws MonitorException;
-
-    void setMonitorTaskInfo(MonitorTaskInfo monitorTaskInfo);
+    @SuppressWarnings("rawtypes")
+	public Map collectData(ICollectorPara para, Map commands) throws MonitorException;
+    
+    public void setMonitorTaskInfo(MonitorTaskInfo monitorTaskInfo);
 }

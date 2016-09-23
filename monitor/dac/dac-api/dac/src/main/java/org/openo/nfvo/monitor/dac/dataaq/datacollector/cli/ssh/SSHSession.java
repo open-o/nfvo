@@ -123,6 +123,7 @@ public class SSHSession extends AbstractClientSession {
     }
 
     public void login(String username, String password) throws IOException {
+    	LOGGER.info("username:{},pasword:{}",new String[]{username,password});
         if (this.session == null) {
             try {
                 this.session = jsch.getSession(username, this.hostName, this.port);
@@ -220,5 +221,18 @@ public class SSHSession extends AbstractClientSession {
         if (s1.equals(s)) abyte0 = s2.getBytes();
         output.write(abyte0);
         output.flush();
+    }
+    
+    public static void main(String[] args){
+    	SSHSession session= new SSHSession();
+    	try {
+			session.connect("192.168.113.107",22);
+			session.login("cmcc", "123456");
+			System.out.println("connect success");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 }

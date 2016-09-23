@@ -23,7 +23,7 @@ import java.util.Properties;
  *
  */
 public interface IMonitorTaskInfo {
-
+	public static final String EXTENSIONID = "org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.IMonitorTaskInfo";
     /**
      * Set communication parameters
      * @param paras communication parameters

@@ -39,6 +39,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.openo.nfvo.monitor.umc.UMCApp;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.cache.CacheUtil;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
@@ -59,6 +60,7 @@ import org.openo.nfvo.monitor.umc.pm.resources.HistoryPmDataResource;
 import org.openo.nfvo.monitor.umc.pm.services.NeHandler;
 import org.openo.nfvo.monitor.umc.pm.services.PmService;
 import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
@@ -81,6 +83,8 @@ public class HistoryPmDataResourceTest {
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
+        String[] packageUrls =new String[] {UMCApp.class.getPackage().getName()};
+        ExtensionUtil.init(packageUrls);
 	    String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
      	GeneralFileLocaterImpl.getGeneralFileLocater().setConfigPath(filePath);
     	initFastFileSystem(filePath);
@@ -97,6 +101,7 @@ public class HistoryPmDataResourceTest {
 		monitorInfo.setCustomPara(customPara);
 		monitorInfo.setLabel("computer-node02");
 		monitorInfo.setExtendPara("");
+		monitorInfo.setOrigin("roc");
 /*		try {
 			PmService.reStartAllPmTask("127.0.0.1");
 		} catch (PmException e) {
@@ -138,7 +143,8 @@ public class HistoryPmDataResourceTest {
 		PmData pmData = new PmData();
 		pmData.setJobId(1);
 		pmData.setGranularity(300);
-		pmData.setCollectTime(1474361688205L);
+		Long collectTime = System.currentTimeMillis();
+		pmData.setCollectTime(collectTime);
 		Properties p = new Properties();
 		p.setProperty("CPUBUSYRATIO", "88.1");
 		pmData.setValues(new Properties[] { p });

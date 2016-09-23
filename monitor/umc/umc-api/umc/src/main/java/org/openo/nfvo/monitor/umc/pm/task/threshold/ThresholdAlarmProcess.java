@@ -17,11 +17,12 @@ package org.openo.nfvo.monitor.umc.pm.task.threshold;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.openo.nfvo.monitor.umc.fm.common.FMConsts;
 import org.openo.nfvo.monitor.umc.fm.service.FmService;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.MonitorServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;
-import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocAdptImpl;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.common.PmException;
@@ -78,8 +79,8 @@ public class ThresholdAlarmProcess {
         alarmData.setMoc(thresholdInfo.getNeTypeId());
 
         try {
-            alarmData.setDevIp(String.valueOf(
-                    RocAdptImpl.getCommPara(oid, thresholdInfo.getNeTypeId()).get(PmConst.IPADDRESS)));
+            Properties p = MonitorServiceWrapper.getInstance().getMonitorInfoByOid(oid);
+            alarmData.setDevIp(String.valueOf(p.get(PmConst.IPADDRESS)));
         } catch (PmTaskException e) {}
 
         try {

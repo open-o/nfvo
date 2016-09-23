@@ -15,54 +15,13 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.monitor;
 
-/**
- * <p>
- * �ļ����: CPUMonitorSnmp.java
- * </p>
- * <p>
- * �ļ�����:
- * </p>
- * <p>
- * ��Ȩ����: ��Ȩ����(C)2001-2005
- * </p>
- * <p>
- * �� ˾: ����������ͨѶ�ɷ����޹�˾
- * </p>
- * <p>
- * ����ժҪ: ��
- * </p>
- * <p>
- * ����˵��: ��
- * </p>
- * <p>
- * �������ڣ�2005-11-9
- * </p>
- * <p>
- * ������ڣ�2005-11-9
- * </p>
- * <p>
- * �޸ļ�¼1: // �޸���ʷ��¼�������޸����ڡ��޸��߼��޸�����
- * </p>
- * 
- * <pre>
- *    �޸����ڣ�
- *    �� �� �ţ�
- *    �� �� �ˣ�
- *    �޸����ݣ�
- * </pre>
- * <p>
- * �޸ļ�¼2����
- * </p>
- * 
- * @version 1.0
- * 
- */
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.util.Calculator;
@@ -72,13 +31,12 @@ import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.dataaq.common.ICollectorPara;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataParser;
-import org.openo.nfvo.monitor.dac.dataaq.common.IMonitor;
+import org.openo.nfvo.monitor.dac.dataaq.common.Monitor;
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
 import org.openo.nfvo.monitor.dac.dataaq.datacollector.para.SnmpCollectorPara;
 import org.openo.nfvo.monitor.dac.dataaq.dataparser.SnmpDataParser;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaMonitorPerfInfo;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaPerfCounterInfo;
-import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,16 +44,12 @@ import org.slf4j.LoggerFactory;
  * 
  * @version 1.0
  */
-public class MonitorSnmp implements IMonitor
+
+public class MonitorSnmp extends Monitor
 {
 	private static final Logger dMsg = LoggerFactory.getLogger(MonitorSnmp.class);
-    private MonitorTaskInfo taskInfo = null;
-
-	public MonitorSnmp(MonitorTaskInfo taskInf)
-	{
-		taskInfo = taskInf;
-	}
 	
+    @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public Map perform(Map paras, IDataCollector dataCollector, IDataParser dataParser) throws DataAcquireException
  {
@@ -193,44 +147,44 @@ public class MonitorSnmp implements IMonitor
 			StringBuffer nameAppendOid = new StringBuffer();
 			nameAppendOid.append(name).append("OIDAPPEND");
 			Map tmpM = (Map) percounterValue;
-			Vector tmpVecValue = (Vector) (tmpM.get("VALUE"));
+			List tmpListValue = (List) (tmpM.get("VALUE"));
 
-			Vector tmpVecAppendOid = (Vector) (tmpM.get("OIDAPPEND"));
+			List tmpVecAppendOid = (List) (tmpM.get("OIDAPPEND"));
 			if (name.equals("IFNAME")) {
-				Vector vec = (Vector) tmpVecValue;
-				Vector newVec = new Vector();
+			    List list = tmpListValue;
+			    List newList = new ArrayList();
+				for (int i = 0; i < list.size(); i++) {
+					String portName = (String) list.get(i);
+					String newPortName = portName.replace('\'', '-');
+					newPortName = newPortName.replaceAll(" ", "");
+					newList.add(newPortName);
+				}
+				tmpListValue = newList;
+			}
+			if (name.equals("IFDESCR")) {// netscreen50,v5.0.0.r8 锟斤拷支锟斤拷IF-MIB锟斤拷
+				List vec = tmpListValue;
+				List newVec = new ArrayList();
 				for (int i = 0; i < vec.size(); i++) {
 					String portName = (String) vec.get(i);
 					String newPortName = portName.replace('\'', '-');
 					newPortName = newPortName.replaceAll(" ", "");
 					newVec.add(newPortName);
 				}
-				tmpVecValue = newVec;
+				tmpListValue = newVec;
 			}
-			if (name.equals("IFDESCR")) {// netscreen50,v5.0.0.r8 ��֧��IF-MIB��
-				Vector vec = (Vector) tmpVecValue;
-				Vector newVec = new Vector();
-				for (int i = 0; i < vec.size(); i++) {
-					String portName = (String) vec.get(i);
-					String newPortName = portName.replace('\'', '-');
-					newPortName = newPortName.replaceAll(" ", "");
-					newVec.add(newPortName);
-				}
-				tmpVecValue = newVec;
-			}
-			resultMap.put(name, tmpVecValue);
+			resultMap.put(name, tmpListValue);
 
 			resultMap.put(nameAppendOid.toString(), tmpVecAppendOid);
 
 		}
 
-		Vector nameis = monitorInfo.nameis;
-		Vector valueis = monitorInfo.valueis;
+		List nameis = monitorInfo.nameis;
+		List valueis = monitorInfo.valueis;
 		for (int i = 0, size = nameis.size(); i < size; i++) {
 			String namei = (String) nameis.get(i);
 			String valuei = (String) valueis.get(i);
 			try {
-				Vector result = new Calculator().calculate(resultMap, valuei);
+				List result = new Calculator().calculate(resultMap, valuei);
 				resultMap.put(namei, result);
 			} catch (MonitorException e) {
 				throw new DataAcquireException(e,

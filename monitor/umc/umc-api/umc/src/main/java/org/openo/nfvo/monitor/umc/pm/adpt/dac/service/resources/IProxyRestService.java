@@ -26,7 +26,7 @@ import javax.ws.rs.core.MediaType;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskCreateAndModifyInfo;
 
 
-@Path("/api/dac/v1/tasks")
+@Path("/openoapi/dac/v1/tasks")
 public interface IProxyRestService {
     @Path("/")
     @POST

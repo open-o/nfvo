@@ -56,7 +56,7 @@ public class DacCometdClient {
     private static String CHANNEL_SNMPTRAP = "/upload/snmptrap";
 
     public DacCometdClient(String ip) {
-        this(ip, DacConfiguration.getInstance().getDacServerPort(), "/api/dacnotification/v1");
+        this(ip, DacConfiguration.getInstance().getDacServerPort(), "/openoapi/dacnotification/v1");
     }
 
     private String fullUrl = "";

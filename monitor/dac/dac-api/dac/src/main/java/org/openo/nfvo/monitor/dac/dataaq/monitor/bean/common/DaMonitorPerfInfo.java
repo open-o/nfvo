@@ -17,17 +17,16 @@ package org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class DaMonitorPerfInfo {
     private String monitorName = null;
     private String command = null;
     private List perfCounters = null;
 
-    public Vector nameis = new Vector();
-    public Vector valueis = new Vector();
-    public Vector commands = new Vector();
-    public Vector acceptTokens = new Vector();
+    public List nameis = new ArrayList();
+    public List valueis = new ArrayList();
+    public List commands = new ArrayList();
+    public List acceptTokens = new ArrayList();
 
     public DaMonitorPerfInfo(String monitorName, String command) {
         this.monitorName = monitorName;

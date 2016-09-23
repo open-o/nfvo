@@ -15,13 +15,14 @@
  */
 package org.openo.nfvo.monitor.dac.resources;
 
-import com.codahale.metrics.annotation.Timed;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.eclipse.jetty.util.ajax.JSON;
-import org.openo.nfvo.monitor.dac.common.bean.TaskBean;
-import org.openo.nfvo.monitor.dac.resources.wrapper.TaskWrapper;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -31,6 +32,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.openo.nfvo.monitor.dac.common.bean.TaskBean;
+import org.openo.nfvo.monitor.dac.resources.wrapper.TaskWrapper;
+
+import com.codahale.metrics.annotation.Timed;
 
 /**
  * rest interface definition of task manage(create/modify/delete)
@@ -66,5 +72,15 @@ public class TaskResource {
     public Response taskDelete(
             @ApiParam(value = "task id", required = true) @PathParam("taskid") int taskId) {
         return TaskWrapper.taskDelete(taskId);
+    }
+    
+    @POST
+    @Path("/acquiredata")
+    @ApiOperation(value = "execute task.")
+	@ApiResponses(value = { @ApiResponse(code = 500, message = "Internal Server Error.") })
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    public Map<String, List<String>> taskExecute(@ApiParam(value = "task", required = true) TaskBean task) {
+        return TaskWrapper.taskExecute(task);
     }
 }

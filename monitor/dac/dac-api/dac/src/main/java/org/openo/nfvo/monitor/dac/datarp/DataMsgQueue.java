@@ -20,12 +20,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import org.openo.nfvo.monitor.dac.common.util.DaConfReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DataMsgQueue extends Thread {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataMsgQueue.class);
@@ -34,7 +38,7 @@ public class DataMsgQueue extends Thread {
     private int maxThreadNum = 10;
     private int runCollectPeriod = 1;
 
-    private ConcurrentLinkedQueue<Vector<Object>> queue = new ConcurrentLinkedQueue<>();
+    private ConcurrentLinkedQueue<List<Object>> queue = new ConcurrentLinkedQueue<>();
     private ThreadPoolExecutor poolThreads = null;
 
     public DataMsgQueue() {
@@ -53,6 +57,7 @@ public class DataMsgQueue extends Thread {
         runCollectPeriod = Integer.parseInt(htQueue.get("runCollectPeriod"));
     }
 
+    @Override
     public void run() {
         while (true) {
             if (queue.size() == 0) {
@@ -69,13 +74,13 @@ public class DataMsgQueue extends Thread {
 
     private void dispatchDataRptMsg() {
         while (queue.size() > 0) {
-            Vector<Object> vTaskPara = queue.remove();
+            List<Object> vTaskPara = queue.remove();
             LOGGER.debug("DATA msg queue size:" + poolThreads.getQueue().size());
             poolThreads.execute(new DataMsgHandleThread(vTaskPara));
         }
     }
 
-    public void put(Vector<Object> msg) {
+    public void put(List<Object> msg) {
         queue.add(msg);
     }
 

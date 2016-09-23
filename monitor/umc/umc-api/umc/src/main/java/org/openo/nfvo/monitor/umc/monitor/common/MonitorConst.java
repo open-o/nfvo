@@ -35,9 +35,11 @@ public class MonitorConst {
 
     public static final int DAC_PORT = 8206;
 
-    public static final String DAC_API_ROOTDOMAIN = "/api/dac/v1";
+    public static final String DAC_API_ROOTDOMAIN = "/openoapi/dac/v1";
 
     public static final String DAC_INFO_TABLE = "DAC_INFO";
+    
+    public static final String MONITOR_INFO_TABLE = "MONITOR_INFO";
 
 
 }

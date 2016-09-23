@@ -41,7 +41,7 @@ public class MonitorInfo implements IEntityClass, Serializable {
     private static final long serialVersionUID = 8238353816514916929L;
 
     @Id
-    @Column(name = "OID")
+    @Column(name = "OID", nullable = false)
     private String oid;
 
     @Column(name = "NETYPEID", nullable = false)
@@ -59,7 +59,7 @@ public class MonitorInfo implements IEntityClass, Serializable {
     @Column(name = "EXTENDPARA")
     private String extendPara;
 
-    @Column(name = "ORIGIN")
+    @Column(name = "ORIGIN", nullable = false)
     private String origin;
 
     @Override

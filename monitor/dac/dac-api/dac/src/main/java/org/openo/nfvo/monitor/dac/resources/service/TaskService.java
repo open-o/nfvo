@@ -17,17 +17,18 @@ package org.openo.nfvo.monitor.dac.resources.service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.ProtocalAvailability;
 import org.openo.nfvo.monitor.dac.common.bean.TaskBean;
-import org.openo.nfvo.monitor.dac.common.util.ExtensionAccess;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionUtil;
 import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.IMonitorTaskInfo;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
-import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.NullTaskInfo;
 import org.openo.nfvo.monitor.dac.dataaq.scheduler.MonitorTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,19 @@ public class TaskService {
         deleteMonitorTask(taskId);
     }
 
+    
+    /**
+     * execute monitor task at once
+     *
+     * @param taskInfo task info
+     * @throws DataAcquireException
+     */
+    public static Map<String, List<String>> taskExecute(TaskBean taskInfo) throws DataAcquireException {
+        MonitorTaskInfo monitorTaskInfo = convertTaskInfo(taskInfo);
+        MonitorTask monitorTask = new MonitorTask(monitorTaskInfo);
+        return monitorTask.perform();
+    }
+    
     /**
      * Create monitor task for acquire data
      *
@@ -131,24 +145,24 @@ public class TaskService {
      * @return MonitorTaskInfo object
      */
     private static MonitorTaskInfo convertTaskInfo(TaskBean taskBean) {
-        String neTypeId = taskBean.getCommParam().getProperty(DacConst.NETYPEID);
-
-        if(neTypeId==null){
-            return new NullTaskInfo();
-        }
-
+        String neTypeId = taskBean.getCommParam().getProperty(DacConst.NETYPEID);//nfv.host.linux
+        
+//        if(neTypeId==null){
+//            return new NullTaskInfo();
+//        }
+        
         MonitorTaskInfo monitorTaskInfo = getMonitorTaskInfoInstance(neTypeId, taskBean.getMonitorName());
         monitorTaskInfo.setJobId(taskBean.getTaskId());
         monitorTaskInfo.setGranularity(taskBean.getGranularity());
-        monitorTaskInfo.setColumnName(taskBean.getColumnName());
+//        monitorTaskInfo.setColumnName(taskBean.getColumnName());
         monitorTaskInfo.setMonitor(taskBean.getMonitorName());
         monitorTaskInfo.setCommPara(taskBean.getCommParam());
         return monitorTaskInfo;
     }
 
     /**
-     * Return Specific MonitorTaskInfo Instance by neTypeId.
-     * Specific MonitorTaskInfo is defined in file: conf/dataaq/extend/[device*]-extendsimpl.xml
+     * Return Specific MonitorTaskInfo Instance by neTypeId, monitorName.
+     * 
      */
     private static MonitorTaskInfo getMonitorTaskInfoInstance(String neTypeId, String monitorName) {
     	// provider:monitorname
@@ -157,23 +171,22 @@ public class TaskService {
     	{
     		monitorName = tmp[1];
     	}
-
-        String extensionID = IMonitorTaskInfo.class.getName();
-        Object taskInfo =  ExtensionAccess.getExtension(extensionID, monitorName);
-        if(taskInfo == null)
+    	
+    	MonitorTaskInfo monitorTaskInfo;
+        String keyRule1 = monitorName;
+        String keyRule2 = getQueryId(neTypeId, monitorName);//nfv.host.linux ,CPU, nfv.host.linux.CPU
+        String keyRule3 = neTypeId;
+        monitorTaskInfo = (MonitorTaskInfo)ExtensionUtil.getInstance(IMonitorTaskInfo.EXTENSIONID, keyRule1);
+        if (monitorTaskInfo == null)
         {
-        	taskInfo = ExtensionAccess.getExtension(extensionID, getQueryId(neTypeId, monitorName));
-            if (taskInfo == null)
-            {
-            	taskInfo = ExtensionAccess.getExtension(extensionID, neTypeId);
-                if (taskInfo == null)
-                {
-                	return null;
-                }
-            }
+        	monitorTaskInfo = (MonitorTaskInfo)ExtensionUtil.getInstance(IMonitorTaskInfo.EXTENSIONID, keyRule2);
+        	 if (monitorTaskInfo == null)
+        	 {
+        		 monitorTaskInfo = (MonitorTaskInfo)ExtensionUtil.getInstance(IMonitorTaskInfo.EXTENSIONID, keyRule3);
+        	 }
         }
-        return (MonitorTaskInfo)taskInfo;
 
+        return monitorTaskInfo;
     }
 
     private static String getQueryId(String neTypeId, String monitorName)

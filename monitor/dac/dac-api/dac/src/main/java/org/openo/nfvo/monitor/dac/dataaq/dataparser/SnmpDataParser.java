@@ -16,12 +16,13 @@
 package org.openo.nfvo.monitor.dac.dataaq.dataparser;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
@@ -50,7 +51,7 @@ public class SnmpDataParser implements IDataParser {
 	private long cdTimeLast;
 	private long cdTimeThis;
 	@Override
-	public Object parse(Vector dataCollected, DaPerfCounterInfo perfCounterInfo)
+	public Object parse(ArrayList dataCollected, DaPerfCounterInfo perfCounterInfo)
 			throws MonitorException {
 		// TODO Auto-generated method stub
 		return null;
@@ -66,7 +67,7 @@ public class SnmpDataParser implements IDataParser {
 		String monitorName = (String) paras.get(DacConst.REALMONITORNAME);
         if (resultMap.get("SYSDESCR") != null)
         {
-            Vector ifDescr = (Vector) resultMap.get("SYSDESCR");
+            List ifDescr = (List) resultMap.get("SYSDESCR");
             if (ifDescr != null && ifDescr.size() != 0)
             {
                 String str = (String) ifDescr.get(0);
@@ -84,11 +85,11 @@ public class SnmpDataParser implements IDataParser {
         }
         if (resultMap.get("CPURATIO") != null)
         {
-            avgVectorCounter(resultMap, "CPURATIO");
+            avgListCounter(resultMap, "CPURATIO");
         }
         if (resultMap.get("MEMRATIO") != null)
         {
-            avgVectorCounter(resultMap, "MEMRATIO");
+            avgListCounter(resultMap, "MEMRATIO");
         }
         if (resultMap.get("IFNAME") != null)
         {
@@ -101,17 +102,17 @@ public class SnmpDataParser implements IDataParser {
 
         if (resultMap.get("IFTYPE") != null)
         {
-            Vector ifType = (Vector) resultMap.get("IFTYPE");
+            List ifType = (List) resultMap.get("IFTYPE");
             resultMap.put("IFTYPE", ifTypeConvert(ifType));
         }
         if (resultMap.get("IFADMINSTATUS") != null)
         {
-            Vector ifAdminStatus = (Vector) resultMap.get("IFADMINSTATUS");
+            List ifAdminStatus = (List) resultMap.get("IFADMINSTATUS");
             resultMap.put("IFADMINSTATUS", ifStatusConvert(ifAdminStatus));
         }
         if (resultMap.get("IFOPERSTATUS") != null)
         {
-            Vector ifOperStatus = (Vector) resultMap.get("IFOPERSTATUS");
+            List ifOperStatus = (List) resultMap.get("IFOPERSTATUS");
             resultMap.put("IFOPERSTATUS", ifStatusConvert(ifOperStatus));
         }
         if (resultMap.get("IFIPADDR") != null)
@@ -133,26 +134,26 @@ public class SnmpDataParser implements IDataParser {
 	
 	protected void treatIfSpeed(Map resultMap)
 	{
-		Vector ifIndex = (Vector) resultMap.get("IFINDEX");
-		Vector ifIndexOidAppend = (Vector) resultMap.get("IFINDEXOIDAPPEND");
+	    List ifIndex = (List) resultMap.get("IFINDEX");
+	    List ifIndexOidAppend = (List) resultMap.get("IFINDEXOIDAPPEND");
 
-		Vector ifLSpeed = (Vector) resultMap.get("IFSPEED");
-		Vector ifHSpeed = (Vector) resultMap.get("IFHIGHSPEED");
-		Vector ifLSpeedOidAppend = (Vector) resultMap.get("IFSPEEDOIDAPPEND");
-		Vector ifHSpeedOidAppend = (Vector) resultMap.get("IFHIGHSPEEDOIDAPPEND");
+	    List ifLSpeed = (List) resultMap.get("IFSPEED");
+	    List ifHSpeed = (List) resultMap.get("IFHIGHSPEED");
+	    List ifLSpeedOidAppend = (List) resultMap.get("IFSPEEDOIDAPPEND");
+	    List ifHSpeedOidAppend = (List) resultMap.get("IFHIGHSPEEDOIDAPPEND");
 
 		int sizeIfIndex = (ifIndex != null) ? ifIndexOidAppend.size() : 0;
 		int sizeIfLSpeed = (ifLSpeed != null) ? ifLSpeedOidAppend.size() : 0;
 		int sizeIfHSpeed = (ifHSpeed != null) ? ifHSpeedOidAppend.size() : 0;
 
-		Vector tmpifValue = null;
+		List tmpifValue = null;
 		Object tmpOidAppend = null;
 		Object tmpOid2Value = null;
 
 		// 处理ifSpeed
 		if (sizeIfHSpeed != 0 && sizeIfHSpeed >= sizeIfIndex)
 		{
-			tmpifValue = new Vector();
+			tmpifValue = new ArrayList();
 			Map mTemp = new HashMap();
 
 			String str = null;
@@ -188,15 +189,15 @@ public class SnmpDataParser implements IDataParser {
 				ifLSpeed.set(i, Double.toString(speed));
 			}
 		}
-		resultMap.put("IFSPEED", DacUtil.vectorSetScale(ifLSpeed, 3));
+		resultMap.put("IFSPEED", DacUtil.listSetScale(ifLSpeed, 3));
 		resultMap.put("IFSPEEDOIDAPPEND", ifLSpeedOidAppend);
 	}
 	
-	protected Vector ifStatusConvert(Vector ifStatus)
+	protected List ifStatusConvert(List<String> ifStatus)
 	{
 		for (int i = 0, sizev = ifStatus.size(); i < sizev; i++)
 		{
-			switch (Integer.parseInt((String) ifStatus.get(i)))
+			switch (Integer.parseInt(ifStatus.get(i)))
 			{
 			case 1:
 				ifStatus.set(i, "up(1)");
@@ -216,19 +217,19 @@ public class SnmpDataParser implements IDataParser {
 	
 	protected void treatIfName(Map resultMap)
 	{
-		Vector ifIndex = (Vector) resultMap.get("IFINDEX");
-		Vector ifIndexOidAppend = (Vector) resultMap.get("IFINDEXOIDAPPEND");
+	    List ifIndex = (List) resultMap.get("IFINDEX");
+	    List ifIndexOidAppend = (List) resultMap.get("IFINDEXOIDAPPEND");
 
-		Vector ifName = (Vector) resultMap.get("IFNAME");
-		Vector ifDescr = (Vector) resultMap.get("IFDESCR");
-		Vector ifNameOidAppend = (Vector) resultMap.get("IFNAMEOIDAPPEND");
-		Vector ifDescrOidAppend = (Vector) resultMap.get("IFDESCROIDAPPEND");
+	    List ifName = (List) resultMap.get("IFNAME");
+	    List ifDescr = (List) resultMap.get("IFDESCR");
+	    List ifNameOidAppend = (List) resultMap.get("IFNAMEOIDAPPEND");
+	    List ifDescrOidAppend = (List) resultMap.get("IFDESCROIDAPPEND");
 
 		int sizeIfIndex = (ifIndex != null) ? ifIndexOidAppend.size() : 0;
 		int sizeIfName = (ifName != null) ? ifNameOidAppend.size() : 0;
 		int sizeIfDescr = (ifDescr != null) ? ifDescrOidAppend.size() : 0;
 
-		Vector tmpifValue = null;
+		List tmpifValue = null;
 		Object tmpOidAppend = null;
 		Object tmpOid2Value = null;
 
@@ -242,7 +243,7 @@ public class SnmpDataParser implements IDataParser {
 		} else if (sizeIfName != 0 && sizeIfName > sizeIfIndex)
 		{
 			// 说明RF1213与IF-MIB返回行数不一致（ZTER10会出现这种情况），以RF1213的返回为准
-			tmpifValue = new Vector();
+			tmpifValue = new ArrayList();
 			Map mTemp = new HashMap();
 			for (int i = 0; i < sizeIfName; i++)
 			{
@@ -263,9 +264,9 @@ public class SnmpDataParser implements IDataParser {
 			resultMap.put("IFNAMEOIDAPPEND", ifIndexOidAppend);
 		}
 	}
-	protected void avgVectorCounter(Map resultMap, String CounterName)
+	protected void avgListCounter(Map resultMap, String CounterName)
 	{
-		Vector counterVec = (Vector) resultMap.get(CounterName);
+	    List counterVec = (List) resultMap.get(CounterName);
 		int size = counterVec.size();
 		double avgValue = 0.0;
 		for (int i = 0; i < size; i++)
@@ -273,7 +274,7 @@ public class SnmpDataParser implements IDataParser {
 			avgValue = avgValue + Double.parseDouble((String) counterVec.get(i));
 		}
 		avgValue = avgValue / size;
-		Vector newCounterVec = new Vector();
+		List newCounterVec = new ArrayList();
 		if (size != 0)
 		{
 			newCounterVec.add(Double.toString(avgValue));
@@ -282,10 +283,10 @@ public class SnmpDataParser implements IDataParser {
 	}
 	protected void ifIpAddrToPort(Map resultMap)
 	{
-		Vector vecIfAddr = (Vector) resultMap.get("IFIPADDR");
-		Vector vecIfIndex = (Vector) resultMap.get("IFINDEX");
-		Vector vecIfIp2Index = (Vector) resultMap.get("IFIP2INDEX");
-		Vector vecRetIfAddr = new Vector();
+	    List vecIfAddr = (List) resultMap.get("IFIPADDR");
+	    List vecIfIndex = (List) resultMap.get("IFINDEX");
+	    List vecIfIp2Index = (List) resultMap.get("IFIP2INDEX");
+	    List vecRetIfAddr = new ArrayList();
 		for (int i = 0; i < vecIfIndex.size(); i++)
 		{
 			vecRetIfAddr.add(" ");
@@ -306,10 +307,10 @@ public class SnmpDataParser implements IDataParser {
 	
 	protected static Map reviseInterfacesConfigInfo(Map resultMap)
     {
-        Vector ifIpaddr = adjustResult(resultMap, "IFIPADDR");
-        Vector ifAdminStatus = adjustResult(resultMap, "IFADMINSTATUS");
-        Vector ifOperStatus = adjustResult(resultMap, "IFOPERSTATUS");
-        Vector ifSpeed = adjustResult(resultMap, DacConst.m_IFSPEED);
+	    List ifIpaddr = adjustResult(resultMap, "IFIPADDR");
+	    List ifAdminStatus = adjustResult(resultMap, "IFADMINSTATUS");
+	    List ifOperStatus = adjustResult(resultMap, "IFOPERSTATUS");
+	    List ifSpeed = adjustResult(resultMap, DacConst.m_IFSPEED);
 
         resultMap.put("IFIPADDR", ifIpaddr);
         resultMap.put("IFADMINSTATUS", ifAdminStatus);
@@ -319,13 +320,13 @@ public class SnmpDataParser implements IDataParser {
         return resultMap;
     }
     
-	protected static Vector adjustResult(Map resultMap, String nodeName)
+	protected static List adjustResult(Map resultMap, String nodeName)
 	{
-		Vector ifIndexOidAppend = (Vector) resultMap.get("IFINDEXOIDAPPEND");
-		Vector ifNodeName = (Vector) resultMap.get(nodeName);
-		Vector ifNodeNameOidAppend = (Vector) resultMap.get(nodeName + "OIDAPPEND");
+	    List ifIndexOidAppend = (List) resultMap.get("IFINDEXOIDAPPEND");
+	    List ifNodeName = (List) resultMap.get(nodeName);
+	    List ifNodeNameOidAppend = (List) resultMap.get(nodeName + "OIDAPPEND");
 
-		Vector vecAdjustedResult = new Vector();
+	    List vecAdjustedResult = new ArrayList();
 		if (ifNodeName == null || ifNodeNameOidAppend == null)
 		{
 			for (int i = 0; i < ifIndexOidAppend.size(); i++)
@@ -356,7 +357,7 @@ public class SnmpDataParser implements IDataParser {
 		return vecAdjustedResult;
 	}
 	
-	protected static Vector<String> ifTypeConvert(Vector<String> vec)
+	protected static List<String> ifTypeConvert(List<String> vec)
 	{
 		for (int i = 0, sizev = vec.size(); i < sizev; i++)
 		{
@@ -1095,9 +1096,9 @@ public class SnmpDataParser implements IDataParser {
 		Map map1 = (Map) resultCache.get(sTaskId);
 
 		// 将当前采集原始数据缓存,缓存最近的一次结果
-		Vector vecCollectTime = new Vector();
-		vecCollectTime.add(String.valueOf(System.currentTimeMillis() / 1000));
-		result.put(DacConst.m_COLLECTEDTIME, vecCollectTime);
+		List listCollectTime = new ArrayList();
+		listCollectTime.add(String.valueOf(System.currentTimeMillis() / 1000));
+		result.put(DacConst.m_COLLECTEDTIME, listCollectTime);
 		resultCache.put(sTaskId, result);
 
 		// 如果不是性能任务，直接返回结果
@@ -1107,7 +1108,7 @@ public class SnmpDataParser implements IDataParser {
 		}
 
 		// 取ifIndex,端口索引
-		Vector ifindex0 = (Vector) result.get(DacConst.m_IFINDEX);
+		List ifindex0 = (List) result.get(DacConst.m_IFINDEX);
 		if (ifindex0 == null)
 		{
 			sb.append(" Base monitor perfcounter: ").append("m_IFINDEX").append(" acquired null!");
@@ -1123,9 +1124,9 @@ public class SnmpDataParser implements IDataParser {
 			return null;
 		}
 		cacheMsg.append("Base perfcounter size is ifindex: ").append(size).append("\n");
-		// Vector ifindexOidAppend = (Vector)result.get("IFINDEXOIDAPPEND");//增加对ZTER10的处理
+		// List ifindexOidAppend = (List)result.get("IFINDEXOIDAPPEND");//增加对ZTER10的处理
 		// 取ifName,端口描述
-		Vector ifname0 = (Vector) result.get(DacConst.m_IFNAME);
+		List ifname0 = (List) result.get(DacConst.m_IFNAME);
 		if (ifname0 == null)
 		{
 			sb.append(" Get monitor perfcounter null: ").append("m_IFNAME");
@@ -1141,20 +1142,20 @@ public class SnmpDataParser implements IDataParser {
 		}
 
 		// 取系统初始化时间sysUpTime,用以判断系统是否在采集周期内重启
-		sysUpTimeThis = DacUtil.toTimeticks(((Vector) result.get(DacConst.m_SYSUPTIME)).get(0).toString());
+		sysUpTimeThis = DacUtil.toTimeticks(((List) result.get(DacConst.m_SYSUPTIME)).get(0).toString());
 		cdTimeThis = System.currentTimeMillis() / 1000;
 
 		// 取ifInoctets,端口流入字节数
-		Vector ifinoctets0 = (Vector) result.get(DacConst.m_IFINOCTETS);
-		Vector ifindiscards0 = (Vector) result.get(DacConst.m_IFINDISCARDS);
-		Vector ifinerrors0 = (Vector) result.get(DacConst.m_IFINERRORS);
-		Vector ifinucastpkts0 = (Vector) result.get(DacConst.m_IFINUCASTPKTS);
-		Vector ifinnucastpkts0 = (Vector) result.get(DacConst.m_IFINNUCASTPKTS);
-		Vector ifoutoctets0 = (Vector) result.get(DacConst.m_IFOUTOCTETS);
-		Vector ifoutdiscards0 = (Vector) result.get(DacConst.m_IFOUTDISCARDS);
-		Vector ifouterrors0 = (Vector) result.get(DacConst.m_IFOUTERRORS);
-		Vector ifoutucastpkts0 = (Vector) result.get(DacConst.m_IFOUTUCASTPKTS);
-		Vector ifoutnucastpkts0 = (Vector) result.get(DacConst.m_IFOUTNUCASTPKTS);
+		List ifinoctets0 = (List) result.get(DacConst.m_IFINOCTETS);
+		List ifindiscards0 = (List) result.get(DacConst.m_IFINDISCARDS);
+		List ifinerrors0 = (List) result.get(DacConst.m_IFINERRORS);
+		List ifinucastpkts0 = (List) result.get(DacConst.m_IFINUCASTPKTS);
+		List ifinnucastpkts0 = (List) result.get(DacConst.m_IFINNUCASTPKTS);
+		List ifoutoctets0 = (List) result.get(DacConst.m_IFOUTOCTETS);
+		List ifoutdiscards0 = (List) result.get(DacConst.m_IFOUTDISCARDS);
+		List ifouterrors0 = (List) result.get(DacConst.m_IFOUTERRORS);
+		List ifoutucastpkts0 = (List) result.get(DacConst.m_IFOUTUCASTPKTS);
+		List ifoutnucastpkts0 = (List) result.get(DacConst.m_IFOUTNUCASTPKTS);
 
 		// 对当前采集结果进行cacheMsg保存，在异常时分析。
 		Map ret = result;
@@ -1165,9 +1166,9 @@ public class SnmpDataParser implements IDataParser {
 			String key = (String) it.next();
 			Object obj = ret.get(key);
 			cacheMsg.append("current dataaq key: ").append(key).append("\n");
-			if (obj instanceof Vector)
+			if (obj instanceof List)
 			{
-				Vector vec = (Vector) obj;
+			    List vec = (List) obj;
 				for (int j = 0, vsize = vec.size(); j < vsize; j++)
 				{
 					String neirong = (String) vec.get(j);
@@ -1180,7 +1181,7 @@ public class SnmpDataParser implements IDataParser {
 		}
 		mtaskInfo.cachedMessage = cacheMsg.toString();
 
-		// 确认当前采集到的各项指标的Vector大小是否与基准值相同，否则报错。对这种错误需要提前代码保证。
+		// 确认当前采集到的各项指标的List大小是否与基准值相同，否则报错。对这种错误需要提前代码保证。
 		if (ifinoctets0.size() != size)
 		{
 			sb.append("IFINOCTETS's size ").append(ifinoctets0.size()).append("while base size ").append(size);
@@ -1231,18 +1232,18 @@ public class SnmpDataParser implements IDataParser {
 		}
 
 		// 获取该任务上次缓存的数据。
-		sysUpTimeLast = DacUtil.toTimeticks(((Vector) map1.get(DacConst.m_SYSUPTIME)).get(0).toString());
-		cdTimeLast = Long.parseLong(((Vector) map1.get(DacConst.m_COLLECTEDTIME)).get(0).toString());
-		Vector ifinoctets1 = (Vector) map1.get(DacConst.m_IFINOCTETS);
-		Vector ifindiscards1 = (Vector) map1.get(DacConst.m_IFINDISCARDS);
-		Vector ifinerrors1 = (Vector) map1.get(DacConst.m_IFINERRORS);
-		Vector ifinucastpkts1 = (Vector) map1.get(DacConst.m_IFINUCASTPKTS);
-		Vector ifinnucastpkts1 = (Vector) map1.get(DacConst.m_IFINNUCASTPKTS);
-		Vector ifoutoctets1 = (Vector) map1.get(DacConst.m_IFOUTOCTETS);
-		Vector ifoutdiscards1 = (Vector) map1.get(DacConst.m_IFOUTDISCARDS);
-		Vector ifouterrors1 = (Vector) map1.get(DacConst.m_IFOUTERRORS);
-		Vector ifoutucastpkts1 = (Vector) map1.get(DacConst.m_IFOUTUCASTPKTS);
-		Vector ifoutnucastpkts1 = (Vector) map1.get(DacConst.m_IFOUTNUCASTPKTS);
+		sysUpTimeLast = DacUtil.toTimeticks(((List) map1.get(DacConst.m_SYSUPTIME)).get(0).toString());
+		cdTimeLast = Long.parseLong(((List) map1.get(DacConst.m_COLLECTEDTIME)).get(0).toString());
+		List ifinoctets1 = (List) map1.get(DacConst.m_IFINOCTETS);
+		List ifindiscards1 = (List) map1.get(DacConst.m_IFINDISCARDS);
+		List ifinerrors1 = (List) map1.get(DacConst.m_IFINERRORS);
+		List ifinucastpkts1 = (List) map1.get(DacConst.m_IFINUCASTPKTS);
+		List ifinnucastpkts1 = (List) map1.get(DacConst.m_IFINNUCASTPKTS);
+		List ifoutoctets1 = (List) map1.get(DacConst.m_IFOUTOCTETS);
+		List ifoutdiscards1 = (List) map1.get(DacConst.m_IFOUTDISCARDS);
+		List ifouterrors1 = (List) map1.get(DacConst.m_IFOUTERRORS);
+		List ifoutucastpkts1 = (List) map1.get(DacConst.m_IFOUTUCASTPKTS);
+		List ifoutnucastpkts1 = (List) map1.get(DacConst.m_IFOUTNUCASTPKTS);
 		// 对缓存的采集结果进行cacheMsg保存，在异常时分析。
 		ret = map1;
 		keySet = ret.keySet();
@@ -1252,9 +1253,9 @@ public class SnmpDataParser implements IDataParser {
 			String key = (String) it.next();
 			Object obj = ret.get(key);
 			cacheMsg.append("cached dataaq key: ").append(key).append("\n");
-			if (obj instanceof Vector)
+			if (obj instanceof List)
 			{
-				Vector vec = (Vector) obj;
+			    List vec = (List) obj;
 				for (int j = 0, vsize = vec.size(); j < vsize; j++)
 				{
 					String neirong = (String) vec.get(j);
@@ -1266,7 +1267,7 @@ public class SnmpDataParser implements IDataParser {
 			}
 		}
 		mtaskInfo.cachedMessage = cacheMsg.toString();
-		// 保证上次缓存的数据与本次采集的Vector数据大小一致。
+		// 保证上次缓存的数据与本次采集的List数据大小一致。
 		if (ifinoctets1.size() != size)
 		{
 			sb.append("Saved IFINOCTETS's size ").append(ifinoctets1.size()).append("while base size ").append(size);
@@ -1322,14 +1323,14 @@ public class SnmpDataParser implements IDataParser {
 
 		// 对当前采集结果和缓存的采集结果进行差值计算。
 		// 由于对IFHC*的数据是Counter64位的且是无符号的在处理时使用BigInteger进行计算，而原有Counter32仍然用long型进行计算。
-		Vector ifinoctets64 = (Vector) result.get(DacConst.m_IFINOCTETS64);
-		Vector ifinucastpkts64 = (Vector) result.get(DacConst.m_IFINUCASTPKTS64);
-		Vector ifinmulticastpkts64 = (Vector) result.get(DacConst.m_IFINMULTICASTPKTS64);
-		Vector ifinbroadcastpkts64 = (Vector) result.get(DacConst.m_IFINBROADCASTPKTS64);
-		Vector ifoutoctets64 = (Vector) result.get(DacConst.m_IFOUTOCTETS64);
-		Vector ifoutucastpkts64 = (Vector) result.get(DacConst.m_IFOUTUCASTPKTS64);
-		Vector ifoutmulticastpkts64 = (Vector) result.get(DacConst.m_IFOUTMULTICASTPKTS64);
-		Vector ifoutbroadcastpkts64 = (Vector) result.get(DacConst.m_IFOUTBROADCASTPKTS64);
+		List ifinoctets64 = (List) result.get(DacConst.m_IFINOCTETS64);
+		List ifinucastpkts64 = (List) result.get(DacConst.m_IFINUCASTPKTS64);
+		List ifinmulticastpkts64 = (List) result.get(DacConst.m_IFINMULTICASTPKTS64);
+		List ifinbroadcastpkts64 = (List) result.get(DacConst.m_IFINBROADCASTPKTS64);
+		List ifoutoctets64 = (List) result.get(DacConst.m_IFOUTOCTETS64);
+		List ifoutucastpkts64 = (List) result.get(DacConst.m_IFOUTUCASTPKTS64);
+		List ifoutmulticastpkts64 = (List) result.get(DacConst.m_IFOUTMULTICASTPKTS64);
+		List ifoutbroadcastpkts64 = (List) result.get(DacConst.m_IFOUTBROADCASTPKTS64);
 		// 对当前采集结果是否是Cunter64型进行cacheMsg保存，在异常时分析。
 		cacheMsg.append("ifinoctets64: ").append(ifinoctets64).append("\n");
 		cacheMsg.append("ifinucastpkts64: ").append(ifinucastpkts64).append("\n");
@@ -1345,45 +1346,45 @@ public class SnmpDataParser implements IDataParser {
 		// 并处理采集周期内可能出现的溢出，因为counter32,64都会在到达最大值后进行清零，这样前面计算出来的差值将会存在负值。
 		// 并进行byte-->kbytes，packets-->kpackets的转换
 		// 2009-02-20 修改,不做packets-->kpackets的转换
-		Vector ifindiscards2 = vectorMinus32(ifindiscards0, ifindiscards1, false);
-		Vector ifinerrors2 = vectorMinus32(ifinerrors0, ifinerrors1, false);
-		Vector ifoutdiscards2 = vectorMinus32(ifoutdiscards0, ifoutdiscards1, false);
-		Vector ifouterrors2 = vectorMinus32(ifouterrors0, ifouterrors1, false);
+		List ifindiscards2 = listMinus32(ifindiscards0, ifindiscards1, false);
+		List ifinerrors2 = listMinus32(ifinerrors0, ifinerrors1, false);
+		List ifoutdiscards2 = listMinus32(ifoutdiscards0, ifoutdiscards1, false);
+		List ifouterrors2 = listMinus32(ifouterrors0, ifouterrors1, false);
 
-		Vector ifinnucastpkts2 = vectorMinus32(ifinnucastpkts0, ifinnucastpkts1, false);
-		Vector ifoutnucastpkts2 = vectorMinus32(ifoutnucastpkts0, ifoutnucastpkts1, false);
+		List ifinnucastpkts2 = listMinus32(ifinnucastpkts0, ifinnucastpkts1, false);
+		List ifoutnucastpkts2 = listMinus32(ifoutnucastpkts0, ifoutnucastpkts1, false);
 
-		Vector ifinoctets2 = null;
+		List ifinoctets2 = null;
 		if (ifinoctets64 != null && ((String) ifinoctets64.get(0)).equalsIgnoreCase("true"))
 		{
-			ifinoctets2 = vectorMinus64(ifinoctets0, ifinoctets1, true);
+			ifinoctets2 = listMinus64(ifinoctets0, ifinoctets1, true);
 		} else
 		{
-			ifinoctets2 = vectorMinus32(ifinoctets0, ifinoctets1, true);
+			ifinoctets2 = listMinus32(ifinoctets0, ifinoctets1, true);
 		}
-		Vector ifinucastpkts2 = null;
+		List ifinucastpkts2 = null;
 		if (ifinucastpkts64 != null && ((String) ifinucastpkts64.get(0)).equalsIgnoreCase("true"))
 		{
-			ifinucastpkts2 = vectorMinus64(ifinucastpkts0, ifinucastpkts1, false);
+			ifinucastpkts2 = listMinus64(ifinucastpkts0, ifinucastpkts1, false);
 		} else
 		{
-			ifinucastpkts2 = vectorMinus32(ifinucastpkts0, ifinucastpkts1, false);
+			ifinucastpkts2 = listMinus32(ifinucastpkts0, ifinucastpkts1, false);
 		}
-		Vector ifoutoctets2 = null;
+		List ifoutoctets2 = null;
 		if (ifoutoctets64 != null && ((String) ifoutoctets64.get(0)).equalsIgnoreCase("true"))
 		{
-			ifoutoctets2 = vectorMinus64(ifoutoctets0, ifoutoctets1, true);
+			ifoutoctets2 = listMinus64(ifoutoctets0, ifoutoctets1, true);
 		} else
 		{
-			ifoutoctets2 = vectorMinus32(ifoutoctets0, ifoutoctets1, true);
+			ifoutoctets2 = listMinus32(ifoutoctets0, ifoutoctets1, true);
 		}
-		Vector ifoutucastpkts2 = null;
+		List ifoutucastpkts2 = null;
 		if (ifoutucastpkts64 != null && ((String) ifoutucastpkts64.get(0)).equalsIgnoreCase("true"))
 		{
-			ifoutucastpkts2 = vectorMinus64(ifoutucastpkts0, ifoutucastpkts1, false);
+			ifoutucastpkts2 = listMinus64(ifoutucastpkts0, ifoutucastpkts1, false);
 		} else
 		{
-			ifoutucastpkts2 = vectorMinus32(ifoutucastpkts0, ifoutucastpkts1, false);
+			ifoutucastpkts2 = listMinus32(ifoutucastpkts0, ifoutucastpkts1, false);
 		}
 
 		if (ifindiscards2 == null || ifinerrors2 == null || ifoutdiscards2 == null || ifouterrors2 == null
@@ -1399,13 +1400,13 @@ public class SnmpDataParser implements IDataParser {
 		HashMap newArguments = new HashMap();
 		newArguments.put(DacConst.m_IFINDEX, ifindex0);
 		newArguments.put(DacConst.m_IFSPEED, result.get(DacConst.m_IFSPEED));
-		ifinoctets2 = DacUtil.vectorSetScale(ifinoctets2, 3);
+		ifinoctets2 = DacUtil.listSetScale(ifinoctets2, 3);
 		newArguments.put(DacConst.m_IFINOCTETS, ifinoctets2);
 		newArguments.put(DacConst.m_IFINDISCARDS, ifindiscards2);
 		newArguments.put(DacConst.m_IFINERRORS, ifinerrors2);
 		newArguments.put(DacConst.m_IFINUCASTPKTS, ifinucastpkts2);
 		newArguments.put(DacConst.m_IFINNUCASTPKTS, ifinnucastpkts2);
-		ifoutoctets2 = DacUtil.vectorSetScale(ifoutoctets2, 3);
+		ifoutoctets2 = DacUtil.listSetScale(ifoutoctets2, 3);
 		newArguments.put(DacConst.m_IFOUTOCTETS, ifoutoctets2);
 		newArguments.put(DacConst.m_IFOUTDISCARDS, ifoutdiscards2);
 		newArguments.put(DacConst.m_IFOUTERRORS, ifouterrors2);
@@ -1416,29 +1417,29 @@ public class SnmpDataParser implements IDataParser {
 		try
 		{
 			// 计算流入包、流出包数
-			Vector inpackets = new Vector();
-			Vector outpackets = new Vector();
+		    List inpackets = new ArrayList();
+		    List outpackets = new ArrayList();
 
 			String arrayip[] = { "IFINUCASTPKTS", "IFINNUCASTPKTS" };
 			inpackets = cal.fcalculate(newArguments, "IFINUCASTPKTS+IFINNUCASTPKTS", arrayip);
 			String arrayop[] = { "IFOUTUCASTPKTS", "IFOUTNUCASTPKTS" };
 			outpackets = cal.fcalculate(newArguments, "IFOUTUCASTPKTS+IFOUTNUCASTPKTS", arrayop);
 
-			newArguments.put(DacConst.m_IFINPKTS, DacUtil.vectorSetScale(inpackets, 0));
-			newArguments.put(DacConst.m_IFOUTPKTS, DacUtil.vectorSetScale(outpackets, 0));
+			newArguments.put(DacConst.m_IFINPKTS, DacUtil.listSetScale(inpackets, 0));
+			newArguments.put(DacConst.m_IFOUTPKTS, DacUtil.listSetScale(outpackets, 0));
 			// 计算丢包率，误码率
 			String arrayiplr[] = { "IFINDISCARDS", "IFINPKTS" };
-			Vector inpacketlossratio = cal.fcalculate(newArguments, "IFINDISCARDS/IFINPKTS*100", arrayiplr);
+			List inpacketlossratio = cal.fcalculate(newArguments, "IFINDISCARDS/IFINPKTS*100", arrayiplr);
 			String arrayiper[] = { "IFINERRORS", "IFINPKTS" };
-			Vector inpacketerrorratio = cal.fcalculate(newArguments, "IFINERRORS/IFINPKTS*100", arrayiper);
+			List inpacketerrorratio = cal.fcalculate(newArguments, "IFINERRORS/IFINPKTS*100", arrayiper);
 			String arrayoplr[] = { "IFOUTDISCARDS", "IFOUTPKTS" };
-			Vector outpacketlossratio = cal.fcalculate(newArguments, "IFOUTDISCARDS/IFOUTPKTS*100", arrayoplr);
+			List outpacketlossratio = cal.fcalculate(newArguments, "IFOUTDISCARDS/IFOUTPKTS*100", arrayoplr);
 			String arrayoper[] = { "IFOUTERRORS", "IFOUTPKTS" };
-			Vector outpacketerrorratio = cal.fcalculate(newArguments, "IFOUTERRORS/IFOUTPKTS*100", arrayoper);
-			inpacketlossratio = DacUtil.vectorSetScale(inpacketlossratio, 2);
-			inpacketerrorratio = DacUtil.vectorSetScale(inpacketerrorratio, 2);
-			outpacketlossratio = DacUtil.vectorSetScale(outpacketlossratio, 2);
-			outpacketerrorratio = DacUtil.vectorSetScale(outpacketerrorratio, 2);
+			List outpacketerrorratio = cal.fcalculate(newArguments, "IFOUTERRORS/IFOUTPKTS*100", arrayoper);
+			inpacketlossratio = DacUtil.listSetScale(inpacketlossratio, 2);
+			inpacketerrorratio = DacUtil.listSetScale(inpacketerrorratio, 2);
+			outpacketlossratio = DacUtil.listSetScale(outpacketlossratio, 2);
+			outpacketerrorratio = DacUtil.listSetScale(outpacketerrorratio, 2);
 			newArguments.put(DacConst.m_INPACKETLOSSRATIO, inpacketlossratio);
 			newArguments.put(DacConst.m_INPACKETERRORRATIO, inpacketerrorratio);
 			newArguments.put(DacConst.m_OUTPACKETLOSSRATIO, outpacketlossratio);
@@ -1448,33 +1449,33 @@ public class SnmpDataParser implements IDataParser {
 			StringBuffer StrBuf = new StringBuffer();
 			StrBuf.append("0.8*IFINOCTETS/IFSPEED").append("/").append(collectInterval);
 			String arrInbdr[] = { "IFINOCTETS", "IFSPEED" };
-			Vector inUtilization = cal.fcalculate(newArguments, StrBuf.toString(), arrInbdr);// 计算流入带宽利用率
-			inUtilization = DacUtil.vectorSetScale(inUtilization, 4);
+			List inUtilization = cal.fcalculate(newArguments, StrBuf.toString(), arrInbdr);// 计算流入带宽利用率
+			inUtilization = DacUtil.listSetScale(inUtilization, 4);
 			newArguments.put("INPUTUTILIZATION", inUtilization);
 			StrBuf = new StringBuffer();
 			StrBuf.append("0.8*IFOUTOCTETS/IFSPEED").append("/").append(collectInterval);
 			String arrOutbdr[] = { "IFOUTOCTETS", "IFSPEED" };
-			Vector outUtilization = cal.fcalculate(newArguments, StrBuf.toString(), arrOutbdr);// 计算流出带宽利用率
-			outUtilization = DacUtil.vectorSetScale(outUtilization, 4);
+			List outUtilization = cal.fcalculate(newArguments, StrBuf.toString(), arrOutbdr);// 计算流出带宽利用率
+			outUtilization = DacUtil.listSetScale(outUtilization, 4);
 			newArguments.put("OUTPUTUTILIZATION", outUtilization);
 
 			// 计算端口流入、流出速率bps
 			StringBuffer sbInRates = new StringBuffer();
 			sbInRates.append("8192*IFINOCTETS/").append(collectInterval);
 			String strInOctets[] = { "IFINOCTETS" };
-			Vector inRates = cal.fcalculate(newArguments, sbInRates.toString(), strInOctets);// 计算流入带宽利用率
-			inRates = DacUtil.vectorSetScale(inRates, 4);
+			List inRates = cal.fcalculate(newArguments, sbInRates.toString(), strInOctets);// 计算流入带宽利用率
+			inRates = DacUtil.listSetScale(inRates, 4);
 			newArguments.put("IFINRATES", inRates);
 
 			StringBuffer sbOutRates = new StringBuffer();
 			sbOutRates.append("8192*IFOUTOCTETS/").append(collectInterval);
 			String strOutOctets[] = { "IFOUTOCTETS" };
-			Vector outRates = cal.fcalculate(newArguments, sbOutRates.toString(), strOutOctets);// 计算流入带宽利用率
-			outRates = DacUtil.vectorSetScale(outRates, 4);
+			List outRates = cal.fcalculate(newArguments, sbOutRates.toString(), strOutOctets);// 计算流入带宽利用率
+			outRates = DacUtil.listSetScale(outRates, 4);
 			newArguments.put("IFOUTRATES", outRates);
 
 			newArguments.put(DacConst.m_IFNAME, ifname0);
-			Vector ifSuccV = new Vector();
+			List ifSuccV = new ArrayList();
 			ifSuccV.add("true");
 			newArguments.put(DacConst.IFSUCCESS, ifSuccV);
 
@@ -1487,9 +1488,9 @@ public class SnmpDataParser implements IDataParser {
 				String key = (String) it.next();
 				Object obj = ret.get(key);
 				cacheMsg.append("returned dataaq key: ").append(key).append("\n");
-				if (obj instanceof Vector)
+				if (obj instanceof List)
 				{
-					Vector vec = (Vector) obj;
+				    List vec = (List) obj;
 					for (int j = 0, vsize = vec.size(); j < vsize; j++)
 					{
 						String neirong = (String) vec.get(j);
@@ -1512,18 +1513,18 @@ public class SnmpDataParser implements IDataParser {
 	}
 	private static Map reviseInterfaces(Map resultMap)
 	{
-		Vector ifInOctets = adjustResult(resultMap, DacConst.m_IFINOCTETS);
-		Vector ifOutOctets = adjustResult(resultMap, DacConst.m_IFOUTOCTETS);
-		Vector ifInDiscards = adjustResult(resultMap, DacConst.m_IFINDISCARDS);
-		Vector ifOutDiscards = adjustResult(resultMap, DacConst.m_IFOUTDISCARDS);
-		Vector ifInErrors = adjustResult(resultMap, DacConst.m_IFINERRORS);
-		Vector ifOutErrors = adjustResult(resultMap, DacConst.m_IFOUTERRORS);
-		Vector ifInUcastPkts = adjustResult(resultMap, DacConst.m_IFINUCASTPKTS);
-		Vector ifOutUcastPkts = adjustResult(resultMap, DacConst.m_IFOUTUCASTPKTS);
+	    List ifInOctets = adjustResult(resultMap, DacConst.m_IFINOCTETS);
+	    List ifOutOctets = adjustResult(resultMap, DacConst.m_IFOUTOCTETS);
+	    List ifInDiscards = adjustResult(resultMap, DacConst.m_IFINDISCARDS);
+	    List ifOutDiscards = adjustResult(resultMap, DacConst.m_IFOUTDISCARDS);
+	    List ifInErrors = adjustResult(resultMap, DacConst.m_IFINERRORS);
+	    List ifOutErrors = adjustResult(resultMap, DacConst.m_IFOUTERRORS);
+	    List ifInUcastPkts = adjustResult(resultMap, DacConst.m_IFINUCASTPKTS);
+	    List ifOutUcastPkts = adjustResult(resultMap, DacConst.m_IFOUTUCASTPKTS);
 
-		Vector ifInNUcastPkts = adjustResult(resultMap, DacConst.m_IFINNUCASTPKTS);
-		Vector ifOutNUcastPkts = adjustResult(resultMap, DacConst.m_IFOUTNUCASTPKTS);
-		Vector ifSpeed = adjustResult(resultMap, DacConst.m_IFSPEED);
+	    List ifInNUcastPkts = adjustResult(resultMap, DacConst.m_IFINNUCASTPKTS);
+	    List ifOutNUcastPkts = adjustResult(resultMap, DacConst.m_IFOUTNUCASTPKTS);
+	    List ifSpeed = adjustResult(resultMap, DacConst.m_IFSPEED);
 
 		resultMap.put(DacConst.m_IFINOCTETS, ifInOctets);
 		resultMap.put(DacConst.m_IFOUTOCTETS, ifOutOctets);
@@ -1539,33 +1540,33 @@ public class SnmpDataParser implements IDataParser {
 
 		return resultMap;
 	}
-	Vector vectorMinus32(Vector vec0, Vector vec1, boolean isToKunit)
+	List listMinus32(List<String> list0, List<String> list1, boolean isToKunit)
 	{
-		int size = vec0.size();
-		long lvec0 = 0;
-		long lvec1 = 0;
+		int size = list0.size();
+		long lList0 = 0;
+		long lList1 = 0;
 		long lresult = 0;
-		String svec0 = null;
-		String svec1 = null;
-		Vector result = new Vector();
+		String sList0 = null;
+		String sList1 = null;
+		List result = new ArrayList();
 		for (int i = 0; i < size; i++)
 		{
-			svec0 = (String) vec0.get(i);
-			if (svec0.indexOf('.') != -1)
+			sList0 = list0.get(i);
+			if (sList0.indexOf('.') != -1)
 			{
-				svec0 = svec0.substring(0, svec0.indexOf('.'));
+				sList0 = sList0.substring(0, sList0.indexOf('.'));
 			}
-			svec1 = (String) vec1.get(i);
-			if (svec1.indexOf('.') != -1)
+			sList1 = list1.get(i);
+			if (sList1.indexOf('.') != -1)
 			{
-				svec1 = svec1.substring(0, svec1.indexOf('.'));
+				sList1 = sList1.substring(0, sList1.indexOf('.'));
 			}
-			lvec0 = Long.parseLong(svec0);
-			lvec1 = Long.parseLong(svec1);
+			lList0 = Long.parseLong(sList0);
+			lList1 = Long.parseLong(sList1);
 			// 若本采集时间点的系统时间小于上一个周期采集点的系统时间,说明系统重启了,直接返回本次采集数据
-			if (sysUpTimeThis < sysUpTimeLast && lvec0 < lvec1)
+			if (sysUpTimeThis < sysUpTimeLast && lList0 < lList1)
 			{
-				lresult = lvec0;
+				lresult = lList0;
 			} else
 			{
 				// 采集时间差△t大于采集粒度周期,说明出现了丢失数据的情况,则对恢复正常采集的第一条数据不上报处理，以避免异常数据的出现
@@ -1575,7 +1576,7 @@ public class SnmpDataParser implements IDataParser {
 					return null;
 				} else
 				{
-					lresult = lvec0 - lvec1;
+					lresult = lList0 - lList1;
 					if (lresult < 0)
 					{
 						lresult = lresult + DacConst.TWO_OF32POWER;// 增加2^32-1，因为端口流量为counter32类型。
@@ -1588,43 +1589,43 @@ public class SnmpDataParser implements IDataParser {
 				result.add(Double.toString(fval));
 			} else
 			{
-				result.add(Double.toString((double) lresult));
+				result.add(Double.toString(lresult));
 			}
 		}
 		return result;
 	}
 	
-	Vector vectorMinus64(Vector vec0, Vector vec1, boolean isToKunit)
+	List listMinus64(List<String> list0, List<String> list1, boolean isToKunit)
 	{
-		int size = vec0.size();
-		BigInteger lvec0 = null;
-		BigInteger lvec1 = null;
+		int size = list0.size();
+		BigInteger lList0 = null;
+		BigInteger lList1 = null;
 		BigInteger lresult = null;
-		Vector result = new Vector();
+		List result = new ArrayList();
 		for (int i = 0; i < size; i++)
 		{
-			String svec0 = (String) vec0.get(i);
-			String svec1 = (String) vec1.get(i);
-			if (svec0.startsWith("0x") || svec0.startsWith("0X"))
+			String sList0 = list0.get(i);
+			String sList1 = list1.get(i);
+			if (sList0.startsWith("0x") || sList0.startsWith("0X"))
 			{
-				lvec0 = new BigInteger(svec0.substring(2), 16);
+				lList0 = new BigInteger(sList0.substring(2), 16);
 			} else
 			{
-				lvec0 = new BigInteger(svec0);
+				lList0 = new BigInteger(sList0);
 			}
 
-			if (svec1.startsWith("0x") || svec1.startsWith("0X"))
+			if (sList1.startsWith("0x") || sList1.startsWith("0X"))
 			{
-				lvec1 = new BigInteger(svec1.substring(2), 16);
+				lList1 = new BigInteger(sList1.substring(2), 16);
 			} else
 			{
-				lvec1 = new BigInteger(svec1);
+				lList1 = new BigInteger(sList1);
 			}
 			// 1、若本采集时间点的系统时间小于上一个周期采集点的系统时间,并且本次采集数据小于上一次，说明系统重启了,直接返回本次采集数据
 			// 2、若本采集时间点的系统时间小于上一个周期采集点的系统时间,并且本次采集数据大于上一次，说明时间计数器归0,不能直接返回本次采集数据
-			if (sysUpTimeThis < sysUpTimeLast && lvec0.compareTo(lvec1) < 0)
+			if (sysUpTimeThis < sysUpTimeLast && lList0.compareTo(lList1) < 0)
 			{
-				lresult = lvec0;
+				lresult = lList0;
 			} else
 			{
 				// 采集时间差△t大于采集粒度周期,说明出现了丢失数据的情况,则对恢复正常采集的第一条数据不上报处理，以避免异常数据的出现
@@ -1634,7 +1635,7 @@ public class SnmpDataParser implements IDataParser {
 					return null;
 				} else
 				{
-					lresult = lvec0.subtract(lvec1);
+					lresult = lList0.subtract(lList1);
 					if (lresult.signum() < 0)
 					{
 						lresult = lresult.add(new BigInteger("18446744073709551615"));// 增加2^64-1，因为IFHC*为counter64类型。
@@ -1665,24 +1666,24 @@ public class SnmpDataParser implements IDataParser {
 		// 对端口返回的ifInOctets/ifOutOctets/ifInUcastPkts/ifOutUcastPkts/ifinMulticastPkts/ifOutMulticastPkts
 		// ifinBroadcastPkts/ifOutBroadcastPkts与相应的ifHC开头的指标进行比较如果ifHC返回数据不为空，则以ifHC为准
 		// 因为ifHC*是Counter64类型最大2^64-1,而if*是Counter32类型最大2^32-1，对高速设备每5分钟采集粒度应以ifHC计算。
-		Vector ifInOctets = (Vector) resultMap.get("IFINOCTETS");
-		Vector ifOutOctets = (Vector) resultMap.get("IFOUTOCTETS");
-		Vector ifInUcastPkts = (Vector) resultMap.get("IFINUCASTPKTS");
-		Vector ifOutUcastPkts = (Vector) resultMap.get("IFOUTUCASTPKTS");
-		Vector ifInMulticastPkts = (Vector) resultMap.get("IFINMULTICASTPKTS");
-		Vector ifOutMulticastPkts = (Vector) resultMap.get("IFOUTMULTICASTPKTS");
-		Vector ifInBroadcastPkts = (Vector) resultMap.get("IFINBROADCASTPKTS");
-		Vector ifOutBroadcastPkts = (Vector) resultMap.get("IFOUTBROADCASTPKTS");
-		Vector ifHCInOctets = (Vector) resultMap.get("IFHCINOCTETS");
-		Vector ifHCOutOctets = (Vector) resultMap.get("IFHCOUTOCTETS");
-		Vector ifHCInUcastPkts = (Vector) resultMap.get("IFHCINUCASTPKTS");
-		Vector ifHCOutUcastPkts = (Vector) resultMap.get("IFHCOUTUCASTPKTS");
-		Vector ifHCInMulticastPkts = (Vector) resultMap.get("IFHCINMULTICASTPKTS");
-		Vector ifHCOutMulticastPkts = (Vector) resultMap.get("IFHCOUTMULTICASTPKTS");
-		Vector ifHCInBroadcastPkts = (Vector) resultMap.get("IFHCINBROADCASTPKTS");
-		Vector ifHCOutBroadcastPkts = (Vector) resultMap.get("IFHCOUTBROADCASTPKTS");
+	    List ifInOctets = (List) resultMap.get("IFINOCTETS");
+	    List ifOutOctets = (List) resultMap.get("IFOUTOCTETS");
+	    List ifInUcastPkts = (List) resultMap.get("IFINUCASTPKTS");
+	    List ifOutUcastPkts = (List) resultMap.get("IFOUTUCASTPKTS");
+	    List ifInMulticastPkts = (List) resultMap.get("IFINMULTICASTPKTS");
+	    List ifOutMulticastPkts = (List) resultMap.get("IFOUTMULTICASTPKTS");
+	    List ifInBroadcastPkts = (List) resultMap.get("IFINBROADCASTPKTS");
+	    List ifOutBroadcastPkts = (List) resultMap.get("IFOUTBROADCASTPKTS");
+	    List ifHCInOctets = (List) resultMap.get("IFHCINOCTETS");
+	    List ifHCOutOctets = (List) resultMap.get("IFHCOUTOCTETS");
+	    List ifHCInUcastPkts = (List) resultMap.get("IFHCINUCASTPKTS");
+	    List ifHCOutUcastPkts = (List) resultMap.get("IFHCOUTUCASTPKTS");
+	    List ifHCInMulticastPkts = (List) resultMap.get("IFHCINMULTICASTPKTS");
+	    List ifHCOutMulticastPkts = (List) resultMap.get("IFHCOUTMULTICASTPKTS");
+	    List ifHCInBroadcastPkts = (List) resultMap.get("IFHCINBROADCASTPKTS");
+	    List ifHCOutBroadcastPkts = (List) resultMap.get("IFHCOUTBROADCASTPKTS");
 		
-		Vector<String> right = new Vector<String>();
+	    List<String> right = new ArrayList<String>();
 		right.add("true");
 		
 		if (ifHCInOctets.size() == ifInOctets.size())
@@ -1775,12 +1776,12 @@ public class SnmpDataParser implements IDataParser {
 		}
 	}
 	
-    private static Vector ZXR10Treatment(Vector ifHCRFC2233, Vector ifRFC1213, Map resultMap, String RFC1213, String RFC2233)
+    private static List ZXR10Treatment(List<String> ifHCRFC2233, List<String> ifRFC1213, Map resultMap, String RFC1213, String RFC2233)
     {
         // 因为对ZXR10设备RFC2233返回的端口数不等于RFC1213返回的端口数，这里应当以RFC1213的端口数为准
-        Vector ifRFC1213OidAppend = (Vector) resultMap.get(RFC1213);
-        Vector ifHCRFC2233OidAppend = (Vector) resultMap.get(RFC2233);
-        Vector tmpifHCRFC2233 = new Vector();
+        List ifRFC1213OidAppend = (List) resultMap.get(RFC1213);
+        List ifHCRFC2233OidAppend = (List) resultMap.get(RFC2233);
+        List tmpifHCRFC2233 = new ArrayList();
         // 处理返回增加的OID，将其认为字符串，需要匹配（不区分大小写！！！）
         int iL = ifRFC1213OidAppend.size();
         int iH = ifHCRFC2233OidAppend.size();

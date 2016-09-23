@@ -26,7 +26,7 @@ import org.openo.nfvo.monitor.umc.pm.adpt.roc.entity.ResourceResponse;
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.service.IPmResourceRestService;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
 
-@Path("/api/roc/v1/resource/vdus")
+@Path("/openoapi/roc/v1/resource/vdus")
 public interface IVduRestServiceResource extends IPmResourceRestService{
 
 	@Path("/{vdu_id}")

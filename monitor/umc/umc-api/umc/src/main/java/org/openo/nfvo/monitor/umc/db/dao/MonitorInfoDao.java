@@ -69,10 +69,26 @@ public class MonitorInfoDao extends UmcDao<MonitorInfo> {
             obj = (MonitorInfo) session.createQuery("from MonitorInfo t where t.oid = :oid")
                     .setParameter("oid", oid).uniqueResult();
         } catch (HibernateException ex) {
-            LOGGER.error("MonitorInfo.findAll throw exception!", ex);
+            LOGGER.error("MonitorInfo.queryByOid throw exception!", ex);
         } finally {
             closeTransaction();
         }
         return obj;
+    }
+
+    public List<MonitorInfo> queryByNeTypeId(String neTypeId) {
+        List<MonitorInfo> list = null;
+        
+        try {
+            beginTransaction();
+            list = list(session.createQuery("from MonitorInfo t where t.neTypeId = :neTypeId")
+                    .setParameter("neTypeId", neTypeId));
+        } catch (HibernateException ex) {
+            LOGGER.error("MonitorInfo.queryByNeTypeId throw exception!", ex);
+        } finally {
+            closeTransaction();
+        }
+        
+        return list;
     }
 }

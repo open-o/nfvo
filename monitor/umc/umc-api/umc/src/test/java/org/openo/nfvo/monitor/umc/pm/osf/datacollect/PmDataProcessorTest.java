@@ -26,6 +26,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openo.nfvo.monitor.umc.UMCApp;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.cometdserver.CometdServlet;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
@@ -44,6 +45,7 @@ import org.openo.nfvo.monitor.umc.pm.services.NeHandler;
 import org.openo.nfvo.monitor.umc.pm.services.PmService;
 import org.openo.nfvo.monitor.umc.util.DebugPrn;
 import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
  
 public class PmDataProcessorTest {
@@ -54,7 +56,9 @@ public class PmDataProcessorTest {
 	private static MonitorInfo monitorInfo = null;
 	@BeforeClass
 	public static void setUp() {
-	    String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
+        String[] packageUrls =new String[] {UMCApp.class.getPackage().getName()};
+        ExtensionUtil.init(packageUrls);
+		String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
     	initFastFileSystem(filePath);
     	GeneralFileLocaterImpl.getGeneralFileLocater().setConfigPath(filePath);
     	UmcDbUtil.setSessionFactory(HibernateSession.init());
@@ -71,7 +75,9 @@ public class PmDataProcessorTest {
 		monitorInfo.setCustomPara(customPara);
 		monitorInfo.setLabel("computer-node02");
 		monitorInfo.setExtendPara("");
+		monitorInfo.setOrigin("roc");
     	
+		initMonitorInfo();
 		dMsg.info("restart all pm task");
 		try {
 			PmService.reStartAllPmTask("127.0.0.1");
@@ -154,8 +160,7 @@ public class PmDataProcessorTest {
 		}
 	}
 	
-	    @Before
-		public void initMonitorInfo() {
+		public static void initMonitorInfo() {
 			try {
 				PmCommonProcess.save(PmConst.MONITOR_INFO, monitorInfo);
 			} catch (PmException e) {

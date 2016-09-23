@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import org.openo.nfvo.monitor.umc.pm.adpt.roc.entity.ResourceTypeResponse;
 
 
-@Path("/api/roc/v1/resource/definitions")
+@Path("/openoapi/roc/v1/resource/definitions")
 public interface IModelRestService {
 
     @Path("/")

@@ -19,5 +19,6 @@ import org.openo.nfvo.monitor.dac.snmptrap.entity.TrapData;
 import org.snmp4j.PDU;
 
 public interface ITrapParser {
+	public static final String EXTENSIONID = "org.openo.nfvo.monitor.dac.snmptrap.processor.ITrapParser";
 	public void parser(TrapData trapData, PDU trapPDU);
 }

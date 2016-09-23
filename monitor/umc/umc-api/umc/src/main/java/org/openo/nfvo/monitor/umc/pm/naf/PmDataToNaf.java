@@ -25,6 +25,7 @@ import org.openo.nfvo.monitor.umc.cometdserver.CometdService;
 import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.common.PmOsfUtil;
 import org.openo.nfvo.monitor.umc.pm.datacollect.IPmDataConsumer;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +49,15 @@ public class PmDataToNaf implements IPmDataConsumer {
 	        p.putAll((Map<String, Object>)data.get(PmConst.PM_DATA_INDEX_DATA));
 	        nafData.setData(p);
 	        pmNafDataList.add(nafData);
+		}
+		
+		// pre process cometd data
+		Object[] pmNafDataProcesses = ExtensionUtil.getInstances(IPmNafDataProcess.EXTENSIONID, IPmNafDataProcess.KEY);		
+		if (pmNafDataProcesses != null && pmNafDataProcesses.length > 0)
+		{
+			for (Object pmNafDataProcess : pmNafDataProcesses) {			
+				((IPmNafDataProcess)pmNafDataProcess).process(pmNafDataList);
+			}
 		}
 		try {
 			CometdService.getInstance().publish(CometdService.PM_UPLOAD_CHANNEL, pmNafDataList);

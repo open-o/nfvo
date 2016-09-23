@@ -17,10 +17,11 @@ package org.openo.nfvo.monitor.dac.common.util;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +46,7 @@ public class DacUtil {
         dataMsgQueue = obj;
     }
 
-    public static void putDataMsg(Vector<Object> msg) {
+    public static void putDataMsg(List<Object> msg) {
         dataMsgQueue.put(msg);
     }
 
@@ -80,10 +81,10 @@ public class DacUtil {
         return "/home/" + userName + "/" + secs[size - 1];
     }
 
-    public static Vector<String> getInfo(int line, int tokenIndex, String[] valueStr,
+    public static List<String> getInfo(int line, int tokenIndex, String[] valueStr,
                                          boolean iflist, boolean iftokenall) {
-        Vector<String> result = new Vector<>();
-        if (!iflist) {
+        List<String> result = new ArrayList<>();
+        if (!iflist) {//iflist=false
             String lineStr = valueStr[line - 1];
             StringTokenizer toks = new StringTokenizer(lineStr);
             int num = toks.countTokens();
@@ -129,8 +130,8 @@ public class DacUtil {
         return result;
     }
 
-    public static Vector<String> delUnit(Vector initial, String unit) {
-        Vector<String> result = new Vector<>();
+    public static List<String> delUnit(List initial, String unit) {
+        List<String> result = new ArrayList<>();
         for (Object anInitial : initial) {
             String value = (String) anInitial;
             int unitIndex = value.indexOf(unit);
@@ -142,17 +143,17 @@ public class DacUtil {
         return result;
     }
 
-    public static Vector<String> vectorSetScale(Vector<String> vec0, int scale) {
-        if (vec0 == null) {
+    public static List<String> listSetScale(List<String> list0, int scale) {
+        if (list0 == null) {
             return null;
         }
-        int size = vec0.size();
+        int size = list0.size();
         BigDecimal bdcl;
         for (int i = 0; i < size; i++) {
-            bdcl = new BigDecimal((vec0.get(i)));
-            vec0.setElementAt(bdcl.setScale(scale, BigDecimal.ROUND_HALF_UP).toString(), i);
+            bdcl = new BigDecimal((list0.get(i)));
+            list0.set(i, bdcl.setScale(scale, BigDecimal.ROUND_HALF_UP).toString());
         }
-        return vec0;
+        return list0;
     }
 
     public static String convertBeanToJson(Object o) {
@@ -161,32 +162,32 @@ public class DacUtil {
         String str = gson.toJson(o);
         return str;
     }
-
+    
 	public static long toTimeticks(String strDate)
 	{
 		long value = 0;
-		Vector<String> vecV = new Vector<String>();
+		List<String> listV = new ArrayList<String>();
 		String reg = "(\\d+)";
 		Matcher matcher = Pattern.compile(reg).matcher(strDate);
 		while (matcher.find())
 		{
-			vecV.add(matcher.group());
+			listV.add(matcher.group());
 		}
-		switch (vecV.size())
+		switch (listV.size())
 		{
 		case 4:
-			value = Integer.parseInt(vecV.get(0).toString()) * 86400L + Integer.parseInt(vecV.get(1).toString())
-					* 3600L + Integer.parseInt(vecV.get(2).toString()) * 60L + Integer.parseInt(vecV.get(3).toString());
+			value = Integer.parseInt(listV.get(0).toString()) * 86400L + Integer.parseInt(listV.get(1).toString())
+					* 3600L + Integer.parseInt(listV.get(2).toString()) * 60L + Integer.parseInt(listV.get(3).toString());
 			break;
 		case 3:
-			value = Integer.parseInt(vecV.get(0).toString()) * 3600L + Integer.parseInt(vecV.get(1).toString()) * 60L
-					+ Integer.parseInt(vecV.get(2).toString());
+			value = Integer.parseInt(listV.get(0).toString()) * 3600L + Integer.parseInt(listV.get(1).toString()) * 60L
+					+ Integer.parseInt(listV.get(2).toString());
 			break;
 		case 2:
-			value = Integer.parseInt(vecV.get(0).toString()) * 60L + Integer.parseInt(vecV.get(1).toString());
+			value = Integer.parseInt(listV.get(0).toString()) * 60L + Integer.parseInt(listV.get(1).toString());
 			break;
 		case 1:
-			value = Long.parseLong(vecV.get(0).toString());
+			value = Long.parseLong(listV.get(0).toString());
 			break;
 		}
 

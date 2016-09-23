@@ -24,11 +24,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MonitorTaskInfo {
     private String oid;
-    private String type;
+//    private String type;
     private String moc;
-    private String name;
-    private String ipAddress;
-    private CustomPara customPara;
+//    private String name;
+//    private String ipAddress;
+    private String proxyIp;
 
 
 }

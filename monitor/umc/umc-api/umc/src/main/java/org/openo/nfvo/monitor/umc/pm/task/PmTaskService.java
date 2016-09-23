@@ -200,7 +200,6 @@ public class PmTaskService {
         }
         try {
             PmDBProcess.deleteDbByOid(PmConst.PM_TASK, oid);
-            PmDBProcess.deleteDbByOid(PmConst.MONITOR_INFO, oid);
         } catch (PmException e) {
             dMsg.warn(e.getMessage());
         }

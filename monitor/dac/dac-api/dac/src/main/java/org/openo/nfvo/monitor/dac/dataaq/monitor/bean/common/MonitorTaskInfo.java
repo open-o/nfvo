@@ -41,7 +41,7 @@ public abstract class MonitorTaskInfo implements IMonitorTaskInfo{
     protected int granularity;
     protected String monitorName;
     protected String[] columnName;
-    protected String provider;
+    protected String provider = "";
 
     protected Map<Object, Object> monitorProperty = new HashMap<>();
     protected static ConcurrentHashMap<String, HashMap<String, String>> remoteHostMap =

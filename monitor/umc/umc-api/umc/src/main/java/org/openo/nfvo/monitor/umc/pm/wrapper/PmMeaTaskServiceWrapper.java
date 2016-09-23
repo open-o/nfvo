@@ -19,16 +19,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.openo.nfvo.monitor.umc.cache.CacheUtil;
 import org.openo.nfvo.monitor.umc.db.entity.PmTask;
-import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocAdptImpl;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.MonitorServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.bean.PmMeaTaskBean;
 import org.openo.nfvo.monitor.umc.pm.bean.PmMoType;
 import org.openo.nfvo.monitor.umc.pm.bean.Resource;
 import org.openo.nfvo.monitor.umc.pm.bean.ResourceType;
+import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.common.PmException;
 import org.openo.nfvo.monitor.umc.pm.db.process.PmDBProcess;
+import org.openo.nfvo.monitor.umc.pm.task.PmTaskException;
 import org.openo.nfvo.monitor.umc.pm.task.bean.PmTaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +53,12 @@ public class PmMeaTaskServiceWrapper {
 				PmTask itPmTask = itPmTasks.get(i);
 				Resource rs = new Resource();
 				rs.setId(itPmTask.getOid());
-				rs.setName(RocAdptImpl.getResourceName(rs.getId(), itPmTask.getNetTypeId()));
+				
+				Properties p;
+                try {
+                    p = MonitorServiceWrapper.getInstance().getMonitorInfoByOid(itPmTask.getOid());
+                    rs.setName(p.getProperty(PmConst.LABEL));
+                } catch (PmTaskException e) {}
 				rss[i] = rs;
 			}
 			pmTask.setResources(rss);

@@ -53,7 +53,7 @@ public class FmCacheBuilder {
     Map<String, SystemTypeMocRelation> systemTypeMocRelationMap = new HashMap<String, SystemTypeMocRelation>();
     Map<String, ProbableCause> probableCauseMap = new HashMap<String, ProbableCause>();
 
-    public final static String SYS_DIR = "system";
+    public final static String SYS_DIR = "system/fm";
     public final static String FILENAME_SYSTEMTYPE = "systemtype.yml";
     public final static String FILENAME_ALARMTYPE = "alarmtype.yml";
     public final static String FILENAME_SYSTEMTYPEMOCRELATION = "systemtype_moc_relation.yml";

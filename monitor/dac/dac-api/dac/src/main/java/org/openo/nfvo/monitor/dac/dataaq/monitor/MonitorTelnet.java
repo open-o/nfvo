@@ -15,13 +15,22 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.monitor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.util.DaConfReader;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionImpl;
 import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.dataaq.common.ICollectorPara;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataParser;
 import org.openo.nfvo.monitor.dac.dataaq.common.IMonitor;
+import org.openo.nfvo.monitor.dac.dataaq.common.Monitor;
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
 import org.openo.nfvo.monitor.dac.dataaq.datacollector.UnixPerformDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.datacollector.para.SshCollectorPara;
@@ -29,23 +38,12 @@ import org.openo.nfvo.monitor.dac.dataaq.datacollector.para.TelnetCollectorPara;
 import org.openo.nfvo.monitor.dac.dataaq.dataparser.TelnetDataParser;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaMonitorPerfInfo;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaPerfCounterInfo;
-import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
 
-public class MonitorTelnet implements IMonitor {
-    private MonitorTaskInfo taskInfo = null;
+@ExtensionImpl(keys = {DacConst.MOC_NFV_VDU_LINUX, DacConst.MOC_NFV_HOST_LINUX}, entensionId = IMonitor.EXTENSIONID)
+public class MonitorTelnet extends Monitor {
 
-	public MonitorTelnet(MonitorTaskInfo taskInf)
-	{
-		taskInfo = taskInf;
-	}
-
+    @Override
     @SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public Map perform(Map paras, IDataCollector dataCollector, IDataParser dataParser)
             throws DataAcquireException {
@@ -98,7 +96,7 @@ public class MonitorTelnet implements IMonitor {
             for (Iterator iterator = retDataEntySet.iterator(); iterator.hasNext();) {
                 Map.Entry valueForEveryCmdEntry = (Map.Entry) iterator.next();
                 String retCommandName = (String) valueForEveryCmdEntry.getKey();
-                Vector valueCollected = (Vector) valueForEveryCmdEntry.getValue();
+                ArrayList valueCollected = (ArrayList) valueForEveryCmdEntry.getValue();
 
                 List perfCounters = monitorParserMapInfo.getPerfCounters();
                 int size = perfCounters.size();

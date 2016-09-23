@@ -13,15 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.monitor.dac.dataaq.monitor.bean.taskinfo;
+package org.openo.nfvo.monitor.umc.res.bean;
 
-/**
- * 
- * @date 2016/4/5 11:14:04
- *
- * @description VduTaskInfo is totally the same as HostTaskInfo,
- *  so do not copy twice, using enxtends simulate it.
- */
-public class VduTaskInfo extends HostTaskInfo {
+
+public class NotificationResult {
+	private String result;
+	private String info;
+	private String[] oid;
+	
+	public String getResult() {
+		return result;
+	}
+	public void setResult(String result) {
+		this.result = result;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String[] getOid() {
+		return oid;
+	}
+	public void setOid(String[] oid) {
+		this.oid = oid;
+	}
+
+	
+	
+	
 
 }

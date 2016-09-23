@@ -52,9 +52,9 @@ public class ResourceServiceConsumer{
 		String url = "";
 		Map paraMap = null;
 		if (neType.equalsIgnoreCase("nfv.host.linux")) {
-			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/hosts/" + oid;
+			url = RocConfiguration.getRocServerAddr()+ "/openoapi/roc/v1/resource/hosts/" + oid;
 		} else if (neType.equalsIgnoreCase("nfv.vdu.linux")) {
-			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/vdus/" + oid;
+			url = RocConfiguration.getRocServerAddr()+ "/openoapi/roc/v1/resource/vdus/" + oid;
 		}
 		try {
 			String jsonStr = APIHttpClient.doGet(url, "", "utf-8", "");
@@ -78,9 +78,9 @@ public class ResourceServiceConsumer{
 		String url = "";
 		Map paraMap = null;
 		if (neType.equalsIgnoreCase("nfv.host.linux")) {
-			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/hosts";
+			url = RocConfiguration.getRocServerAddr()+ "/openoapi/roc/v1/resource/hosts";
 		} else if (neType.equalsIgnoreCase("nfv.vdu.linux")) {
-			url = RocConfiguration.getRocServerAddr()+ "/api/roc/v1/resource/vdus";
+			url = RocConfiguration.getRocServerAddr()+ "/openoapi/roc/v1/resource/vdus";
 		}
 		String response = APIHttpClient.doGet(url, "", "utf-8", "");
 		JSONObject responseObject = JSONObject.fromObject(response);

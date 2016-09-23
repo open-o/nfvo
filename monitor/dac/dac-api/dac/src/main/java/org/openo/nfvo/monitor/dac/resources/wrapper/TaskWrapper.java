@@ -15,14 +15,18 @@
  */
 package org.openo.nfvo.monitor.dac.resources.wrapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.Response;
+
 import org.openo.nfvo.monitor.dac.common.bean.TaskBean;
 import org.openo.nfvo.monitor.dac.common.util.DacUtil;
 import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.resources.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.core.Response;
 
 /**
  * Task rest interface processing class
@@ -78,4 +82,20 @@ public class TaskWrapper {
         }
         return Response.status(Response.Status.NO_CONTENT).build();
     }
+    
+    /**
+     * Create data acquisition task
+     * @param taskBean task detail
+     * @return status code 201(success) or 500(fail)
+     */
+    public static Map<String, List<String>> taskExecute(TaskBean taskBean) {
+        LOGGER.info("Receive task execute request.taskBean:" + DacUtil.convertBeanToJson(taskBean));
+        try {
+            return TaskService.taskExecute(taskBean);
+        } catch (DataAcquireException e) {
+            LOGGER.error("execute task fail.", e);
+            return new HashMap<String, List<String>>();
+        }
+    }
+
 }

@@ -15,6 +15,15 @@
  */
 package org.openo.nfvo.monitor.dac;
 
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.jetty.HttpConnectorFactory;
+import io.dropwizard.server.SimpleServerFactory;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.listing.ApiListingResource;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -25,6 +34,7 @@ import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.openo.nfvo.monitor.dac.common.util.DacUtil;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionUtil;
 import org.openo.nfvo.monitor.dac.common.util.filescan.FastFileSystem;
 import org.openo.nfvo.monitor.dac.datarp.DataMsgQueue;
 import org.openo.nfvo.monitor.dac.msb.MSBRestServiceProxy;
@@ -36,15 +46,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.jetty.HttpConnectorFactory;
-import io.dropwizard.server.SimpleServerFactory;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
-import io.swagger.jaxrs.config.BeanConfig;
-import io.swagger.jaxrs.listing.ApiListingResource;
 
 /**
  * DAC start class
@@ -77,6 +78,7 @@ public class DacApp extends Application<DacAppConfig> {
 
     private void registerDacToMSB(DacAppConfig dacAppConfig) {
 		// TODO Auto-generated method stub
+    	LOGGER.info("start register dac to msb");
     	SimpleServerFactory simpleServerFactory = (SimpleServerFactory)dacAppConfig.getServerFactory();
     	HttpConnectorFactory connector = (HttpConnectorFactory)simpleServerFactory.getConnector();
 		MsbRegisterBean registerBean = new MsbRegisterBean();
@@ -151,9 +153,12 @@ public class DacApp extends Application<DacAppConfig> {
      * initialize DAC server
      */
     private void initDac() {
+        String[] packageUrls =
+                new String[] {DacApp.class.getPackage().getName()};
+        ExtensionUtil.init(packageUrls);
         DataMsgQueue dataMsgQueue = new DataMsgQueue();
         DacUtil.setDataMsgQueue(dataMsgQueue);
         dataMsgQueue.start();// init upload data thread
-		TrapInitService.startService(); // init trap listen
+		//TrapInitService.startService(); // init trap listen
     }
 }

@@ -15,10 +15,13 @@
  */
 package org.openo.nfvo.monitor.dac.datarp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.dac.cometd.CometdService;
 import org.openo.nfvo.monitor.dac.common.bean.DataBean;
@@ -27,20 +30,20 @@ import org.slf4j.LoggerFactory;
 
 public class DataMsgHandleThread implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataMsgHandleThread.class);
-    private Vector<Object> taskParaVector = null;
+    private List<Object> taskParaList = null;
 
-    public DataMsgHandleThread(Vector<Object> taskParaVector) {
-        this.taskParaVector = taskParaVector;
+    public DataMsgHandleThread(List<Object> taskParaList) {
+        this.taskParaList = taskParaList;
 
     }
 
+    @Override
     public void run() {
-        if (taskParaVector.size() != 0) {
-            int taskId = (Integer) taskParaVector.get(0);
-            Date collectTime = (Date) taskParaVector.get(1);
-            int granularity = (Integer) taskParaVector.get(2);
-            String[] columnNames = (String[]) taskParaVector.get(3);
-            Map<String, Vector<String>> result = (Map) taskParaVector.get(4);
+        if (taskParaList.size() != 0) {
+            int taskId = (Integer) taskParaList.get(0);
+            Date collectTime = (Date) taskParaList.get(1);
+            int granularity = (Integer) taskParaList.get(2);
+            Map<String, List<String>> result = (Map) taskParaList.get(3);
             if (result.size() != 0)
             {
 	            try {
@@ -48,19 +51,20 @@ public class DataMsgHandleThread implements Runnable {
 	                data.setTaskId(taskId);
 	                data.setCollectTime(collectTime);
 	                data.setGranularity(granularity);
-	                int valueSize = result.get(columnNames[0]).size();
-	                Properties[] values = new Properties[valueSize];
-	                for (int i = 0; i < valueSize; i++) {
-	                    values[i] = new Properties();// init values array
-	                }
-	                for (String columnName : columnNames) {
-	                    Vector<String> v_value = result.get(columnName);
-	                    int i = 0;
+	                List<Properties> values = new ArrayList<Properties>();
+	                Iterator<Entry<String, List<String>>> it = result.entrySet().iterator();
+	                while (it.hasNext())
+	                {
+	                	Entry<String, List<String>> entry = it.next();
+	                	List<String> v_value = entry.getValue();
+	                	adjustPropertiesList(values, v_value.size());
+	                	String columnName = entry.getKey();
+	                    int i = 0;//
 	                    for (String value : v_value) {
-	                        values[i++].put(columnName, value);
+	                    	values.get(i++).put(columnName, value);
 	                    }
 	                }
-	                data.setValues(values);
+	                data.setValues(values.toArray(new Properties[0]));
 	                CometdService.getInstance().publish(CometdService.DATA_UPLOAD_CHANNEL, data);
 	            } catch (Throwable e) {
 	                LOGGER.warn(e.getMessage(), e);
@@ -70,9 +74,17 @@ public class DataMsgHandleThread implements Runnable {
             {
             	LOGGER.warn("TaskId:" + taskId + " has no data in resultMap!");
             }
-
+            
         } else {
-            LOGGER.warn("taskParaVector has no data");
+            LOGGER.warn("taskParaList has no data");
         }
+    }
+    private void adjustPropertiesList(List<Properties> values, int size)
+    {
+    	if (values.size() < size)
+    	{
+    		values.add(new Properties());
+    		adjustPropertiesList(values, size);
+    	}
     }
 }

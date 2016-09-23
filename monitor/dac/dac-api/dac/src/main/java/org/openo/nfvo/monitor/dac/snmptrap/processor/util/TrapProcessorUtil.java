@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.dac.snmptrap.entity.TrapData;
 import org.openo.nfvo.monitor.dac.snmptrap.processor.entity.TrapBindInfo;
@@ -43,7 +42,7 @@ public class TrapProcessorUtil {
     private static Set allRestoreTraps = new HashSet();
     public static void processEntityOids(StringBuilder strEntity, List<String> entityOids, PDU trapPDU)
     {
-        Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+        List<VariableBinding> allVars = trapPDU.getVariableBindings();
         for (int i = 0; i < entityOids.size(); i++)
         {
             String entityOid = entityOids.get(i);
@@ -66,7 +65,7 @@ public class TrapProcessorUtil {
     public static Properties parseBindingVar(PDU trapPDU, Map bindVar)
     {
     	Properties prop = new Properties();
-		Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+    	List<VariableBinding> allVars = trapPDU.getVariableBindings();
 		for (VariableBinding vb : allVars) {
 			String bindOid = vb.getOid().toString();
 			String realOid = isExist(bindVar, bindOid);
@@ -86,9 +85,9 @@ public class TrapProcessorUtil {
 				String desc = "";
 				while (iter2.hasNext()) {
 					TrapBindInfo entry = (TrapBindInfo) iter2.next();
-					String formular = (String) entry.getBindFormula();
+					String formular = entry.getBindFormula();
 					if (formular != null && isMatch(value, formular)) {
-						desc = (String) entry.getBindValueDesc();
+						desc = entry.getBindValueDesc();
 						break;
 					}
 				}
@@ -111,7 +110,7 @@ public class TrapProcessorUtil {
 
     public static String parseJudgeValueByBindVar(PDU trapPDU, Map bindVar, Map judgeBindOid)
     {
-        Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+        List<VariableBinding> allVars = trapPDU.getVariableBindings();
         StringBuffer info = new StringBuffer();
         for (VariableBinding vb : allVars)
         {
@@ -148,10 +147,10 @@ public class TrapProcessorUtil {
                         while (iter3.hasNext())
                         {
                             TrapBindInfo entry = (TrapBindInfo) iter3.next();
-                            String formular = (String) entry.getBindFormula();
+                            String formular = entry.getBindFormula();
                             if (formular != null && isMatch(value, formular))
                             {
-                                desc = (String) entry.getBindValueDesc();
+                                desc = entry.getBindValueDesc();
                                 break;
                             }
                         }
@@ -292,7 +291,7 @@ public class TrapProcessorUtil {
 
     public static Properties parseBindingVarByMibFiles(PDU trapPDU)
     {
-        Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+        List<VariableBinding> allVars = trapPDU.getVariableBindings();
         Properties prop = new Properties();
         for (VariableBinding vb : allVars)
         {
@@ -312,7 +311,7 @@ public class TrapProcessorUtil {
 
     public static String parseJudgeValueByMibFiles(PDU trapPDU, Map judgeBindOid)
     {
-        Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+        List<VariableBinding> allVars = trapPDU.getVariableBindings();
         StringBuffer info = new StringBuffer();
         for (VariableBinding vb : allVars)
         {

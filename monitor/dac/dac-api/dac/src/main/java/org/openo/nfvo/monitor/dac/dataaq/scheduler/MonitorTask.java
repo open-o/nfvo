@@ -15,16 +15,17 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.scheduler;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.ProtocalAvailability;
 import org.openo.nfvo.monitor.dac.common.util.DaConfReader;
 import org.openo.nfvo.monitor.dac.common.util.DacUtil;
-import org.openo.nfvo.monitor.dac.common.util.ExtensionAccess;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionUtil;
 import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataParser;
@@ -56,12 +57,11 @@ public class MonitorTask extends TimerTask {
 
 	@Override
 	public void run() {
-		LOGGER.info("task {} begin",monitorTaskInfo.getJobId());
 		long timerRunStart = System.currentTimeMillis();
-		Map<String, Vector<String>> result;
+		Map<String, List<String>> result;
 
 		try {
-			result = perform();
+			result = perform();//
 			ProtocalAvailability.getInstance().connectSucc(monitorTaskInfo);
 		} catch (Exception e) {
 			ProtocalAvailability.getInstance().connectFail(monitorTaskInfo);
@@ -69,11 +69,11 @@ public class MonitorTask extends TimerTask {
 					+ " Cached Message: " + monitorTaskInfo.cachedMessage, e);
 			return;
 		}
-		Vector<Object> vPara = new Vector<>();
+		List<Object> vPara = new ArrayList<>();
 		vPara.add(this.monitorTaskInfo.getJobId());
 		vPara.add(getReportTime());
 		vPara.add(this.monitorTaskInfo.getGranularity());
-		vPara.add(this.monitorTaskInfo.getColumnName());
+//		vPara.add(this.monitorTaskInfo.getColumnName());
 		vPara.add(result);
 		DacUtil.putDataMsg(vPara);
 		long timerRunEnd = System.currentTimeMillis();
@@ -87,9 +87,9 @@ public class MonitorTask extends TimerTask {
 	 * @return Data acquisition result
 	 * @throws DataAcquireException
 	 */
-
-	public Map<String, Vector<String>> perform() throws DataAcquireException {
-		String neTypeId = (String) monitorTaskInfo.getMonitorProperty(DacConst.NETYPEID);
+	
+	public Map<String, List<String>> perform() throws DataAcquireException {
+		String neTypeId = (String) monitorTaskInfo.getMonitorProperty(DacConst.NETYPEID);//neTypeId: nfv.host.linux
 
 		String ip = (String) monitorTaskInfo.getMonitorProperty(DacConst.IPADDRESS);
 		String provider = monitorTaskInfo.getProvider();
@@ -101,7 +101,7 @@ public class MonitorTask extends TimerTask {
 		}
 
 		String startTime = DacUtil.timeFormat(new Date());
-		Map<String, Vector<String>> result;
+		Map<String, List<String>> result;
 		// SNMP:INOUTSTATISTICS::
 		String nowMonitorName = assembleRealMonitorName(provider, monitorName, "", "");
 		if (DaConfReader.getInstance().getMonitorParserMapInfo(nowMonitorName) == null) {
@@ -111,16 +111,17 @@ public class MonitorTask extends TimerTask {
 				if (version != null && !version.equals("0")) {
 					// SNMP:CPU:ZTESWITCH:0
 					nowMonitorName = assembleRealMonitorName(provider, monitorName, osType, "0");
-					if (DaConfReader.getInstance().getMonitorParserMapInfo(nowMonitorName) == null) {
-						LOGGER.info("There's no such real monitor name as " + nowMonitorName + ", skip.");
-						throw new DataAcquireException(DacConst.ERRORCODE_PROVIDERS,
-								"There's no such real monitor name as " + nowMonitorName);
-					}
-				} else {
-					LOGGER.info("There's no such real monitor name as " + nowMonitorName + ", skip.");
-					throw new DataAcquireException(DacConst.ERRORCODE_PROVIDERS,
-							"There's no such real monitor name as " + nowMonitorName);
-				}
+//					if (DaConfReader.getInstance().getMonitorParserMapInfo(nowMonitorName) == null) {
+//						LOGGER.info("There's no such real monitor name as " + nowMonitorName + ", skip.");
+//						throw new DataAcquireException(DacConst.ERRORCODE_PROVIDERS,
+//								"There's no such real monitor name as " + nowMonitorName);
+//					}
+				} 
+//				else {
+//					LOGGER.info("There's no such real monitor name as " + nowMonitorName + ", skip.");
+//					throw new DataAcquireException(DacConst.ERRORCODE_PROVIDERS,
+//							"There's no such real monitor name as " + nowMonitorName);
+//				}
 
 			}
 		}
@@ -143,98 +144,71 @@ public class MonitorTask extends TimerTask {
 		LOGGER.info("JobId: " + monitorTaskInfo.getJobId() + " execution " + startTime + " completed.");
 		return result;
 	}
-
-	/**
-	 * DataCollector instance is defined in file:
-	 * conf\extend\[device]-extendsimpl.xml if not defined in file, return null.
-	 *
-	 */
-	private IDataCollector createDataCollector(String neTypeId) {
-		String extensionID = IDataCollector.class.getName();
-		Object dataCollector = ExtensionAccess.getExtension(extensionID, monitorName);
-		if (dataCollector == null) {
-			dataCollector = (IDataCollector) ExtensionAccess.getExtension(extensionID,
-					getQueryId(neTypeId, monitorName));
-			if (dataCollector == null) {
-				dataCollector = (IDataCollector) ExtensionAccess.getExtension(extensionID, neTypeId);
-				if (dataCollector == null) {
-					return null;
-				}
-			}
-		}
-		((IDataCollector) dataCollector).setMonitorTaskInfo(monitorTaskInfo);
-		return (IDataCollector) dataCollector;
-	}
-
-	/**
-	 * DataParser instance is defined in file:
-	 * conf\extend\[device]-extendsimpl.xml if not defined in file, return null.
-	 *
-	 * @param provider
-	 *            Data acquisition protocol
-	 * @return data parser
-	 * @throws DataAcquireException
-	 */
-	private IDataParser createDataParser(String neTypeId) throws DataAcquireException {
-		String extensionID = IDataParser.class.getName();
-		Object dataParser = ExtensionAccess.getExtension(extensionID, monitorName);
-
-		if (dataParser == null) {
-			dataParser = (IDataParser) ExtensionAccess.getExtension(extensionID, getQueryId(neTypeId, monitorName));
-			if (dataParser == null) {
-				dataParser = (IDataParser) ExtensionAccess.getExtension(extensionID, neTypeId);
-				if (dataParser == null) {
-					return null;
-				}
-			}
-		}
-		return (IDataParser) dataParser;
-
-	}
-
-	/**
-	 * Monitor instance is defined in file: conf\extend\[device]-extendsimpl.xml
-	 * get monitor instance by monitorName, if null then try get it by
-	 * neTypeId.monitorName, last by neTypeId. if still null, you should check your
-	 * [device]-extendsimpl.xml file definition correct. This method should not
-	 * return null.
-	 *
-	 * @param neTypeId
-	 * @param monitorName
-	 * @param taskInf
-	 * @return monitor
-	 * @throws DataAcquireException
-	 */
-	private IMonitor createMonitor(String neTypeId, MonitorTaskInfo taskInf) {
-		IMonitor monitor = null;
-		String extensionID = IMonitor.class.getName();
-
-		Class<?> monitorClass = ExtensionAccess.getExtensionClass(extensionID, monitorName);
-		if (monitorClass == null) {
-			monitorClass = ExtensionAccess.getExtensionClass(extensionID, getQueryId(neTypeId, monitorName));
-			if (monitorClass == null) {
-				monitorClass = ExtensionAccess.getExtensionClass(extensionID, neTypeId);
-				if (monitorClass == null) {
-					return null;
-				}
-			}
-		}
-
-		try {
-			monitor = (IMonitor) monitorClass.getConstructor(MonitorTaskInfo.class).newInstance(taskInf);
-		} catch (Exception ex) {
-			LOGGER.error("Get IMonitor instance Error, Please check it constructor method, neTypeId:" + neTypeId
-					+ ", monitorName:" + monitorName);
-		}
-
-		return monitor;
-	}
-
 	private String getQueryId(String neTypeId, String monitorName) {
-		StringBuilder tmp = new StringBuilder();
-		tmp.append(neTypeId).append(".").append(monitorName);
-		return tmp.toString();
-	}
+        StringBuilder tmp = new StringBuilder();
+        tmp.append(neTypeId).append(".").append(monitorName);
+        return tmp.toString();
+    }
+
+    private IDataCollector createDataCollector(String neTypeId) {
+        IDataCollector dataCollector;
+        String keyRule1 = monitorName;
+        String keyRule2 = getQueryId(neTypeId, monitorName);//nfv.vdu.linux.CPU
+        String keyRule3 = neTypeId;
+        dataCollector = (IDataCollector)ExtensionUtil.getInstance(IDataCollector.EXTENSIONID, keyRule1);
+        if (dataCollector == null)
+        {
+        	dataCollector = (IDataCollector)ExtensionUtil.getInstance(IDataCollector.EXTENSIONID, keyRule2);
+        	 if (dataCollector == null)
+        	 {
+        		 dataCollector = (IDataCollector)ExtensionUtil.getInstance(IDataCollector.EXTENSIONID, keyRule3);
+        	 }
+        }
+        if (dataCollector != null)
+        {
+        	dataCollector.setMonitorTaskInfo(monitorTaskInfo);
+        }
+        return dataCollector;
+    }
+	
+    private IDataParser createDataParser(String neTypeId) throws DataAcquireException {
+        IDataParser dataParser;
+        String keyRule1 = monitorName;
+        String keyRule2 = getQueryId(neTypeId, monitorName);
+        String keyRule3 = neTypeId;
+        dataParser = (IDataParser)ExtensionUtil.getInstance(IDataParser.EXTENSIONID, keyRule1);
+        if (dataParser == null)
+        {
+        	dataParser = (IDataParser)ExtensionUtil.getInstance(IDataParser.EXTENSIONID, keyRule2);
+        	 if (dataParser == null)
+        	 {
+        		 dataParser = (IDataParser)ExtensionUtil.getInstance(IDataParser.EXTENSIONID, keyRule3);
+        	 }
+        }
+
+        return dataParser;
+    }
+    
+    private IMonitor createMonitor(String neTypeId, MonitorTaskInfo taskInf) {
+        IMonitor monitor;
+        String keyRule1 = monitorName;
+        String keyRule2 = getQueryId(neTypeId, monitorName);
+        String keyRule3 = neTypeId;
+        monitor = (IMonitor)ExtensionUtil.getInstance(IMonitor.EXTENSIONID, keyRule1);
+        if (monitor == null)
+        {
+        	monitor = (IMonitor)ExtensionUtil.getInstance(IMonitor.EXTENSIONID, keyRule2);
+        	 if (monitor == null)
+        	 {
+        		 monitor = (IMonitor)ExtensionUtil.getInstance(IMonitor.EXTENSIONID, keyRule3);//MonitorTelnet
+        	 }
+        }
+        if (monitor != null)
+        {
+        	monitor.setMonitorTaskInfo(monitorTaskInfo);
+        }
+        return monitor;
+    }
 
 	private String assembleRealMonitorName(String provider, String monitorName, String osType, String version) {
 		return provider + ":" + monitorName + ":" + osType + ":" + version;

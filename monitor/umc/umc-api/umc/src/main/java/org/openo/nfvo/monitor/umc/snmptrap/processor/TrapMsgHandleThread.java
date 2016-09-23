@@ -15,16 +15,16 @@
  */
 package org.openo.nfvo.monitor.umc.snmptrap.processor;
 
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.umc.cache.CacheUtil;
 import org.openo.nfvo.monitor.umc.fm.adpt.roc.common.RocConst;
 import org.openo.nfvo.monitor.umc.fm.common.FMConsts;
 import org.openo.nfvo.monitor.umc.fm.service.FmService;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.MonitorServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;
-import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocAdptImpl;
 import org.openo.nfvo.monitor.umc.pm.common.PmException;
 import org.openo.nfvo.monitor.umc.pm.task.PmTaskException;
 import org.openo.nfvo.monitor.umc.snmptrap.common.NeTrapInfo;
@@ -133,7 +133,7 @@ public class TrapMsgHandleThread implements Runnable {
     private void sendTrapAlarm(FmAlarmData alarmData)
     {
     	String keyId = trapMsgData.getEventKey();
-    	Vector<NeTrapInfo> neTrapInfos = CacheUtil.getNeTrapInfo(keyId);
+    	List<NeTrapInfo> neTrapInfos = CacheUtil.getNeTrapInfo(keyId);//
     	if (neTrapInfos != null)
     	{
 	    	for (NeTrapInfo neTrapInfo : neTrapInfos)
@@ -175,9 +175,9 @@ public class TrapMsgHandleThread implements Runnable {
                 String neType = RocConst.NETYPE_HOST;
                 alarmData.setOid(oid);
                 alarmData.setMoc(neType);
-
+                
                 try{
-                    Properties rocProps = RocAdptImpl.getCommPara(oid, neType);
+                    Properties rocProps = MonitorServiceWrapper.getInstance().getMonitorInfoByOid(oid);
                     alarmData.setDevIp(rocProps.getProperty("ipaddress"));
                 }catch(PmTaskException e){
                     alarmData.setDevIp(trapMsgData.getIpAddress());
@@ -189,7 +189,7 @@ public class TrapMsgHandleThread implements Runnable {
                 alarmData.setMoc(neType);
 
                 try{
-                    Properties rocProps = RocAdptImpl.getCommPara(oid, neType);
+                    Properties rocProps = MonitorServiceWrapper.getInstance().getMonitorInfoByOid(oid);
                     alarmData.setDevIp(rocProps.getProperty("ipaddress"));
                 }catch(PmTaskException e){
                     alarmData.setDevIp(trapMsgData.getIpAddress());

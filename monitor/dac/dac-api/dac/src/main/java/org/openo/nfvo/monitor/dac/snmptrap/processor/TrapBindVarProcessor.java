@@ -15,14 +15,14 @@
  */
 package org.openo.nfvo.monitor.dac.snmptrap.processor;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Vector;
 
-import org.openo.nfvo.monitor.dac.common.util.ExtensionAccess;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionUtil;
 import org.openo.nfvo.monitor.dac.snmptrap.entity.TrapData;
 import org.openo.nfvo.monitor.dac.snmptrap.processor.entity.AlarmMappingData;
 import org.openo.nfvo.monitor.dac.snmptrap.processor.entity.BindOidData;
@@ -41,7 +41,7 @@ import org.snmp4j.smi.VariableBinding;
 public class TrapBindVarProcessor implements TrapProcessor {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TrapBindVarProcessor.class);
-	private static final String EXTENTISONID = "trap.bindvar";
+	private static final String KEY = "trap.bindvar";
 	private TrapProcessor next;
 
 	public TrapBindVarProcessor() {
@@ -82,8 +82,8 @@ public class TrapBindVarProcessor implements TrapProcessor {
 
 		Hashtable bindDatas = trapMappingData.getBindDatas();
 		Hashtable alarmMappingDatas = trapMappingData.getAlarmMappingDatas();
-		Vector<BindOidData> bindOidDatas = new Vector<BindOidData>();
-		Vector<VariableBinding> allVars = trapPDU.getVariableBindings();
+		List<BindOidData> bindOidDatas = new ArrayList<BindOidData>();
+		List<VariableBinding> allVars = trapPDU.getVariableBindings();
 		for (VariableBinding vb : allVars) {
 			String oid = vb.getOid().toString();
 			Iterator iter = bindDatas.keySet().iterator();
@@ -107,7 +107,7 @@ public class TrapBindVarProcessor implements TrapProcessor {
 		if (sizeBindOid == 0) {
 			return false;
 		}
-		BindOidData bodFirst = (BindOidData) bindOidDatas.get(0);
+		BindOidData bodFirst = bindOidDatas.get(0);
 		String bosFirst = bodFirst.getBindSyntax();
 		String bovFirst = bodFirst.getBindValue();
 		if (sizeBindOid == 1 && bosFirst.equalsIgnoreCase("String")
@@ -123,7 +123,7 @@ public class TrapBindVarProcessor implements TrapProcessor {
 					return false;
 				}
 				for (int i = 0; i < bindOidDatas.size(); i++) {
-					BindOidData bindOidData = (BindOidData) bindOidDatas.get(i);
+					BindOidData bindOidData = bindOidDatas.get(i);
 					String bindSyntax = bindOidData.getBindSyntax();
 					String strValue = bindOidData.getBindValue();
 
@@ -168,9 +168,9 @@ public class TrapBindVarProcessor implements TrapProcessor {
 				parsedBindValues = TrapProcessorUtil.parseBindingVarByMibFiles(trapPDU);
 			}
 			trapData.setBindValues(parsedBindValues);
-
-			Object[] parsers = ExtensionAccess.getExtensions(ITrapParser.class.getName(), EXTENTISONID);
-			for (Object parser : parsers) {
+			
+			Object[] parsers = ExtensionUtil.getInstances(ITrapParser.EXTENSIONID, KEY);	
+			for (Object parser : parsers) {			
 				((ITrapParser)parser).parser(trapData, trapPDU);
 			}
 			TrapProcessorUtil.sendTrapData(trapData);

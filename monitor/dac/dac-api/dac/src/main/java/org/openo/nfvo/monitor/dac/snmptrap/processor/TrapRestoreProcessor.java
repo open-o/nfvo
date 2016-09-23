@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -95,7 +94,7 @@ public class TrapRestoreProcessor implements TrapProcessor
         trapData.setAlarmCode(0);
         trapData.setReasonCode(0);
         ArrayList relateTrapInfo = getRelateTrapInfo(restoreOID);
-        Vector relateOid = (Vector) relateTrapInfo.get(0);
+        List relateOid = (List) relateTrapInfo.get(0);
         Map judgeBindOid = (HashMap) relateTrapInfo.get(1);
 
         for (int i = 0; i < relateOid.size(); i++)
@@ -189,8 +188,8 @@ public class TrapRestoreProcessor implements TrapProcessor
 	                String judToken = TrapConfUtil.getElementValue(judgeOid, "token-value");
 	                judgeOidsMap.put(judOid, judToken);
 	            }
-
-	            Vector vecRelOids = new Vector();
+	
+	            List vecRelOids = new ArrayList();
 	            List relateOids = eleOidRelations.getChildren("relate");
 	            for (int j = 0; j < relateOids.size(); j++)
 	            {

@@ -27,7 +27,7 @@ import org.openo.nfvo.monitor.umc.pm.adpt.roc.service.IPmResourceRestService;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
 
 
-@Path("/api/roc/v1/resource/hosts")
+@Path("/openoapi/roc/v1/resource/hosts")
 public interface IHostRestServiceResource extends IPmResourceRestService{
 	
 	

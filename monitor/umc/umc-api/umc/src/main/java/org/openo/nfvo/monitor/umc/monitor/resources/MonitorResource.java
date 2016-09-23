@@ -35,6 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.openo.nfvo.monitor.umc.db.entity.DACInfo;
+import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorParamInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorResult;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorTaskInfo;
@@ -132,6 +133,19 @@ public class MonitorResource {
             @ApiParam(value = "Monitor Param Info", required = true) MonitorParamInfo monitorParamInfo) {
 
      return MonitorServiceWrapper.getInstance().addMonitorInfo(monitorParamInfo);
+    }
+
+    @POST
+    @Path("/monitorinfo/{oid}")
+    @ApiOperation(value = "update Device Monitor Param Information", response = MonitorResult.class)
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "update Device Monitor Param Information error ")})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    public MonitorResult updateMonitorInfo(
+            @ApiParam(value = "Monitor device oid", required = true) @PathParam("oid") String oid,
+            @ApiParam(value = "Monitor Param Info", required = true) MonitorParamInfo monitorParamInfo) {
+
+        return MonitorServiceWrapper.getInstance().updateMonitorInfo(oid, monitorParamInfo);
 
     }
 
@@ -147,4 +161,38 @@ public class MonitorResource {
         return MonitorServiceWrapper.getInstance().deleteMonitorInfo(oid);
 
     }
+    
+    @GET
+    @Path("/monitorinfos")
+    @ApiOperation(value = "get all MonitorInfos ", response = MonitorInfo.class, responseContainer = "List")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    public List<MonitorInfo> getMonitorInfos() {
+        return DACServiceWrapper.getInstance().getMonitorInfos();
+    }
+
+    @GET
+    @Path("/monitorinfo/{oid}")
+    @ApiOperation(value = "get MonitorInfo by Oid", response = MonitorInfo.class)
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "get MonitorInfo error ")})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    public MonitorInfo getMonitorInfosByOid(
+            @ApiParam(value = "MonitorInfo Oid", required = true) @PathParam("oid") String oid) {
+
+        return DACServiceWrapper.getInstance().getMonitorInfoByOid(oid);
+    }
+    
+    @GET
+    @Path("/monitorinfos/{neTypeId}")
+    @ApiOperation(value = "get MonitorInfos by NeTypeId", response = MonitorInfo.class)
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "get MonitorInfos error ")})
+    @Produces(MediaType.APPLICATION_JSON)
+    @Timed
+    public List<MonitorInfo> getMonitorInfosByNeTypeId(
+            @ApiParam(value = "MonitorInfo NeTypeId", required = true) @PathParam("neTypeId") String neTypeId) {
+
+        return DACServiceWrapper.getInstance().getMonitorInfoByNeTypeId(neTypeId);
+    }
+    
 }

@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.openo.nfvo.monitor.umc.UMCApp;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
@@ -38,6 +39,7 @@ import org.openo.nfvo.monitor.umc.pm.services.PmService;
 import org.openo.nfvo.monitor.umc.pm.task.PmTaskService;
 import org.openo.nfvo.monitor.umc.util.DebugPrn;
 import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 
 public class PmServiceImplTest {
@@ -50,7 +52,9 @@ public class PmServiceImplTest {
     }
 	@BeforeClass
 	public static void setUp() {
-	    String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
+        String[] packageUrls =new String[] {UMCApp.class.getPackage().getName()};
+        ExtensionUtil.init(packageUrls);
+		String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
     	initFastFileSystem(filePath);
     	UmcDbUtil.setSessionFactory(HibernateSession.init());
 		dMsg.info("build cache");
@@ -73,8 +77,8 @@ public class PmServiceImplTest {
 		monitorInfo.setCustomPara(customPara);
 		monitorInfo.setLabel("computer-node02");
 		monitorInfo.setExtendPara("");
-
-		String origin = "roc";
+		monitorInfo.setOrigin("roc");
+		initMonitorInfo();
 	}
 
 	@AfterClass
@@ -88,8 +92,8 @@ public class PmServiceImplTest {
 	
 
 	
-   @Before
-	public void initMonitorInfo() {
+
+	public static void initMonitorInfo() {
 		try {
 			PmCommonProcess.save(PmConst.MONITOR_INFO, monitorInfo);
 		} catch (PmException e) {
@@ -116,7 +120,7 @@ public class PmServiceImplTest {
 		PmTaskService.pmThresholdCreate("nfv.host.linux=010074149067",
 				"nfv.host.linux");
 		PmTaskService.pmTaskModify("nfv.host.linux=010074149067");
-		PmTaskService.pmTaskReCreate("","10.2.41.169", "nfv.host.linux=010074149067",
+	    PmTaskService.pmTaskReCreate("","10.2.41.169", "nfv.host.linux=010074149067",
 				"nfv.host.linux");
 	    PmTaskService.pmTaskDelete("nfv.host.linux=010074149067");
 		PmTaskService.pmThresholdDelete("nfv.host.linux=010074149067");

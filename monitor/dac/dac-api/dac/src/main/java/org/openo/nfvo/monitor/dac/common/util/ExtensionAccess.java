@@ -47,8 +47,8 @@ public class ExtensionAccess {
         }
         return container.getAllClassName();
     }
-
-    public static Class getExtensionClass( String extensionID, String type ){
+    
+    public static Class<?> getExtensionClass( String extensionID, String type ){
         ExtensionContainter container = (ExtensionContainter)containerMap.get( extensionID );
         if( container == null ){
             return null;
@@ -275,6 +275,7 @@ public class ExtensionAccess {
             }
         }
 
+        @Override
         public int compareTo( Object o ){
             ExtensionImpl other = (ExtensionImpl)o;
             return this.serialNumber - other.serialNumber;
@@ -546,6 +547,7 @@ public class ExtensionAccess {
         DynamicSubject( String [] implClassNames ){
             this.implClassNames = implClassNames;
         }
+        @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             if( chains == null ){
                 chains = new Object[ implClassNames.length ];

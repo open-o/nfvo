@@ -15,6 +15,7 @@
  */
 package org.openo.nfvo.monitor.umc.cache;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 
 import org.openo.nfvo.monitor.umc.db.entity.PmTaskThreshold;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
@@ -65,9 +65,9 @@ public class CacheUtil {
     private static Map<String, TrapInfo> neTypeId2TrapInfoMap;
     
     // keyId-->NeTrapInfo
-    private static Map<String, Vector<NeTrapInfo>> keyId2NeTrapInfoMap = new HashMap<String, Vector<NeTrapInfo>>();
+    private static Map<String, List<NeTrapInfo>> keyId2NeTrapInfoMap = new HashMap<String, List<NeTrapInfo>>();
     
-    private static Map<String, Vector<String>> neId2KeyIds = new HashMap<String, Vector<String>>();
+    private static Map<String, List<String>> neId2KeyIds = new HashMap<String, List<String>>();
 
     @SuppressWarnings("unchecked")
     public static void buildCache() {
@@ -320,37 +320,37 @@ public class CacheUtil {
     
     public static void cacheNeTrapInfo(String keyId, NeTrapInfo neTrapInfo)
     {
-    	Vector<NeTrapInfo> neTrapInfos = keyId2NeTrapInfoMap.get(keyId);
+        List<NeTrapInfo> neTrapInfos = keyId2NeTrapInfoMap.get(keyId);
     	if (neTrapInfos == null)
     	{
-    		neTrapInfos = new Vector<NeTrapInfo>();
+    		neTrapInfos = new ArrayList<NeTrapInfo>();
     		keyId2NeTrapInfoMap.put(keyId, neTrapInfos);
     	}
     	neTrapInfos.add(neTrapInfo);
     	
     	String neId = neTrapInfo.getNeId();
-    	Vector<String> keyIds = neId2KeyIds.get(neId);
+    	List<String> keyIds = neId2KeyIds.get(neId);
     	if (keyIds == null)
     	{
-    		keyIds = new Vector<String>();
+    		keyIds = new ArrayList<String>();
     		neId2KeyIds.put(neId, keyIds);
     	}
     	keyIds.add(keyId);
     }
     
-    public static Vector<NeTrapInfo> getNeTrapInfo(String keyId)
+    public static List<NeTrapInfo> getNeTrapInfo(String keyId)
     {
     	return keyId2NeTrapInfoMap.get(keyId);
     }
     
     public static void removeNeTrapInfo(String neId)
     {
-    	Vector<String> keyIds = neId2KeyIds.get(neId);
+        List<String> keyIds = neId2KeyIds.get(neId);
     	if (keyIds != null)
     	{
     		for (String keyId : keyIds)
     		{
-    			Vector<NeTrapInfo> neTrapInfos = getNeTrapInfo(keyId);
+    		    List<NeTrapInfo> neTrapInfos = getNeTrapInfo(keyId);
     			if (neTrapInfos != null)
     			{
 	    			for (NeTrapInfo neTrapInfo : neTrapInfos)

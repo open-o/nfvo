@@ -23,9 +23,6 @@ import org.junit.Test;
 
 
 public class IntegrationTest {
-    @ClassRule
-    public static final DropwizardAppRule<UMCAppConfig> RULE =
-        new DropwizardAppRule<UMCAppConfig>(UMCApp.class, "umc.yml");
 
     @Test
     public void testUMC() throws Exception {

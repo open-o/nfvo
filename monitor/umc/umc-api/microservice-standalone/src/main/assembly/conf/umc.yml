@@ -104,7 +104,7 @@ database:
   # the password
   password: openo
   # the JDBC URL
-  url: jdbc:mysql://127.0.0.1:3306/umcdb?useUnicode=true&characterEncoding=UTF-8  
+  url: jdbc:mysql://127.0.0.1:3306/umcdb?useUnicode=true&amp;characterEncoding=UTF-8  
   # any properties specific to your JDBC driver:
   properties:
     tcpPort: 8405

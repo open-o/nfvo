@@ -56,4 +56,19 @@ public class PmTaskThresholdDao extends UmcDao<PmTaskThreshold> {
             closeTransaction();
         }
     }
+    
+    public PmTaskThreshold queryByOid(String oid) {
+        PmTaskThreshold obj = null;
+        try {
+            beginTransaction();
+            obj = (PmTaskThreshold) session.createQuery("from PmTaskThreshold t where t.oid = :oid")
+                    .setParameter("oid", oid).uniqueResult();
+        } catch (HibernateException ex) {
+            LOGGER.error("PmTaskThresholdDao.deleteByOid throw exception!", ex);
+        } finally {
+            closeTransaction();
+        }
+        
+        return obj;
+    }
 }

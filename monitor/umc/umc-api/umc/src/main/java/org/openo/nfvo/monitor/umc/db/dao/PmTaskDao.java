@@ -70,7 +70,7 @@ public class PmTaskDao extends UmcDao<PmTask> {
             closeTransaction();
         }
     }
-
+ //"select max(convert(t.jobid,SIGNED)) from Pm_Task t"
     public int getMaxPmJobId() {
         Integer MaxJobId = null;
         try {

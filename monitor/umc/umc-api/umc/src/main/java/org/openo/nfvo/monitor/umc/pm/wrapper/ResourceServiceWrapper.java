@@ -18,8 +18,10 @@ package org.openo.nfvo.monitor.umc.pm.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocAdptImpl;
+import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.DACServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.bean.Resource;
+import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.common.RestRequestException;
 
 public class ResourceServiceWrapper {
@@ -29,17 +31,23 @@ public class ResourceServiceWrapper {
      * @throws RestRequestException 
      */
     public static List<Resource> queryResources(String resTypeId) throws RestRequestException {
+        
+        List<Resource> resList = new ArrayList<Resource>();
+        List<String> neTypeIds = new ArrayList<String>();
+        
         if (resTypeId == null || resTypeId.isEmpty()) {
-            List<String> resTypeIdList = RocAdptImpl.getNeTypeIds();
-            List<Resource> resList = new ArrayList<Resource>();
-            for (int i = 0; i < resTypeIdList.size(); i++) {
-                resList.addAll(RocAdptImpl.getResourcesByType(resTypeIdList.get(i)));
-            }
-
-            return resList;
+            neTypeIds.add(PmConst.VDU);
+            neTypeIds.add(PmConst.HOST);
+        }else{
+            neTypeIds.add(resTypeId);
         }
-
-        return RocAdptImpl.getResourcesByType(resTypeId);
+        
+        for(String neTypeId : neTypeIds){
+            List<MonitorInfo> monitorInfos = DACServiceWrapper.getInstance().getMonitorInfoByNeTypeId(neTypeId);
+            for(MonitorInfo monitorInfo : monitorInfos){
+                resList.add(new Resource(monitorInfo.getOid(), monitorInfo.getLabel()));                    
+            }
+        }        
+        return resList;
     }
-
 }

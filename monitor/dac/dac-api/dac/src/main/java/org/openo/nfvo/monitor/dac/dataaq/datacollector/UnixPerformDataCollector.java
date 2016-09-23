@@ -15,9 +15,20 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.datacollector;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.util.DacUtil;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionImpl;
 import org.openo.nfvo.monitor.dac.common.util.FileTransfer;
+import org.openo.nfvo.monitor.dac.dataaq.common.DataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.ICollectorPara;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
@@ -30,32 +41,24 @@ import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-public class UnixPerformDataCollector implements IDataCollector {
+@ExtensionImpl(keys = {DacConst.MOC_NFV_VDU_LINUX, DacConst.MOC_NFV_HOST_LINUX}, entensionId = IDataCollector.EXTENSIONID)
+public class UnixPerformDataCollector extends DataCollector {
     private static final Logger LOGGER = LoggerFactory.getLogger(UnixPerformDataCollector.class);
     private static String[] prompts = {"$", "#", "invalid login", "Login incorrect"};
-    private int taskId = 0;
-    private MonitorTaskInfo taskInfo = null;
 
 
     public MonitorTaskInfo getTaskInfo() {
         return taskInfo;
     }
 
+    @Override
     public Map collectData(ICollectorPara para, Map commands) throws MonitorException {
         taskInfo.cachedMessage = "";
         TelnetCollectorPara telnetPara = (TelnetCollectorPara) para;
-        Vector<String> acceptTokens = null;
+        List<String> acceptTokens = null;
         String shFileName = "";
         String command = "";
-        Hashtable<String, Vector<String>> result = new Hashtable<>();
+        Hashtable<String, List<String>> result = new Hashtable<>();
 
         String monitorname = (String) taskInfo.getMonitorProperty(DacConst.REALMONITORNAME);
         boolean ifLinux = false;
@@ -65,8 +68,8 @@ public class UnixPerformDataCollector implements IDataCollector {
 
         for (Object o : commands.keySet()) {
             command = (String) o;
-            acceptTokens = (Vector<String>) commands.get(command);
-            if (command.endsWith(".sh")) {
+            acceptTokens = (List<String>) commands.get(command);
+            if (command.endsWith(".sh")) {//sh /usr/wg/klinux_cpu.sh
                 String ip = telnetPara.getIp();
                 StringTokenizer tokens = new StringTokenizer(command);
                 String[] array = new String[tokens.countTokens()];
@@ -82,7 +85,7 @@ public class UnixPerformDataCollector implements IDataCollector {
             }
         }
 
-        LOGGER.info("TaskId: " + taskId + " Telnet session User: " + telnetPara.getUserName()
+        LOGGER.info("TaskId: " + taskInfo.getJobId() + " Telnet session User: " + telnetPara.getUserName()
                 + " Password: xxxx Command: " + command);
 
         // create ClientSession
@@ -145,7 +148,7 @@ public class UnixPerformDataCollector implements IDataCollector {
 
             String[] messages = clientSession.splitByLine(tempMessage.trim());
 
-            Vector<String> vector = new Vector<>();
+            List<String> list = new ArrayList<>();
             int startLine = 0;
 
             // Keep the number of filtered messages.
@@ -181,19 +184,19 @@ public class UnixPerformDataCollector implements IDataCollector {
                     sb.append("Filtered the following message: ").append(messages[i]).append("\n");
                 }
                 if (!promptflag) {
-                    vector.add(messages[i]);
+                    list.add(messages[i]);
                 }
             }
 
-            result.put(command, vector);
+            result.put(command, list);
 
-            for (int i = 0, size = vector.size(); i < size; i++) {
-                sb.append("TaskId: ").append(taskId).append(" Telnet session result [").append(i)
-                        .append("]:").append(vector.get(i)).append("\n");
+            for (int i = 0, size = list.size(); i < size; i++) {
+                sb.append("TaskId: ").append(taskInfo.getJobId()).append(" Telnet session result [").append(i)
+                        .append("]:").append(list.get(i)).append("\n");
             }
-            sb.append("TaskId: ").append(taskId).append(" Telnet session result total [")
-                    .append(vector.size()).append("]").append("\n");
-            LOGGER.info("result is :{}",sb.toString());
+            sb.append("TaskId: ").append(taskInfo.getJobId()).append(" Telnet session result total [")
+                    .append(list.size()).append("]").append("\n");
+
             taskInfo.cachedMessage = sb.toString();
             return result;
         } catch (IOException e) {
@@ -218,7 +221,7 @@ public class UnixPerformDataCollector implements IDataCollector {
         return command;
     }
 
-    private boolean acceptThisLine(Vector<String> acceptTokens, String message) {
+    private boolean acceptThisLine(List<String> acceptTokens, String message) {
         StringTokenizer tokens = new StringTokenizer(message);
         int acceptSize = acceptTokens.size();
         int nowSize = tokens.countTokens();
@@ -297,10 +300,5 @@ public class UnixPerformDataCollector implements IDataCollector {
         return m.matches();
     }
 
-	@Override
-	public void setMonitorTaskInfo(MonitorTaskInfo monitorTaskInfo) {
-		taskInfo = monitorTaskInfo;
-		taskId = monitorTaskInfo.getJobId();
 
-	}
 }

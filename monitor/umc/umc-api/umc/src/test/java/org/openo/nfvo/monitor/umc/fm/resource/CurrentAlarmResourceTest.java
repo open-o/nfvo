@@ -40,6 +40,7 @@ import org.junit.runners.MethodSorters;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.openo.nfvo.monitor.umc.UMCApp;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.entity.CurrentAlarm;
 import org.openo.nfvo.monitor.umc.fm.adpt.resources.RocResourceConfig;
@@ -60,6 +61,7 @@ import org.openo.nfvo.monitor.umc.i18n.I18n;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;
 import org.openo.nfvo.monitor.umc.pm.osf.db.util.HibernateSession;
 import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +90,9 @@ public class CurrentAlarmResourceTest {
     private AlarmIds delPara = new AlarmIds();
 
     @Before
-    public void setUp() {;
+    public void setUp() {
+    	String[] packageUrls =new String[] {UMCApp.class.getPackage().getName()};
+    	ExtensionUtil.init(packageUrls);	
     	String filePath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
     	initFastFileSystem(filePath);
     	FmCacheUtil.init();

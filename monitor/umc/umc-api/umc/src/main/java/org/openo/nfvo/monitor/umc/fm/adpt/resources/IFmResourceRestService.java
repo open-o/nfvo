@@ -19,7 +19,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-@Path("/api/roc/v1/resource")
+@Path("/openoapi/roc/v1/resource")
 public interface IFmResourceRestService {
     @GET
     @Path("/definitions?type={type}")

@@ -26,7 +26,7 @@ public class ResourceRestServiceProxy {
     }
 
     public static String getProbableCauseTree(String type) throws Exception {
-    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/definitions?type="+type;
+    	String url = RocResourceConfig.getRocResourceAddr()+"/openoapi/roc/v1/resource"+"/definitions?type="+type;
         String response = APIHttpClient.doGet(url, "", "utf-8", "");
         return response;
         //return dbRestServiceproxy.getProbableCauseTree(type);
@@ -34,20 +34,20 @@ public class ResourceRestServiceProxy {
 
     public static String getProbableCause() throws Exception {
         //return dbRestServiceproxy.getProbableCause();
-    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/definitions";
+    	String url = RocResourceConfig.getRocResourceAddr()+"/openoapi/roc/v1/resource"+"/definitions";
         String response = APIHttpClient.doGet(url, "", "utf-8", "");
         return response;
     }
 
     public static String getAllResource() {
-    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/instances?types=all";
+    	String url = RocResourceConfig.getRocResourceAddr()+"/openoapi/roc/v1/resource"+"/instances?types=all";
         String response = APIHttpClient.doGet(url, "", "utf-8", "");
         return response;
         //return dbRestServiceproxy.getAllResource();
     }
 
     public static String getNeNode(String id) {
-    	String url = RocResourceConfig.getRocResourceAddr()+"/api/roc/v1/resource"+"/instances/"+id;
+    	String url = RocResourceConfig.getRocResourceAddr()+"/openoapi/roc/v1/resource"+"/instances/"+id;
         String response = APIHttpClient.doGet(url, "", "utf-8", "");
         return response;
         //return dbRestServiceproxy.getNeNode(id);

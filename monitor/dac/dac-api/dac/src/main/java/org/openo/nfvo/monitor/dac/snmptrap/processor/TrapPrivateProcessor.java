@@ -18,7 +18,7 @@ package org.openo.nfvo.monitor.dac.snmptrap.processor;
 import java.util.Map;
 import java.util.Properties;
 
-import org.openo.nfvo.monitor.dac.common.util.ExtensionAccess;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionUtil;
 import org.openo.nfvo.monitor.dac.snmptrap.entity.TrapData;
 import org.openo.nfvo.monitor.dac.snmptrap.processor.entity.TrapDescInfo;
 import org.openo.nfvo.monitor.dac.snmptrap.processor.util.TrapProcessorConfig;
@@ -30,7 +30,7 @@ import org.snmp4j.PDU;
 public class TrapPrivateProcessor implements TrapProcessor
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TrapPrivateProcessor.class);
-	private static final String EXTENTISONID = "trap.private";
+	private static final String KEY = "trap.private";
     private TrapProcessor next;
 
     public TrapPrivateProcessor()
@@ -113,8 +113,8 @@ public class TrapPrivateProcessor implements TrapProcessor
         }
         trapData.setBindValues(parsedBindValues);
         trapData.setEntity(strEntity.toString());
-		Object[] parsers = ExtensionAccess.getExtensions(ITrapParser.class.getName(), EXTENTISONID);
-		for (Object parser : parsers) {
+        Object[] parsers = ExtensionUtil.getInstances(ITrapParser.EXTENSIONID, KEY);		
+		for (Object parser : parsers) {			
 			((ITrapParser)parser).parser(trapData, trapPDU);
 		}
 		TrapProcessorUtil.sendTrapData(trapData);

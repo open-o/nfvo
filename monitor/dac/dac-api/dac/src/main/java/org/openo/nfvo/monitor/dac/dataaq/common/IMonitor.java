@@ -15,13 +15,17 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.common;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
+
+import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 
 /**
  * Interface for performing data acquisition tasks
  */
 public interface IMonitor {
+	
+	public static final String EXTENSIONID = "org.openo.nfvo.monitor.dac.dataaq.common.IMonitor";
     /**
      * Perform data collection and parse
      * @param paras Data acquisition parameter
@@ -31,5 +35,6 @@ public interface IMonitor {
      * @throws DataAcquireException
      */
     @SuppressWarnings("rawtypes")
-	Map<String, Vector<String>> perform(Map paras, IDataCollector dataCollector, IDataParser dataParser) throws DataAcquireException;
+	public Map<String, List<String>> perform(Map paras, IDataCollector dataCollector, IDataParser dataParser) throws DataAcquireException;
+    public void setMonitorTaskInfo(MonitorTaskInfo taskInfo);
 }

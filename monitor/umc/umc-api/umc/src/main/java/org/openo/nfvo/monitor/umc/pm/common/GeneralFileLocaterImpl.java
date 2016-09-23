@@ -58,6 +58,7 @@ public class GeneralFileLocaterImpl
         appRootPath = jarPath.substring(0, index);
         logInfo("app root path is " + appRootPath);
         this.configPath = appRootPath + File.separator + DICNAME_CONF;
+        //this.configPath = "E:\\monitor-dev-code\\monitor\\umc\\umc-api\\microservice-standalone\\src\\main\\assembly\\conf";
     }
 
     /**

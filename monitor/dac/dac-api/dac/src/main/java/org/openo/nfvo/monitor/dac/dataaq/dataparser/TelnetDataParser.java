@@ -15,17 +15,18 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.dataparser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
 import org.openo.nfvo.monitor.dac.common.util.Calculator;
 import org.openo.nfvo.monitor.dac.common.util.DacUtil;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionImpl;
 import org.openo.nfvo.monitor.dac.dataaq.common.DataAcquireException;
 import org.openo.nfvo.monitor.dac.dataaq.common.IDataParser;
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
@@ -35,12 +36,14 @@ import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@ExtensionImpl(keys = {DacConst.MOC_NFV_VDU_LINUX, DacConst.MOC_NFV_HOST_LINUX}, entensionId = IDataParser.EXTENSIONID)
 public class TelnetDataParser implements IDataParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(TelnetDataParser.class);
 
-    public Object parse(Vector dataCollected, DaPerfCounterInfo perfCounterInfo)
+    @Override
+    public Object parse(ArrayList dataCollected, DaPerfCounterInfo perfCounterInfo)
             throws MonitorException {
-        Vector<String> result = new Vector<String>();
+        List<String> result = new ArrayList<String>();
 
         if (dataCollected.size() == 0) {
             return result;
@@ -50,30 +53,30 @@ public class TelnetDataParser implements IDataParser {
         List parserContent = perfCounterInfo.getCounterParsers();
         String formular = perfCounterInfo.getValue();
 
-        Map<String, Vector<String>> valueParsed = new HashMap<>();
+        Map<String, List<String>> valueParsed = new HashMap<>();
         for (Object aParserContent : parserContent) {
             DaParserInfo parseInfo = (DaParserInfo) aParserContent;
             int line = parseInfo.getLine();
             String name = parseInfo.getName();
             int token = parseInfo.getToken();
             boolean iftokenall = parseInfo.iftokenall();
-            Vector<String> value =
+            List<String> value =
                     DacUtil.getInfo(line, token, valueStr, perfCounterInfo.iflist(), iftokenall);
 
             String unit = parseInfo.getUnit();
             if (unit != null) {
                 value = DacUtil.delUnit(value, unit);
             }
-            valueParsed.put(name, value);
+            valueParsed.put(name, value);//<"cpuidleratio",{92.12}>
         }
 
         if (perfCounterInfo.ifstring()) {
-            Vector<String> vec = valueParsed.get(formular);
-            if (vec == null) {
-                LOGGER.error("There's no such vector as " + formular);
-                return new Vector();
+            List<String> list = valueParsed.get(formular);
+            if (list == null) {
+                LOGGER.error("There's no such list as " + formular);
+                return new ArrayList();
             }
-            return vec;
+            return list;
         }
 
         try {
@@ -84,13 +87,13 @@ public class TelnetDataParser implements IDataParser {
                 Object obj = valueParsed.get(key);
                 LOGGER.info(" newKEY: " + key);
                 if (obj != null) {
-                    Vector vec = (Vector) obj;
-                    for (int j = 0, size = vec.size(); (j < size) && (j <= 15); j++) {
-                        String neirong = vec.get(j).toString();
+                    List list = (ArrayList) obj;
+                    for (int j = 0, size = list.size(); (j < size) && (j <= 15); j++) {
+                        String neirong = list.get(j).toString();
                         LOGGER.info("[" + j + "]: " + neirong);
                     }
-                    if (vec.size() > 15) {
-                        LOGGER.info("Total size: " + vec.size());
+                    if (list.size() > 15) {
+                        LOGGER.info("Total size: " + list.size());
                     }
                 } else {
                     LOGGER.info(obj != null ? obj.toString() : null);
@@ -120,7 +123,7 @@ public class TelnetDataParser implements IDataParser {
         String sTaskId = String.valueOf(mtaskInfo.getJobId());
         Map map1 = (Map) telnetNetworkInterfaceCache.get(sTaskId);
 
-        Vector vecCollectTime = new Vector();
+        List vecCollectTime = new ArrayList();
         vecCollectTime.add(String.valueOf(System.currentTimeMillis() / 1000));
         result.put(DacConst.m_COLLECTEDTIME, vecCollectTime);
         telnetNetworkInterfaceCache.put(sTaskId, result);
@@ -134,13 +137,13 @@ public class TelnetDataParser implements IDataParser {
                     + " The first data acquisition from " + ip + ", not reporting data.");
         }
 
-        Vector telnetInPacket = (Vector) result.get("TELNETINPACKET");
-        Vector telnetOutPacket = (Vector) result.get("TELNETOUTPACKET");
-        Vector telnetInError = (Vector) result.get("TELNETINERROR");
-        Vector telnetOutError = (Vector) result.get("TELNETOUTERROR");
-        Vector telnetInByte = (Vector) result.get("TELNETINBYTE");
-        Vector telnetOutByte = (Vector) result.get("TELNETOUTBYTE");
-        Vector telnetSpeed = (Vector) result.get("TELNETSPEED");
+        List telnetInPacket = (ArrayList) result.get("TELNETINPACKET");
+        List telnetOutPacket = (ArrayList) result.get("TELNETOUTPACKET");
+        List telnetInError = (ArrayList) result.get("TELNETINERROR");
+        List telnetOutError = (ArrayList) result.get("TELNETOUTERROR");
+        List telnetInByte = (ArrayList) result.get("TELNETINBYTE");
+        List telnetOutByte = (ArrayList) result.get("TELNETOUTBYTE");
+        List telnetSpeed = (ArrayList) result.get("TELNETSPEED");
 
         if (telnetInPacket == null || telnetOutPacket == null || telnetInError == null
                 || telnetOutError == null || telnetInByte == null || telnetOutByte == null) {
@@ -154,8 +157,8 @@ public class TelnetDataParser implements IDataParser {
             String key = (String) it.next();
             Object obj = map1.get(key);
             cacheMsg.append("cached dataaq key: ").append(key).append("\n");
-            if (obj instanceof Vector) {
-                Vector vec = (Vector) obj;
+            if (obj instanceof List) {
+                List vec = (ArrayList) obj;
                 for (int j = 0, vsize = vec.size(); j < vsize; j++) {
                     String neirong = (String) vec.get(j);
                     cacheMsg.append(j).append(": ").append(neirong).append("\n");
@@ -168,10 +171,10 @@ public class TelnetDataParser implements IDataParser {
         mtaskInfo.cachedMessage = sb1.toString();
 
         long cdTimeLast = Long
-                .parseLong(((Vector) map1.get(DacConst.m_COLLECTEDTIME)).get(0).toString());
+                .parseLong(((ArrayList) map1.get(DacConst.m_COLLECTEDTIME)).get(0).toString());
         long cdTimeThis = System.currentTimeMillis() / 1000;
 
-        Vector lastTelnetInPacket = (Vector) map1.get("TELNETINPACKET");
+        List lastTelnetInPacket = (ArrayList) map1.get("TELNETINPACKET");
         if (lastTelnetInPacket.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetInPacket's size is not equal to this one.");
@@ -181,45 +184,45 @@ public class TelnetDataParser implements IDataParser {
                             + "; cdTimeLast = " + cdTimeLast + "; cdTimeThis = " + cdTimeThis
                             + "; collectInterval = " + collectInterval);
         }
-        Vector lastTelnetOutPacket = (Vector) map1.get("TELNETOUTPACKET");
+        List lastTelnetOutPacket = (ArrayList) map1.get("TELNETOUTPACKET");
         if (lastTelnetOutPacket.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetOutPacket's size is not equal to this one.");
             return result;
         }
-        Vector lastTelnetInError = (Vector) map1.get("TELNETINERROR");
+        List lastTelnetInError = (ArrayList) map1.get("TELNETINERROR");
         if (lastTelnetInError.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetInError's size is not equal to this one.");
             return result;
         }
-        Vector lastTelnetOutError = (Vector) map1.get("TELNETOUTERROR");
+        List lastTelnetOutError = (ArrayList) map1.get("TELNETOUTERROR");
         if (lastTelnetOutError.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetOutError's size is not equal to this one.");
             return result;
         }
-        Vector lastTelnetInByte = (Vector) map1.get("TELNETINBYTE");
+        List lastTelnetInByte = (ArrayList) map1.get("TELNETINBYTE");
         if (lastTelnetInByte.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetInByte's size is not equal to this one.");
             return result;
         }
-        Vector lastTelnetOutByte = (Vector) map1.get("TELNETOUTBYTE");
+        List lastTelnetOutByte = (ArrayList) map1.get("TELNETOUTBYTE");
         if (lastTelnetOutByte.size() != size) {
             LOGGER.info(
                     "TelnetNetworkInterface: lastTelnetOutByte's size is not equal to this one.");
             return result;
         }
 
-        Vector packetRecVec = new Vector();
-        Vector packetSentVec = new Vector();
-        Vector packetRecErrorVec = new Vector();
-        Vector packetSentErrorVec = new Vector();
-        Vector packetRecErrorRatioVec = new Vector();
-        Vector packetSentErrorRatioVec = new Vector();
-        Vector byteRecRatioVec = new Vector();
-        Vector byteSentRatioVec = new Vector();
+        List packetRecVec = new ArrayList();
+        List packetSentVec = new ArrayList();
+        List packetRecErrorVec = new ArrayList();
+        List packetSentErrorVec = new ArrayList();
+        List packetRecErrorRatioVec = new ArrayList();
+        List packetSentErrorRatioVec = new ArrayList();
+        List byteRecRatioVec = new ArrayList();
+        List byteSentRatioVec = new ArrayList();
         for (int i = 0; i < size; i++) {
             long periodOutErrors;
             long periodInErrors;
@@ -288,10 +291,10 @@ public class TelnetDataParser implements IDataParser {
             byteSentRatioVec.add(String.valueOf(periodSentRatio));
         }
 
-        packetRecErrorRatioVec = DacUtil.vectorSetScale(packetRecErrorRatioVec, 3);
-        packetSentErrorRatioVec = DacUtil.vectorSetScale(packetSentErrorRatioVec, 3);
-        byteRecRatioVec = DacUtil.vectorSetScale(byteRecRatioVec, 3);
-        byteSentRatioVec = DacUtil.vectorSetScale(byteSentRatioVec, 3);
+        packetRecErrorRatioVec = DacUtil.listSetScale(packetRecErrorRatioVec, 3);
+        packetSentErrorRatioVec = DacUtil.listSetScale(packetSentErrorRatioVec, 3);
+        byteRecRatioVec = DacUtil.listSetScale(byteRecRatioVec, 3);
+        byteSentRatioVec = DacUtil.listSetScale(byteSentRatioVec, 3);
 
         Map resultMap = new HashMap();
         resultMap.putAll(result);

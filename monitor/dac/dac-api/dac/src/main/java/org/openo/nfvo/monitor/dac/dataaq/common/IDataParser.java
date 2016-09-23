@@ -15,7 +15,7 @@
  */
 package org.openo.nfvo.monitor.dac.dataaq.common;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaPerfCounterInfo;
 
@@ -23,12 +23,15 @@ import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.DaPerfCounterInfo;
  * Data parser interface
  */
 public interface IDataParser {
-    /**
+
+	public static final String EXTENSIONID = "org.openo.nfvo.monitor.dac.dataaq.common.IDataParser";
+	/**
      * Parse the collected data
      * @param dataCollected Data acquisition result
      * @param perfCounterInfo Data acquisition index definition information
      * @return Parsed data
      * @throws MonitorException
      */
-    Object parse(Vector dataCollected, DaPerfCounterInfo perfCounterInfo) throws MonitorException;
+    @SuppressWarnings("rawtypes")
+	public Object parse(ArrayList dataCollected, DaPerfCounterInfo perfCounterInfo) throws MonitorException;
 }

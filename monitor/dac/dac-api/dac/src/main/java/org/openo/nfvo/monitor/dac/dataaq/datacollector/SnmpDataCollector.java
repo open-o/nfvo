@@ -16,34 +16,34 @@
 package org.openo.nfvo.monitor.dac.dataaq.datacollector;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
+import org.openo.nfvo.monitor.dac.dataaq.common.DataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.ICollectorPara;
-import org.openo.nfvo.monitor.dac.dataaq.common.IDataCollector;
 import org.openo.nfvo.monitor.dac.dataaq.common.MonitorException;
 import org.openo.nfvo.monitor.dac.dataaq.datacollector.para.SnmpCollectorPara;
-import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
 import org.snmp4j.Target;
 import org.snmp4j.mp.SnmpConstants;
-import org.snmp4j.security.SecurityLevel;
 import org.snmp4j.smi.VariableBinding;
 
-public class SnmpDataCollector implements IDataCollector {
+public class SnmpDataCollector extends DataCollector {
+
     static final Logger LOGGER = LoggerFactory.getLogger(SnmpDataCollector.class);
-    private MonitorTaskInfo taskInfo = null;
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Map collectData(ICollectorPara para, Map commands)
 			throws MonitorException {
 		Snmp snmp = null;
-        HashMap<String, HashMap<String, Vector<String>>> result = new HashMap<String, HashMap<String, Vector<String>>>();
+        HashMap<String, HashMap<String, List<String>>> result = new HashMap<String, HashMap<String, List<String>>>();
 		SnmpCollectorPara snmpPara = (SnmpCollectorPara) para;
 		int version = snmpPara.getVersion();
 		try {
@@ -59,10 +59,10 @@ public class SnmpDataCollector implements IDataCollector {
 				{
 					getNext = true;
 				}
-				Vector<String> oid_result = new Vector<String>();
-				Vector<String> oid_appended = new Vector<String>();
-				HashMap<String, Vector<String>> tmpresult = new HashMap<String, Vector<String>>();
-				Vector<VariableBinding> bindValues;
+				List<String> oid_result = new ArrayList<String>();
+				List<String> oid_appended = new ArrayList<String>();
+				HashMap<String, List<String>> tmpresult = new HashMap<String, List<String>>();
+				List<VariableBinding> bindValues;
 				if (getNext)
 				{
 					PDU pdu = null;
@@ -113,36 +113,5 @@ public class SnmpDataCollector implements IDataCollector {
 			}
 		}
         return result;
-	}
-	
-    
-//    public static void main(String[] args)
-//    {
-//    	SnmpCollectorPara para = new SnmpCollectorPara();
-//    	para.setVersion(SnmpConstants.version2c);
-//    	para.setHostNameOrIp("10.74.164.23");
-//    	para.setReadCommunity("public");
-//    	para.setPort(161);
-//    	para.setAuthPassword("1234567890abcdef");
-//    	para.setAuthProtocol(1);
-//    	para.setSecurityLevel(SecurityLevel.AUTH_PRIV);
-//    	para.setPrivPassword("1234567890abcdef");
-//    	para.setUserName("user4");
-//    	para.setSecurityName("user4");
-//    	Map commands = new HashMap();
-//    	commands.put("1.3.6.1.2.1.2.2.1.13", "true");
-////    	commands.put("1.3.6.1.2.1.2.2.1.2", "true");
-//    	SnmpDataCollector collector = new SnmpDataCollector();
-//    	try {
-//			collector.collectData(para, commands);
-//		} catch (MonitorException e) {
-//			 System.out.println("Error:" + e.getMessage()); 
-//		}
-//    }
-
-
-	@Override
-	public void setMonitorTaskInfo(MonitorTaskInfo monitorTaskInfo) {
-		taskInfo = monitorTaskInfo;
 	}
 }

@@ -35,7 +35,6 @@ import java.util.List;
 import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.openo.nfvo.monitor.umc.bundle.H2DbServerBundle;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.cometdclient.RocCometdClient;
 import org.openo.nfvo.monitor.umc.db.UmcDbSession;
@@ -66,6 +65,7 @@ import org.openo.nfvo.monitor.umc.sm.resources.UiframeResource;
 import org.openo.nfvo.monitor.umc.sm.wrapper.SmcServiceWrapper;
 import org.openo.nfvo.monitor.umc.sm.wrapper.UiFrameServiceWrapper;
 import org.openo.nfvo.monitor.umc.util.ExtensionAccess;
+import org.openo.nfvo.monitor.umc.util.ExtensionUtil;
 import org.openo.nfvo.monitor.umc.util.UMCUtil;
 import org.openo.nfvo.monitor.umc.util.filescaner.FastFileSystem;
 import org.slf4j.Logger;
@@ -135,7 +135,9 @@ public class UMCApp extends Application<UMCAppConfig> {
         SmcServiceWrapper.getInstance().setLoginInfo(umcAppConfig.getLoginInfo());
 
         environment.getObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
+        
+        String[] packageUrls = new String[] {UMCApp.class.getPackage().getName()};
+        ExtensionUtil.init(packageUrls);
         initCometd(environment, umcAppConfig);
         //set swagger
         setSwagger(umcAppConfig);
@@ -153,7 +155,7 @@ public class UMCApp extends Application<UMCAppConfig> {
         	DACServiceWrapper.getInstance().initLocalDac(umcAppConfig.getDacIp());
         }
 
-        RocCometdClient.getInstance().subscribe(umcAppConfig.getRocServerAddr());
+        //RocCometdClient.getInstance().subscribe(umcAppConfig.getRocServerAddr());
 
         I18n.init();
         registerUmcService(umcAppConfig);

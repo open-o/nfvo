@@ -16,20 +16,18 @@
 package org.openo.nfvo.monitor.umc.pm.task;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import org.openo.nfvo.monitor.umc.cache.CacheUtil;
+import org.openo.nfvo.monitor.umc.monitor.wrapper.MonitorServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.DacAdptImpl;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskCreateAndModifyInfo;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskCreateAndModifyInfoAck;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskDeleteInfo;
 import org.openo.nfvo.monitor.umc.pm.adpt.dac.bean.TaskDeleteInfoAck;
-import org.openo.nfvo.monitor.umc.pm.adpt.roc.RocAdptImpl;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.PmConst;
 import org.openo.nfvo.monitor.umc.pm.task.bean.DataaqTaskInfo;
-import org.openo.nfvo.monitor.umc.pm.task.bean.PoCounterInfo;
 import org.openo.nfvo.monitor.umc.pm.task.cache.DataaqTaskCacheUtil;
 
 
@@ -137,25 +135,25 @@ public class PmTaskManager {
 		String poid = dataaqTaskInfo.getPmType();
 		String monitorName = CacheUtil.getMonitorNameByPOID(poid);
 
-		List<PoCounterInfo> counters = CacheUtil.getCountersByPMType(poid);
-		int indexNum = counters.size();
-		String[] clmnName = new String[indexNum];
-		for (int k = 0; k < indexNum; k++) {
-			PoCounterInfo counterInfo = counters.get(k);
-			
-			clmnName[k] = counterInfo.getAttrClmn();
-			
-		}
+//		List<PoCounterInfo> counters = CacheUtil.getCountersByPMType(poid);
+//		int indexNum = counters.size();
+//		String[] clmnName = new String[indexNum];
+//		for (int k = 0; k < indexNum; k++) {
+//			PoCounterInfo counterInfo = counters.get(k);
+//			
+//			clmnName[k] = counterInfo.getAttrClmn();
+//			
+//		}
 		String neId = dataaqTaskInfo.getNeId();
 		Properties prop = null;
-		prop = RocAdptImpl.getCommPara(neId, dataaqTaskInfo.getNeType());
+		prop = MonitorServiceWrapper.getInstance().getMonitorInfoByOid(neId);
 		prop.put(PmConst.MONITORNAME, monitorName);
 		
 		TaskCreateAndModifyInfo taskCreateInfo = new TaskCreateAndModifyInfo();
 		taskCreateInfo.setTaskId(dataaqTaskInfo.getJobId());
 		taskCreateInfo.setGranularity(measureGranularity);
 		taskCreateInfo.setMonitorName(monitorName);
-		taskCreateInfo.setColumnName(clmnName);
+//		taskCreateInfo.setColumnName(clmnName);
 		taskCreateInfo.setCommParam(prop);
 					
 		return taskCreateInfo;

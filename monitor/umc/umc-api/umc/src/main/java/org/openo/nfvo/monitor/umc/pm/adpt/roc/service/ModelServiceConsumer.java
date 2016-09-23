@@ -67,7 +67,7 @@ public class ModelServiceConsumer {
      */
     public static ResourceType queryResourceType_bak(String id) throws RestRequestException {
         logger.info("queryResourceType. id = " + id);
-        String url = RocConfiguration.getRocServerAddr()+"/api/roc/v1/resource/definitions";
+        String url = RocConfiguration.getRocServerAddr()+"/openoapi/roc/v1/resource/definitions";
         String requestQueryString = "id="+id;
         String response = APIHttpClient.doGet(url, requestQueryString, "utf-8", "");
         JSONArray jsonArray = JSONArray.fromObject(response);

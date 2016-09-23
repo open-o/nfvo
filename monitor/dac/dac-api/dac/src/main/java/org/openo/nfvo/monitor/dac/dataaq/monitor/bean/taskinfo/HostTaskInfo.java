@@ -18,12 +18,15 @@ package org.openo.nfvo.monitor.dac.dataaq.monitor.bean.taskinfo;
 import java.util.Properties;
 
 import org.openo.nfvo.monitor.dac.common.DacConst;
+import org.openo.nfvo.monitor.dac.common.util.ExtensionImpl;
+import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.IMonitorTaskInfo;
 import org.openo.nfvo.monitor.dac.dataaq.monitor.bean.common.MonitorTaskInfo;
 
 /**
  * 
  *
  */
+@ExtensionImpl(keys = {DacConst.MOC_NFV_VDU_LINUX, DacConst.MOC_NFV_HOST_LINUX}, entensionId = IMonitorTaskInfo.EXTENSIONID)
 public class HostTaskInfo extends MonitorTaskInfo {
 
 	private String HOSTTYPE = "NFV_OS";

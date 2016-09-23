@@ -15,10 +15,8 @@
  */
 package org.openo.nfvo.monitor.umc.cometdclient;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.cometd.bayeux.Channel;
@@ -28,30 +26,24 @@ import org.cometd.client.BayeuxClient;
 import org.cometd.client.transport.ClientTransport;
 import org.cometd.client.transport.LongPollingTransport;
 import org.eclipse.jetty.client.HttpClient;
-import org.openo.nfvo.monitor.umc.pm.common.PmConst;
-import org.openo.nfvo.monitor.umc.pm.services.NeHandler;
+import org.openo.nfvo.monitor.umc.adpt.roc.RocMsgQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class RocCometdClient {
 	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass().getName());
-
+	
 	private String topic = "/resChangeNotification";
 	private final MsgListener msgListener = new MsgListener();
-	private String rocUrl = "http://{0}:8204/api/rocnotification/v1";
-	private static final String DELETE = "delete";
-	private static final String CREATE = "create";
-	private static final String LOCALPROXY = "127.0.0.1";
+	private String rocUrl = "http://{0}:8204/openoapi/rocnotification/v1";
 	private static RocCometdClient instance = new RocCometdClient();
 	private volatile BayeuxClient client;
+	private static RocMsgQueue rocMsgQueue;
 	public static RocCometdClient getInstance()
 	{
 		return instance;
 	}
-
+	
 	public void subscribe(String rocIp) {
 		if (rocIp == null || rocIp.length() == 0)
 		{
@@ -68,17 +60,23 @@ public class RocCometdClient {
 		Map<String, Object> options = new HashMap<>();
 		ClientTransport transport = new LongPollingTransport(options,
 				httpClient);
+		
+		rocMsgQueue = new RocMsgQueue();
+        rocMsgQueue.start();
+		
 		client = new BayeuxClient(MessageFormat.format(rocUrl, ip), transport);
 		client.getChannel(Channel.META_CONNECT).addListener(new ConnectionListener());
 		client.handshake(new ClientSessionChannel.MessageListener() {
-			public void onMessage(ClientSessionChannel channel, Message message) {
+			@Override
+            public void onMessage(ClientSessionChannel channel, Message message) {
 				if (message.isSuccessful()) {
 					// Subscribe
 					LOGGER.info("handshake success.");
 					client.getChannel(topic).unsubscribe(msgListener);
 					client.getChannel(topic).subscribe(msgListener,
 							new ClientSessionChannel.MessageListener() {
-								public void onMessage(
+								@Override
+                                public void onMessage(
 										ClientSessionChannel channel,
 										Message message) {
 									if (message.isSuccessful()) {
@@ -96,49 +94,18 @@ public class RocCometdClient {
 	}
 
 	private class MsgListener implements ClientSessionChannel.MessageListener {
-		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@Override
 		public void onMessage(ClientSessionChannel channel, Message message) {
-			String json = (String) message.getData();
-			LOGGER.info("Receive  RocNotification data: " + json);
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.setSerializationInclusion(Include.NON_NULL);
-			Map rocData;
-			try {
-				rocData = objectMapper.readValue(json, Map.class);
-			} catch (IOException e) {
-				LOGGER.warn("ObjectMapper RocNotification data fail!" + e.getMessage(), e);
-				return;
-			}
-			String operationType = (String)rocData.get(PmConst.operationType);
-			String resourceType = (String)rocData.get(PmConst.resourceType);
-			if (resourceType.equals(PmConst.VDU_TYPE) || resourceType.equals(PmConst.HOST_TYPE))
-			{
-				if (operationType.equals(CREATE))
-				{
-					List<Map> datas = (List<Map>)rocData.get(PmConst.data);
-					for (Map data : datas)
-					{
-						String oid = (String)data.get(PmConst.oid);
-						String moc = (String)data.get(PmConst.moc);
-						LOGGER.info("Receive create message, moc: " + moc + " oid:" + oid);
-						NeHandler.createHandle(LOCALPROXY, oid, moc);
-					}
-				}
-				else if (operationType.equals(DELETE))
-				{
-					List neIds = (List)rocData.get(PmConst.deleteIds);
-					LOGGER.info("Receive delete message, moc: " + resourceType + " oid:" + neIds.get(0));
-					NeHandler.deleteHandle(neIds);
-				}
-			}
+			rocMsgQueue.put(message);
 		}
 	}
-
+	
 	private class ConnectionListener implements ClientSessionChannel.MessageListener {
 		private boolean wasConnected = false;
 		private boolean connected = false;
 
-		public void onMessage(ClientSessionChannel channel, Message message) {
+		@Override
+        public void onMessage(ClientSessionChannel channel, Message message) {
 
 			wasConnected = connected;
 			connected = message.isSuccessful();
@@ -149,7 +116,7 @@ public class RocCometdClient {
 			}
 		}
 	}
-
+	
 	private void connectionEstablished() {
 		LOGGER.info("Connection to ROC Opened.");
 	}
@@ -157,7 +124,7 @@ public class RocCometdClient {
 	private void connectionBroken() {
 		LOGGER.warn("Connection to ROC Broken.");
 	}
-
+	
 	public static void main(String[] args)
 	{
 		RocCometdClient.getInstance().subscribe("127.0.0.1");

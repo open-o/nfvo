@@ -32,6 +32,7 @@ public class PmConst {
 	public static final String ipAddress = "ipAddress";
 	public static final String customPara = "customPara";
 	public static final String CUSTOMPARA = "CUSTOMPARA";
+	public static final String LABEL = "label";//todo
     public static final String DATE_FORMATE = "yyyy-MM-dd HH:mm:ss";
     public static final String TASK_ACTIVE = "0";
     public static final String TASK_INACTIVE = "1";
@@ -64,6 +65,10 @@ public class PmConst {
     public static final String PROXYIP = "PROXYIP";
     public static final String VERSION = "VERSION";
     public static final String LOCAL_IPADDRESS = "127.0.0.1";
+    public static final String PORT="PORT";
+    public static final String USRENAME="USERNAME";
+    public static final String PASSWORD="PASSWORD";
+    public static final String PROTOCAL="PROTOCOL";
     /**
      * For the isindex field corresponding PM nepo PM_NEPO_ATTRIBUTEDEF_TABLE table
      * represents the counter is the only field, to distinguish the measured object ID

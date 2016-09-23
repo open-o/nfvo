@@ -127,17 +127,23 @@ public class PmDataManager {
 			for (Object key : keys)
 			{
 				String clmnType = clmnTypes.get(key);
-                if ( PmConst.JAVA_LANG_CLASS_STRING.equals(clmnType))
-                {
-                    data.put((String)key,p.getProperty((String)key));
-                }
-                else
-                {
-                    Double numValue = new Double(p.getProperty((String)key));
-                    data.put((String)key, numValue);
-                }
+				if ( clmnType != null)
+				{
+	                if ( PmConst.JAVA_LANG_CLASS_STRING.equals(clmnType))
+	                {
+	                    data.put((String)key,p.getProperty((String)key));
+	                }
+	                else
+	                {
+	                    Double numValue = new Double(p.getProperty((String)key));
+	                    data.put((String)key, numValue);
+	                }
+				}
 			}
-			collectData.add(data);
+			if (data.size() != 0)
+			{
+				collectData.add(data);
+			}
 		}
 		return collectData;
 	}
