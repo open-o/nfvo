@@ -33,6 +33,11 @@ public class UrlConstant {
     public static final String LOCATION_TARGET = "location";
 
     /**
+     * MSB register url.
+     */
+    public static final String REST_MSB_REGISTER = "/api/microservices/v1/services";
+
+    /**
      * networks url.
      */
     public static final String LOCATION_URL = "/openoapi/resmgr/v1/locations";

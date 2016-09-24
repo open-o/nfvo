@@ -47,6 +47,8 @@ public class HttpConstant {
 
     public static final int HTTP_CONFLICT_CODE = 409;
 
+    public static final int HTTP_INVALID_PARAMETERS = 415;
+
     public static final int HTTP_INNERERROR_CODE = 500;
 
     public static final int INTERNAL_EXCEPTION_CODE = 600;

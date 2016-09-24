@@ -255,8 +255,7 @@ public class SitesEntity {
      */
     public static boolean checkResourceIsZero(SitesEntity siteEntity) {
 
-        if(StringUtil.isAnyLargeThanZero(siteEntity.getTotalCPU(), siteEntity.getTotalMemory(),
-                siteEntity.getTotalDisk(), siteEntity.getUsedCPU(), siteEntity.getUsedMemory(),
+        if(StringUtil.isAnyLargeThanZero(siteEntity.getUsedCPU(), siteEntity.getUsedMemory(),
                 siteEntity.getUsedDisk())) {
             return false;
         }

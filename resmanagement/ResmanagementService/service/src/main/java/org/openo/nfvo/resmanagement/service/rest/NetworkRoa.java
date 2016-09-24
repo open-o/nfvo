@@ -126,7 +126,7 @@ public class NetworkRoa {
         LOGGER.info("NetworkRoa::addNetwork:{}", object.toString());
         try {
             int result = network.add(NetworkEntity.toEntity(object));
-            return RoaResponseUtil.update(result);
+            return RoaResponseUtil.add(result);
         } catch(ServiceException se) {
             LOGGER.error("NetworkRoa::addNetwork error:{}" + se);
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());

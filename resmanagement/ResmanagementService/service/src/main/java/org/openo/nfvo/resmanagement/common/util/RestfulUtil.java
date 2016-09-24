@@ -62,6 +62,10 @@ public class RestfulUtil {
 
     public static final String TYPE_DEL = "delete";
 
+    public static final String CONTENT_TYPE = "Content-type";
+
+    public static final String APPLICATION = "application/json";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RestfulUtil.class);
 
     private static final Restful REST_CLIENT = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -329,5 +333,44 @@ public class RestfulUtil {
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.group.resoperate.add.res.no.result"));
         }
         return rsArray;
+    }
+
+    /**
+     * <br>
+     * 
+     * @param paramsMap
+     * @param params
+     * @return
+     * @since NFVO 0.5
+     */
+    public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
+        String url = paramsMap.get("url");
+        String methodType = paramsMap.get("methodType");
+
+        RestfulResponse rsp = null;
+        Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
+        try {
+
+            RestfulParametes restfulParametes = new RestfulParametes();
+            Map<String, String> headerMap = new HashMap<>(3);
+            headerMap.put(CONTENT_TYPE, APPLICATION);
+            restfulParametes.setHeaderMap(headerMap);
+            restfulParametes.setRawData(params);
+
+            if(rest != null) {
+                if(TYPE_GET.equalsIgnoreCase(methodType)) {
+                    rsp = rest.get(url, restfulParametes);
+                } else if(TYPE_POST.equalsIgnoreCase(methodType)) {
+                    rsp = rest.post(url, restfulParametes);
+                } else if(TYPE_PUT.equalsIgnoreCase(methodType)) {
+                    rsp = rest.put(url, restfulParametes);
+                } else if(TYPE_DEL.equalsIgnoreCase(methodType)) {
+                    rsp = rest.delete(url, restfulParametes);
+                }
+            }
+        } catch(ServiceException e) {
+            LOGGER.error("function=getRemoteResponse, get restful response catch exception {}", e);
+        }
+        return rsp;
     }
 }

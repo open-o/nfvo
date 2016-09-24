@@ -83,6 +83,8 @@ public class Constant {
 
     public static final String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
 
+    public static final int REPEAT_REG_TIME = 60 * 1000;
+
     private Constant() {
         //private constants
     }
