@@ -21,11 +21,11 @@ from lcm.pub.utils.values import ignore_case_get
 logger = logging.getLogger(__name__)
 
 
-def send_nf_init_request(vnfm_inst_id, vnf_inst_name, nf_package_id, vnfd_id, inputs):
+def send_nf_init_request(vnfm_inst_id, vnf_inst_name, nf_package_id, vnfd_id, inputs, ext_virtual_link):
     uri = '/openoapi/%s/v1/%s/vnfs' % ('zte-vnfm', vnfm_inst_id)
     req_param = json.JSONEncoder().encode(
         {'vnfInstanceName': vnf_inst_name, 'vnfPackageId': nf_package_id, 'vnfDescriptorId': vnfd_id,
-         'additionalParam': inputs})
+         'additionalParam': inputs, 'extVirtualLink': ext_virtual_link})
     ret = req_by_msb(uri, "POST", req_param)
     if ret[0] != 0:
         logger.error("Send NF instance request to VNFM failed. Status code is %s, detail is %s.", ret[2], ret[1])

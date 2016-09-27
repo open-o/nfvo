@@ -17,9 +17,10 @@ import traceback
 import uuid
 from threading import Thread
 
+from lcm.ns.const import OWNER_TYPE
 from lcm.ns.vnfs.const import VNF_STATUS, NFVO_VNF_INST_TIMEOUT_SECOND, INST_TYPE, INST_TYPE_NAME
 from lcm.ns.vnfs.wait_job import wait_job_finish
-from lcm.pub.database.models import NfPackageModel, NfInstModel, NSInstModel, VmInstModel, VNFFGInstModel
+from lcm.pub.database.models import NfPackageModel, NfInstModel, NSInstModel, VmInstModel, VNFFGInstModel, VLInstModel
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.msapi.extsys import get_vnfm_by_id
 from lcm.pub.msapi.resmgr import create_vnf, create_vnf_creation_info
@@ -115,7 +116,7 @@ class CreateVnfs(Thread):
     def send_nf_init_request_to_vnfm(self):
         self.vnfm_job_id, self.vnfm_nf_inst_id = send_nf_init_request(self.vnfm_inst_id, self.vnf_inst_name,
                                                                       self.nf_package_info.nfpackageid, self.vnfd_id,
-                                                                      self.inputs)
+                                                                      self.inputs, self.get_ext_virtual_link())
         NfInstModel.objects.filter(nfinstid=self.nf_inst_id).update(mnfinstid=self.vnfm_nf_inst_id,
                                                                     nf_name=self.vnf_inst_name,
                                                                     vnf_id=self.vnf_id,
@@ -126,6 +127,25 @@ class CreateVnfs(Thread):
                                                                     vendor=self.nf_package_info.vendor,
                                                                     input_params=json.JSONEncoder().encode(self.inputs),
                                                                     lastuptime=now_time())
+
+    def get_ext_virtual_link(self):
+        nsd_model = json.loads(NSInstModel.objects.get(id=self.ns_inst_id).nsd_model)
+        virtual_link_list = []
+        for vnf_info in nsd_model['vnfs']:
+            if vnf_info['vnf_id'] == self.vnf_id:
+                for network_info in vnf_info['networks']:
+                    network_name, subnetwork_name = self.get_network_info_of_vl(network_info['vl_id'], nsd_model)
+                    vl_instance_id = VLInstModel.objects.get(vldid=network_info['vl_id'], ownertype=OWNER_TYPE.NS,
+                                                             ownerid=self.ns_inst_id).vlinstanceid
+                    virtual_link_list.append({'networkName': network_name, 'keyName': network_info['key_name'],
+                                              'subNetworkName': subnetwork_name, 'vlInstanceId': vl_instance_id})
+        return virtual_link_list
+
+    def get_network_info_of_vl(self, vl_id, nsd_model):
+        for vnf_info in nsd_model['vls']:
+            if vnf_info['vl_id'] == vl_id:
+                return vnf_info['properties']['network_name'], vnf_info['properties']['name']
+        return '', ''
 
     def send_get_vnfm_request_to_extsys(self):
         resp_body = get_vnfm_by_id(self.vnfm_inst_id)
