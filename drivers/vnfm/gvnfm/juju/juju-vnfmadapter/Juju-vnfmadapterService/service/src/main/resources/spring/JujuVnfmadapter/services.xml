@@ -99,6 +99,8 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
+            <bean class="org.openo.nfvo.jujuvnfmadapter.service.rest.exceptionmapper.ServiceExceptionMapper" />
+            <bean class="org.openo.nfvo.jujuvnfmadapter.service.rest.exceptionmapper.GenericExceptionMapper" />
         </jaxrs:providers>
     </jaxrs:server>
 </beans>
