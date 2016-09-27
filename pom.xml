@@ -40,6 +40,7 @@
         <module>drivers/vnfm/svnfm/huawei/vnfmadapter</module>
 		<module>drivers/vim/vimadapter</module>
         <module>drivers/sdnc/zte/sfc-driver</module>
+        <module>lcm</module>
     </modules>
 
     <build>
