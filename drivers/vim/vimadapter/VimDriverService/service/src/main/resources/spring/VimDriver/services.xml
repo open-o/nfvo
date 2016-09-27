@@ -88,6 +88,8 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
+            <bean class="org.openo.nfvo.vimadapter.service.rest.exceptionmapper.ServiceExceptionMapper" />
+            <bean class="org.openo.nfvo.vimadapter.service.rest.exceptionmapper.GenericExceptionMapper" />
         </jaxrs:providers>
     </jaxrs:server>
 </beans>
