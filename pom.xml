@@ -41,6 +41,7 @@
 		<module>drivers/vim/vimadapter</module>
         <module>drivers/sdnc/zte/sfc-driver</module>
         <module>lcm</module>
+        <module>drivers/vnfm/svnfm/zte/vmanager</module>
     </modules>
 
     <build>
