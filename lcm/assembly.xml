@@ -23,6 +23,25 @@
     <fileSets>
         <fileSet>
             <directory>lcm</directory>
+            <outputDirectory>/lcm</outputDirectory>
+            <includes>
+                <include>**/*.py</include>
+                <include>**/*.json</include>
+                <include>**/*.xml</include>
+                <include>**/*.wsdl</include>
+                <include>**/*.xsd</include>
+                <include>**/*.bpel</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>logs</directory>
+            <outputDirectory>/logs</outputDirectory>
+            <includes>
+                <include>*.txt</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>.</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>*.py</include>
@@ -33,5 +52,5 @@
             </includes>
         </fileSet>
     </fileSets>
-    <baseDirectory>nfvo</baseDirectory>
+    <baseDirectory>nfvo/lcm</baseDirectory>
 </assembly>
