@@ -23,7 +23,7 @@ import sys
 
 from lcm.pub.database.models import NfPackageModel, VnfPackageFileModel, NfInstModel
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.utils.fileutil import download_file_from_http, delete_dirs
+from lcm.pub.utils import fileutil 
 from lcm.pub.msapi.catalog import STATUS_ONBOARDED, STATUS_NON_ONBOARDED
 from lcm.pub.msapi.catalog import P_STATUS_DELETEFAILED, P_STATUS_DELETING
 from lcm.pub.msapi.catalog import P_STATUS_NORMAL, P_STATUS_ONBOARDING, P_STATUS_ONBOARDFAILED
@@ -112,10 +112,10 @@ class NfOnBoardingThread(threading.Thread):
 
         JobUtil.add_job_status(self.job_id, 20, "Get model of CSAR(%s) from catalog." % self.csar_id)
 
-        nfd = query_rawdata_from_catalog(self.csar_id)  # TODO: convert to inner model
-        nfd_id = nfd["rawData"]["metadata"]["id"]
-        if NfPackageModel.objects.filter(vnfdid=nfd_id):
-            raise NSLCMException("NFD(%s) already exists." % nfd_id)
+        self.nfd = query_rawdata_from_catalog(self.csar_id)  # TODO: convert to inner model
+        self.nfd_id = self.nfd["rawData"]["metadata"]["id"]
+        if NfPackageModel.objects.filter(vnfdid=self.nfd_id):
+            raise NSLCMException("NFD(%s) already exists." % self.nfd_id)
 
     def nf_package_save(self):
         JobUtil.add_job_status(self.job_id, 30, "Save CSAR(%s) to database." % self.csar_id)
@@ -139,7 +139,7 @@ class NfOnBoardingThread(threading.Thread):
             img_desc = image_file["properties"]["description"]
             img_url, img_local_path = get_download_url_from_catalog(self.csar_id, img_relative_path)
             JobUtil.add_job_status(self.job_id, 50, "Start to download Image(%s)." % img_name)
-            img_save_full_path = download_file_from_http(img_url, self.img_save_path, img_name)
+            img_save_full_path = fileutil.download_file_from_http(img_url, self.img_save_path, img_name)
             nf_images.append({
                 "img_name": img_name,
                 "img_save_full_path": img_save_full_path,
@@ -172,7 +172,7 @@ class NfOnBoardingThread(threading.Thread):
             "image_type": nf_image["img_type"]
         })
         if ret[0] != 0:
-            raise NSLCMException("Failed to create image:%s", ret[1])
+            raise NSLCMException("Failed to create image:%s" % ret[1])
         image_id = ret[1]["id"]
 
         self.wait_until_upload_done(vim_api, image_id)
@@ -186,8 +186,7 @@ class NfOnBoardingThread(threading.Thread):
             vimuser=sel_vim[0]["userName"],
             tenant=sel_vim[0]["tenant"],
             purpose=nf_image["img_desc"],
-            status=IMAGE_STATUS_ENABLE,
-            catalog="").save()
+            status=IMAGE_STATUS_ENABLE).save()
 
     def wait_until_upload_done(self, vim_api, image_id):
         retry_times = 0
@@ -215,7 +214,7 @@ class NfOnBoardingThread(threading.Thread):
             set_csar_state(self.csar_id, "processState", P_STATUS_ONBOARDFAILED)
             NfPackageModel.objects.filter(nfpackageid=self.csar_id).delete()
             VnfPackageFileModel.objects.filter(vnfpid=self.csar_id).delete()
-            delete_dirs(self.img_save_path)
+            fileutil.delete_dirs(self.img_save_path)
         except:
             logger.error(traceback.format_exc())
             logger.error(str(sys.exc_info()))
@@ -247,6 +246,11 @@ class NfPkgDeleteThread(threading.Thread):
             JobUtil.add_job_status(self.job_id, JOB_ERROR, "Failed to delete CSAR(%s)" % self.csar_id)
 
     def delete_csar(self):
+        JobUtil.create_job(
+            inst_type='nf',
+            jobaction='delete',
+            inst_id=self.csar_id,
+            job_id=self.job_id)
         JobUtil.add_job_status(self.job_id, 5, "Start to delete CSAR(%s)." % self.csar_id)
         if query_csar_from_catalog(self.csar_id, "processState") == P_STATUS_DELETING:
             JobUtil.add_job_status(self.job_id, 100, "CSAR(%s) is deleting now." % self.csar_id)
@@ -283,6 +287,11 @@ class NfPkgDeletePendingThread(threading.Thread):
             JobUtil.add_job_status(self.job_id, JOB_ERROR, "Failed to delete CSAR(%s)" % self.csar_id)
 
     def delete_pending_csar(self):
+        JobUtil.create_job(
+            inst_type='nf',
+            jobaction='delete_pending',
+            inst_id=self.csar_id,
+            job_id=self.job_id)
         JobUtil.add_job_status(self.job_id, 5, "Start to delete pending CSAR(%s)." % self.csar_id)
 
         if not NfPackageModel.objects.filter(nfpackageid=self.csar_id):
@@ -305,7 +314,7 @@ class NfPkgDeletePendingThread(threading.Thread):
             JobUtil.add_job_status(self.job_id, 100, "CSAR(%s) is in using, cannot be deleted." % self.csar_id)
             return
 
-        NfPackage().delete_csar(self.csar_id)
+        NfPackage().delete_csar(self.csar_id, self.job_id)
 
 
 ######################################################################################################################
@@ -354,18 +363,18 @@ class NfPackage(object):
                 "imageInfo": img_info,
                 "vnfInstanceInfo": vnf_inst_info}]
 
-    def delete_csar(self, csar_id):
-        JobUtil.add_job_status(self.job_id, 10, "Set processState of CSAR(%s)." % self.csar_id)
+    def delete_csar(self, csar_id, job_id):
+        JobUtil.add_job_status(job_id, 10, "Set processState of CSAR(%s)." % csar_id)
         set_csar_state(csar_id, "processState", P_STATUS_DELETING)
 
-        JobUtil.add_job_status(self.job_id, 20, "Get package files of CSAR(%s)." % self.csar_id)
+        JobUtil.add_job_status(job_id, 20, "Get package files of CSAR(%s)." % csar_id)
         all_nf_pkg_files = VnfPackageFileModel.objects.all()
         nf_pkg_files = VnfPackageFileModel.objects.filter(vnfpid=csar_id)
         vims = get_vims()
 
         for pkg_file in nf_pkg_files:
-            JobUtil.add_job_status(self.job_id, 50, "Delete image(%s) of CSAR(%s)." %
-                                   (pkg_file.filename, self.csar_id))
+            JobUtil.add_job_status(job_id, 50, "Delete image(%s) of CSAR(%s)." %
+                                   (pkg_file.filename, csar_id))
             if self.is_image_refed_by_other_nf_pkg(all_nf_pkg_files, pkg_file.imageid, csar_id, pkg_file.vimid):
                 logger.warn("Image(%s) is refered by CSAR(%s).", pkg_file.filename, csar_id)
                 continue
@@ -383,16 +392,16 @@ class NfPackage(object):
             if ret[0] != 0:
                 logger.error("Failed to delete image(%s) from vim(%s)", pkg_file.filename, pkg_file.vimid)
 
-        JobUtil.add_job_status(self.job_id, 70, "Delete CSAR(%s) from catalog." % self.csar_id)
+        JobUtil.add_job_status(job_id, 70, "Delete CSAR(%s) from catalog." % csar_id)
         ret = delete_csar_from_catalog(csar_id)
         if ret[0] != 0:
             raise NSLCMException(ret[1])
 
-        JobUtil.add_job_status(self.job_id, 90, "Delete CSAR(%s) from database." % self.csar_id)
+        JobUtil.add_job_status(job_id, 90, "Delete CSAR(%s) from database." % csar_id)
         VnfPackageFileModel.objects.filter(vnfpid=csar_id).delete()
         NfPackageModel.objects.filter(nfpackageid=csar_id).delete()
 
-        JobUtil.add_job_status(self.job_id, 100, "Delete CSAR(%s) successfully." % self.csar_id)
+        JobUtil.add_job_status(job_id, 100, "Delete CSAR(%s) successfully." % csar_id)
 
     def is_image_refed_by_other_nf_pkg(self, nf_pkg_files, imageid, csar_id, vim_id):
         for f in nf_pkg_files:
