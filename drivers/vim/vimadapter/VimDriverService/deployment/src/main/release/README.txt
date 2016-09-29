@@ -7,7 +7,6 @@ Installation steps:
 ====================
     Install following software:
         - Java 1.8 or lattest
-        - MySql Server 5.7 or lattest.
         - Apache Tomcat Server 8.0 or lattest
 
     Set the following environment variables:
@@ -15,19 +14,6 @@ Installation steps:
         - CATALINIA_HOME: Set to Tomcat installed location
         - CATALINIA_BASE: Set to the location, where this
           service installer is unzipped, its optional
-        - PATH: Update it with the location of command 'mysql'
-
-    - In command console, cd to 'bin' directory under the location,
-      where this service installer is unzipped and
-      run ./init_db.sh <db user> <db password> <db server ip> <db port>
-        CAUTION: Existing resmanagementdb will be cleaned before
-        initializing the schema, so please take a back-up of it
-        before executing it next time.
-
-Configuration steps:
-====================
-    - Update the db credetials in bean with id="source"  in 'services.xml'
-      under webapps spring directory.
 
 How to run?
 ===========
