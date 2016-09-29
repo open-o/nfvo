@@ -28,9 +28,11 @@ limitations under the License.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <package.name>vimadapter-service</package.name>
     </properties>
 
     <modules>
         <module>service</module>
+        <module>deployment</module>
     </modules>
 </project>

@@ -45,7 +45,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 23, 2016
  */
-@Path("/openoapi/vimdriver/v1")
+@Path("/v1")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class NetworkRoa {
