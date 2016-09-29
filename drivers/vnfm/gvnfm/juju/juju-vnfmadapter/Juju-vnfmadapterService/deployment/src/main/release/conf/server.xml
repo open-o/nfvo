@@ -19,7 +19,7 @@
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
  -->
-<Server port="8722" shutdown="SHUTDOWN">
+<Server port="9483" shutdown="SHUTDOWN">
     <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
     <Listener SSLEngine="on" className="org.apache.catalina.core.AprLifecycleListener" />
     <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
@@ -30,7 +30,7 @@
             name="UserDatabase" pathname="conf/tomcat-users.xml" type="org.apache.catalina.UserDatabase" />
     </GlobalNamingResources>
     <Service name="Catalina">
-        <Connector connectionTimeout="20000" port="8922" protocol="HTTP/1.1" redirectPort="8443" />
+        <Connector connectionTimeout="20000" port="8483" protocol="HTTP/1.1" redirectPort="8443" />
         <Connector port="8822" protocol="AJP/1.3" redirectPort="8443" />
         <Engine defaultHost="localhost" name="Catalina">
             <Realm className="org.apache.catalina.realm.LockOutRealm">
