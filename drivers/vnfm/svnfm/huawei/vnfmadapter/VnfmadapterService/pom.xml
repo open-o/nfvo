@@ -13,15 +13,12 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<package.name>vnfmadapter-service</package.name>
     </properties>
-    <!--<scm>
-        <developerConnection>scm:git:http://szxgit01-rd.huawei.com:8080/SPO/SPO_CloudSOP_GIT/CronService</developerConnection>
-      <tag>HEAD</tag>
-    </scm>-->
 
     <modules>
         <module>service</module>
-
+        <module>deployment</module>
     </modules>
 
 </project>
