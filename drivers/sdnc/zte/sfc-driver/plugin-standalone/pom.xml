@@ -107,7 +107,7 @@
                         </goals>
                         <configuration>
                             <tasks name="${project.artifactId}">
-                                <zip destfile="target/${packagename}-${project.version}.zip" update="true">
+                                <zip destfile="target/nfvo-drivers-sdnc-zte-sfc-driver-${project.version}.zip" update="true">
                                 <zipfileset dir="target/assembly" includes="**" />
                                 </zip>
                             </tasks>
@@ -128,7 +128,7 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>target/${packagename}-${project.version}.zip</file>
+                                    <file>target/nfvo-drivers-sdnc-zte-sfc-driver-${project.version}.zip</file>
                                     <type>zip</type>
                                 </artifact>
                             </artifacts>

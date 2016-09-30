@@ -21,4 +21,4 @@ JAVA="$JAVA_HOME/bin/java"
 echo @JAVA@ $JAVA
 JAVA_OPTS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=$port,server=y,suspend=n"
 echo @JAVA_OPTS@ $JAVA_OPTS
-"$JAVA" $JAVA_OPTS  -jar "lib/console-service.jar" server "conf/console.yml"
+"$JAVA" $JAVA_OPTS  -jar "sfc-service.jar" server "conf/console.yml"
