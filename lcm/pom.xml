@@ -21,10 +21,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openo.nfvo</groupId>
-    <artifactId>lcm</artifactId>
+    <artifactId>nfvo-lcm</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>lcm</name>
+    <name>nfvo-lcm</name>
     <description>nfvo lcm</description>
     <build>
       <plugins>
