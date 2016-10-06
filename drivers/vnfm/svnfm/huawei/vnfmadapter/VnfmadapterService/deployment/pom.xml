@@ -62,6 +62,7 @@
 
                                 ant.mkdir(dir:
                                 "${deployUnzip}/webapps/")
+                                ant.mkdir(dir: "${deployUnzip}/webapps/ROOT")
                                 ant.mkdir(dir:
                                 "${deployUnzip}/logs")
 
@@ -71,7 +72,7 @@
                                 }
                                 }
                                 ant.copy(todir:
-                                "${deployUnzip}/webapps/${package.name}") {
+                                "${deployUnzip}/webapps/ROOT") {
                                 fileset(dir:
                                 "${project.build.directory}/../../service/target/${package.name}-${project.version}")
                                 }
