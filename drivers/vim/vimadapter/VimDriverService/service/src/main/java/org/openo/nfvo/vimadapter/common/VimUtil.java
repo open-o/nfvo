@@ -79,7 +79,7 @@ public final class VimUtil {
      */
     public static Vim getVimById(String vimId) {
         Map<String, String> paramsMap = new HashMap<>();
-        paramsMap.put("url", UrlConstant.ESR_GET_VIM_URL);
+        paramsMap.put("url", String.format(UrlConstant.ESR_GET_VIM_URL, vimId));
         paramsMap.put("methodType", Constant.GET);
         RestfulResponse rsp = VimRestfulUtil.getRemoteResponse(paramsMap, null);
         if(rsp == null || rsp.getStatus() != Constant.HTTP_OK_STATUS_CODE) {
@@ -107,6 +107,7 @@ public final class VimUtil {
         vim.setPwd(responseContent.getString("password"));
         vim.setType(responseContent.getString("type"));
         vim.setVersion(responseContent.getString("version"));
+        vim.setTenant(responseContent.getString("tenant"));
         LOG.warn("funtion=getVimFromResponseContent, vim={}.", vim);
         return vim;
     }

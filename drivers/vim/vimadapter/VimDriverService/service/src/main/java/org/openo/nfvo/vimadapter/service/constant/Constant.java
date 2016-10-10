@@ -140,6 +140,8 @@ public class Constant {
 
     public static final String CINDER = "cinder";
 
+    public static final String CINDERV2 = "cinderv2";
+
     public static final String RETCODE = "retCode";
 
     public static final String VIMID = "vimId";

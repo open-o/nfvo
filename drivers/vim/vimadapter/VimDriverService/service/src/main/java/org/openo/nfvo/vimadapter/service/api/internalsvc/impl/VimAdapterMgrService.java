@@ -53,7 +53,7 @@ public class VimAdapterMgrService implements IVimAdapterMgrService {
     @Override
     public void register() {
         // set BUS URL and mothedtype
-        Map<String, String> paramsMap = new HashMap();
+        Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", UrlConstant.REST_MSB_REGISTER);
         paramsMap.put("methodType", Constant.POST);
 

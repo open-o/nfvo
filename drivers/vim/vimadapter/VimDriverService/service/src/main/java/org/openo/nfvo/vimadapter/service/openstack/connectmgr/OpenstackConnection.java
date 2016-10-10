@@ -82,11 +82,13 @@ public class OpenstackConnection {
                 connInfo.getDomainName());
         Map<String, String> paramsMap = VimRestfulUtil.generateParametesMap("/v2.0/tokens", Constant.POST,
                 connInfo.getUrl(), connInfo.getAuthenticateMode());
+        LOG.warn("function=connect, paramsMap={}, reqParam={}", paramsMap, reqParam);
         RestfulResponse rsp = VimRestfulUtil.getRemoteResponse(paramsMap, reqParam, null);
         if(null == rsp) {
             LOG.error("function=connect,  RestfulResponse is null");
             return retCode;
         }
+        LOG.warn("function=connect, status={}, content={}", rsp.getStatus(), rsp.getResponseContent());
         String result = rsp.getResponseContent();
         retCode = rsp.getStatus();
         if(retCode == Constant.HTTP_OK_STATUS_CODE || retCode == Constant.HTTP_CREATED_STATUS_CODE) {

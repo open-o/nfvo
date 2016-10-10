@@ -76,10 +76,10 @@ public class DiskLimitQuery {
     public JSONObject getLimits() {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         OpenstackConnection con = ConnectionMgr.getConnectionMgr().getConnection(connect);
-        LOG.error("function=getDiskLimits: url->" + con.getServiceUrl(Constant.NOVA));
+        LOG.error("function=getDiskLimits: url->" + con.getServiceUrl(Constant.CINDERV2));
 
         String url = String.format("/v2/%s/os-quota-sets/%s", queryId, queryId);
-        String path = con.getServiceUrl(Constant.NOVA);
+        String path = con.getServiceUrl(Constant.CINDERV2);
         Map<String, String> paramsMap = VimRestfulUtil.generateParametesMap(url, Constant.GET, path, authenticateMode);
         RestfulResponse rsp = VimRestfulUtil.getRemoteResponse(paramsMap, null, con.getDomainTokens());
         if(null == rsp) {
