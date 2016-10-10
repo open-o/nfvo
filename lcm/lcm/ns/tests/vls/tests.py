@@ -93,6 +93,25 @@ class TestVlViews(TestCase):
         self.assertEqual(0, response.data["result"])
 
 
+    @mock.patch.object(restcall, "call_req")
+    @mock.patch.object(vimadaptor.VimAdaptor, "create_network")
+    @mock.patch.object(uuid, "uuid4")
+    def test_create_network_fail_when_send_to_vim(self, mock_uuid4, mock_create_network, mock_req_by_rest):
+        req_data = {
+            "nsInstanceId": self.ns_inst_id,
+            "context": json.JSONEncoder().encode(self.context),
+            "vlindex": self.vl_id_1
+        }
+        mock_uuid4.return_value = '999'
+        mock_req_by_rest.return_value = [0,
+                                         '{"test":"test_name","name":"vim_name","type":"type_name","url":"url_add"'
+                                         ',"userName":"user_name","password":"password","tenant":"tenant"}']
+        mock_create_network.return_value = [1, (1)]
+        response = self.client.post("/openoapi/nslcm/v1/ns/vls", data=req_data)
+        retinfo = {"detail": "vl instantiation failed, detail message: Send post vl request to vim failed."}
+        self.assertEqual(retinfo["detail"], response.data["detail"])
+
+
 class TestVlDetailViews(TestCase):
     def setUp(self):
         self.client = Client()
@@ -141,3 +160,8 @@ class TestVlDetailViews(TestCase):
 
         response = self.client.get("/openoapi/nslcm/v1/ns/vls/%s" % "notExist")
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
+
+
+    
+    
+    
