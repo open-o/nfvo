@@ -26,4 +26,4 @@ class SampleList(APIView):
     """
     def get(self, request, format=None):
         logger.debug("get")
-        return Response([{"id": "1"}, {"id": "2"}])
+        return Response({"status": "active"})

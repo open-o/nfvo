@@ -29,4 +29,4 @@ class SampleViewTest(unittest.TestCase):
         response = self.client.get("/samples/")
         self.assertEqual(status.HTTP_200_OK, response.status_code, response.content)
         resp_data = json.loads(response.content)
-        self.assertEqual([{"id": "1"}, {"id": "2"}], resp_data)
+        self.assertEqual({"status": "active"}, resp_data)
