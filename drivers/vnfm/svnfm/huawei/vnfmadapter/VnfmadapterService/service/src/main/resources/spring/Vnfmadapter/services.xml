@@ -44,9 +44,9 @@
 
     <bean id="source"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://10.146.207.227:3306/nfvo" />
+        <property name="url" value="jdbc:mysql://localhost:3306/vnfmdb" />
         <property name="username" value="root"/>
-        <property name="password" value="123456"/>
+        <property name="password" value="Test_12345"/>
     </bean>
 
     <bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -108,6 +108,8 @@
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
+            <bean class="org.openo.nfvo.vnfmadapter.service.rest.exceptionmapper.ServiceExceptionMapper" />
+            <bean class="org.openo.nfvo.vnfmadapter.service.rest.exceptionmapper.GenericExceptionMapper" />
         </jaxrs:providers>
     </jaxrs:server>
 </beans>

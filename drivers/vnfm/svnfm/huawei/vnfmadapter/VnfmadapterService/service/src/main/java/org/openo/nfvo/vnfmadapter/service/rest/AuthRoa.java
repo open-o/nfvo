@@ -78,7 +78,7 @@ public class AuthRoa {
         if(null == subJsonObject) {
             LOG.error("function=login, msg=params are insufficient");
             String resultStr = "Login params insufficient";
-            Response.status(Response.Status.BAD_REQUEST).entity(resultStr).build();
+            resp.setStatus(Constant.HTTP_BAD_REQUEST);
 
             return resultStr;
         }
@@ -115,13 +115,13 @@ public class AuthRoa {
     @DELETE
     @Path("/auth/tokens/{userName}/{roarand}")
     public String delAuthToken(@Context HttpServletRequest context, @PathParam("userName") String userName,
-            @PathParam("roarand") String roarand) {
+            @PathParam("roarand") String roarand, @Context HttpServletResponse resp) {
         LOG.warn("function=logout, msg=enter to logout");
         JSONObject resultJson = new JSONObject();
 
         resultJson.put("Information", "Operation success");
-        Response.status(Response.Status.NO_CONTENT).entity(resultJson).build();
-
+        resp.setStatus(Constant.HTTP_NOCONTENT);
+        LOG.warn("function=logout, msg=end to logout");
         return resultJson.toString();
     }
 
@@ -136,11 +136,12 @@ public class AuthRoa {
      */
     @GET
     @Path("/nfvo/shakehand")
-    public String shakehand(@Context HttpServletRequest context, @QueryParam("roattr") String roattr) {
+    public String shakehand(@Context HttpServletRequest context, @QueryParam("roattr") String roattr,
+            @Context HttpServletResponse resp) {
         JSONObject resultJson = new JSONObject();
         resultJson.put("status", "running");
         resultJson.put("description", "Operation success");
-        Response.status(Response.Status.ACCEPTED).entity(resultJson).build();
+        resp.setStatus(Constant.HTTP_OK);
 
         return resultJson.toString();
     }
