@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 

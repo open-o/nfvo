@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
-
-import java.util.List;
-import java.util.Map;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.entity.HostEntity;
-
-import net.sf.json.JSONObject;
 
 /**
  * <br/>
@@ -32,35 +26,15 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
-public interface Host extends InterfaceResManagement {
+public interface InterfaceResManagement extends ResManagement {
 
     /**
      * <br/>
      *
-     * @param jsonObject
+     * @param vimId
      * @return
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    int updateStatusByVimId(JSONObject jsonObject) throws ServiceException;
-
-    /**
-     * <br/>
-     *
-     * @param condition
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    List<HostEntity> getList(Map<String, Object> condition) throws ServiceException;
-
-    /**
-     * <br/>
-     *
-     * @param resPoolEntity
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    int update(HostEntity resPoolEntity) throws ServiceException;
+    int deleteResByVimId(String vimId) throws ServiceException;
 }

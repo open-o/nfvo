@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.entity.PortEntity;
+import org.openo.nfvo.resmanagement.service.entity.HostEntity;
 
 import net.sf.json.JSONObject;
 
@@ -32,7 +32,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
-public interface Port extends InterfaceResManagement {
+public interface Host extends InterfaceResManagement {
 
     /**
      * <br/>
@@ -52,7 +52,7 @@ public interface Port extends InterfaceResManagement {
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    List<PortEntity> getList(Map<String, Object> condition) throws ServiceException;
+    List<HostEntity> getList(Map<String, Object> condition) throws ServiceException;
 
     /**
      * <br/>
@@ -62,15 +62,5 @@ public interface Port extends InterfaceResManagement {
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    int update(PortEntity resPoolEntity) throws ServiceException;
-
-    /**
-     * <br>
-     *
-     * @param portEntity
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    int add(PortEntity portEntity) throws ServiceException;
+    int update(HostEntity resPoolEntity) throws ServiceException;
 }

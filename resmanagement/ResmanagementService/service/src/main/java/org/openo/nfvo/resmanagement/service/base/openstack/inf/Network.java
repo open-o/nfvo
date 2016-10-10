@@ -14,63 +14,56 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.entity.VimEntity;
+import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
 
 import net.sf.json.JSONObject;
 
 /**
- * Virtualised Infrastructure Manager.<br/>
+ *
+ * Network class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version NFVO 0.5 Aug 25, 2016
+ * @version     NFVO 0.5  Sep 10, 2016
  */
-public interface Vim extends ResManagement {
+public interface Network extends InterfaceResManagement {
 
     /**
-     * <br/>
      *
-     * @param id
+     * Update status by VIM Id.<br>
+     *
+     * @param jsonObject
      * @return
      * @throws ServiceException
-     * @since NFVO 0.5
+     * @since  NFVO 0.5
      */
-    VimEntity getVim(String id) throws ServiceException;
-
-    /**
-     * <br/>
-     *
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    List<VimEntity> getList() throws ServiceException;
+    int updateStatusByVimId(JSONObject jsonObject) throws ServiceException;
 
     /**
      *
-     * Get VIM information.<br>
+     * Get list of networks.<br>
      *
      * @param condition
      * @return
      * @throws ServiceException
      * @since  NFVO 0.5
      */
-    List<JSONObject> getVimInfo(Map<String, Object> condition) throws ServiceException;
+    List<NetworkEntity> getList(Map<String, Object> condition) throws ServiceException;
 
     /**
-     * <br/>
+     * <br>
      *
-     * @param vimId
+     * @param entity
      * @return
-     * @throws ServiceException
      * @since NFVO 0.5
      */
-    int add(String vimId) throws ServiceException;
+    int add(NetworkEntity entity) throws ServiceException;
+
 }

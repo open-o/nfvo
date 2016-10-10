@@ -14,56 +14,73 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
+import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 
 import net.sf.json.JSONObject;
 
 /**
- *
- * Network class.<br>
+ * <br/>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Aug 25, 2016
  */
-public interface Network extends InterfaceResManagement {
+public interface Sites extends InterfaceResManagement {
 
     /**
-     *
-     * Update status by VIM Id.<br>
+     * <br/>
      *
      * @param jsonObject
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     int updateStatusByVimId(JSONObject jsonObject) throws ServiceException;
 
     /**
-     *
-     * Get list of networks.<br>
+     * <br/>
      *
      * @param condition
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
-     */
-    List<NetworkEntity> getList(Map<String, Object> condition) throws ServiceException;
-
-    /**
-     * <br>
-     *
-     * @param entity
-     * @return
      * @since NFVO 0.5
      */
-    int add(NetworkEntity entity) throws ServiceException;
+    List<SitesEntity> getList(Map<String, Object> condition) throws ServiceException;
 
+    /**
+     * <br/>
+     *
+     * @param condition
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    SitesEntity get(Map<String, Object> condition) throws ServiceException;
+
+    /**
+     * <br/>
+     *
+     * @param jsonObject
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    int updateResource(JSONObject jsonObject) throws ServiceException;
+
+    /**
+     * <br/>
+     *
+     * @param sitesEntity
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    int update(SitesEntity sitesEntity) throws ServiceException;
 }

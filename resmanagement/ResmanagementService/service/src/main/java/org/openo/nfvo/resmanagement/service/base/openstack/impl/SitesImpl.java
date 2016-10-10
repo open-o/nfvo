@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Sites;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Sites;
 import org.openo.nfvo.resmanagement.service.business.inf.SitesBusiness;
 import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 import org.slf4j.Logger;

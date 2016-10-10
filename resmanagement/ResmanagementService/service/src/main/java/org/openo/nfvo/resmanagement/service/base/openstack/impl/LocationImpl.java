@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +24,8 @@ import java.util.Map;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Location;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Sites;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Location;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Sites;
 import org.openo.nfvo.resmanagement.service.business.inf.LocationBusiness;
 import org.openo.nfvo.resmanagement.service.entity.LocationEntity;
 import org.openo.nfvo.resmanagement.service.entity.SitesEntity;

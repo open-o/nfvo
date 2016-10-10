@@ -24,7 +24,7 @@ import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.InterfaceResManagement;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.InterfaceResManagement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;

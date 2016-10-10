@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.service.base.openstack.impl.PortImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.PortBusinessImpl;
 import org.openo.nfvo.resmanagement.service.dao.impl.PortDaoImpl;
 import org.openo.nfvo.resmanagement.service.entity.PortEntity;

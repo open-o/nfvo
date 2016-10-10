@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.service.base.openstack.impl.VimImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.VimBusinessImpl;
 import org.openo.nfvo.resmanagement.service.entity.VimEntity;
 
