@@ -1503,7 +1503,7 @@ nsd_model = {
 
     "vnffgs": [
         {
-            "vnffg_Id": "vnffg_id1",
+            "vnffg_id": "vnffg_id1",
             "description": "",
             "properties": {
                 "vendor": "zte",

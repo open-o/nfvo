@@ -55,7 +55,7 @@ class SfcInstance(object):
             fp_ids = vnffg_model["members"]
             for fp_id in fp_ids:
                 if fp_id == self.fp_id:
-                    return vnffg_model["vnffg_Id"]
+                    return vnffg_model["vnffg_id"]
 
     def save(self):
         try:
