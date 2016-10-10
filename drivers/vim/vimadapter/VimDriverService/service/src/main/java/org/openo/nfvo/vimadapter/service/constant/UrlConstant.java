@@ -24,7 +24,7 @@ package org.openo.nfvo.vimadapter.service.constant;
  */
 public class UrlConstant {
 
-    public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services?createOrUpdate=false";
+    public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
 
     public static final String ESR_GET_VIM_URL = "/openoapi/extsys/v1/vims/%s";
 

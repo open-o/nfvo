@@ -49,6 +49,8 @@ public class Vim {
 
     private String url;
 
+    private String tenant;
+
     public Vim() {
         // constructor
     }
@@ -109,6 +111,14 @@ public class Vim {
         this.version = version;
     }
 
+    public String getTenant() {
+        return tenant;
+    }
+
+    public void setTenant(String tenant) {
+        this.tenant = tenant;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
@@ -162,12 +172,12 @@ public class Vim {
         conMap.put("userPwd", pwd);
         conMap.put("type", type);
         conMap.put("version", version);
+        conMap.put("tenant", tenant);
         conMap.put(Constants.VIM_ID, id);
         conMap.put(Constants.VIM_NAME, name);
         conMap.put("queryId", (null == paramJson || null == paramJson.get("id")) ? null : paramJson.getString("id"));
-        conMap.put(Constants.TENANT_ID_CAMEL,
-                (null == paramJson || null == paramJson.get(Constants.TENANT_ID_CAMEL)) ?
-                        null : paramJson.getString(Constants.TENANT_ID_CAMEL));
+        conMap.put(Constants.TENANT_ID_CAMEL, (null == paramJson || null == paramJson.get(Constants.TENANT_ID_CAMEL))
+                ? null : paramJson.getString(Constants.TENANT_ID_CAMEL));
         return conMap;
     }
 }
