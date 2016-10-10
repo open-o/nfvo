@@ -1,0 +1,13 @@
+{
+    "request": {
+        "uri": "/openoapi/vimdriver/v1/1111/hosts/1234?vimId=123",
+        "method": "get",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        }
+    },
+    "response": {
+        "status": 500,
+        "json": {"retCode":-1}
+    }
+}

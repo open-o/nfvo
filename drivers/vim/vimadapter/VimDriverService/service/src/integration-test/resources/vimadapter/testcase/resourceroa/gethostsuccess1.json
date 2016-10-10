@@ -1,0 +1,47 @@
+{
+    "request": {
+        "uri": "/openoapi/vimdriver/v1/1111/hosts/1234?vimId=123",
+        "method": "get",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        }
+    },
+    "response": {
+        "status": 200,
+        "json": {
+    "hosts": [{
+        "resource": {
+            "cpu": 1,
+            "disk_gb": 1028,
+            "host": "c1a7de0ac9d94e4baceae031d05caae3",
+            "memory_mb": 8192,
+            "project": "(total)"
+        },
+        "vimId": "123",
+        "vimName": "vim"
+    },
+    {
+        "resource": {
+            "cpu": 0,
+            "disk_gb": 0,
+            "host": "c1a7de0ac9d94e4baceae031d05caae3",
+            "memory_mb": 512,
+            "project": "(used_now)"
+        },
+        "vimId": "123",
+        "vimName": "vim"
+    },
+    {
+        "resource": {
+            "cpu": 0,
+            "disk_gb": 0,
+            "host": "c1a7de0ac9d94e4baceae031d05caae3",
+            "memory_mb": 0,
+            "project": "(used_max)"
+        },
+        "vimId": "123",
+        "vimName": "vim"
+    }]
+}
+    }
+}
