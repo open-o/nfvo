@@ -43,26 +43,6 @@
 
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
 
-    <!-- bean id="source"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/nfvo" />
-        <property name="username" value="root"/>
-        <property name="password" value="123456"/>
-    </bean -->
-
-    <!-- bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="source" />
-        <property name="mapperLocations" value="classpath*:mybatis/mysql/*.xml" />
-    </bean -->
-
-    <!--bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="sessionFactory" />
-    </bean -->
-
-    <!--bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="source" />
-    </bean -->
-
     <bean id="adapterResourceManager"
         class="org.openo.nfvo.vimadapter.service.adapter.impl.AdapterResourceManager">
 
