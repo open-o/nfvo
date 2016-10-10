@@ -29,4 +29,5 @@ urlpatterns = [
         views.operation_status, name='operation_status'),
     url(r'^v1/resource/grant$', views.grantvnf, name='grantvnf'),
     url(r'^v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
+    url(r'^samples/$', views.samples, name='samples'),
 ]

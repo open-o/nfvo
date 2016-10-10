@@ -363,3 +363,9 @@ def notify(request, *args, **kwargs):
         logger.error("Error occurred in LCM notification.")
         raise e
     return Response(data=None, status=status.HTTP_202_ACCEPTED)
+
+
+@api_view(http_method_names=['GET'])
+def samples(request, *args, **kwargs):
+    return Response(data={"status": "ok"})
+    
