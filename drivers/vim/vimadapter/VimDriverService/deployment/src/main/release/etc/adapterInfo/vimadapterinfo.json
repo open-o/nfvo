@@ -1,0 +1,14 @@
+{
+  "serviceName": "vimdriver",
+  "version": "v1",
+  "url": "/openoapi/vimdriver/v1",
+  "protocol": "REST",
+  "visualRange": "1",
+  "nodes": [
+    {
+      "ip": "127.0.0.1",
+      "port": "8481",
+      "ttl": 0
+    }
+  ]
+}
