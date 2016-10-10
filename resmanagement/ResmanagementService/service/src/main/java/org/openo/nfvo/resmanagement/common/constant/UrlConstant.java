@@ -35,22 +35,22 @@ public class UrlConstant {
     /**
      * MSB register url.
      */
-    public static final String REST_MSB_REGISTER = "/api/microservices/v1/services";
+    public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
 
     /**
      * networks url.
      */
-    public static final String LOCATION_URL = "/openoapi/resmgr/v1/locations";
+    public static final String LOCATION_URL = "/v1/locations";
 
     /**
      * port url.
      */
-    public static final String PORT_URL = "/openoapi/resmgr/v1/ports";
+    public static final String PORT_URL = "/v1/ports";
 
     /**
      * host url.
      */
-    public static final String HOST_URL = "/openoapi/resmgr/v1/hosts";
+    public static final String HOST_URL = "/v1/hosts";
 
     /**
      * sites target.
@@ -60,7 +60,7 @@ public class UrlConstant {
     /**
      * sites url.
      */
-    public static final String SITES_URL = "/openoapi/resmgr/v1/datacenters";
+    public static final String SITES_URL = "/v1/datacenters";
 
     /**
      * networks target.
@@ -70,7 +70,7 @@ public class UrlConstant {
     /**
      * networks url.
      */
-    public static final String NETWORKS_URL = "/openoapi/resmgr/v1/networks";
+    public static final String NETWORKS_URL = "/v1/networks";
 
     /**
      * updateres.
@@ -230,12 +230,12 @@ public class UrlConstant {
     /**
      * respool url.
      */
-    public static final String RESOPERATE_URL = "/openoapi/resmgr/v1/resoperate";
+    public static final String RESOPERATE_URL = "/v1/resoperate";
 
     /**
      * limits url.
      */
-    public static final String LIMITS_URL = "/openoapi/resmgr/v1/limits";
+    public static final String LIMITS_URL = "/v1/limits";
 
     private UrlConstant() {
         //private constructor

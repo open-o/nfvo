@@ -165,7 +165,7 @@ public class SitesRoa {
 
         LOGGER.warn("SitesRoa::start update Sites");
         try {
-            int result = sites.update(json);
+            int result = sites.update(SitesEntity.toEntity(json));
             return RoaResponseUtil.update(result);
         } catch(ServiceException se) {
             LOGGER.error("SitesRoa::updateSites error:" + se);
