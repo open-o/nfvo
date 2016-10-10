@@ -40,7 +40,7 @@ import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.request.RequestUtil;
 import org.openo.nfvo.resmanagement.common.util.response.ResponseUtil;
 import org.openo.nfvo.resmanagement.common.util.response.RoaResponseUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Network;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Network;
 import org.openo.nfvo.resmanagement.service.entity.NetworkEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.inf;
+package org.openo.nfvo.resmanagement.service.base.openstack.inf;
 
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
+import org.openo.nfvo.resmanagement.service.entity.PortEntity;
 
 import net.sf.json.JSONObject;
 
@@ -32,7 +32,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 25, 2016
  */
-public interface Sites extends InterfaceResManagement {
+public interface Port extends InterfaceResManagement {
 
     /**
      * <br/>
@@ -52,35 +52,25 @@ public interface Sites extends InterfaceResManagement {
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    List<SitesEntity> getList(Map<String, Object> condition) throws ServiceException;
+    List<PortEntity> getList(Map<String, Object> condition) throws ServiceException;
 
     /**
      * <br/>
      *
-     * @param condition
+     * @param resPoolEntity
      * @return
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    SitesEntity get(Map<String, Object> condition) throws ServiceException;
+    int update(PortEntity resPoolEntity) throws ServiceException;
 
     /**
-     * <br/>
+     * <br>
      *
-     * @param jsonObject
+     * @param portEntity
      * @return
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    int updateResource(JSONObject jsonObject) throws ServiceException;
-
-    /**
-     * <br/>
-     *
-     * @param sitesEntity
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    int update(SitesEntity sitesEntity) throws ServiceException;
+    int add(PortEntity portEntity) throws ServiceException;
 }

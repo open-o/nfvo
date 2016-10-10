@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.service.base.openstack.impl.NetworkImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.NetworkBusinessImpl;
 import org.openo.nfvo.resmanagement.service.dao.impl.NetworkDaoImpl;
 import org.openo.nfvo.resmanagement.service.dao.inf.NetworkDao;

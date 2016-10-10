@@ -22,8 +22,8 @@ import java.util.Map;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.InterfaceResManagement;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Vim;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.InterfaceResManagement;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Vim;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

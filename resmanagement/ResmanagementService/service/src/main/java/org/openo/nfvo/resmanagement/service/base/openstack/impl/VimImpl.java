@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Vim;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Vim;
 import org.openo.nfvo.resmanagement.service.business.inf.VimBusiness;
 import org.openo.nfvo.resmanagement.service.entity.VimEntity;
 

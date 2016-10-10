@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.openo.nfvo.resmanagement.service.base.fs.impl;
+package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
 import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.inf.Port;
+import org.openo.nfvo.resmanagement.service.base.openstack.inf.Port;
 import org.openo.nfvo.resmanagement.service.business.inf.PortBusiness;
 import org.openo.nfvo.resmanagement.service.entity.PortEntity;
 import org.slf4j.Logger;

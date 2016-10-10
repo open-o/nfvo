@@ -24,7 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.util.request.RequestUtil;
-import org.openo.nfvo.resmanagement.service.base.fs.impl.SitesImpl;
+import org.openo.nfvo.resmanagement.service.base.openstack.impl.SitesImpl;
+import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -148,7 +149,7 @@ public class SitesRoaTest {
         new MockUp<SitesImpl>() {
 
             @Mock
-            public int update(JSONObject jsonObject) throws ServiceException {
+            public int update(SitesEntity sitesEntity) throws ServiceException {
                 return 1;
             }
         };
@@ -170,7 +171,7 @@ public class SitesRoaTest {
         new MockUp<SitesImpl>() {
 
             @Mock
-            public int update(JSONObject jsonObject) throws ServiceException {
+            public int update(SitesEntity sitesEntity) throws ServiceException {
                 throw new ServiceException();
             }
         };
