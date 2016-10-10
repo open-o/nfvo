@@ -98,6 +98,9 @@ public class LocationBusinessImpl implements LocationBusiness {
         String newLocation = locationEntity.getLocation();
         String id = locationEntity.getId();
         LocationEntity selectLocation = locationDao.getLocation(id);
+        if(null == selectLocation) {
+            return false;
+        }
         String oldCountry = selectLocation.getCountry();
         String oldLocation = selectLocation.getLocation();
         if(newCountry.equals(oldCountry) && newLocation.equals(oldLocation)) {
