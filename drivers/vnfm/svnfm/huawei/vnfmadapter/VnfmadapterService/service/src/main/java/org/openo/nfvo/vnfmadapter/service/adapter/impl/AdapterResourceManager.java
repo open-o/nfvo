@@ -271,6 +271,10 @@ public class AdapterResourceManager implements IResourceManager {
     public JSONObject getAllCloud(String url) {
         JSONObject resultObj = new JSONObject();
         JSONArray resArray = new JSONArray();
+        
+        if(url == null || url.equals("")){
+        	url="http://127.0.0.1";
+        }
 
         // get vim_id
         HttpMethod httpMethodCloud = null;
