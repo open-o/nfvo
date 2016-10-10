@@ -54,13 +54,6 @@ public class ResourceRoaTest {
     }
 
     @Test
-    public void getCpuLimitTest() throws ServiceException {
-        String result = roa.getCpuLimit(null, resp, "", "vimId");
-        String expectedRes = "{\"retCode\":-1}";
-        assertTrue(expectedRes.equals(result));
-    }
-
-    @Test
     public void getCpuLimitTest1() throws ServiceException {
         new MockUp<HttpRest>() {
             @Mock
@@ -81,6 +74,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -127,6 +121,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -173,6 +168,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -212,6 +208,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -272,6 +269,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -326,6 +324,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -352,13 +351,6 @@ public class ResourceRoaTest {
     }
 
     @Test
-    public void getPortTest() throws ServiceException {
-        String result = roa.getPort(null, resp, "id", "vimId");
-        String expectedRes = "{\"retCode\":-1}";
-        assertTrue(expectedRes.equals(result));
-    }
-
-    @Test
     public void getPortsTest1() throws ServiceException {
         new MockUp<HttpRest>() {
             @Mock
@@ -379,6 +371,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -418,6 +411,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -471,6 +465,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }
@@ -510,6 +505,7 @@ public class ResourceRoaTest {
                 json.put("type", "openstack");
                 json.put("name", "name");
                 json.put("version", "version");
+                json.put("tenant", "tenant");
 
                 return json;
             }

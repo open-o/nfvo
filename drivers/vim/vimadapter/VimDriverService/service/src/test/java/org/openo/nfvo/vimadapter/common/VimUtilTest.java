@@ -36,12 +36,6 @@ import mockit.MockUp;
 public class VimUtilTest {
 
     @Test
-    public void getVimsTestNullResp() {
-        List<Vim> vimList = VimUtil.getVims();
-        assertNull(vimList);
-    }
-
-    @Test
     public void getVimsTestInvalidStatus() {
         new MockUp<VimRestfulUtil>() {
             @Mock
@@ -78,6 +72,7 @@ public class VimUtilTest {
                 vim.put("password", "123");
                 vim.put("type", "123");
                 vim.put("version", "123");
+                vim.put("tenant", "123");
                 vims.add(vim);
                 String vimStr = this.toJson(vims);
                 response.setResponseJson(vimStr);

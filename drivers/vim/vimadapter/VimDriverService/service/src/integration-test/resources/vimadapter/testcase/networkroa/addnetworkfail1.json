@@ -1,0 +1,19 @@
+{
+    "request": {
+        "uri": "/openoapi/vimdriver/v1/networks?vimId=123",
+        "method": "post",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": {
+            "network": {
+                "name": "sample_network",
+                "admin_state_up": true
+            }
+        }
+    },
+    "response": {
+        "status": 500,
+        "json": {"retCode":-1}
+    }
+}

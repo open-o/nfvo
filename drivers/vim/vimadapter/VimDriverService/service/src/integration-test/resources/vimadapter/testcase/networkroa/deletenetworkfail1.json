@@ -1,0 +1,18 @@
+{
+    "request": {
+        "uri": "/openoapi/vimdriver/v1/networks/1234?vimId=123",
+        "method": "delete",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": {
+            
+        }
+    },
+    "response": {
+        "status": 400,
+        "json": {
+            
+        }
+    }
+}

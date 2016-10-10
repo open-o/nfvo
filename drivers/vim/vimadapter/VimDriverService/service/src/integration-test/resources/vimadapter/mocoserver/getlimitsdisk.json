@@ -1,0 +1,20 @@
+{
+    "request": {
+        "uri": "/v2/[a-zA-Z0-9\\-\\_]{1,36}/os-quota-sets/[a-zA-Z0-9\\-\\_]{1,36}",
+        "method": "get",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        }
+    },
+    "response": {
+        "status": 200,
+        "json": {
+            "quota_set": {
+                "volumes": 1000,
+                "id": "802f0dacae24fblalbb3f1c46a13f98",
+                "gigabytes": 42000,
+                "snapshots": 100
+            }
+        }
+    }
+}
