@@ -31,13 +31,13 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Aug 25, 2016
  */
 public final class VnfmUtil {
 
-    private static final Logger VNFMLOGGER = LoggerFactory.getLogger(VnfmUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VnfmUtil.class);
     private VnfmUtil() {
 
     }
@@ -45,7 +45,7 @@ public final class VnfmUtil {
     /**
      * Get vnfmInfo by ip
      * <br/>
-     *
+     * 
      * @param vnfmId
      * @return
      * @since  NFVO 0.5
@@ -61,18 +61,17 @@ public final class VnfmUtil {
             return json;
         }
         RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(UrlConstant.REST_ESRINFO_GET, vnfmId), JujuVnfmRestfulUtil.GET_TYPE, null);
-        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK)
-        {
+        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
             return null;
         }
-        VNFMLOGGER.error("funtion=getVnfmById, status={}", rsp.getStatus());
+        LOG.error("funtion=getVnfmById, status={}", rsp.getStatus());
         return JSONObject.fromObject(rsp.getResponseContent());
     }
 
     /**
      * Get vnfmInfo by id
      * <br/>
-     *
+     * 
      * @param ip
      * @return
      * @since  NFVO 0.5

@@ -43,19 +43,21 @@ import net.sf.json.util.JSONTokener;
 import net.sf.json.util.JSONUtils;
 
 /**
- *
+ * 
  * Virtual Network Function Json Utility class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
 public final class VNFJsonUtil {
 
-    private static final Logger VNFLOGGER = LoggerFactory.getLogger(VNFJsonUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VNFJsonUtil.class);
 
     private static final ObjectMapper VNFMAPPER = new ObjectMapper();
+    
+    private static final String ERROR = "error";
     static {
         VNFMAPPER.setDeserializationConfig(VNFMAPPER.getDeserializationConfig()
                 .without(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES));
@@ -65,9 +67,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * UnMarshal method.<br>
-     *
+     * 
      * @param vnfJsonstr
      * @param type
      * @return
@@ -79,9 +81,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * UnMarshal method.<br>
-     *
+     * 
      * @param vnfJsonstr
      * @param type
      * @return
@@ -93,9 +95,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Marshal method.<br>
-     *
+     * 
      * @param srcObj
      * @return
      * @throws IOException
@@ -113,9 +115,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Get Json field string.<br>
-     *
+     * 
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -123,7 +125,7 @@ public final class VNFJsonUtil {
      */
     public static String getJsonFieldStr(JSONObject vnfJsonObj, String fieldName) {
         if(null == vnfJsonObj || null == vnfJsonObj.get(fieldName) || "null".equals(vnfJsonObj.getString(fieldName))) {
-            VNFLOGGER.warn("warning: VNFJson object field(" + fieldName + ") is null");
+            LOG.warn("getJsonFieldStr: VNFJson object field(" + fieldName + ") is null.");
             return "";
         }
 
@@ -131,9 +133,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Get Json field integer.<br>
-     *
+     * 
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -141,16 +143,16 @@ public final class VNFJsonUtil {
      */
     public static Integer getJsonFieldInt(JSONObject vnfJsonObj, String fieldName) {
         if(null == vnfJsonObj || null == vnfJsonObj.get(fieldName)) {
-            VNFLOGGER.warn("warning: VNFJson object field(" + fieldName + ") is null");
+            LOG.warn("getJsonFieldInt: VNFJson object field(" + fieldName + ") is Null");
             return 0;
         }
         return vnfJsonObj.getInt(fieldName);
     }
 
     /**
-     *
+     * 
      * Get Json field long.<br>
-     *
+     * 
      * @param vnfJsonObj
      * @param fieldName
      * @return
@@ -158,16 +160,16 @@ public final class VNFJsonUtil {
      */
     public static Long getJsonFieldLong(JSONObject vnfJsonObj, String fieldName) {
         if(null == vnfJsonObj || null == vnfJsonObj.get(fieldName)) {
-            VNFLOGGER.warn("warning: VNFJson object field(" + fieldName + ") is null");
+            LOG.warn("getJsonFieldLong: VNFJson object field(" + fieldName + ") is null");
             return 0L;
         }
         return vnfJsonObj.getLong(fieldName);
     }
 
     /**
-     *
+     * 
      * Parse error information.<br>
-     *
+     * 
      * @param errorInfo
      * @return
      * @since  NFVO 0.5
@@ -175,8 +177,8 @@ public final class VNFJsonUtil {
     public static String parseErrorInfo(String errorInfo) {
         if((errorInfo != null) && (!errorInfo.isEmpty())) {
             JSONObject errorInfoJst = JSONObject.fromObject(errorInfo);
-            if(errorInfoJst.has("error") && errorInfoJst.getJSONObject("error").has("message")) {
-                return errorInfoJst.getJSONObject("error").getString("message");
+            if(errorInfoJst.has(ERROR) && errorInfoJst.getJSONObject(ERROR).has("message")) {
+                return errorInfoJst.getJSONObject(ERROR).getString("message");
             }
         }
         return "System Error!";
@@ -188,9 +190,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Convert VNF Json to objects.<br>
-     *
+     * 
      * @param vnfJsonString
      * @param pojoCalss
      * @return
@@ -203,9 +205,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Convert VNF Json to objects.<br>
-     *
+     * 
      * @param vnfJsonString
      * @param vnfJsonConfig
      * @return
@@ -218,9 +220,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Convert VNF Json to lists.<br>
-     *
+     * 
      * @param vnfJsonString
      * @param pojoClass
      * @return
@@ -239,9 +241,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Convert VNF Json to list.<br>
-     *
+     * 
      * @param vnfJsonString
      * @param pojoClass
      * @param dataFormat
@@ -262,9 +264,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Object to json string.<br>
-     *
+     * 
      * @param javaObj
      * @return
      * @since  NFVO 0.5
@@ -275,9 +277,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * object to json.<br>
-     *
+     * 
      * @param javaObj
      * @return
      * @since  NFVO 0.5
@@ -287,9 +289,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Object to json.<br>
-     *
+     * 
      * @param javaObj
      * @param vnfJsonConfig
      * @return
@@ -301,9 +303,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Object to json.<br>
-     *
+     * 
      * @param javaObj
      * @param dataFormat
      * @return
@@ -317,9 +319,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * List to json.<br>
-     *
+     * 
      * @param list
      * @return
      * @since  NFVO 0.5
@@ -330,9 +332,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * List to json.<br>
-     *
+     * 
      * @param list
      * @param dataFormat
      * @return
@@ -345,9 +347,9 @@ public final class VNFJsonUtil {
     }
 
     /**
-     *
+     * 
      * Config json.<br>
-     *
+     * 
      * @param datePattern
      * @return
      * @since  NFVO 0.5
@@ -360,7 +362,6 @@ public final class VNFJsonUtil {
         vnfJsonConfig.setIgnoreDefaultExcludes(false);
         vnfJsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
         vnfJsonConfig.registerJsonValueProcessor(Date.class, new JsonValueProcessor() {
-
             @Override
             public Object processObjectValue(String key, Object value, JsonConfig vnfJsonConfig) {
                 if(value instanceof Date) {
@@ -368,7 +369,6 @@ public final class VNFJsonUtil {
                 }
                 return value == null ? null : value.toString();
             }
-
             @Override
             public Object processArrayValue(Object value, JsonConfig vnfJsonConfig) {
                 String[] vnfObj = {};
@@ -410,9 +410,9 @@ public final class VNFJsonUtil {
                 return (T)JSONArray.fromObject(vnfJsonStr);
             }
         } catch(IOException e) {
-            VNFLOGGER.error("function=getJsonFromContext,msg= IOException occurs. exception=" + e);
+            LOG.error("function=getJsonFromContext,msg= IOException occurs. exception=" + e);
         } catch(JSONException e) {
-            VNFLOGGER.error("function=getJsonFromContext,msg= JSONException occurs, exception=" + e);
+            LOG.error("function=getJsonFromContext,msg= JSONException occurs, exception=" + e);
         }
         return null;
     }

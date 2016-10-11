@@ -33,16 +33,16 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- *
- * @author        quanzhong@huawei.com
+ * 
+ * @author        
  * @version     NFVO 0.5  Sep 7, 2016
  */
 public class JujuClientManager implements IJujuClientManager {
-    private static Logger log = LoggerFactory.getLogger(JujuClientManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JujuClientManager.class);
 
     /**
      * <br/>
-     *
+     * 
      * @param charmPath
      * @param mem
      * @param appName
@@ -52,44 +52,37 @@ public class JujuClientManager implements IJujuClientManager {
     @Override
     public JSONObject deploy(String charmPath, int mem, String appName) {
         JSONObject result = new JSONObject();
-        int finalMem = mem;
-        if(finalMem < 2){
-            finalMem = 2;
-        }
         if(charmPath == null || appName == null){
             String msg = "the 'charmPath' or 'appName' can not be null";
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, msg);
-            log.error(msg);
+            LOG.error(msg);
             return result;
         }
         List<String> commands = new ArrayList<>();
         commands.add("juju");
         commands.add("deploy");
-        commands.add(charmPath);
-        commands.add("--series");
-        commands.add("trusty");
-        commands.add("--constraints");
-        commands.add("mem="+finalMem+"G");
-        commands.add("--config");
+        if(StringUtils.isNotBlank(charmPath)){
+            commands.add(charmPath);
+        }
         commands.add(appName);
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
-            log.info("deploy success. command:"+EntityUtils.formatCommand(commands));
+            LOG.info("deploy success. command:"+EntityUtils.formatCommand(commands));
             result.put(EntityUtils.RESULT_CODE_KEY, 0);
             result.put(EntityUtils.DATA_KEY, exeRes.getBody());
         }else{
-            log.error("deploy failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            LOG.error("deploy failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "deploy failed:"+exeRes.getBody());
         }
-
+        
         return result;
     }
 
     /**
      * <br/>
-     *
+     * 
      * @param appName
      * @return
      * @since   NFVO 0.5
@@ -101,25 +94,25 @@ public class JujuClientManager implements IJujuClientManager {
         commands.add("juju");
         commands.add("remove-application");
         commands.add(appName);
-
+        
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
-            log.info("remove success. command:"+EntityUtils.formatCommand(commands));
+            LOG.info("remove success. command:"+EntityUtils.formatCommand(commands));
             result.put(EntityUtils.RESULT_CODE_KEY, 0);
             result.put(EntityUtils.DATA_KEY, exeRes.getBody());
         }else{
-            log.error("remove failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            LOG.error("remove failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "remove failed:"+exeRes.getBody());
         }
-
+        
         return result;
-
+       
     }
 
     /**
      * <br/>
-     *
+     * 
      * @param appName
      * @return
      * @since   NFVO 0.5
@@ -131,28 +124,28 @@ public class JujuClientManager implements IJujuClientManager {
         commands.add("juju");
         commands.add("status");
         if(StringUtils.isNotBlank(appName)){
-            commands.add(appName);
+            commands.add(appName); 
         }
         commands.add("--format=json");
-
+        
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
-            log.info("getStatus success. command:"+EntityUtils.formatCommand(commands));
+            LOG.info("getStatus success. command:"+EntityUtils.formatCommand(commands));
             result.put(EntityUtils.RESULT_CODE_KEY, 0);
             JSONObject dataObj = buildDataObj(exeRes,appName);
             result.put(EntityUtils.DATA_KEY, dataObj);
         }else{
-            log.error("getStatus failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            LOG.error("getStatus failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "getStatus failed:"+exeRes.getBody());
         }
-
+        
         return result;
     }
 
     /**
      * <br/>
-     *
+     * 
      * @param exeRes
      * @return
      * @since  NFVO 0.5
@@ -166,5 +159,5 @@ public class JujuClientManager implements IJujuClientManager {
         return dataObj;
     }
 
-
+    
 }

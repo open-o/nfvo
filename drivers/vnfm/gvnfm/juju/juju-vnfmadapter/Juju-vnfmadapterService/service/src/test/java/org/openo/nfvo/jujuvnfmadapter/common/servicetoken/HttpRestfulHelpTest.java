@@ -26,7 +26,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.HttpRestfulHelp;
  * <br/>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */

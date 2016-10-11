@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.openo.nfvo.jujuvnfmadapter.service.rest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,35 +35,34 @@ import org.slf4j.LoggerFactory;
  * <br/>
  * <p>
  * </p>
- *
- * @author        quanzhong@huawei.com
+ * 
+ * @author        
  * @version     NFVO 0.5  Sep 13, 2016
  */
 @Path("/config")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ConfigRoa {
-    private static Logger logger = LoggerFactory.getLogger(ConfigRoa.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigRoa.class);
+    
     /**
-     *
+     * 
      * <br/>
-     *
+     * 
      * @param context
      * @param resp
-     * @return str
+     * @return
      * @since  NFVO 0.5
      */
     @GET
     @Path("/")
     public String initUI(@Context HttpServletRequest context, @Context HttpServletResponse resp){
-        SwitchController sw = new SwitchController();
-        return EntityUtils.toString(sw, SwitchController.class);
+        return EntityUtils.toString(new SwitchController(), SwitchController.class);
     }
     /**
-     *
+     * 
      * <br/>
-     *
+     * 
      * @param type
      * @param context
      * @param resp
@@ -81,7 +79,7 @@ public class ConfigRoa {
         }else{
             SwitchController.setDebugModel(false);
         }
-        logger.debug("change to debug model:"+SwitchController.isDebugModel());
+        LOG.debug("change to debug model:"+SwitchController.isDebugModel());
         return SwitchController.isDebugModel();
     }
 }

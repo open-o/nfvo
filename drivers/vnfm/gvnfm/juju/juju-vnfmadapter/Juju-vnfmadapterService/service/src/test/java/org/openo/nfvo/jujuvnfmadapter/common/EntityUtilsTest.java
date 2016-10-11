@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 import static org.junit.Assert.*;
@@ -29,7 +28,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
 import net.sf.json.JSONObject;
 
 public class EntityUtilsTest {
-
+    
     @Test
     public void formatCommandTest(){
         List<String> command = new ArrayList<>();

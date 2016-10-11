@@ -24,11 +24,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- *
+ * 
  * Juju Driver Class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -54,16 +54,18 @@ public class JujuDriver {
 
     private String status;
 
+    public static final String NOTES = "notes";
+       
     public JujuDriver() {
-
+       // Default Constructor
     }
-
+    
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param jujuJsonObject
      * @since  NFVO 0.5
      */
@@ -74,12 +76,12 @@ public class JujuDriver {
         this.visualRange = jujuJsonObject.getString("visualRange");
         this.url = jujuJsonObject.getString("url");
         this.nodes = jujuJsonObject.getJSONArray("nodes");
-        this.ip = jujuJsonObject.getJSONArray("notes").getString(0);
-        this.port = jujuJsonObject.getJSONArray("notes").getString(1);
-        this.ttl = jujuJsonObject.getJSONArray("notes").getString(2);
+        this.ip = jujuJsonObject.getJSONArray(NOTES).getString(0);
+        this.port = jujuJsonObject.getJSONArray(NOTES).getString(1);
+        this.ttl = jujuJsonObject.getJSONArray(NOTES).getString(2);
         this.status = jujuJsonObject.getString("status");
     }
-
+    
     public String getServiceName() {
         return serviceName;
     }

@@ -17,25 +17,21 @@
 package org.openo.nfvo.jujuvnfmadapter.service.constant;
 
 /**
- *
  * Url constant class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class UrlConstant {
 
-    private UrlConstant() {
-        // Constructor
-    }
-    public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services?createOrUpdate=false";
+    public static final String REST_MSB_REGISTER = "/api/microservices/v1/services";
 
     public static final String REST_ESRINFO_GET = "/openoapi/extsys/v1/vnfms/%s";
 
-    public static final String REST_VNFDINFO_GET = "/openoapi/catalog/v1/csars/%s/files?relativePath=%s&relativePath=%s";
-
+    public static final String REST_VNFDINFO_GET =
+            "/openoapi/catalog/v1/csars/%s/files?relativePath=%s&relativePath=%s";
 
     public static final String REST_MSB_UNREGISTER = "/openoapi/microservices/v1/services/%s/version/%s/nodes/%s/%s";
 
@@ -43,8 +39,9 @@ public class UrlConstant {
 
     public static final String REST_JUJU_CLIENT_DESTORY = "/openoapi/juju/v1/vnfms/destroy";
 
-
     public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/%s/status";
 
-
+    private UrlConstant() {
+        // Constructor
+    }
 }

@@ -38,6 +38,13 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+/**
+ * <br>
+ * <p>
+ * </p>
+ * 
+ * @author
+ */
 public final class VnfmRestfulUtil {
 
     public static final String TYPE_GET = "get";
@@ -54,13 +61,19 @@ public final class VnfmRestfulUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(VnfmRestfulUtil.class);
 
+    /**
+     * Constructor<br/>
+     * <p>
+     * </p>
+     * 
+     */
     private VnfmRestfulUtil() {
-
+        // Default Constructor
     }
 
     /**
      * within our module, we support a default method to invoke
-     *
+     * 
      * @param path
      *            rest service url
      * @param methodNames
@@ -108,7 +121,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     *
+     * 
      * @param methodName
      *            Restful's method
      * @param objects
@@ -126,14 +139,21 @@ public final class VnfmRestfulUtil {
     }
 
     private static Class<?>[] formArray(Object[] objects) {
-        Class<?>[] VNFclasses = new Class[objects.length];
+        Class<?>[] vnfclasses = new Class[objects.length];
         for(int i = 0; i < objects.length; i++) {
-            VNFclasses[i] = objects[i].getClass();
+            vnfclasses[i] = objects[i].getClass();
         }
-        return VNFclasses;
+        return vnfclasses;
 
     }
 
+    /**
+     * <br>
+     * 
+     * @param methodName
+     * @param objects
+     * @return
+     */
     public static RestfulResponse getRestRes(String methodName, Object... objects) {
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
         try {
@@ -141,14 +161,14 @@ public final class VnfmRestfulUtil {
                 return null;
             }
 
-            Class<?>[] VNFclasses = formArray(objects);
+            Class<?>[] vnfClasses = formArray(objects);
 
             if(methodName.startsWith("async")) {
-                VNFclasses[VNFclasses.length - 1] = RestfulAsyncCallback.class;
+                vnfClasses[vnfClasses.length - 1] = RestfulAsyncCallback.class;
             }
 
             Class<?> rtType = methodName.startsWith("async") ? void.class : RestfulResponse.class;
-            MethodType mt = MethodType.methodType(rtType, VNFclasses);
+            MethodType mt = MethodType.methodType(rtType, vnfClasses);
             Object reuslt = MethodHandles.lookup().findVirtual(rest.getClass(), methodName, mt).bindTo(rest)
                     .invokeWithArguments(objects);
             if(reuslt != null) {
@@ -168,7 +188,7 @@ public final class VnfmRestfulUtil {
             response.setResponseJson(e.getCause().getMessage());
             return response;
 
-        } catch(Throwable e) {
+        } catch(Throwable e) {//NOSONAR
             try {
                 throw (VnfmException)new VnfmException().initCause(e.getCause());
             } catch(VnfmException e1) {
@@ -179,9 +199,17 @@ public final class VnfmRestfulUtil {
         return null;
     }
 
+    /**
+     * <br>
+     * 
+     * @param path
+     * @param methodName
+     * @param paraJson
+     * @return
+     */
     public static JSONObject sendReqToApp(String path, String methodName, JSONObject paraJson) {
         JSONObject retJson = new JSONObject();
-        retJson.put("retCode", Constant.REST_FAIL);
+        retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
         String abPath = null;
         String vnfmId = null;
         if(paraJson != null && paraJson.containsKey("vnfmInfo")) {
@@ -201,12 +229,12 @@ public final class VnfmRestfulUtil {
             if(!abPath.contains("vnfdmgr/v1")) {
                 LOG.warn("function=sendReqToApp, msg=result from app is: " + object.toString());
             }
-            if(object.getInt("retCode") == Constant.REST_SUCCESS) {
-                retJson.put("retCode", Constant.REST_SUCCESS);
+            if(object.getInt(Constant.RETURN_CODE) == Constant.REST_SUCCESS) {
+                retJson.put(Constant.RETURN_CODE, Constant.REST_SUCCESS);
                 retJson.put("data", withVnfmIdSuffix(vnfmId, object.get("data")));
                 return retJson;
             } else {
-                retJson.put("retCode", Constant.REST_FAIL);
+                retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
                 if(object.containsKey("msg")) {
                     retJson.put("data", object.getString("msg"));
                     return retJson;
@@ -224,7 +252,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     *
+     * 
      * @param vnfmId
      * @param dataJson
      * @return
@@ -265,7 +293,7 @@ public final class VnfmRestfulUtil {
     */
    public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
        String path = paramsMap.get("path");
-       String methodType = paramsMap.get("methodType");
+       String methodType = paramsMap.get(Constant.METHOD_TYPE);
        String url = paramsMap.get("url");
 
        RestfulResponse rsp = null;
@@ -279,12 +307,12 @@ public final class VnfmRestfulUtil {
            opt.setPort(Integer.parseInt(strs[2]));
            for(int i=strs.length-1;i>=0;i--){
                 if(i > 2){
-                    path = "/"+strs[i]+path;
+                    path = "/"+strs[i]+path;  
                 }
             }
 
            RestfulParametes restfulParametes = new RestfulParametes();
-           Map<String, String> headerMap = new HashMap<String, String>(3);
+           Map<String, String> headerMap = new HashMap<>(3);
            headerMap.put(Constant.CONTENT_TYPE, Constant.APPLICATION);
            headerMap.put(Constant.HEADER_AUTH_TOKEN, domainTokens);
            restfulParametes.setHeaderMap(headerMap);
@@ -307,12 +335,12 @@ public final class VnfmRestfulUtil {
        LOG.info("request :{},response:{}",params,EntityUtils.toString(rsp, RestfulResponse.class));
        return rsp;
    }
-
+   
 
    /**
     * read DEFAULT config
     * <br/>
-    *
+    * 
     * @param url
     * @param methodType
     * @param params
@@ -349,10 +377,19 @@ public final class VnfmRestfulUtil {
         return rsp;
     }
 
+    /**
+     * <br>
+     * 
+     * @param url
+     * @param methodType
+     * @param path
+     * @param authMode
+     * @return Map<String, String>
+     */
     public static Map<String, String> generateParamsMap(String url, String methodType, String path, String authMode) {
         Map<String, String> utilParamsMap = new HashMap<>(6);
         utilParamsMap.put("url", url);
-        utilParamsMap.put("methodType", methodType);
+        utilParamsMap.put(Constant.METHOD_TYPE, methodType);
         utilParamsMap.put("path", path);
         utilParamsMap.put("authMode", authMode);
         return utilParamsMap;

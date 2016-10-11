@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.jujuvnfmadapter.service.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 
  *
- *
- * @author quanzhong
+ * @author z00292420
  * @date 2016-9-12
  *
  */

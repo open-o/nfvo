@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.jujuvnfmadapter.service.mapper;
 
 import java.util.List;
@@ -22,36 +23,126 @@ import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample;
 
 /**
- *
- * @author quanzhong
- *
+ * <br>
+ * <p>
+ * </p>
+ * 
+ * @author
+ * @version     NFVO 0.5  Sep 14, 2016
  */
 public interface JujuVnfmInfoMapper {
+    /**
+     * <br>
+     * 
+     * @param example
+     * @return int
+     */
     int countByExample(JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param example
+     * @return int
+     */
     int deleteByExample(JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param id
+     * @return int
+     */
     int deleteByPrimaryKey(String id);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @return int
+     */
     int insert(JujuVnfmInfo record);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @return int
+     */
     int insertSelective(JujuVnfmInfo record);
 
+    /**
+     * <br>
+     * 
+     * @param example
+     * @return list
+     */
     List<JujuVnfmInfo> selectByExampleWithBLOBs(JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param example
+     * @return list
+     */
     List<JujuVnfmInfo> selectByExample(JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param id
+     * @return jujuVnfmInfo
+     */
     JujuVnfmInfo selectByPrimaryKey(String id);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @param example
+     * @return int
+     */
     int updateByExampleSelective(@Param("record") JujuVnfmInfo record, @Param("example") JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @param example
+     * @return int
+     */
     int updateByExampleWithBLOBs(@Param("record") JujuVnfmInfo record, @Param("example") JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @param example
+     * @return int
+     */
     int updateByExample(@Param("record") JujuVnfmInfo record, @Param("example") JujuVnfmInfoExample example);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @return int
+     */
     int updateByPrimaryKeySelective(JujuVnfmInfo record);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @return int
+     */
     int updateByPrimaryKeyWithBLOBs(JujuVnfmInfo record);
 
+    /**
+     * <br>
+     * 
+     * @param record
+     * @return int
+     */
     int updateByPrimaryKey(JujuVnfmInfo record);
 }

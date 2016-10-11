@@ -22,11 +22,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.VNFJsonUtil;
 
 /**
- *
+ * 
  * Access tokens class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -39,11 +39,11 @@ public class AccessTokens {
     private long createTime;
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @since  NFVO 0.5
      */
     public AccessTokens() {
@@ -51,11 +51,11 @@ public class AccessTokens {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param token
      * @param ttl
      * @since  NFVO 0.5
@@ -67,11 +67,11 @@ public class AccessTokens {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param accessToken
      * @param expire
      * @param createTime
@@ -100,9 +100,9 @@ public class AccessTokens {
     }
 
     /**
-     *
+     * 
      * Check time validity.<br>
-     *
+     * 
      * @return
      * @since  NFVO 0.5
      */
@@ -120,9 +120,9 @@ public class AccessTokens {
     }
 
     /**
-     *
+     * 
      * To entity.<br>
-     *
+     * 
      * @param jsonObject
      * @return
      * @since  NFVO 0.5

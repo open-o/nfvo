@@ -16,16 +16,6 @@
 
 package org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.impl;
 
-import org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.inf.IJujuAdapterMgrService;
-import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
-import org.openo.nfvo.jujuvnfmadapter.service.constant.UrlConstant;
-import org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuAdapter2MSBManager;
-import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IJujuAdapter2MSBManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.sf.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,15 +26,23 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 
 import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
+import org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuAdapter2MSBManager;
+import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IJujuAdapter2MSBManager;
+import org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.inf.IJujuAdapterMgrService;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.UrlConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import net.sf.json.JSONObject;
 
 /**
- *
  * Juju adapter manager service class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
- * @version     NFVO 0.5  Sep 12, 2016
+ * @version NFVO 0.5 Sep 12, 2016
  */
 public class JujuAdapterMgrService implements IJujuAdapterMgrService {
 
@@ -53,14 +51,14 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
     @Override
     public void register() {
         // set BUS URL and mothedtype
-        Map<String, String> paramsMap = new HashMap();
+        Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("url", UrlConstant.REST_MSB_REGISTER);
         paramsMap.put("methodType", Constant.POST);
 
         // get juju adapter info and raise registration
         try {
             String adapterInfo = readJujuAdapterInfoFromJson();
-            if (!"".equals(adapterInfo)) {
+            if(!"".equals(adapterInfo)) {
                 JSONObject adapterObject = JSONObject.fromObject(adapterInfo);
                 RegisterJujuAdapterThread jujuAdapterThread = new RegisterJujuAdapterThread(paramsMap, adapterObject);
                 Executors.newSingleThreadExecutor().submit(jujuAdapterThread);
@@ -68,28 +66,27 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
                 LOG.error("JujuVnfmAdapter info is null,please check!", JujuAdapterMgrService.class);
             }
 
-        } catch (IOException e) {
-            LOG.error("Failed to read JujuVnfmAdapter info!" + e.getMessage(), JujuAdapterMgrService.class);
+        } catch(IOException e) {
+            LOG.error("Failed to read JujuVnfmAdapter info!" + e, JujuAdapterMgrService.class);
         }
 
     }
 
     /**
-     *
      * Read juju adapter information from Json.<br>
-     *
+     * 
      * @return
      * @throws IOException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static String readJujuAdapterInfoFromJson() throws IOException {
         InputStream ins = null;
         BufferedInputStream bins = null;
         String fileContent = "";
 
-        String fileName = SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
-                + "etc" + System.getProperty("file.separator") + "adapterInfo" + System.getProperty("file.separator")
-                + Constant.JUJUADAPTERINFO;
+        String fileName = SystemEnvVariablesFactory.getInstance().getAppRoot()
+                + System.getProperty(Constant.FILE_SEPARATOR) + "etc" + System.getProperty(Constant.FILE_SEPARATOR)
+                + "adapterInfo" + System.getProperty(Constant.FILE_SEPARATOR) + Constant.JUJUADAPTERINFO;
 
         try {
             ins = new FileInputStream(fileName);
@@ -98,20 +95,19 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
             byte[] contentByte = new byte[ins.available()];
             int num = bins.read(contentByte);
 
-            if (num > 0) {
+            if(num > 0) {
                 fileContent = new String(contentByte);
             }
-        } catch (FileNotFoundException e) {
-            LOG.error(fileName + "is not found!", JujuAdapterMgrService.class);
+        } catch(FileNotFoundException e) {
+            LOG.error(fileName + "is not found!", e, JujuAdapterMgrService.class);
         } finally {
-            if(null != ins)
-            {
-            ins.close();
+            if(null != ins) {
+                ins.close();
             }
-            if(null != bins)
-            {
-            bins.close();
-        }
+
+            if(null != bins) {
+                bins.close();
+            }
         }
 
         return fileContent;
@@ -139,7 +135,7 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
         public void run() {
             LOG.info("start register jujuvnfmadapter", RegisterJujuAdapterThread.class);
 
-            if (paramsMap == null || adapterInfo == null) {
+            if(paramsMap == null || adapterInfo == null) {
                 LOG.error("parameter is null,please check!", RegisterJujuAdapterThread.class);
                 return;
             }
@@ -147,7 +143,7 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
             // catch Runtime Exception
             try {
                 sendRequest(paramsMap, adapterInfo);
-            } catch (RuntimeException e) {
+            } catch(RuntimeException e) {
                 LOG.error(e.getMessage(), e);
             }
 
@@ -156,7 +152,7 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
         private void sendRequest(Map<String, String> paramsMap, JSONObject driverInfo) {
             JSONObject resultObj = adapter2MSBMgr.registerJujuAdapter(paramsMap, driverInfo);
 
-            if (Integer.valueOf(resultObj.get("retCode").toString()) == Constant.HTTP_CREATED) {
+            if(Integer.valueOf(resultObj.get("retCode").toString()) == Constant.HTTP_CREATED) {
                 LOG.info("JujuVnfmAdapter has now Successfully Registered to the Microservice BUS!",
                         JujuAdapterMgrService.class);
             } else {
@@ -165,11 +161,11 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
 
                 // if registration fails,wait one minute and try again
                 try {
-                    synchronized (lockObject) {
+                    synchronized(lockObject) {
                         lockObject.wait(Constant.REPEAT_REG_TIME);
                     }
-                } catch (InterruptedException e) {
-                    LOG.error(e.getMessage(), e);
+                } catch(InterruptedException e) {
+                    LOG.error("sendRequest error", e);
                 }
 
                 sendRequest(this.paramsMap, this.adapterInfo);
@@ -181,22 +177,20 @@ public class JujuAdapterMgrService implements IJujuAdapterMgrService {
 
     @Override
     public void unregister() {
-        // TODO Auto-generated method stub
+        // Not implemented
 
     }
 
-
     /**
-     *
      * Main method.<br>
-     *
+     * 
      * @param args
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static void main(String[] args) {
-        LOG.info(SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
-                + "etc" + System.getProperty("file.separator") + "adapterInfo" + System.getProperty("file.separator")
-                + Constant.JUJUADAPTERINFO);
+        LOG.info(SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty(Constant.FILE_SEPARATOR)
+                + "etc" + System.getProperty(Constant.FILE_SEPARATOR) + "adapterInfo"
+                + System.getProperty(Constant.FILE_SEPARATOR) + Constant.JUJUADAPTERINFO);
     }
 
 }

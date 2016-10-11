@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.jujuvnfmadapter.service.constant;
 
 import java.util.Arrays;
@@ -20,11 +21,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
  * Constant class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -33,6 +33,8 @@ public class Constant {
     public static final String VNFM_APP = "VnfmDriver";
 
     public static final String VNFM_DB = "vnfmdb";
+
+    public static final String VNFM_ID = "vnfmId";
 
     public static final String POST = "post";
 
@@ -56,6 +58,10 @@ public class Constant {
 
     public static final String STATUS_CODE = "statusCode";
 
+    public static final String RETURN_CODE = "retCode";
+
+    public static final String REASON = "reason";
+
     public static final int ERROR_STATUS_CODE = -1;
 
     public static final String ENCODEING = "utf-8";
@@ -66,7 +72,13 @@ public class Constant {
 
     public static final String CONTENT_TYPE = "Content-Type";
 
+    public static final String METHOD_TYPE = "methodType";
+
+    public static final String AUTH_MODE = "authMode";
+
     public static final String APPLICATION = "application/json";
+
+    public static final String APP_NAME = "appName";
 
     public static final String HEADER_SUBJECT_TOKEN = "X-Subject-Token";
 
@@ -91,19 +103,21 @@ public class Constant {
     public static final int HTTP_NOTFOUND = 404;
 
     public static final int HTTP_CONFLICT = 409;
-
+    
     public static final int INVALID_PARAMETERS = 415;
 
     public static final int HTTP_INNERERROR = 500;
-
+    
     public static final int REPEAT_REG_TIME = 60 * 1000;
-
+    
     public static final String JUJUADAPTERINFO = "jujuadapterinfo.json";
+
+    public static final String FILE_SEPARATOR = "file.separator";
 
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    public static final List<String> AUTHLIST = Collections.unmodifiableList(Arrays.asList(AuthenticationMode.ANONYMOUS,
-            AuthenticationMode.CERTIFICATE));
+    public static final List<String> AUTHLIST =
+            Collections.unmodifiableList(Arrays.asList(AuthenticationMode.ANONYMOUS, AuthenticationMode.CERTIFICATE));
 
     public static final int INTERNAL_EXCEPTION = 600;
 
@@ -162,13 +176,23 @@ public class Constant {
     public static final int REST_FAIL = -1;
 
     public static final String ROARAND = "?roarand=%s";
+    
+    public static final long PROCESS_WAIT_MILLIS = 30000;
 
     /**
-     *
+     * Constructor<br/>
+     * <p>
+     * </p>
+     */
+    private Constant() {
+        // Private Constructor
+    }
+
+    /**
      * Authentication mode.<br>
      * <p>
      * </p>
-     *
+     * 
      * @author
      * @version     NFVO 0.5  Sep 12, 2016
      */
@@ -178,9 +202,8 @@ public class Constant {
 
         public static final String CERTIFICATE = "Certificate";
 
-        private AuthenticationMode()
-        {
-
+        private AuthenticationMode() {
+            
         }
     }
 }

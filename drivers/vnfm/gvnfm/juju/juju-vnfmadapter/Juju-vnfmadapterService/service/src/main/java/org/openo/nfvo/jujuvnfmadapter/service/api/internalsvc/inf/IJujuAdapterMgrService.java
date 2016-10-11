@@ -17,28 +17,28 @@
 package org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.inf;
 
 /**
- *
+ * 
  * Ijuju adapter manager service interface.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public interface IJujuAdapterMgrService {
-
+    
     /**
-     *
+     * 
      * JujuVnfmAdapter register interface.<br>
-     *
+     * 
      * @since  NFVO 0.5
      */
     void register();
-
+    
     /**
-     *
+     * 
      * JujuVnfmAdapter unregister interface.<br>
-     *
+     * 
      * @since  NFVO 0.5
      */
     void unregister();

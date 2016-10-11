@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
+ * 
  * Juju adapter to msb manager class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -44,12 +44,12 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
     public JSONObject registerJujuAdapter(Map<String, String> paramsMap, JSONObject adapterInfo) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-
+        
         RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,adapterInfo.toString());
         if(null == rsp) {
             LOG.error("function=registerJujuAdapter,  RestfulResponse is null");
-            resultObj.put("reason", "RestfulResponse is null.");
-            resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+            resultObj.put(Constant.REASON, "RestfulResponse is null.");
+            resultObj.put(Constant.RETURN_CODE, Constant.ERROR_STATUS_CODE);
             return resultObj;
         }
         String resultCreate = rsp.getResponseContent();
@@ -57,18 +57,18 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
         if(rsp.getStatus() == Constant.HTTP_CREATED) {
             LOG.warn("function=registerJujuAdapter, msg= status={}, result={}.", rsp.getStatus(), resultCreate);
             resultObj = JSONObject.fromObject(resultCreate);
-            resultObj.put("retCode", Constant.HTTP_CREATED);
+            resultObj.put(Constant.RETURN_CODE, Constant.HTTP_CREATED);
             return resultObj;
         } else if(rsp.getStatus() == Constant.INVALID_PARAMETERS){
             LOG.error("function=registerJujuAdapter, msg=MSB return fail,invalid parameters,status={}, result={}.", rsp.getStatus(),
                     resultCreate);
-            resultObj.put("reason", "MSB return fail,invalid parameters.");
+            resultObj.put(Constant.REASON, "MSB return fail,invalid parameters.");
         } else if(rsp.getStatus() == Constant.HTTP_INNERERROR){
             LOG.error("function=registerJujuAdapter, msg=MSB return fail,internal system error,status={}, result={}.", rsp.getStatus(),
                     resultCreate);
-            resultObj.put("reason", "MSB return fail,internal system error.");
+            resultObj.put(Constant.REASON, "MSB return fail,internal system error.");
         }
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+        resultObj.put(Constant.RETURN_CODE, Constant.ERROR_STATUS_CODE);
         return resultObj;
     }
 
@@ -76,12 +76,12 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
     public JSONObject unregisterJujuAdapter(Map<String, String> paramsMap) {
         JSONObject resultObj = new JSONObject();
         //verify url,reserve
-
+        
         RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
         if(null == rsp) {
             LOG.error("function=unregisterJujuAdapter,  RestfulResponse is null");
-            resultObj.put("reason", "RestfulResponse is null.");
-            resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+            resultObj.put(Constant.REASON, "RestfulResponse is null.");
+            resultObj.put(Constant.RETURN_CODE, Constant.ERROR_STATUS_CODE);
             return resultObj;
         }
         String resultCreate = rsp.getResponseContent();
@@ -89,22 +89,22 @@ public class JujuAdapter2MSBManager implements IJujuAdapter2MSBManager {
         if(rsp.getStatus() == Constant.UNREG_SUCCESS) {
             LOG.warn("function=unregisterJujuAdapter, msg= status={}, result={}.", rsp.getStatus(), resultCreate);
             resultObj = JSONObject.fromObject(resultCreate);
-            resultObj.put("retCode", Constant.UNREG_SUCCESS);
+            resultObj.put(Constant.RETURN_CODE, Constant.UNREG_SUCCESS);
             return resultObj;
         } else if(rsp.getStatus() == Constant.HTTP_NOTFOUND){
             LOG.error("function=unregisterJujuAdapter, msg=MSB return fail,can't find the service instance.status={}, result={}.", rsp.getStatus(),
                     resultCreate);
-            resultObj.put("reason", "MSB return fail,can't find the service instance.");
+            resultObj.put(Constant.REASON, "MSB return fail,can't find the service instance.");
         } else if(rsp.getStatus() == Constant.INVALID_PARAMETERS){
             LOG.error("function=unregisterJujuAdapter, msg=MSB return fail,invalid parameters,status={}, result={}.", rsp.getStatus(),
                     resultCreate);
-            resultObj.put("reason", "MSB return fail,invalid parameters.");
+            resultObj.put(Constant.REASON, "MSB return fail,invalid parameters.");
         } else if(rsp.getStatus() == Constant.HTTP_INNERERROR){
             LOG.error("function=unregisterJujuAdapter, msg=MSB return fail,internal system error,status={}, result={}.", rsp.getStatus(),
                     resultCreate);
-            resultObj.put("reason", "MSB return fail,internal system error.");
+            resultObj.put(Constant.REASON, "MSB return fail,internal system error.");
         }
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+        resultObj.put(Constant.RETURN_CODE, Constant.ERROR_STATUS_CODE);
         return resultObj;
     }
 }
