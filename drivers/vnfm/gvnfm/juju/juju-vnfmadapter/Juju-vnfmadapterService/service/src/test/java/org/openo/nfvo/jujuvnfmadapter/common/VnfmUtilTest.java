@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 import static org.junit.Assert.*;
@@ -28,11 +27,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class VnfmUtilTest {
-
+    
     @Test
-    public void getVnfmByIdTestNull(){
+    public void getVnfmByIdTestNull(){ 
         JSONObject resp = VnfmUtil.getVnfmById("vnfmId");
-        //assertNull(resp);
+        assertNull(resp);
     }
     @Test
     public void getVnfmByIdTest(){
@@ -61,7 +60,7 @@ public class VnfmUtilTest {
             }
         };
         JSONObject resp = VnfmUtil.getVnfmById("vnfmId");
-        //assertNull(resp);
+        assertNull(resp);
     }
     @Test
     public void getVnfmIdByIpNullResp(){
@@ -100,7 +99,7 @@ public class VnfmUtilTest {
         String resp = VnfmUtil.getVnfmIdByIp("1.1.1.1");
         assertEquals(resp,"1111");
     }
-
+    
     @Test
     public void getVnfmIdByIpInvalidIP(){
         new MockUp<VnfmRestfulUtil>(){

@@ -28,11 +28,11 @@ import org.openo.nfvo.jujuvnfmadapter.common.CryptUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 
 /**
- *
+ * 
  * Juju vnfm Class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -62,107 +62,237 @@ public class JujuVnfm {
 
     private String updateAt;
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * <br>
+     * 
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * <br>
+     * 
+     * @param type
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * <br>
+     * 
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * <br>
+     * 
+     * @param version
+     */
     public void setVersion(String version) {
         this.version = version;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * <br>
+     * 
+     * @param userName
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * <br>
+     * 
+     * @param url
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getPwd() {
         return pwd;
     }
 
+    /**
+     * <br>
+     * 
+     * @param pwd
+     */
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getVendor() {
         return vendor;
     }
 
+    /**
+     * <br>
+     * 
+     * @param vendor
+     */
     public void setVendor(String vendor) {
         this.vendor = vendor;
     }
 
+    /**
+     * <br>
+     * 
+     * @return String
+     */
     public String getExtraInfo() {
         return extraInfo;
     }
 
+    /**
+     * <br>
+     * 
+     * @param extraInfo
+     */
     public void setExtraInfo(String extraInfo) {
         this.extraInfo = extraInfo;
     }
 
+    /**
+     * <br>
+     * 
+     * @return
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * <br>
+     * 
+     * @param status
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * <br>
+     * 
+     * @return
+     */
     public String getCreateAt() {
         return createAt;
     }
 
+    /**
+     * <br>
+     * 
+     * @param createAt
+     */
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
+    /**
+     * <br>
+     * 
+     * @return
+     */
     public String getUpdateAt() {
         return updateAt;
     }
 
+    /**
+     * <br>
+     * 
+     * @param updateAt
+     */
     public void setUpdateAt(String updateAt) {
         this.updateAt = updateAt;
     }
 
+    /**
+     * <br/>
+     * 
+     * @return
+     */
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
+    /**
+     * <br/>
+     * 
+     * @return
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -171,6 +301,12 @@ public class JujuVnfm {
         return result;
     }
 
+    /**
+     * <br/>
+     * 
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
         if(this == obj) {
@@ -197,9 +333,9 @@ public class JujuVnfm {
     }
 
     /**
-     *
+     * 
      * Update Vnfm.<br>
-     *
+     * 
      * @param otherVnfm
      * @since  NFVO 0.5
      */

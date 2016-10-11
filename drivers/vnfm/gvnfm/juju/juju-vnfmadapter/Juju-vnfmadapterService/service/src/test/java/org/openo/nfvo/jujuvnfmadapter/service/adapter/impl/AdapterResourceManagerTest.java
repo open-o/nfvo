@@ -34,179 +34,179 @@ import net.sf.json.JSONObject;
 
 public class AdapterResourceManagerTest {
 
-    private AdapterResourceManager adapterResManager;
+	private AdapterResourceManager adapterResManager;
 
-    private JSONObject jsonObj;
+	private JSONObject jsonObj;
 
-    /*
-     * @Test public void testGetJujuVnfmInfo() throws Exception { Map paramsMap
-     * = new HashMap(); JSONObject resultObj = new JSONObject();
-     * resultObj.put("reason", "RestfulResponse is null.");
-     * resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-     *
-     * paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-     * paramsMap.put("methodType","get");
-     *
-     * new MockUp<JujuVnfmRestfulUtil>(){
-     *
-     * @Mock public RestfulResponse getRemoteResponse(Map paramsMap,String str)
-     * { return null; } }; adapterResManager = new AdapterResourceManager();
-     * jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
-     * assertEquals(resultObj,jsonObj); }
-     */
+	/*
+	 * @Test public void testGetJujuVnfmInfo() throws Exception { Map paramsMap
+	 * = new HashMap(); JSONObject resultObj = new JSONObject();
+	 * resultObj.put("reason", "RestfulResponse is null.");
+	 * resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	 * 
+	 * paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+	 * paramsMap.put("methodType","get");
+	 * 
+	 * new MockUp<JujuVnfmRestfulUtil>(){
+	 * 
+	 * @Mock public RestfulResponse getRemoteResponse(Map paramsMap,String str)
+	 * { return null; } }; adapterResManager = new AdapterResourceManager();
+	 * jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
+	 * assertEquals(resultObj,jsonObj); }
+	 */
 
-    /*
-     * @Test public void testGetVnfdInfo() throws Exception { Map paramsMap =
-     * new HashMap(); JSONObject resultObj = new JSONObject();
-     * resultObj.put("reason", "RestfulResponse is null.");
-     * resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
-     *
-     * paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-     * paramsMap.put("methodType","get");
-     *
-     * new MockUp<JujuVnfmRestfulUtil>(){
-     *
-     * @Mock public RestfulResponse getRemoteResponse(Map paramsMap,String str)
-     * { return null; } }; adapterResManager = new AdapterResourceManager();
-     * jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
-     * assertEquals(resultObj,jsonObj); }
-     */
+	/*
+	 * @Test public void testGetVnfdInfo() throws Exception { Map paramsMap =
+	 * new HashMap(); JSONObject resultObj = new JSONObject();
+	 * resultObj.put("reason", "RestfulResponse is null.");
+	 * resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	 * 
+	 * paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+	 * paramsMap.put("methodType","get");
+	 * 
+	 * new MockUp<JujuVnfmRestfulUtil>(){
+	 * 
+	 * @Mock public RestfulResponse getRemoteResponse(Map paramsMap,String str)
+	 * { return null; } }; adapterResManager = new AdapterResourceManager();
+	 * jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
+	 * assertEquals(resultObj,jsonObj); }
+	 */
 
-    @Test
-    public void getJujuVnfmInfoTest() {
-        new MockUp<HttpRest>() {
-            @Mock
-            RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
-                RestfulResponse rsp = new RestfulResponse();
-                rsp.setStatus(200);
-                return rsp;
-            }
-        };
-        new MockUp<JSONObject>() {
-            @Mock
-            public JSONObject fromObject(Object object) {
-                JSONObject json = new JSONObject();
-                return json;
-            }
-        };
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	@Test
+	public void getJujuVnfmInfoTest() {
+		new MockUp<HttpRest>() {
+			@Mock
+			RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
+				RestfulResponse rsp = new RestfulResponse();
+				rsp.setStatus(200);
+				return rsp;
+			}
+		};
+		new MockUp<JSONObject>() {
+			@Mock
+			public JSONObject fromObject(Object object) {
+				JSONObject json = new JSONObject();
+				return json;
+			}
+		};
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
-        assertTrue(jsonObj != null);
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
+		assertTrue(jsonObj != null);
+	}
 
-    @Test
-    public void getJujuVnfmInfoTest1() {
-        new MockUp<HttpRest>() {
-            @Mock
-            RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
-                RestfulResponse rsp = new RestfulResponse();
-                rsp.setStatus(504);
-                return rsp;
-            }
-        };
-        new MockUp<JSONObject>() {
-            @Mock
-            public JSONObject fromObject(Object object) {
-                JSONObject json = new JSONObject();
-                return json;
-            }
-        };
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	@Test
+	public void getJujuVnfmInfoTest1() {
+		new MockUp<HttpRest>() {
+			@Mock
+			RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
+				RestfulResponse rsp = new RestfulResponse();
+				rsp.setStatus(504);
+				return rsp;
+			}
+		};
+		new MockUp<JSONObject>() {
+			@Mock
+			public JSONObject fromObject(Object object) {
+				JSONObject json = new JSONObject();
+				return json;
+			}
+		};
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
-        assertTrue(jsonObj != null);
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getJujuVnfmInfo(paramsMap);
+		assertTrue(jsonObj != null);
+	}
 
-    @Test
-    public void getJujuVnfmInfoTestFalse() {
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	@Test
+	public void getJujuVnfmInfoTestFalse() {
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getJujuVnfmInfo(null);
-        assertTrue(jsonObj.get("reason").equals("RestfulResponse is null."));
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getJujuVnfmInfo(null);
+		assertTrue(jsonObj.get("reason").equals("RestfulResponse is null."));
+	}
 
-    @Test
-    public void getVnfdInfoTest() {
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	@Test
+	public void getVnfdInfoTest() {
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getVnfdInfo(paramsMap);
-        assertTrue(jsonObj.get("reason").equals("RestfulResponse is null."));
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		assertTrue(jsonObj.get("reason").equals("RestfulResponse is null."));
+	}
 
-    @Test
-    public void getVnfdInfoTest1() {
-        new MockUp<HttpRest>() {
-            @Mock
-            RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
-                RestfulResponse rsp = new RestfulResponse();
-                rsp.setStatus(200);
-                return rsp;
-            }
-        };
-        new MockUp<JSONObject>() {
-            @Mock
-            public JSONObject fromObject(Object object) {
-                JSONObject json = new JSONObject();
-                return json;
-            }
-        };
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+	@Test
+	public void getVnfdInfoTest1() {
+		new MockUp<HttpRest>() {
+			@Mock
+			RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
+				RestfulResponse rsp = new RestfulResponse();
+				rsp.setStatus(200);
+				return rsp;
+			}
+		};
+		new MockUp<JSONObject>() {
+			@Mock
+			public JSONObject fromObject(Object object) {
+				JSONObject json = new JSONObject();
+				return json;
+			}
+		};
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getVnfdInfo(paramsMap);
-        assertTrue(jsonObj != null);
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		assertTrue(jsonObj != null);
+	}
 
-    @Test
-    public void getVnfdInfoTest2() {
-        new MockUp<HttpRest>() {
-            @Mock
-            RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
-                RestfulResponse rsp = new RestfulResponse();
-                rsp.setStatus(504);
-                return rsp;
-            }
-        };
+	@Test
+	public void getVnfdInfoTest2() {
+		new MockUp<HttpRest>() {
+			@Mock
+			RestfulResponse get(String arg0, RestfulParametes arg1) throws ServiceException {
+				RestfulResponse rsp = new RestfulResponse();
+				rsp.setStatus(504);
+				return rsp;
+			}
+		};
 
-        Map<String, String> paramsMap = new HashMap<>();
-        JSONObject resultObj = new JSONObject();
-        resultObj.put("reason", "RestfulResponse is null.");
-        resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
+		Map<String, String> paramsMap = new HashMap<>();
+		JSONObject resultObj = new JSONObject();
+		resultObj.put("reason", "RestfulResponse is null.");
+		resultObj.put("retCode", Constant.ERROR_STATUS_CODE);
 
-        paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
-        paramsMap.put("methodType", "get");
-        adapterResManager = new AdapterResourceManager();
-        jsonObj = adapterResManager.getVnfdInfo(paramsMap);
-        assertTrue(jsonObj != null);
-    }
+		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
+		paramsMap.put("methodType", "get");
+		adapterResManager = new AdapterResourceManager();
+		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		assertTrue(jsonObj != null);
+	}
 }

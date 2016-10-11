@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.openo.nfvo.jujuvnfmadapter.service.rest;
 
 import static org.junit.Assert.*;
@@ -36,13 +35,13 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class VnfRoaTest {
-
+    
     VnfRoa roa = new VnfRoa();
     @Before
     public void setUp(){
         roa.setVnfMgr(new VnfMgr());
     }
-
+    
     @Test
     public void addVnfTestNull() throws ServiceException{
         new MockUp<StringUtil>(){
@@ -57,7 +56,7 @@ public class VnfRoaTest {
         String res = roa.addVnf(context, resp, vnfmId);
         assertNotNull(res);
     }
-
+    
     @Test
     public void addVnfTest() throws ServiceException{
         new MockUp<StringUtil>(){
@@ -191,7 +190,7 @@ public class VnfRoaTest {
         String res = roa.getJob("jobId", null, resp,"responseId");
         assertNotNull(res);
     }
-
+    
     @Test
     public void getJobTestNormal() throws ServiceException{
         new MockUp<VnfMgr>(){
@@ -205,12 +204,12 @@ public class VnfRoaTest {
                 obj.put("retCode", 1);
                 return obj;
             }
-
+            
         };
         HttpServletResponse resp = new MockHttpServletResponse();
         String res = roa.getJob("jobId", "vnfmId", resp,"responseId");
         assertNotNull(res);
     }
-
+    
 
 }

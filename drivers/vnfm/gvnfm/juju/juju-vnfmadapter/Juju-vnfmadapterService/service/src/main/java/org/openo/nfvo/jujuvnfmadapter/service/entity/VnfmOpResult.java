@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * Vnfm operation result class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 10, 2016
  */
@@ -33,11 +33,11 @@ public class VnfmOpResult {
     private String errorMessage;
 
     /**
-     *
+     * 
      * Task status enumerator.<br>
      * <p>
      * </p>
-     *
+     * 
      * @author
      * @version     NFVO 0.5  Sep 10, 2016
      */
@@ -52,11 +52,11 @@ public class VnfmOpResult {
     private int errorCode;
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @since  NFVO 0.5
      */
     public VnfmOpResult() {
@@ -66,11 +66,11 @@ public class VnfmOpResult {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param operateStatus
      * @param errorMessage
      * @since  NFVO 0.5
@@ -94,9 +94,9 @@ public class VnfmOpResult {
     }
 
     /**
-     *
+     * 
      * Add Result.<br>
-     *
+     * 
      * @param result
      * @since  NFVO 0.5
      */

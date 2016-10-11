@@ -29,11 +29,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * Juju VNFM restful utility class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -48,6 +48,8 @@ public final class JujuVnfmRestfulUtil {
     public static final String PUT_TYPE = "put";
 
     public static final String DEL_TYPE = "delete";
+
+    public static final String METHOD_TYPE = "methodType";
 
     public static final int ERROR_STATUS_CODE = -1;
 
@@ -64,9 +66,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get Vim response content.<br>
-     *
+     * 
      * @param url
      * @param restParametes
      * @param type
@@ -81,9 +83,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get Vim response content.<br>
-     *
+     * 
      * @param url
      * @param restParametes
      * @param opt
@@ -122,9 +124,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get Vim response result.<br>
-     *
+     * 
      * @param url
      * @param type
      * @return
@@ -136,9 +138,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get Vim response result.<br>
-     *
+     * 
      * @param url
      * @param restParametes
      * @param type
@@ -150,9 +152,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get Vim response.<br>
-     *
+     * 
      * @param url
      * @param restParametes
      * @param opt
@@ -188,9 +190,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get remote response.<br>
-     *
+     * 
      * @param paramsMap
      * @param params
      * @param domainTokens
@@ -201,7 +203,7 @@ public final class JujuVnfmRestfulUtil {
     public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens,
             boolean isHttps) {
         String url = paramsMap.get("url");
-        String methodType = paramsMap.get("methodType");
+        String methodType = paramsMap.get(METHOD_TYPE);
         String path = paramsMap.get("path");
 
         RestfulResponse rsp = null;
@@ -248,9 +250,9 @@ public final class JujuVnfmRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get remote response.<br>
-     *
+     * 
      * @param paramsMap
      * @param params
      * @return
@@ -261,7 +263,7 @@ public final class JujuVnfmRestfulUtil {
             return null;
         }
         String url = paramsMap.get("url");
-        String methodType = paramsMap.get("methodType");
+        String methodType = paramsMap.get(METHOD_TYPE);
 
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -289,11 +291,11 @@ public final class JujuVnfmRestfulUtil {
         }
         return rsp;
     }
-
+    
     /**
-     *
+     * 
      * Generate parameter map.<br>
-     *
+     * 
      * @param url
      * @param methodType
      * @param path
@@ -305,7 +307,7 @@ public final class JujuVnfmRestfulUtil {
             String authMode) {
         Map<String, String> paramsMap = new HashMap<>(6);
         paramsMap.put("url", url);
-        paramsMap.put("methodType", methodType);
+        paramsMap.put(METHOD_TYPE, methodType);
         paramsMap.put("path", path);
         paramsMap.put("authMode", authMode);
         return paramsMap;

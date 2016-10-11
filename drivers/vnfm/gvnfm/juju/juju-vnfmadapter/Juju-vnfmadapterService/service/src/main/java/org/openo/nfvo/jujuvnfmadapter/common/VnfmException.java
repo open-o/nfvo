@@ -17,11 +17,11 @@
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 /**
- *
+ * 
  * Vnfm exception class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -30,11 +30,11 @@ public class VnfmException extends Exception {
     private static final long serialVersionUID = 1L;
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @since  NFVO 0.5
      */
     public VnfmException() {
@@ -42,11 +42,11 @@ public class VnfmException extends Exception {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param message
      * @param cause
      * @since  NFVO 0.5
@@ -56,11 +56,11 @@ public class VnfmException extends Exception {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param message
      * @since  NFVO 0.5
      */
@@ -69,11 +69,11 @@ public class VnfmException extends Exception {
     }
 
     /**
-     *
+     * 
      * Constructor<br>
      * <p>
      * </p>
-     *
+     * 
      * @param cause
      * @since  NFVO 0.5
      */

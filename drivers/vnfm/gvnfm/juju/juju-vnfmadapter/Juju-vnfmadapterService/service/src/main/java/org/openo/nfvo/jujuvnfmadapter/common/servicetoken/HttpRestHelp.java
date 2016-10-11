@@ -25,11 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * Http rest help class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -53,9 +53,9 @@ public class HttpRestHelp {
     }
 
     /**
-     *
+     * 
      * Get rest instance class.<br>
-     *
+     * 
      * @param ssloptionfile
      * @param restoptionfile
      * @param isHttps

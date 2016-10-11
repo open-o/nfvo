@@ -39,11 +39,11 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- *
+ * 
  * VNF Restful utility class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -68,9 +68,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * within our module, we support a default method to invoke.<br>
-     *
+     * 
      * @param path, rest service url
      * @param methodNames, [post, delete, put, get, asyncPost, asyncDelete, asyncPut,asyncGet]
      * @param bodyParam, rest body msg
@@ -97,7 +97,7 @@ public final class VNFRestfulUtil {
                     }
                 }
 
-                String vnfParamKey = null;
+                String vnfParamKey;
                 Iterator<String> nameItr = bodyParam.keys();
                 while(nameItr.hasNext()) {
                     vnfParamKey = nameItr.next();
@@ -115,7 +115,7 @@ public final class VNFRestfulUtil {
 
     /**
      * send restful notification to other module
-     *
+     * 
      * @param path
      *            service url
      * @param methodName
@@ -135,7 +135,7 @@ public final class VNFRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     *
+     * 
      * @param methodName
      *            Restful's method
      * @param objects
@@ -162,9 +162,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get restful resource.<br>
-     *
+     * 
      * @param methodName
      * @param objects
      * @return
@@ -216,9 +216,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Send request to application.<br>
-     *
+     * 
      * @param path
      * @param methodName
      * @param paraJson
@@ -227,7 +227,7 @@ public final class VNFRestfulUtil {
      */
     public static JSONObject sendReqToApp(String path, String methodName, JSONObject paraJson) {
         JSONObject retJson = new JSONObject();
-        retJson.put("retCode", Constant.REST_FAIL);
+        retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
         String abPath = null;
         String vnfmId = null;
         if(paraJson != null && paraJson.containsKey("vnfmInfo")) {
@@ -247,12 +247,12 @@ public final class VNFRestfulUtil {
             if(!abPath.contains("vnfdmgr/v1")) {
                 LOG.warn("function=sendReqToApp, msg=result from app is: " + object.toString());
             }
-            if(object.getInt("retCode") == Constant.REST_SUCCESS) {
-                retJson.put("retCode", Constant.REST_SUCCESS);
+            if(object.getInt(Constant.RETURN_CODE) == Constant.REST_SUCCESS) {
+                retJson.put(Constant.RETURN_CODE, Constant.REST_SUCCESS);
                 retJson.put("data", withVnfmIdSuffix(vnfmId, object.get("data")));
                 return retJson;
             } else {
-                retJson.put("retCode", Constant.REST_FAIL);
+                retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
                 if(object.containsKey("msg")) {
                     retJson.put("data", object.getString("msg"));
                     return retJson;
@@ -270,7 +270,7 @@ public final class VNFRestfulUtil {
 
     /**
      * append suffix to result with vnfmId
-     *
+     * 
      * @param vnfmId
      * @param dataJson
      * @return
@@ -300,9 +300,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get remote response.<br>
-     *
+     * 
      * @param paramsMap
      * @param params
      * @param domainTokens
@@ -313,9 +313,9 @@ public final class VNFRestfulUtil {
     public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens,
             boolean isNfvoApp) {
         String utilUrl = paramsMap.get("url");
-        String utilMethodType = paramsMap.get("methodType");
+        String utilMethodType = paramsMap.get(Constant.METHOD_TYPE);
         String utilPath = paramsMap.get("path");
-        String authMode = paramsMap.get("authMode");
+        String authMode = paramsMap.get(Constant.AUTH_MODE);
 
         RestfulResponse rsp = null;
         Restful rest = null;
@@ -364,9 +364,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Generate parameters map.<br>
-     *
+     * 
      * @param url
      * @param methodType
      * @param path
@@ -384,9 +384,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Generate parameters map.<br>
-     *
+     * 
      * @param url
      * @param methodType
      * @param path
@@ -403,9 +403,9 @@ public final class VNFRestfulUtil {
     }
 
     /**
-     *
+     * 
      * Get result to vnfm.<br>
-     *
+     * 
      * @param vnfmInfo
      * @param vnfmId
      * @return
@@ -413,19 +413,19 @@ public final class VNFRestfulUtil {
      */
     public static JSONObject getResultToVnfm(JSONObject vnfmInfo, String vnfmId) {
         JSONObject retJson = new JSONObject();
-        retJson.put("retCode", Constant.REST_FAIL);
+        retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
         if(vnfmInfo == null) {
             LOG.error("function=getResultToVnfm, msg=data from vnfm is null");
             retJson.put("data", "get null result");
             return retJson;
         }
 
-        if(vnfmInfo.getInt("retCode") == Constant.REST_SUCCESS) {
-            retJson.put("retCode", Constant.REST_SUCCESS);
+        if(vnfmInfo.getInt(Constant.RETURN_CODE) == Constant.REST_SUCCESS) {
+            retJson.put(Constant.RETURN_CODE, Constant.REST_SUCCESS);
             retJson.put("data", withVnfmIdSuffix(vnfmId, vnfmInfo.get("data")));
             return retJson;
         } else {
-            retJson.put("retCode", Constant.REST_FAIL);
+            retJson.put(Constant.RETURN_CODE, Constant.REST_FAIL);
             if(vnfmInfo.containsKey("msg")) {
                 retJson.put("data", vnfmInfo.getString("msg"));
                 return retJson;

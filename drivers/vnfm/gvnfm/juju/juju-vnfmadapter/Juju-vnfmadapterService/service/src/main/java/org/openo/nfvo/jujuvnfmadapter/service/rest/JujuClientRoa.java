@@ -19,7 +19,6 @@ package org.openo.nfvo.jujuvnfmadapter.service.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -44,8 +43,8 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- *
- * @author quanzhong@huawei.com
+ * 
+ * @author 
  * @version NFVO 0.5 Aug 18, 2016
  */
 @Path("/openoapi/juju/v1/vnfms")
@@ -53,7 +52,7 @@ import net.sf.json.JSONObject;
 @Produces(MediaType.APPLICATION_JSON)
 public class JujuClientRoa {
 
-    private static Logger logger = LoggerFactory.getLogger(JujuClientRoa.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JujuClientRoa.class);
 
     private IJujuClientManager jujuClientManager;
 
@@ -70,12 +69,12 @@ public class JujuClientRoa {
     public void setJujuClientManager(IJujuClientManager jujuClientManager) {
         this.jujuClientManager = jujuClientManager;
     }
-
+    
 
     /**
      * Set Charm url for juju deployment
      * <br/>
-     *
+     * 
      * @param resp
      * @param context
      *            parameter : charmUrl
@@ -89,7 +88,8 @@ public class JujuClientRoa {
         JSONObject result = new JSONObject();
         result.put("retCode", Constant.REST_FAIL);
         JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
-        logger.debug(reqJsonObject + ":");
+        
+        LOG.debug(reqJsonObject + ":");
         return result.toString();
     }
 
@@ -97,7 +97,7 @@ public class JujuClientRoa {
      * Get VNF status
      * parameter: vnfInstanceId
      * <br/>
-     *
+     * 
      * @param appName
      * @param resp
      * @param context
@@ -107,10 +107,10 @@ public class JujuClientRoa {
      */
     @GET
     @Path("/{appName}/status")
-    public String getVnfStatus(@PathParam("appName") String appName, @Context HttpServletRequest context,
+    public String getVnfStatus(@PathParam(Constant.APP_NAME) String appName, @Context HttpServletRequest context,
             @Context HttpServletResponse resp) throws ServiceException {
         JSONObject result = jujuClientManager.getStatus(appName);
-        logger.debug("status json str:"+result.toString());
+        LOG.debug("status json str:"+result.toString());
         return result.toString();
 
     }
@@ -119,7 +119,7 @@ public class JujuClientRoa {
      * Instance VNF to juju-client
      * <br/>
      * deployParam: depend on juju require
-     *
+     * 
      * @param resp
      * @param context
      * @return status: deplay result <br>
@@ -138,35 +138,35 @@ public class JujuClientRoa {
         try {
             result.put(EntityUtils.RESULT_CODE_KEY, EntityUtils.ExeRes.FAILURE);
             JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
-            if(reqJsonObject == null || reqJsonObject.get("appName") == null){
+            if(reqJsonObject == null || reqJsonObject.get(Constant.APP_NAME) == null){
                 result.put(EntityUtils.MSG_KEY, "the param 'appName' can't be null");
-                resp.setStatus(Constant.HTTP_INNERERROR);
+                resp.setStatus(Constant.HTTP_INNERERROR); 
                 return result.toString();
             }
             String charmPath = (String)reqJsonObject.get("charmPath");
             Object memObj = reqJsonObject.get("mem");
             int mem = StringUtils.isEmpty((String)memObj)?0:(Integer)memObj;
-            String appName = reqJsonObject.getString("appName");
+            String appName = reqJsonObject.getString(Constant.APP_NAME);
             if(StringUtils.isBlank(charmPath)) {
                 charmPath = JujuConfigUtil.getValue("charmPath");
             }
             result = jujuClientManager.deploy(charmPath, mem, appName);
             if(result.getInt(EntityUtils.RESULT_CODE_KEY) == EntityUtils.ExeRes.SUCCESS){
-                resp.setStatus(Constant.HTTP_CREATED);
+                resp.setStatus(Constant.HTTP_CREATED); 
             }
             return result.toString();
         } catch(Exception e) {
             msg = e.getMessage();
-           logger.error("deploy fail in method deployService",e);
+           LOG.error("deploy fail in method deployService",e);
         }
-        resp.setStatus(Constant.HTTP_INNERERROR);
+        resp.setStatus(Constant.HTTP_INNERERROR); 
         result.put(EntityUtils.MSG_KEY, msg);
         return result.toString();
     }
 
     /**
      * <br/>
-     *
+     * 
      * @param resp
      * @param context
      * @return
@@ -182,21 +182,21 @@ public class JujuClientRoa {
         String msg;
         try {
             JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
-            if(reqJsonObject == null || reqJsonObject.get("appName") == null){
+            if(reqJsonObject == null || reqJsonObject.get(Constant.APP_NAME) == null){
                 result.put(EntityUtils.MSG_KEY, "the param 'appName' can't be null");
-                resp.setStatus(Constant.HTTP_INNERERROR);
+                resp.setStatus(Constant.HTTP_INNERERROR); 
                 return result.toString();
             }
-            String appName = reqJsonObject.getString("appName");
+            String appName = reqJsonObject.getString(Constant.APP_NAME);
             result = jujuClientManager.destroy(appName);
             resp.setStatus(Constant.UNREG_SUCCESS);
             return result.toString();
         } catch(Exception e) {
             msg = e.getMessage();
-            logger.error("destory fail in method destroyService",e);
-
+            LOG.error("destory fail in method destroyService",e);
+         
         }
-        resp.setStatus(Constant.HTTP_INNERERROR);
+        resp.setStatus(Constant.HTTP_INNERERROR); 
         result.put(EntityUtils.MSG_KEY, msg);
         return result.toString();
     }

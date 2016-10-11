@@ -17,13 +17,14 @@
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,25 +34,41 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- *
- * @author quanzhong@huawei.com
+ * 
+ * @author
  * @version NFVO 0.5 Aug 30, 2016
  */
 public class EntityUtils {
 
-    private static Logger log = LoggerFactory.getLogger(EntityUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EntityUtils.class);
 
     public static final String RESULT_CODE_KEY = "retCode";
+
     public static final String MSG_KEY = "msg";
+
     public static final String DATA_KEY = "data";
+
     public static final String STATUS = "status";
+
     /**
-     *
+     * Constructor<br/>
+     * <p>
+     * </p>
      */
+    private EntityUtils() {
+        // Empty Constructor
+    }
 
-
+    /**
+     * <br>
+     * 
+     * @param jsonObject
+     * @param clazz
+     * @return T
+     * @throws Exception
+     */
     @SuppressWarnings("unchecked")
-    public static <T> T toEntity(JSONObject jsonObject, Class<?> clazz) throws Exception {
+    public static <T> T toEntity(JSONObject jsonObject, Class<?> clazz) throws Exception { // NOSONAR
         T instance = (T)clazz.newInstance();
         Field[] fields = clazz.getDeclaredFields();
         for(int i = 0; i < fields.length; i++) {
@@ -64,13 +81,13 @@ public class EntityUtils {
     /**
      * format the obj to str style as json format.
      * <br/>
-     *
+     * 
      * @param obj
      * @param clazz
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
-    public static String toString(Object obj, Class<?> clazz){
+    public static String toString(Object obj, Class<?> clazz) {
         JSONObject jsonObj = new JSONObject();
         try {
             Field[] fields = clazz.getDeclaredFields();
@@ -78,12 +95,19 @@ public class EntityUtils {
                 fields[i].setAccessible(true);
                 jsonObj.put(fields[i].getName(), obj != null ? fields[i].get(obj) : "");
             }
-        }catch(Exception e) {
-            log.error("to string error:",e);
+        } catch(Exception e) {
+            LOG.error("to string error:", e);
         }
         return jsonObj.toString();
     }
 
+    /**
+     * <br>
+     * <p>
+     * </p>
+     * 
+     * @author
+     */
     public static class ExeRes {
 
         public static final int SUCCESS = 0;
@@ -121,65 +145,78 @@ public class EntityUtils {
         public void setBody(String body) {
             this.body = body;
         }
+
         @Override
-        public String toString(){
+        public String toString() {
             try {
                 return EntityUtils.toString(this, this.getClass());
             } catch(Exception e) {
-                return "code:"+this.getCode()+",body:"+this.getBody();
+                LOG.error("to string error:", e);
+                return "code:" + this.getCode() + ",body:" + this.getBody();
             }
         }
 
     }
-    public static String formatCommand(List<String> command){
+
+    /**
+     * <br>
+     * 
+     * @param command
+     * @return String
+     */
+    public static String formatCommand(List<String> command) {
         StringBuilder builder = new StringBuilder();
-        if(command != null){
-            for(String cmd : command){
-                builder.append(cmd+" ");
+        if(command != null) {
+            for(String cmd : command) {
+                builder.append(cmd).append(" "); // NOSONAR
             }
         }
         return builder.toString();
 
     }
 
+    /**
+     * <br>
+     * 
+     * @param dir
+     * @param command
+     * @return
+     */
     public static ExeRes execute(String dir, String... command) {
         List<String> commands = new ArrayList<>(command.length);
-        for (String arg : command){
+        for(String arg : command) {
             commands.add(arg);
         }
-        return execute(dir,commands);
+        return execute(dir, commands);
 
     }
+
     /**
      * execute local command
      * <br/>
-     *
+     * 
      * @param dir the command path
      * @param command
      * @return response msg
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static ExeRes execute(String dir, List<String> command) {
         ExeRes er = new ExeRes();
         StringBuilder sb = new StringBuilder();
         try {
-            if(SwitchController.isDebugModel()){
-                command.set(0, "juju.bat");//only for windows debug
+            if(SwitchController.isDebugModel()) {
+                command.set(0, "juju.bat");
             }
             ProcessBuilder pb = new ProcessBuilder(command);
-            if(StringUtils.isNotBlank(dir)){
+            if(StringUtils.isNotBlank(dir)) {
                 pb.directory(new File(dir));
             }
             pb.redirectErrorStream(true);
             Process p = pb.start();
 
-            // 等待进程执行完毕
-            if(p.waitFor() != 0) {
-                er.setCode(ExeRes.FAILURE);
-                log.warn("the process exit non-normal");
-            }else{
-                er.setCode(ExeRes.SUCCESS);
-            }
+            // wait the process result
+            buildProcessResult(er, p);
+
             InputStream in = p.getInputStream();
             byte[] buffer = new byte[1024];
             int length;
@@ -191,22 +228,68 @@ public class EntityUtils {
         } catch(Exception e) {
             er.setCode(ExeRes.FAILURE);
             er.setBody(e.getMessage());
-            log.error("execute the command failed:{}", command, e);
+            LOG.error("execute the command failed:{}", command, e);
         }
         return er;
     }
+
     /**
      * <br/>
-     *
-     * @param args
-     * @throws IOException
-     * @throws Exception
+     * 
+     * @param er
+     * @param p
+     * @throws TimeoutException
+     * @throws InterruptedException
      * @since NFVO 0.5
      */
-    public static void main(String[] args) throws IOException{
-        ExeRes result = execute(null, "juju","status");
-        System.out.println(result.code);
-        System.out.println(result.body);
+    private static void buildProcessResult(ExeRes er, Process p) throws TimeoutException, InterruptedException {
+        Worker worker = new Worker(p);
+        worker.start();
+        try {
+            worker.join(Constant.PROCESS_WAIT_MILLIS);
+            if(worker.exitValue != null) {
+                int exit = worker.exitValue;
+                if(exit != 0) {
+                    er.setCode(ExeRes.FAILURE);
+                    LOG.warn("the process exit non-normal");
+                } else {
+                    er.setCode(ExeRes.SUCCESS);
+                }
+            } else {
+                er.setCode(ExeRes.FAILURE);
+                LOG.warn("the process execute timeout.");
+                throw new TimeoutException();
+            }
+        } catch(InterruptedException e) {
+            worker.interrupt();
+            Thread.currentThread().interrupt();
+            throw e;
+        }
+    }
+
+    private static class Worker extends Thread {
+
+        private final Process process;
+
+        private Integer exitValue;
+
+        private Worker(Process process) {
+            this.process = process;
+        }
+
+        /**
+         * <br/>
+         * 
+         * @since NFVO 0.5
+         */
+        @Override
+        public void run() {
+            try {
+                exitValue = process.waitFor();
+            } catch(InterruptedException e) {
+                return;
+            }
+        }
 
     }
 }

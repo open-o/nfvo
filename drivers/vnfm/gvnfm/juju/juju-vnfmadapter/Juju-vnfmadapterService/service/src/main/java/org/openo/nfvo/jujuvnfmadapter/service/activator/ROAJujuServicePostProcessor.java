@@ -21,13 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
+import org.springframework.stereotype.Service;
 
 /**
- *
+ * 
  * ROA juju service post processor class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -54,7 +55,7 @@ public class ROAJujuServicePostProcessor implements DestructionAwareBeanPostProc
     @Override
     public void postProcessBeforeDestruction(Object bean, String name) throws BeansException {
         // TODO Auto-generated method stub
-
+        
     }
 
 }

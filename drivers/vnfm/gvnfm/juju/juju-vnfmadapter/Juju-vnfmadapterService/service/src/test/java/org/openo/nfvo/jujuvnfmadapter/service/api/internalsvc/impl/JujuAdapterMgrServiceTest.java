@@ -19,7 +19,7 @@ package org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.impl;
 import org.junit.Test;
 
 public class JujuAdapterMgrServiceTest {
-
+    
     @Test
     public void registerTest(){
         JujuAdapterMgrService service = new JujuAdapterMgrService();

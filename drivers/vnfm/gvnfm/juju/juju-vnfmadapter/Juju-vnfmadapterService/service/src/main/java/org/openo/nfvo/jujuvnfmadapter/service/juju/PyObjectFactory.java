@@ -20,41 +20,85 @@ import org.python.core.PyObject;
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
 
-
 /**
  * <br/>
  * <p>
  * </p>
- *
- * @author        quanzhong@huawei.com
- * @version     NFVO 0.5  Aug 22, 2016
+ * 
+ * @author
+ * @version NFVO 0.5 Aug 22, 2016
  */
 public class PyObjectFactory {
+
     private static PyObject environmentClass;
+
     private static PyObject environmentObj;
 
-    public static   PyObjectFactory build(String envName) {
+    /**
+     * <br>
+     * 
+     * @param envName
+     * @return
+     * @since NFVO 0.5
+     */
+    public static PyObjectFactory build(String envName) {
         PythonInterpreter interpreter = new PythonInterpreter();
+        
         interpreter.exec("from jujuclient import Environment");
+        
         environmentClass = interpreter.get("Environment");
         PyObject env = environmentClass.__call__();
-        environmentObj = env.invoke("connect", new PyString(envName));//connect to juju
+        environmentObj = env.invoke("connect", new PyString(envName));
         return new PyObjectFactory();
     }
 
+    /**
+     * <br>
+     * 
+     * @param methodName
+     * @return
+     * @since NFVO 0.5
+     */
     public PyObject execute(String methodName) {
         environmentObj.toString();
         return environmentObj.invoke(methodName);
     }
-    public PyObject execute(String methodName,PyObject args) {
+
+    /**
+     * <br>
+     * 
+     * @param methodName
+     * @param args
+     * @return
+     * @since NFVO 0.5
+     */
+    public PyObject execute(String methodName, PyObject args) {
         return environmentObj.invoke(methodName, args);
     }
-    public PyObject execute(String methodName,PyObject arg1,PyObject arg2) {
-        return environmentObj.invoke(methodName, arg1,arg2);
+
+    /**
+     * <br>
+     * 
+     * @param methodName
+     * @param arg1
+     * @param arg2
+     * @return
+     * @since NFVO 0.5
+     */
+    public PyObject execute(String methodName, PyObject arg1, PyObject arg2) {
+        return environmentObj.invoke(methodName, arg1, arg2);
     }
 
-    public PyObject execute(String methodName,PyObject[] args) {
-        return environmentObj.invoke(methodName,args);
+    /**
+     * <br>
+     * 
+     * @param methodName
+     * @param args
+     * @return
+     * @since NFVO 0.5
+     */
+    public PyObject execute(String methodName, PyObject[] args) {
+        return environmentObj.invoke(methodName, args);
     }
 
 }

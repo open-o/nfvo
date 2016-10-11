@@ -19,6 +19,8 @@ package org.openo.nfvo.jujuvnfmadapter.service.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
+
 /**
  * <br/>
  * <p>
@@ -87,14 +89,14 @@ import java.util.List;
  * ttl: time to live, this parameter is reserved for later use
  * status: service status, 1: eanbled, 0:disabled
  * </p>
- *
- * @author quanzhong@huawei.com
+ * 
+ * @author
  * @version NFVO 0.5 Aug 18, 2016
  */
 public class MSBRequestEntity implements Serializable {
 
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = -4548158998952436572L;
 
@@ -118,6 +120,7 @@ public class MSBRequestEntity implements Serializable {
      * Internal(can only be accessed by OPEN-O consumers):1
      */
     private String visualRange = "1";
+
     /**
      * only exist in response;
      * status: service status, 1: eanbled, 0:disabled
@@ -201,14 +204,12 @@ public class MSBRequestEntity implements Serializable {
         this.visualRange = visualRange;
     }
 
-
     /**
      * @return Returns the status.
      */
     public String getStatus() {
         return status;
     }
-
 
     /**
      * @param status The status to set.
@@ -235,14 +236,14 @@ public class MSBRequestEntity implements Serializable {
      * <br/>
      * <p>
      * </p>
-     *
-     * @author quanzhong@huawei.com
+     * 
+     * @author
      * @version NFVO 0.5 Aug 18, 2016
      */
     public static class Node implements Serializable {
 
         /**
-         *
+         * 
          */
         private static final long serialVersionUID = 7618395945064516270L;
 
@@ -344,28 +345,26 @@ public class MSBRequestEntity implements Serializable {
 
         /**
          * <br/>
-         *
+         * 
          * @return
          * @since NFVO 0.5
          */
         @Override
         public String toString() {
-            return "Node [ip=" + ip + ", port=" + port + ", ttl=" + ttl + ", expiration=" + expiration + ", created_at="
-                    + createdAt + ", updated_at=" + updatedAt + "]";
+            return EntityUtils.toString(this, Node.class);
         }
 
     }
 
     /**
      * <br/>
-     *
+     * 
      * @return
      * @since NFVO 0.5
      */
     @Override
     public String toString() {
-        return "MSBRequestEntity [serviceName=" + serviceName + ", version=" + version + ", url=" + url + ", protocol="
-                + protocol + ", visualRange=" + visualRange + ", status=" + status+ ", nodes=" + nodes + "]";
+        return EntityUtils.toString(this, MSBRequestEntity.class);
     }
 
 }

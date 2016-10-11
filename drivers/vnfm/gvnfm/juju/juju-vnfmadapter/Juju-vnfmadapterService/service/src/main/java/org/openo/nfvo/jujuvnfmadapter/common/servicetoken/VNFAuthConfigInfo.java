@@ -26,17 +26,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * Vnf Authentication configuration information class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
 public class VNFAuthConfigInfo {
 
-    private static final Logger VNFLOGGER = LoggerFactory.getLogger(VNFAuthConfigInfo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VNFAuthConfigInfo.class);
 
     private static final String AUTH_CONFIG_FILE = "identity.VNFProperties";
 
@@ -72,7 +72,7 @@ public class VNFAuthConfigInfo {
             }
 
         } catch(IOException e) {
-            VNFLOGGER.error("loadAuthConfig can't find config file>> e = {}", e);
+            LOG.error("loadAuthConfig can't find config file>> e = {}", e);
         } finally {
             try {
                 if(authIn != null) {
@@ -80,7 +80,7 @@ public class VNFAuthConfigInfo {
                     authIn.close();
                 }
             } catch(IOException e) {
-                VNFLOGGER.error("loadAuthConfig can't find config file>> e = {}", e);
+                LOG.error("loadAuthConfig can't find config file>> e = {}", e);
             }
 
             }
@@ -90,7 +90,7 @@ public class VNFAuthConfigInfo {
     private String getAuthCofigPath() {
         return AUTH_CONFIG_FILE;
     }
-
+    
     public static VNFAuthConfigInfo getInstance() {
         return authConfig;
     }

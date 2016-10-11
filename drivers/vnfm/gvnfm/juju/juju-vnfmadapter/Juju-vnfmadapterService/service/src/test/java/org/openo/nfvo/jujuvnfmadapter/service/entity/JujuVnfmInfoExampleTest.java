@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.openo.nfvo.jujuvnfmadapter.service.entity;
 
 import static org.junit.Assert.*;
@@ -22,9 +21,9 @@ import org.junit.Test;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample.Criteria;
 
 public class JujuVnfmInfoExampleTest {
-
+    
     JujuVnfmInfoExample jujuexample = new JujuVnfmInfoExample();
-
+    
     @Test
     public void createCriteriaTest(){
         Criteria criteria =  jujuexample.createCriteria();
@@ -40,26 +39,26 @@ public class JujuVnfmInfoExampleTest {
         jujuexample.clear();
         assertTrue(true);
     }
-    @Test
+    @Test 
     public void CriteriaTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         boolean isValid = criteria.isValid();
         assertTrue(!isValid);
     }
-    @Test
+    @Test 
     public void generatedCriteriaTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         boolean isValid = criteria.isValid();
         assertTrue(!isValid);
     }
-
-    @Test
+    
+    @Test 
     public void andIdIsNullTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         Criteria c= criteria.andIdIsNull();
         assertNotNull(c);
     }
-    @Test
+    @Test 
     public void getConditionCroterionTest(){
         JujuVnfmInfoExample.Criterion criterion = new JujuVnfmInfoExample.Criterion("test",new Object(),"typeHandler");
        String condition = criterion.getCondition();

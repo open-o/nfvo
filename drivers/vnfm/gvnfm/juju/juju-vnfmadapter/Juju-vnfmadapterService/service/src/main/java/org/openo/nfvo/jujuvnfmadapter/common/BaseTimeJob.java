@@ -21,11 +21,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * 
  * Base time job class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -43,9 +43,9 @@ public abstract class BaseTimeJob implements Runnable {
     public abstract void run();
 
     /**
-     *
+     * 
      * Stop method.<br>
-     *
+     * 
      * @since  NFVO 0.5
      */
     public void stop() {
@@ -61,9 +61,9 @@ public abstract class BaseTimeJob implements Runnable {
     }
 
     /**
-     *
+     * 
      * Start method.<br>
-     *
+     * 
      * @since  NFVO 0.5
      */
     public void start() {

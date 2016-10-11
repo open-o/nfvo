@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
@@ -42,7 +41,7 @@ import net.sf.json.JSONObject;
 /**
  * Provide function for instantiate or terminate VNF
  * <br/>
- *
+ * 
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
@@ -50,8 +49,8 @@ public class VnfMgr {
 
     private static final Logger LOG = LoggerFactory.getLogger(VnfMgr.class);
     private JujuVnfmInfoMapper jujuVnfmInfoMapper;
-
-
+    
+    
     /**
      * @return Returns the jujuVnfmInfoMapper.
      */
@@ -59,7 +58,7 @@ public class VnfMgr {
         return jujuVnfmInfoMapper;
     }
 
-
+    
     /**
      * @param jujuVnfmInfoMapper The jujuVnfmInfoMapper to set.
      */
@@ -70,7 +69,7 @@ public class VnfMgr {
     /**
      * Provide function for instantiate VNF
      * <br/>
-     *
+     * 
      * @param vnfObject
      * @param vnfmId
      * @return
@@ -93,7 +92,7 @@ public class VnfMgr {
             String vnfInstanceName = vnfObject.getString("vnfInstanceName");
 
             JSONObject params = new JSONObject();
-            params.put("vnfmId", vnfmId);
+            params.put(Constant.VNFM_ID, vnfmId);
             params.put("appName", vnfInstanceName);
             params.put("charmPath", "");
             params.put("mem", "");
@@ -101,9 +100,9 @@ public class VnfMgr {
             String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
-            paramsMap.put("methodType", Constant.POST);
+            paramsMap.put(Constant.METHOD_TYPE, Constant.POST);
             paramsMap.put("path", UrlConstant.REST_JUJU_CLIENT_DEPLOY);
-            paramsMap.put("authMode", Constant.AuthenticationMode.ANONYMOUS);
+            paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
             RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, params.toString(), null);
             if(rsp == null) {
                 LOG.error("function=addVnf, msg=send create vnf msg to csm get wrong results");
@@ -130,11 +129,11 @@ public class VnfMgr {
         LOG.info("request:{},response:{}", vnfmId, restJson.toString());
         return restJson;
     }
-
+    
     /**
      * save object to db
      * <br/>
-     *
+     * 
      * @param appName
      * @param jobId
      * @param vnfId
@@ -156,7 +155,7 @@ public class VnfMgr {
     /**
      * delete the object by vnfid
      * <br/>
-     *
+     * 
      * @param vnfId
      * @since  NFVO 0.5
      */
@@ -165,11 +164,11 @@ public class VnfMgr {
         example.createCriteria().andVnfIdEqualTo(vnfId);
         jujuVnfmInfoMapper.deleteByExample(example);
     }
-
+    
     /**
      * findByVnfId from db
      * <br/>
-     *
+     * 
      * @param vnfId
      * @return
      * @since  NFVO 0.5
@@ -187,7 +186,7 @@ public class VnfMgr {
     /**
      * Provide function for terminate VNF
      * <br/>
-     *
+     * 
      * @param vnfId
      * @param vnfmId
      * @param vnfObject
@@ -211,16 +210,16 @@ public class VnfMgr {
                 vnfInstanceName = jujuInfo.getAppName();
             }
             JSONObject params = new JSONObject();
-            params.put("vnfmId", vnfmId);
+            params.put(Constant.VNFM_ID, vnfmId);
             params.put("appName", vnfInstanceName);
             params.put("vnfId", vnfId);
 
             String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
-            paramsMap.put("methodType", Constant.POST);
+            paramsMap.put(Constant.METHOD_TYPE, Constant.POST);
             paramsMap.put("path", UrlConstant.REST_JUJU_CLIENT_DESTORY);
-            paramsMap.put("authMode", Constant.AuthenticationMode.ANONYMOUS);
+            paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
             RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, params.toString(), null);
             if(rsp == null) {
                 LOG.error("function=deleteVnf, msg=send create vnf msg to csm get wrong results");
@@ -247,7 +246,7 @@ public class VnfMgr {
     /**
      * Provide function for get VNF
      * <br/>
-     *
+     * 
      * @param vnfId
      * @param vnfmId
      * @return
@@ -263,22 +262,22 @@ public class VnfMgr {
                 LOG.error("function=getVnf, msg=vnfm not exists, vnfmId: {}", vnfmId);
                 return restJson;
             }
-
+            
             String appName = "";
             JujuVnfmInfo jujuInfo = findByVnfId(vnfId);
             if(jujuInfo != null){
                 appName = jujuInfo.getAppName();
             }
             JSONObject params = new JSONObject();
-            params.put("vnfmId", vnfmId);
+            params.put(Constant.VNFM_ID, vnfmId);
             params.put("vnfId", vnfId);
 
             String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
-            paramsMap.put("methodType", Constant.GET);
+            paramsMap.put(Constant.METHOD_TYPE, Constant.GET);
             paramsMap.put("path", String.format(UrlConstant.REST_JUJU_CLIENT_GET,appName));
-            paramsMap.put("authMode", Constant.AuthenticationMode.ANONYMOUS);
+            paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
             RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, params.toString(), null);
             if(rsp == null) {
                 LOG.error("function=getVnf, msg=send create vnf msg to csm get wrong results");
@@ -328,7 +327,7 @@ public class VnfMgr {
     /**
      * Provide function for get job
      * <br/>
-     *
+     * 
      * @param jobId
      * @param vnfmId
      * @return
@@ -347,9 +346,9 @@ public class VnfMgr {
             String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
-            paramsMap.put("methodType", Constant.GET);
+            paramsMap.put(Constant.METHOD_TYPE, Constant.GET);
             paramsMap.put("path", String.format(UrlConstant.REST_JUJU_CLIENT_GET,jobId));
-            paramsMap.put("authMode", Constant.AuthenticationMode.ANONYMOUS);
+            paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
             RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, null);
             if(rsp == null) {
                 LOG.error("function=getVnf, msg=send create vnf msg to csm get wrong results");

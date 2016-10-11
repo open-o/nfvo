@@ -21,15 +21,13 @@ import java.util.Map;
 
 import org.openo.baseservice.roa.util.restclient.HttpRest;
 import org.openo.baseservice.roa.util.restclient.Restful;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- *
+ * 
  * Http restful help class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -39,8 +37,6 @@ public class HttpRestfulHelp {
 
     public static final String PROTO_HTTP = "http";
 
-    private static final Logger LOG = LoggerFactory.getLogger(HttpRestfulHelp.class);
-
     private static final Map<String, Restful> INSTANCES = new HashMap<>(2);
 
     private HttpRestfulHelp() {
@@ -48,9 +44,9 @@ public class HttpRestfulHelp {
     }
 
     /**
-     *
+     * 
      * Get rest instance.<br>
-     *
+     * 
      * @param ssloptionfile
      * @param restoptionfile
      * @return

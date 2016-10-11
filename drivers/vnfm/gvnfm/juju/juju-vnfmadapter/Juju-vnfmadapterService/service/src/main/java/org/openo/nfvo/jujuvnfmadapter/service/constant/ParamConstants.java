@@ -17,11 +17,11 @@
 package org.openo.nfvo.jujuvnfmadapter.service.constant;
 
 /**
- *
+ * 
  * Parameter constants class.<br>
  * <p>
  * </p>
- *
+ * 
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
@@ -137,9 +137,8 @@ public class ParamConstants {
     public static final String VNF_INSTANCE = "/v2/vapps/instances";
 
     public static final String VNF_INSTANCE_DEL = "/v2/vapps/instances/%s";
-
-    private ParamConstants()
-    {
+    
+    private ParamConstants() {
         //Constructor
     }
 }
