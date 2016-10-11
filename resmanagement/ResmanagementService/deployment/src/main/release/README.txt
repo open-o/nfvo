@@ -28,8 +28,8 @@ Configuration steps:
 ====================
     - Update the db credetials in bean with id="source"  in 'services.xml'
       under webapps spring directory.
-	- Update the MSB address in $PATH/etc/conf/restclient.json
-	- Update the resmangement service ip address in $PATH/etc/adapterInfo/resmgradapterinfo.json	
+    - Update the MSB address in $PATH/etc/conf/restclient.json
+    - Update the resmangement service ip address in $PATH/etc/adapterInfo/resmgradapterinfo.json    
       
 How to run?
 ===========
