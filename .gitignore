@@ -5,3 +5,6 @@
 target/
 logs/
 *.pyc
+/drivers/vnfm/gvnfm/juju/juju-vnfmadapter/Juju-vnfmadapterService/service/coverage-report
+/drivers/vnfm/gvnfm/juju/juju-vnfmadapter/Juju-vnfmadapterService/service/profiles
+/drivers/vnfm/gvnfm/juju/juju-vnfmadapter/Juju-vnfmadapterService/service/*.gitignore

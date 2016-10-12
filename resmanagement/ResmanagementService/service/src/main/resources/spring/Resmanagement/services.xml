@@ -76,7 +76,7 @@
     </bean>
 
     <bean id="location"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.LocationImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.LocationImpl">
         <property name="locationBusiness" ref="locationBusiness"></property>
     </bean>
 
@@ -97,7 +97,7 @@
     </bean>
 
     <bean id="port"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.PortImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.PortImpl">
         <property name="portBusiness" ref="portBusiness"></property>
     </bean>
 
@@ -117,7 +117,7 @@
     </bean>
 
     <bean id="host"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.HostImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.HostImpl">
         <property name="hostBusiness" ref="hostBusiness"></property>
     </bean>
 
@@ -137,7 +137,7 @@
     </bean>
 
     <bean id="network"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.NetworkImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.NetworkImpl">
         <property name="networkBusiness" ref="networkBusiness"></property>
     </bean>
 
@@ -157,7 +157,7 @@
     </bean>
 
     <bean id="sites"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.SitesImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.SitesImpl">
         <property name="sitesBusiness" ref="sitesBusiness"></property>
     </bean>
 
@@ -177,7 +177,7 @@
     </bean>
 
     <bean id="vim"
-        class="org.openo.nfvo.resmanagement.service.base.fs.impl.VimImpl">
+        class="org.openo.nfvo.resmanagement.service.base.openstack.impl.VimImpl">
         <property name="vimBusiness" ref="vimBusiness"></property>
     </bean>
 

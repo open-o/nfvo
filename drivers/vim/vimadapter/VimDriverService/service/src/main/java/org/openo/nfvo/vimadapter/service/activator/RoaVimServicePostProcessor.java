@@ -37,9 +37,9 @@ public class RoaVimServicePostProcessor implements DestructionAwareBeanPostProce
     @Override
     public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
         if(bean instanceof IVimAdapterMgrService) {
+            LOG.warn("Register to Microservice BUS!");
             IVimAdapterMgrService vimAdapterSvc = (IVimAdapterMgrService)bean;
             vimAdapterSvc.register();
-            LOG.info("Successfully Registered to Microservice BUS!", RoaVimServicePostProcessor.class);
         }
 
         return bean;
