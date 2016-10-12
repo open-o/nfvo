@@ -46,7 +46,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/vnfmdb" />
         <property name="username" value="root"/>
-        <property name="password" value="Test_12345"/>
+        <property name="password" value="openo2016"/>
     </bean>
 
     <bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -95,9 +95,9 @@
     </bean>
 
 
-    <bean id="registerMgr" class="org.openo.nfvo.vnfmadapter.service.process.RegisterMgr"
+    <!-- bean id="registerMgr" class="org.openo.nfvo.vnfmadapter.service.process.RegisterMgr"
         init-method="register" destroy-method="unRegister">
-    </bean>
+    </bean-->
 
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>

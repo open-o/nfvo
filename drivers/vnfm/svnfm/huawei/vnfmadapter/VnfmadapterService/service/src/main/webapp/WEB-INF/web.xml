@@ -33,7 +33,7 @@
   </listener>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>WEB-INF/classes/spring/Vnfmadapter/services.xml
+    <param-value>WEB-INF/classes/spring/Vnfmadapter/*.xml
         </param-value>
   </context-param>
 

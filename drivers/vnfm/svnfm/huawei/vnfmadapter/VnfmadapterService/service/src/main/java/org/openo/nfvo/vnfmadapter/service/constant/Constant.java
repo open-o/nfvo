@@ -80,11 +80,15 @@ public class Constant {
 
     public static final int HTTP_CONFLICT = 409;
 
+    public static final int HTTP_INVALID_PARAMETERS = 415;
+
     public static final int HTTP_INNERERROR = 500;
 
     public static final List<String> AUTHLIST = Collections.unmodifiableList(Arrays.asList(Constant.ANONYMOUS, Constant.CERTIFICATE));
 
     public static final int INTERNAL_EXCEPTION = 600;
+
+    public static final int REPEAT_REG_TIME = 60 * 1000;
 
     public static final int MIN_PWD_LENGTH = 6;
 
