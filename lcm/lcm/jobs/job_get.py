@@ -40,8 +40,5 @@ class GetJobInfoService(object):
                         "progress": job.progress,
                         "statusDescription": job.descp,
                         "errorCode": job.errcode,
-                        "responseId": job.indexid
-                    } for job in jobs[1:]]
-            }
-        }
+                        "responseId": job.indexid} for job in jobs[1:]]}}
         return ret
