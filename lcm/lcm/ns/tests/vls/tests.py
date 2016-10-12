@@ -86,12 +86,10 @@ class TestVlViews(TestCase):
         req_data = {
             "nsInstanceId": self.ns_inst_id,
             "context": json.JSONEncoder().encode(self.context),
-            "vlindex": vl_id
-        }
+            "vlindex": vl_id}
         response = self.client.post("/openoapi/nslcm/v1/ns/vls", data=req_data)
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         self.assertEqual(0, response.data["result"])
-
 
     @mock.patch.object(restcall, "call_req")
     @mock.patch.object(vimadaptor.VimAdaptor, "create_network")
@@ -100,8 +98,7 @@ class TestVlViews(TestCase):
         req_data = {
             "nsInstanceId": self.ns_inst_id,
             "context": json.JSONEncoder().encode(self.context),
-            "vlindex": self.vl_id_1
-        }
+            "vlindex": self.vl_id_1}
         mock_uuid4.return_value = '999'
         mock_req_by_rest.return_value = [0,
                                          '{"test":"test_name","name":"vim_name","type":"type_name","url":"url_add"'
@@ -160,8 +157,3 @@ class TestVlDetailViews(TestCase):
 
         response = self.client.get("/openoapi/nslcm/v1/ns/vls/%s" % "notExist")
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
-
-
-    
-    
-    
