@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016 [ZTE] and others.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,19 +52,18 @@ class GetNSInfoService(object):
             'vnfInfoId': self.get_vnf_infos(ns_inst_id),
             'vlInfo': self.get_vl_infos(ns_inst_id),
             'vnffgInfo': self.get_vnffg_infos(ns_inst_id, ns_inst_info.nsd_model),
-            'nsState': ns_inst_info.status
-        }
+            'nsState': ns_inst_info.status}
         return ret
 
-    def get_vnf_infos(self, ns_inst_id):
+    @staticmethod
+    def get_vnf_infos(ns_inst_id):
         ns_inst_infos = NfInstModel.objects.filter(ns_inst_id=ns_inst_id)
         vnf_info_list = []
         for info in ns_inst_infos:
             vnf_info = {
                 'vnfInstanceId': info.nfinstid,
                 'vnfInstanceName': info.nf_name,
-                'vnfProfileId': info.vnfd_id,
-            }
+                'vnfProfileId': info.vnfd_id}
             vnf_info_list.append(vnf_info)
         return vnf_info_list
 
@@ -76,20 +75,19 @@ class GetNSInfoService(object):
                 'vlInstanceId': info.vlinstanceid,
                 'vlInstanceName': info.vlinstancename,
                 'vldId': info.vldid,
-                'relatedCpInstanceId': self.get_cp_infos(info.vlinstanceid),
-            }
+                'relatedCpInstanceId': self.get_cp_infos(info.vlinstanceid)}
             vl_info_list.append(vl_info)
         return vl_info_list
 
-    def get_cp_infos(self, vl_inst_id):
+    @staticmethod
+    def get_cp_infos(vl_inst_id):
         cp_inst_infos = CPInstModel.objects.filter(relatedvl__icontains=vl_inst_id)
         cp_info_list = []
         for info in cp_inst_infos:
             cp_info = {
                 'cpInstanceId': info.cpinstanceid,
                 'cpInstanceName': info.cpname,
-                'cpdId': info.cpdid
-            }
+                'cpdId': info.cpdid}
             cp_info_list.append(cp_info)
         return cp_info_list
 
@@ -103,12 +101,12 @@ class GetNSInfoService(object):
                 'pnfId': self.get_pnf_infos(nsd_model),
                 'virtualLinkId': self.convert_string_to_list(info.vllist),
                 'cpId': self.convert_string_to_list(info.cplist),
-                'nfp': self.convert_string_to_list(info.fplist)
-            }
+                'nfp': self.convert_string_to_list(info.fplist)}
             vnffg_info_list.append(vnffg_info)
         return vnffg_info_list
 
-    def get_pnf_infos(self, nsd_model):
+    @staticmethod
+    def get_pnf_infos(nsd_model):
         context = json.loads(nsd_model)
         pnfs = context['pnfs']
         pnf_list = []
@@ -116,7 +114,8 @@ class GetNSInfoService(object):
             pnf_list.append(pnf['pnf_id'])
         return pnf_list
 
-    def convert_string_to_list(self, detail_id_string):
+    @staticmethod
+    def convert_string_to_list(detail_id_string):
         if not detail_id_string:
             return None
         return detail_id_string.split(',')

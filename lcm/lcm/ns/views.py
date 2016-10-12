@@ -28,7 +28,6 @@ from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 from lcm.pub.utils.values import ignore_case_get
 from lcm.pub.database.models import NSInstModel
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -61,10 +60,10 @@ class NSInstView(APIView):
 
 class TerminateNSView(APIView):
     def post(self, request, ns_instance_id):
-        terminationType = ignore_case_get(request.data, 'terminationType')
-        gracefulTerminationTimeout = ignore_case_get(request.data, 'gracefulTerminationTimeout')
+        termination_type = ignore_case_get(request.data, 'terminationType')
+        graceful_termination_timeout = ignore_case_get(request.data, 'gracefulTerminationTimeout')
         job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, ns_instance_id)
-        TerminateNsService(ns_instance_id, terminationType, gracefulTerminationTimeout, job_id).do_biz()
+        TerminateNsService(ns_instance_id, termination_type, graceful_termination_timeout, job_id).do_biz()
         ret = {'jobID': job_id}
         return Response(data=ret, status=status.HTTP_202_ACCEPTED)
 
@@ -94,8 +93,7 @@ class NSInstPostDealView(APIView):
             NSInstModel.objects.filter(id=ns_instance_id).update(status=ns_status)
         except:
             logger.error(traceback.format_exc())
-            return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id}, 
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(data={'success': 'Update status of NS(%s) to %s' % (ns_instance_id, ns_status)}, 
-            status=status.HTTP_202_ACCEPTED)
-        
+            return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(data={'success': 'Update status of NS(%s) to %s' % (ns_instance_id, ns_status)},
+                        status=status.HTTP_202_ACCEPTED)

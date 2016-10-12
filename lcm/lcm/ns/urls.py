@@ -19,10 +19,13 @@ from lcm.ns.views import CreateNSView, NSInstView, TerminateNSView, DeleteNSView
 urlpatterns = patterns('',
                        url(r'^openoapi/nslcm/v1/ns$', CreateNSView.as_view()),
                        url(r'^openoapi/nslcm/v1/ns/swagger.json$', SwaggerJsonView.as_view()),
-                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/instantiate$', NSInstView.as_view()),
-                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/terminate$', TerminateNSView.as_view()),
+                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/instantiate$',
+                           NSInstView.as_view()),
+                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/terminate$',
+                           TerminateNSView.as_view()),
                        url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)$', DeleteNSView.as_view()),
-                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/postdeal$', NSInstPostDealView.as_view()),
+                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/postdeal$',
+                           NSInstPostDealView.as_view()),
                        )
 
 urlpatterns = format_suffix_patterns(urlpatterns)
