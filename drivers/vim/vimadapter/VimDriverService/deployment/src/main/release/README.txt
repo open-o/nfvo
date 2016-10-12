@@ -19,7 +19,7 @@ Configuration steps:
 ====================
     - Update the MSB address in $PATH/etc/conf/restclient.json
     - Update the resmangement service ip address in $PATH/etc/adapterInfo/vimadapterinfo.json
-          
+
 How to run?
 ===========
     - In command console, cd to 'bin' directory under the location,
@@ -28,12 +28,14 @@ How to run?
           NOTE: It starts the tomcat at predefined http port. To change
           default port, update the port in tomcat configuration file
           'conf/server.xml'
+          - Verify that 'Tomcat started.' is reported on the console.
+    - Once service is started, please verify below details:
+        - from MSB service, verify that "vimdriver"  is reported from GET request on "/openoapi/microservices/v1/services"
+        - from this service, run one of the supported REST API mentioned in open-o NFVO wiki and verify that the
+          expected response is returned.
 
 How to stop?
 =============
     - In command console, cd to 'bin' directory under the location,
       where this service installer is unzipped and
       run ./stop.sh
-
-
-
