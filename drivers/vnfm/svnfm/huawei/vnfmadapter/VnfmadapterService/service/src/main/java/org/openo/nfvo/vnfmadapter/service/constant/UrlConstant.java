@@ -24,6 +24,8 @@ package org.openo.nfvo.vnfmadapter.service.constant;
  */
 public class UrlConstant {
 
+    public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
+
     public static final String REST_CSARINFO_GET = "/openoapi/catalog/v1/csars/%s";
 
     public static final String REST_VNFMINFO_GET = "/openoapi/extsys/v1/vnfms/%s";
