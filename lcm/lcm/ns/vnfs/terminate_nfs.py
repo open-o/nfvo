@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import sys
 import logging
 import traceback
 import json
@@ -20,7 +19,7 @@ from threading import Thread
 
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NfInstModel
-from lcm.ns.vnfs.const import VNF_STATUS,NFVO_VNF_INST_TIMEOUT_SECOND
+from lcm.ns.vnfs.const import VNF_STATUS, NFVO_VNF_INST_TIMEOUT_SECOND
 from lcm.pub.utils.restcall import req_by_msb
 from lcm.pub.utils.values import ignore_case_get
 
@@ -29,7 +28,6 @@ from lcm.pub.exceptions import NSLCMException
 
 
 logger = logging.getLogger(__name__)
-
 
 
 class TerminateVnfs(Thread):
@@ -72,20 +70,18 @@ class TerminateVnfs(Thread):
             return None
         return vnf_inst[0]
 
-
     def add_progress(self, progress, status_decs, error_code=""):
         JobUtil.add_job_status(self.job_id, progress, status_decs, error_code)
 
     def initdata(self):
         vnf_inst_info = self.check_vnf_is_exist()
         if not vnf_inst_info:
-            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS","finished")
+            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS", "finished")
         self.add_progress(2, "GET_VNF_INST_SUCCESS")
         self.vnfm_inst_id = vnf_inst_info.vnfm_inst_id
         self.vnf_uuid = vnf_inst_info.mnfinstid
         if not self.vnf_uuid:
-            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS","finished")
-
+            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS", "finished")
 
     def check_nf_valid(self):
         vnf_inst = NfInstModel.objects.filter(nfinstid=self.vnf_inst_id)
@@ -93,15 +89,14 @@ class TerminateVnfs(Thread):
             logger.warning('[VNF terminate] Vnf instance [%s] is not exist.' % self.vnf_inst_id)
             raise NSLCMException(msgid='[VNF terminate] Vnf instance is not exist.')
         if not vnf_inst:
-            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS","finished")
+            self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS", "finished")
             raise NSLCMException(msgid='[VNF terminate] Vnf instance is not exist.')
         self.set_vnf_status(vnf_inst[0])
 
     def exception(self, error_msg):
         logger.error('VNF Terminate failed, detail message: %s' % error_msg)
         NfInstModel.objects.filter(nfinstid=self.vnf_inst_id).update(status=VNF_STATUS.FAILED)
-        JobUtil.add_job_status(self.job_id, 255,'VNF Terminate failed, detail message: %s' % error_msg, 0)
-
+        JobUtil.add_job_status(self.job_id, 255, 'VNF Terminate failed, detail message: %s' % error_msg, 0)
 
     def send_nf_terminate_to_vnfmDriver(self):
         uri = '/openoapi/%s/v1/%s/vnfs/%s/terminate' % ('zte-vnfm', self.vnfm_inst_id, self.vnf_inst_id)
@@ -113,7 +108,6 @@ class TerminateVnfs(Thread):
             raise NSLCMException('Send NF Terminate request to VNFM Driver  failed.')
         resp_body = json.JSONDecoder().decode(ret[1])
         self.vnfm_job_id = ignore_case_get(resp_body, 'jobId')
-
 
     def send_terminate_vnf_to_resMgr(self):
         uri = '/openoapi/resmgr/v1/vnf'
@@ -134,4 +128,3 @@ class TerminateVnfs(Thread):
     def delete_data_from_db(self):
         NfInstModel.objects.filter(nfinstid=self.vnf_inst_id).delete()
         JobUtil.add_job_status(self.job_id, 100, 'vnf terminate success', 0)
-
