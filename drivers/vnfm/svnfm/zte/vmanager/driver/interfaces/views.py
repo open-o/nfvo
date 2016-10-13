@@ -1,11 +1,11 @@
 # Copyright 2016 ZTE Corporation.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,18 +80,16 @@ create_vnf_param_mapping = {
     "flavorId": "",
     "vnfInstanceDescription": "",
     "extVirtualLink": "",
-    "additionalParam": ""
-}
+    "additionalParam": ""}
 create_vnf_resp_mapping = {
     "VNFInstanceID": "vnfInstanceId",
-    "JobId": "jobid",
-}
+    "JobId": "jobid", }
 
 
 @api_view(http_method_names=['POST'])
 def instantiate_vnf(request, *args, **kwargs):
     try:
-        logger.debug("[%s] request.data=%s", fun_name(),request.data)
+        logger.debug("[%s] request.data=%s", fun_name(), request.data)
         vnfm_id = ignorcase_get(kwargs, "vnfmid")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
@@ -144,12 +142,10 @@ def instantiate_vnf(request, *args, **kwargs):
 vnf_delete_url = "v1/vnfs/%s"
 vnf_delete_param_mapping = {
     "terminationType": "terminationType",
-    "gracefulTerminationTimeout": "gracefulTerminationTimeout"
-}
+    "gracefulTerminationTimeout": "gracefulTerminationTimeout"}
 vnf_delete_resp_mapping = {
     "vnfInstanceId": "vnfInstanceId",
-    "JobId": "jobid"
-}
+    "JobId": "jobid"}
 
 
 @api_view(http_method_names=['POST'])
@@ -188,8 +184,7 @@ def terminate_vnf(request, *args, **kwargs):
 
 vnf_detail_url = "v1/vnfs/%s"
 vnf_detail_resp_mapping = {
-    "VNFInstanseStatus": "status",
-}
+    "VNFInstanseStatus": "status", }
 
 
 @api_view(http_method_names=['GET'])
@@ -233,8 +228,7 @@ operation_status_resp_map = {
     "ErrorCode": "errorCode",
     "ResponseId": "responseId",
     "ResponseHistoryList": "responseHistoryList",
-    "ResponseDescriptor": "responseDescriptor",
-}
+    "ResponseDescriptor": "responseDescriptor", }
 
 
 @api_view(http_method_names=['GET'])
@@ -257,8 +251,7 @@ def operation_status(request, *args, **kwargs):
                                                  vnfmId=ignorcase_get(kwargs, 'vnfmid'),
                                                  responseId=ignorcase_get(kwargs, 'responseId')),
             method='get',
-            content=json.JSONEncoder().encode(data)
-        )
+            content=json.JSONEncoder().encode(data))
 
         if ret[0] != 0:
             return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -283,8 +276,7 @@ grant_vnf_param_map = {
     "OperationRight": "",
     "VMList": "",
     "VMFlavor": "",
-    "VMNumber": ""
-}
+    "VMNumber": ""}
 
 
 @api_view(http_method_names=['PUT'])
@@ -315,7 +307,7 @@ def grantvnf(request, *args, **kwargs):
         data["additionalparam"]["tenant"] = ignorcase_get(request.data, "tenant")
 
         logger.info("data = %s", data)
-        ret = req_by_msb(grant_vnf_url, "POST",content=json.JSONEncoder().encode(data))
+        ret = req_by_msb(grant_vnf_url, "POST", content=json.JSONEncoder().encode(data))
         logger.info("ret = %s", ret)
         if ret[0] != 0:
             return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -344,8 +336,7 @@ notify_param_map = {
     "VMFlavor": "",
     "VMNumber": "",
     "VMIDlist": "",
-    "VMUUID": "",
-}
+    "VMUUID": "", }
 
 
 @api_view(http_method_names=['POST'])
@@ -368,4 +359,3 @@ def notify(request, *args, **kwargs):
 @api_view(http_method_names=['GET'])
 def samples(request, *args, **kwargs):
     return Response(data={"status": "ok"})
-    

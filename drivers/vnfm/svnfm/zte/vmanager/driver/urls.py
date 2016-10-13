@@ -14,5 +14,4 @@
 
 from django.conf.urls import include, url
 urlpatterns = [
-    url(r'^', include('driver.interfaces.urls')),
-]
+    url(r'^', include('driver.interfaces.urls')), ]
