@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2016 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,7 +57,7 @@ class TerminateNsService(object):
         JobUtil.add_job_status(self.job_id, 10, "Ns cancel: check ns_inst_id success", '')
         return ns_inst[0]
 
-    # 删除VLINST
+    # delete VLINST
     def cancel_vl_list(self):
         array_vlinst = VLInstModel.objects.filter(ownertype='2', ownerid=self.ns_inst_id)
         if not array_vlinst:
@@ -67,9 +66,6 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_vlinst)
         cur_progress = 70
         for vlinst in array_vlinst:
-
-            # 删除逻辑平面后 删除VL实例
-            # 终止VL实例
             tmp_msg = vlinst.vlinstanceid
             try:
                 ret = self.delete_vl(tmp_msg)
@@ -91,7 +87,7 @@ class TerminateNsService(object):
                 return 'false'
         return 'true'
 
-    # 删除SFC
+    # delete SFC
     def cancel_sfc_list(self):
         array_sfcinst = FPInstModel.objects.filter(nsinstid=self.ns_inst_id)
         if not array_sfcinst:
@@ -100,9 +96,6 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_sfcinst)
         cur_progress = 30
         for sfcinst in array_sfcinst:
-
-            # 删除逻辑平面后 删除SFC实例
-            # 终止SFC实例
             tmp_msg = sfcinst.sfcid
             try:
                 ret = self.delete_sfc(tmp_msg)
@@ -124,7 +117,7 @@ class TerminateNsService(object):
                 return 'false'
         return 'true'
 
-    # 删除Vnf
+    # delete Vnf
     def cancel_vnf_list(self):
         array_vnfinst = NfInstModel.objects.filter(ns_inst_id=self.ns_inst_id)
         if not array_vnfinst:
@@ -133,9 +126,6 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_vnfinst)
         cur_progress = 50
         for vnfinst in array_vnfinst:
-
-            # 删除逻辑平面后 删除VNF实例
-            # 终止VNF实例
             tmp_msg = vnfinst.nfinstid
             try:
                 self.delete_vnf(tmp_msg)
