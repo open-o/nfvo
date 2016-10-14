@@ -15,4 +15,3 @@
 
 class NSLCMException(Exception):
     pass
-
