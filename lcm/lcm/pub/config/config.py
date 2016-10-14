@@ -32,3 +32,19 @@ DB_PORT = 3306
 DB_NAME = "nfvo"
 DB_USER = "root"
 DB_PASSWD = "password"
+
+# [register]
+REG_TO_MSB_WHEN_START = False
+REG_TO_MSB_REG_URL = "/openoapi/microservices/v1/services"
+REG_TO_MSB_REG_PARAM = {
+    "serviceName": "nslcm",
+    "version": "v1",
+    "url": "/openoapi/nslcm/v1",
+    "protocol": "REST",
+    "visualRange": "1",
+    "nodes": [{
+        "ip": "127.0.0.1",
+        "port": "8403",
+        "ttl": 0
+    }]
+}

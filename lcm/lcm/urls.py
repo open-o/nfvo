@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from django.conf.urls import include, url
+from lcm.pub.config.config import REG_TO_MSB_WHEN_START, REG_TO_MSB_REG_URL, REG_TO_MSB_REG_PARAM
 
 urlpatterns = [
     url(r'^', include('lcm.samples.urls')),
@@ -23,3 +24,9 @@ urlpatterns = [
     url(r'^', include('lcm.ns.urls')),
     url(r'^', include('lcm.jobs.urls')),
 ]
+
+# regist to MSB when startup
+if REG_TO_MSB_WHEN_START:
+    import json
+    from lcm.pub.utils.restcall import req_by_msb
+    req_by_msb(REG_TO_MSB_REG_URL, "POST", json.JSONEncoder().encode(REG_TO_MSB_REG_PARAM))
