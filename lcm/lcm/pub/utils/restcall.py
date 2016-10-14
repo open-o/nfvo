@@ -65,7 +65,7 @@ def call_req(base_url, user, passwd, auth_type, resource, method, content=''):
     except Exception as ex:
         logger.error(traceback.format_exc())
         logger.error("[%s]ret=%s" % (callid, str(sys.exc_info())))
-        res_info = str(sys.exc_info());
+        res_info = str(sys.exc_info())
         if 'httplib.ResponseNotReady' in res_info:
             res_info = "The URL[%s] request failed or is not responding." % full_url
         ret = [3, res_info, resp_status]
@@ -76,9 +76,11 @@ def call_req(base_url, user, passwd, auth_type, resource, method, content=''):
     logger.debug("[%s]ret=%s" % (callid, str(ret)))
     return ret
 
+
 def req_by_msb(resource, method, content=''):
     base_url = "http://%s:%s/" % (MSB_SERVICE_IP, MSB_SERVICE_PORT)
     return call_req(base_url, "", "", rest_no_auth, resource, method, content)
+
 
 def combine_url(base_url, resource):
     full_url = None
@@ -91,6 +93,3 @@ def combine_url(base_url, resource):
     else:
         full_url = base_url + '/' + resource
     return full_url
-
-
-
