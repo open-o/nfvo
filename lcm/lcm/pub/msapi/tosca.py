@@ -29,5 +29,3 @@ def tosca_plan(uri, inputs):
     if ret[2] != '200':
         raise NSLCMException("tosca error occur when call parser api failed: %s" % content_str)
     return ret[1]
-
-
