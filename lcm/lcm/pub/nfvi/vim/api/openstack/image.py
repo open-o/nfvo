@@ -1,11 +1,11 @@
 # Copyright 2016 ZTE Corporation.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import logging
-import sys 
+import sys
 import traceback
 import threading
 
@@ -22,6 +22,7 @@ from lcm.pub.nfvi.vim.lib.syscomm import fun_name
 from lcm.pub.nfvi.vim import const
 
 logger = logging.getLogger(__name__)
+
 
 class ImageUploadThread(threading.Thread):
     def __init__(self, glance, image_id, image_path):
@@ -41,6 +42,7 @@ class ImageUploadThread(threading.Thread):
             logger.error(traceback.format_exc())
             logger.error("Failed to upload image(%s): [%s]", self.image_id, str(sys.exc_info()))
 
+
 def create_image(auth_info, data):
     ret = None
     glance = glancebase.get_glance(fun_name(), auth_info)
@@ -51,8 +53,8 @@ def create_image(auth_info, data):
         ret = [0, {"id": exist_img[0].id, "name": data["image_name"], const.RES_TYPE_KEY: const.RES_TYPE_EXIST}]
     else:
         img = glance.images.create(
-            name=data["image_name"], 
-            disk_format=data["image_type"], 
+            name=data["image_name"],
+            disk_format=data["image_type"],
             visibility='public',
             container_format='bare')
         ret = [0, {"id": img.id, "name": data["image_name"], const.RES_TYPE_KEY: const.RES_TYPE_NEW}]
@@ -62,6 +64,7 @@ def create_image(auth_info, data):
             logger.error(traceback.format_exc())
             logger.error(str(sys.exc_info()))
     return ret
+
 
 def get_image(auth_info, image_id):
     from glanceclient.exc import HTTPNotFound
@@ -76,7 +79,8 @@ def get_image(auth_info, image_id):
     if 'status' in ret_img_info and 'deleted' == ret_img_info["status"]:
         return [2, "Image(%s) is deleted" % image_id]
     return [0, ret_img_info]
-    
+
+
 def delete_image(auth_info, image_id):
     from glanceclient.exc import HTTPNotFound
     glance = glancebase.get_glance(fun_name(), auth_info)
@@ -87,11 +91,13 @@ def delete_image(auth_info, image_id):
         return [0, "Image(%s) does not exist" % image_id]
     return [0, "Image(%s) has been deleted" % image_id]
 
+
 def get_images(auth_info):
     glance = glancebase.get_glance(fun_name(), auth_info, ver='v1')
     imgs = glance.images.list()
     return [0, {"image_list": [get_single_image(img) for img in imgs]}]
-    
+
+
 def get_single_image(img):
     img_size = 0
     try:

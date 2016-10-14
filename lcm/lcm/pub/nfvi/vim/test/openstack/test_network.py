@@ -21,8 +21,7 @@ from lcm.pub.nfvi.vim.test.openstack import pub
 from lcm.pub.nfvi.vim import const
 
 class TestNetwork(unittest.TestCase):
-    
-    def setUp(self):
+        def setUp(self):
         self.api = vimadaptor.VimAdaptor(pub.connect_info)
         self.network_data = {
             "tenant": "admin",
@@ -96,7 +95,6 @@ class TestNetwork(unittest.TestCase):
                 "host_routes": []
             }]
         }
-        
     def tearDown(self):
         pass
 
@@ -245,4 +243,3 @@ class TestNetwork(unittest.TestCase):
         self.port_data["subnet_name"] = subnet
         self.assertEqual(1, ret[0])
 """
-

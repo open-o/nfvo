@@ -115,4 +115,3 @@ class VimAdaptor:
 
     def delete_port(self, port_id):
         return self.api_call(fun_name(), self.apiImpl.delete_port, port_id)
-

@@ -1,11 +1,11 @@
 # Copyright 2016 ZTE Corporation.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -54,6 +54,7 @@ def query_net(auth_info, net_id):
         "router_external": net["router:external"]
         }]
 
+
 def query_nets(auth_info):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
     keystone = auth_info["keystone"]
@@ -72,11 +73,12 @@ def query_nets(auth_info):
         "physical_network": net["provider:physical_network"],
         "segmentation_id": net["provider:segmentation_id"],
         "tenant_id": net["tenant_id"],
-        "tenant_name": tenants_map[net["tenant_id"]] if tenants_map.has_key(net["tenant_id"]) else "unknown",
+        "tenant_name": tenants_map[net["tenant_id"]] if net["tenant_id"] in tenants_map else "unknown",
         "subnets": net["subnets"],
         "shared": net["shared"],
         "router_external": net["router:external"]
         } for net in nets["networks"]]}]
+
 
 def query_subnet(auth_info, subnet_id):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
@@ -98,6 +100,7 @@ def query_subnet(auth_info, subnet_id):
     ret[1]["host_routes"] = subnet_info["host_routes"]
     ret[1]["dns_nameservers"] = subnet_info["dns_nameservers"]
     return ret
+
 
 def query_port(auth_info, port_id):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
@@ -124,11 +127,13 @@ def query_port(auth_info, port_id):
     ret[1]["device_id"] = port_info["device_id"]
     return ret
 
+
 def get_subnet_id(neutron, data, network_id):
     subnet_id = None
     if "subnet_name" in data and data["subnet_name"]:
         all_subnets = neutron.list_subnets()
-        filter_subnets = [subnet for subnet in all_subnets["subnets"] if subnet["name"] == data["subnet_name"] and subnet["network_id"] == network_id]
+        filter_subnets = [subnet for subnet in all_subnets["subnets"] if subnet["name"] == data["subnet_name"]
+                          and subnet["network_id"] == network_id]
         count_filter_subnets = len(filter_subnets)
         if 1 > count_filter_subnets:
             logger.error("Subnet name(%s) does not exist" % data["subnet_name"])
@@ -136,7 +141,8 @@ def get_subnet_id(neutron, data, network_id):
         if 1 < count_filter_subnets:
             for subnet in filter_subnets:
                 logger.error("subnet_id=%s", subnet["id"])
-            raise VimException("%d subnet(%s) exist in network(%s)" % (count_filter_subnets,data["subnet_name"], data["network_name"]))
+            raise VimException("%d subnet(%s) exist in network(%s)"
+                               % (count_filter_subnets, data["subnet_name"], data["network_name"]))
         subnet_id = filter_subnets[0]['id']
     else:
         subnets = neutron.list_subnets()
@@ -145,14 +151,15 @@ def get_subnet_id(neutron, data, network_id):
             subnet_id = filter_subnets[0]["id"]
     return subnet_id
 
+
 def create_port(auth_info, data):
     tenant_id = project.get_tenant_id(fun_name(), auth_info, data["tenant_name"])
 
     neutron_admin = neutronbase.get_neutron_default(fun_name(), auth_info)
     all_nets = neutron_admin.list_networks()
     filter_nets = [net for net in all_nets['networks'] if net['name'] == data["network_name"]]
-    sel_nets = [net for net in filter_nets if net['tenant_id'] == tenant_id or \
-        (net['tenant_id'] != tenant_id and net['shared'])]
+    sel_nets = [net for net in filter_nets if net['tenant_id'] == tenant_id or
+                (net['tenant_id'] != tenant_id and net['shared'])]
     count_sel_nets = len(sel_nets)
     if 1 > count_sel_nets:
         logger.error("Network(%s) does not exist" % data["network_name"])
@@ -160,7 +167,8 @@ def create_port(auth_info, data):
     if 1 < count_sel_nets:
         for net in sel_nets:
             logger.error("net_id=%s", net["id"])
-        raise VimException("%d networks(%s) exist in tenant(%s)" % (count_sel_nets, data["network_name"], data["tenant_name"]))
+        raise VimException("%d networks(%s) exist in tenant(%s)"
+                           % (count_sel_nets, data["network_name"], data["tenant_name"]))
     network_id = sel_nets[0]['id']
     if tenant_id != sel_nets[0]['tenant_id']:
         neutron = neutronbase.get_neutron_by_tenant_id(fun_name(), auth_info, sel_nets[0]['tenant_id'])
@@ -173,7 +181,8 @@ def create_port(auth_info, data):
     # check port
     port_data = None
     ports = neutron.list_ports()
-    sel_ports = [port for port in ports['ports'] if port['tenant_id'] == tenant_id and port['network_id'] == network_id]
+    sel_ports = [port for port in ports['ports'] if port['tenant_id'] == tenant_id
+                 and port['network_id'] == network_id]
     filter_ports = []
     for port in sel_ports:
         if port['name'] == data["port_name"] and port['fixed_ips']:
@@ -185,14 +194,15 @@ def create_port(auth_info, data):
     if 1 < count_filter_ports:
         for port in filter_ports:
             logger.error("port_id=%s", port["id"])
-        raise VimException("%d port(%s) exist in subnet(%s)" % (count_filter_ports,data["port_name"], data["subnet_name"]))
+        raise VimException("%d port(%s) exist in subnet(%s)"
+                           % (count_filter_ports, data["port_name"], data["subnet_name"]))
     if 1 == len(filter_ports):
         logger.debug("Port(%s) is exist!" % data["port_name"])
-        port_data = {'status':filter_ports[0]['status'],
-            'id': filter_ports[0]['id'],
-            'name': filter_ports[0]['name'],
-            'network_id':filter_ports[0]['network_id'],
-            const.RES_TYPE_KEY: const.RES_TYPE_EXIST}
+        port_data = {'status': filter_ports[0]['status'],
+                     'id': filter_ports[0]['id'],
+                     'name': filter_ports[0]['name'],
+                     'network_id': filter_ports[0]['network_id'],
+                     const.RES_TYPE_KEY: const.RES_TYPE_EXIST}
         return [0, port_data]
 
     # create port
@@ -233,12 +243,13 @@ def create_port(auth_info, data):
         logger.info("[%s]recall neutron.create_port(%s)" % (fun_name(), str(create_param)))
         port_created = neutron.create_port(create_param)
     if port_created:
-        port_data = {'status':port_created['port']['status'],
-            'id': port_created['port']['id'],
-            'name': port_created['port']['name'],
-            'network_id':port_created['port']['network_id'],
-            const.RES_TYPE_KEY: const.RES_TYPE_NEW}
+        port_data = {'status': port_created['port']['status'],
+                     'id': port_created['port']['id'],
+                     'name': port_created['port']['name'],
+                     'network_id': port_created['port']['network_id'],
+                     const.RES_TYPE_KEY: const.RES_TYPE_NEW}
     return [0, port_data]
+
 
 def create_network(auth_info, data):
     neutron = neutronbase.get_neutron(fun_name(), auth_info, data["tenant"])
@@ -247,8 +258,8 @@ def create_network(auth_info, data):
     neutron_admin = neutronbase.get_neutron_default(fun_name(), auth_info)
     all_nets = neutron_admin.list_networks()
     filter_nets = [net for net in all_nets['networks'] if net['name'] == data["network_name"]]
-    sel_nets = [net for net in filter_nets if net['tenant_id'] == tenant_id or \
-        (net['tenant_id'] != tenant_id and net['shared'])]
+    sel_nets = [net for net in filter_nets if net['tenant_id'] == tenant_id or
+                (net['tenant_id'] != tenant_id and net['shared'])]
     count_sel_nets = len(sel_nets)
     if 1 < count_sel_nets:
         for sel_net in sel_nets:
@@ -262,25 +273,23 @@ def create_network(auth_info, data):
         all_subnets = neutron_admin.list_subnets()
         filter_subnets = [subnet for subnet in all_subnets["subnets"] if subnet["network_id"] == sel_nets[0]["id"]]
         network_data = {"status": sel_nets[0]["status"],
-            "id": sel_nets[0]["id"],
-            "name": data["network_name"],
-            "provider:segmentation_id":sel_nets[0]["provider:segmentation_id"],
-            "provider:network_type":sel_nets[0]["provider:network_type"],
-            const.RES_TYPE_KEY: const.RES_TYPE_EXIST,
-            "subnet_list": [{
-                 "id": subnet["id"],
-                 "name": subnet["name"],
-                 const.RES_TYPE_KEY: const.RES_TYPE_EXIST
-                 } for subnet in filter_subnets]}
+                        "id": sel_nets[0]["id"],
+                        "name": data["network_name"],
+                        "provider:segmentation_id": sel_nets[0]["provider:segmentation_id"],
+                        "provider:network_type": sel_nets[0]["provider:network_type"],
+                        const.RES_TYPE_KEY: const.RES_TYPE_EXIST,
+                        "subnet_list": [{
+                                            "id": subnet["id"],
+                                            "name": subnet["name"],
+                                            const.RES_TYPE_KEY: const.RES_TYPE_EXIST
+                                        } for subnet in filter_subnets]}
     else:
         create_params = {
             'network': {
-                'name': data["network_name"], 
-                'admin_state_up': True, 
-                'tenant_id': tenant_id, 
-                'shared': "shared" in data and int(data["shared"]) == const.SHARED_NET
-            }
-        }
+                'name': data["network_name"],
+                'admin_state_up': True,
+                'tenant_id': tenant_id,
+                'shared': "shared" in data and int(data["shared"]) == const.SHARED_NET}}
         if "mtu" in data and int(data["mtu"]) != const.DEFAULT_MTU:
             create_params['network']['mtu'] = int(data["mtu"])
         if "vlan_transparent" in data and int(data["vlan_transparent"]) == const.SUPPORT_VLAN_TRANSPARENT:
@@ -293,13 +302,13 @@ def create_network(auth_info, data):
         logger.info("[%s]call neutron.create_network(%s)" % (fun_name(), str(create_params)))
         network_created = neutron.create_network(create_params)
         network_data = {"status": network_created['network']['status'],
-            "id": network_created['network']['id'],
-            "name": data["network_name"],
-            "provider:segmentation_id":network_created['network']['provider:segmentation_id'],
-            "provider:network_type":network_created['network']['provider:network_type'],
-            const.RES_TYPE_KEY: const.RES_TYPE_NEW,
-            "subnet_list": []}
-    
+                        "id": network_created['network']['id'],
+                        "name": data["network_name"],
+                        "provider:segmentation_id": network_created['network']['provider:segmentation_id'],
+                        "provider:network_type": network_created['network']['provider:network_type'],
+                        const.RES_TYPE_KEY: const.RES_TYPE_NEW,
+                        "subnet_list": []}
+
     # subnet create
     exist_subnet_names = [subnet["name"] for subnet in network_data["subnet_list"]]
     need_rollback, ret_error = False, None
@@ -312,31 +321,33 @@ def create_network(auth_info, data):
                 need_rollback, ret_error = True, ret
                 break
             network_data["subnet_list"].append(ret[1])
-    
+
     # rollback when failed to create subnet
     if need_rollback:
         rollback(neutron_admin, network_data)
         return ret_error
 
     return [0, network_data]
-    
+
+
 def create_subnet(neutron, network_id, data):
     all_subnets = neutron.list_subnets()
-    filter_subnets = [subnet for subnet in all_subnets["subnets"] if subnet["network_id"] == network_id and subnet["name"] == data["subnet_name"]]
+    filter_subnets = [subnet for subnet in all_subnets["subnets"]
+                      if subnet["network_id"] == network_id and subnet["name"] == data["subnet_name"]]
     if filter_subnets:
-        return [0, {"id": filter_subnets[0]["id"], 
-            "name": data["subnet_name"], 
-            const.RES_TYPE_KEY: const.RES_TYPE_EXIST}]
+        return [0, {
+                    "id": filter_subnets[0]["id"],
+                    "name": data["subnet_name"],
+                    const.RES_TYPE_KEY: const.RES_TYPE_EXIST}]
     try:
         create_params = {
             'subnet': {
                 'network_id': network_id,
                 'name': data["subnet_name"],
                 'cidr': data["cidr"],
-                'ip_version': int(data["ip_version"]) if "ip_version" in data else const.IPV4,
-            }
-        }
-        create_params["subnet"]["enable_dhcp"] = ("enable_dhcp" in data and int(data["enable_dhcp"]) == const.ENABLE_DHCP)
+                'ip_version': int(data["ip_version"]) if "ip_version" in data else const.IPV4, }}
+        create_params["subnet"]["enable_dhcp"] = ("enable_dhcp" in data
+                                                  and int(data["enable_dhcp"]) == const.ENABLE_DHCP)
         if "gateway_ip" in data and data["gateway_ip"]:
             create_params["subnet"]["gateway_ip"] = data["gateway_ip"]
         else:
@@ -347,16 +358,17 @@ def create_subnet(neutron, network_id, data):
             create_params["subnet"]["allocation_pools"] = data["allocation_pools"]
         if "host_routes" in data and data["host_routes"]:
             create_params["subnet"]["host_routes"] = data["host_routes"]
-        
+
         logger.info("[%s]call neutron.create_subnet(%s)" % (fun_name(), str(create_params)))
         subnet_created = neutron.create_subnet(create_params)
-        return [0, {"id": subnet_created["subnet"]["id"], 
-            "name": data["subnet_name"], 
-            const.RES_TYPE_KEY: const.RES_TYPE_NEW}]
+        return [0, {"id": subnet_created["subnet"]["id"],
+                    "name": data["subnet_name"],
+                    const.RES_TYPE_KEY: const.RES_TYPE_NEW}]
     except Exception as ex:
         logger.error(traceback.format_exc())
         logger.error(str(sys.exc_info()))
         return [1, ex.message if ex.message else str(sys.exc_info())]
+
 
 def rollback(neutron, network_data):
     for subnet_data in network_data["subnet_list"]:
@@ -374,6 +386,7 @@ def rollback(neutron, network_data):
         except:
             logger.error("[%s]%s", fun_name(), str(sys.exc_info()))
 
+
 def delete_network(auth_info, network_id):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
     try:
@@ -387,6 +400,7 @@ def delete_network(auth_info, network_id):
         return [1, "Vim exception."]
     return [0, "Network(%s) is deleted" % network_id]
 
+
 def delete_subnet(auth_info, subnet_id):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
     try:
@@ -395,6 +409,7 @@ def delete_subnet(auth_info, subnet_id):
         logger.warn("[%s]NetworkNotFoundClient: %s", fun_name(), e.message)
         return [0, e.message]
     return [0, "Subnet(%s) is deleted" % subnet_id]
+
 
 def delete_port(auth_info, port_id):
     neutron = neutronbase.get_neutron_default(fun_name(), auth_info)
