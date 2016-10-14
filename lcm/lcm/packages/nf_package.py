@@ -1,11 +1,11 @@
 # Copyright 2016 ZTE Corporation.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,8 +23,8 @@ import sys
 
 from lcm.pub.database.models import NfPackageModel, VnfPackageFileModel, NfInstModel
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.utils import fileutil 
-from lcm.pub.msapi.catalog import STATUS_ONBOARDED, STATUS_NON_ONBOARDED
+from lcm.pub.utils import fileutil
+from lcm.pub.msapi.catalog import STATUS_ONBOARDED
 from lcm.pub.msapi.catalog import P_STATUS_DELETEFAILED, P_STATUS_DELETING
 from lcm.pub.msapi.catalog import P_STATUS_NORMAL, P_STATUS_ONBOARDING, P_STATUS_ONBOARDFAILED
 from lcm.pub.msapi.catalog import query_csar_from_catalog, set_csar_state
@@ -83,10 +83,10 @@ class NfOnBoardingThread(threading.Thread):
 
     def on_boarding(self):
         JobUtil.create_job(
-            inst_type = 'nf', 
-            jobaction = 'on_boarding',
-            inst_id = self.csar_id,
-            job_id = self.job_id)
+            inst_type='nf',
+            jobaction='on_boarding',
+            inst_id=self.csar_id,
+            job_id=self.job_id)
         JobUtil.add_job_status(self.job_id, 5, "Start CSAR(%s) onBoarding." % self.csar_id)
         self.on_boarding_pre_deal()
         self.nf_package_save()
@@ -169,8 +169,7 @@ class NfOnBoardingThread(threading.Thread):
         ret = vim_api.create_image({
             "image_name": nf_image["img_name"],
             "image_path": nf_image["img_save_full_path"],
-            "image_type": nf_image["img_type"]
-        })
+            "image_type": nf_image["img_type"]})
         if ret[0] != 0:
             raise NSLCMException("Failed to create image:%s" % ret[1])
         image_id = ret[1]["id"]
@@ -317,7 +316,7 @@ class NfPkgDeletePendingThread(threading.Thread):
         NfPackage().delete_csar(self.csar_id, self.job_id)
 
 
-######################################################################################################################
+####################################################################################################################
 class NfPackage(object):
     """
     Actions for nf package.
@@ -351,7 +350,7 @@ class NfPackage(object):
             "vimId": nf_pkg_files[i].vimid,
             "vimUser": nf_pkg_files[i].vimuser,
             "tenant": nf_pkg_files[i].tenant,
-            "status": nf_pkg_files[i].status} \
+            "status": nf_pkg_files[i].status}
             for i in range(len(nf_pkg_files))]
 
         vnf_insts = NfInstModel.objects.filter(package_id=csar_id)
@@ -359,9 +358,9 @@ class NfPackage(object):
                           "vnfInstanceName": vnf_inst.nf_name} for vnf_inst in vnf_insts]
 
         return [0, {"csarId": csar_id,
-                "packageInfo": pkg_info,
-                "imageInfo": img_info,
-                "vnfInstanceInfo": vnf_inst_info}]
+                    "packageInfo": pkg_info,
+                    "imageInfo": img_info,
+                    "vnfInstanceInfo": vnf_inst_info}]
 
     def delete_csar(self, csar_id, job_id):
         JobUtil.add_job_status(job_id, 10, "Set processState of CSAR(%s)." % csar_id)
