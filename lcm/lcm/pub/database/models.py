@@ -228,8 +228,8 @@ class PortInstModel(models.Model):
     sfcencapsulation = models.CharField(db_column='SFCENCAPSULATION', max_length=255)
     direction = models.CharField(db_column='DIRECTION', max_length=255)
     tenant = models.CharField(db_column='TENANT', max_length=255)
-    
-    
+
+
 class JobModel(models.Model):
     class Meta:
         db_table = 'NFVO_JOB'
