@@ -20,12 +20,12 @@
     <parent>
         <groupId>org.openo.nfvo.monitor</groupId>
         <artifactId>monitor-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openo.nfvo.monitor.umc</groupId>
     <artifactId>umc-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>openo/umc</name>
     <packaging>pom</packaging>
 
