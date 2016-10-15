@@ -4,10 +4,10 @@
     <parent>
         <artifactId>vnfmadapter</artifactId>
         <groupId>org.openo.nfvo</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>vnfmadapter-service-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>VnfmadapterServiceRoot</name>
     <packaging>pom</packaging>
 
