@@ -54,8 +54,6 @@ public class RestfulUtil {
 
     public static final String TYPE_GET = "get";
 
-    public static final String TYPE_ADD = "add";
-
     public static final String TYPE_PUT = "put";
 
     public static final String TYPE_POST = "post";
@@ -213,7 +211,7 @@ public class RestfulUtil {
             if(REST_CLIENT != null) {
                 if(TYPE_GET.equals(type)) {
                     rsp = REST_CLIENT.get(url, restParametes, opt);
-                } else if(TYPE_ADD.equals(type)) {
+                } else if(TYPE_POST.equals(type)) {
                     rsp = REST_CLIENT.post(url, restParametes, opt);
                 } else if(TYPE_PUT.equals(type)) {
                     rsp = REST_CLIENT.put(url, restParametes, opt);
