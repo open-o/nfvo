@@ -84,6 +84,7 @@ public class ResOperateRoa {
         LOGGER.warn("ResPoolRoa::modVimId :{}", vimId);
         try {
             resOperateService.updateIRes(tenantId, vimId, json);
+            resOperateService.sendMsgMonitor("update");
             return RoaResponseUtil.update(HttpConstant.OK_CODE);
         } catch(ServiceException se) {
             LOGGER.error("ResOperateRoa::updateIResPool error:{}" + se);
@@ -124,6 +125,7 @@ public class ResOperateRoa {
 
         try {
             resOperateService.addIRes(tenantId, vimId, json);
+            resOperateService.sendMsgMonitor("create");
             return RoaResponseUtil.add(HttpConstant.OK_CODE);
         } catch(ServiceException se) {
             LOGGER.error("ResOperateRoa::addAllResPool error:{}" + se);
@@ -149,6 +151,7 @@ public class ResOperateRoa {
         LOGGER.warn("ResOperateRoa::deleteIResource vimId:{}", vimId);
 
         try {
+            resOperateService.sendMsgMonitor("delete");
             int result = resOperateService.deleteIRes(vimId);
             return RoaResponseUtil.delete(result);
         } catch(ServiceException se) {

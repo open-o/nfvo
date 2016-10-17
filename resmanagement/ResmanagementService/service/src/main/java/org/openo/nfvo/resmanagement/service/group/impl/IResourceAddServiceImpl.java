@@ -123,7 +123,7 @@ public class IResourceAddServiceImpl {
      * @return
      * @since NFVO 0.5
      */
-    private static JSONObject hostDataParse(JSONObject hostObj, String hostName) {
+    public static JSONObject hostDataParse(JSONObject hostObj, String hostName) {
         LOGGER.warn("function=hostDataParse; hostObj={}, hostName={}", hostObj, hostName);
         JSONArray hostArray = hostObj.getJSONArray("hosts");
         for(Object object : hostArray) {

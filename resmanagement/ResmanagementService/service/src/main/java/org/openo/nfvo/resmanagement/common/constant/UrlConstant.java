@@ -38,6 +38,11 @@ public class UrlConstant {
     public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
 
     /**
+     * send resource info to monitor url
+     */
+    public static final String SEND_MSG_MONITOR = "/openoapi/umcres/v1/resinfo";
+
+    /**
      * networks url.
      */
     public static final String LOCATION_URL = "/v1/locations";

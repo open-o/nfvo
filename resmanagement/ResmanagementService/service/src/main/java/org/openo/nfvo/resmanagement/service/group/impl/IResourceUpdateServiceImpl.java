@@ -66,20 +66,45 @@ public class IResourceUpdateServiceImpl {
     private void updateIResByName(Map<String, InterfaceResManagement> iResMap, HashMap<String, String> updateUrlMap,
             RestfulParametes restParametes, String vimId) throws ServiceException {
         for(String resName : updateUrlMap.keySet()) {
-            if(iResMap.get(resName).deleteResByVimId(vimId) >= 0) {
-                if(ParamConstant.PARAM_HOST.equals(resName)) {
-                    IResourceAddServiceImpl.addHostResource(iResMap, restParametes,
-                            String.format(updateUrlMap.get(resName), restParametes.get("tenantId")), resName);
-                } else {
-                    JSONArray iResArray = RestfulUtil.getResponseRes(restParametes, updateUrlMap.get(resName), resName);
-                    LOGGER.warn("function=addIResources; iResArray={}", iResArray);
-                    for(Object object : iResArray) {
-                        JSONObject iRes = JSONObject.fromObject(object);
-                        int result = iResMap.get(resName).add(iRes);
-                        LOGGER.warn("function=updateIResByName; msg=iRes name is [{}],result is [{}]", resName, result);
-                    }
+            if(ParamConstant.PARAM_HOST.equals(resName)) {
+                updateHostResource(iResMap, restParametes,
+                        String.format(updateUrlMap.get(resName), restParametes.get("tenantId")), resName);
+            } else if(iResMap.get(resName).deleteResByVimId(vimId) >= 0) {
+                JSONArray iResArray = RestfulUtil.getResponseRes(restParametes, updateUrlMap.get(resName), resName);
+                LOGGER.warn("function=addIResources; iResArray={}", iResArray);
+                for(Object object : iResArray) {
+                    JSONObject iRes = JSONObject.fromObject(object);
+                    int result = iResMap.get(resName).add(iRes);
+                    LOGGER.warn("function=updateIResByName; msg=iRes name is [{}],result is [{}]", resName, result);
+
                 }
             }
+        }
+    }
+
+    private void updateHostResource(Map<String, InterfaceResManagement> iResMap, RestfulParametes restParametes,
+            String url, String iResName) throws ServiceException {
+
+        JSONArray hostResArray = RestfulUtil.getResponseRes(restParametes, url, iResName);
+        LOGGER.warn("function=updateHostResource; hostResArray={}", hostResArray);
+        for(Object object : hostResArray) {
+            JSONObject hostRes = JSONObject.fromObject(object);
+            String hostName = hostRes.getString("host_name");
+            String hostZone = hostRes.getString("zone");
+            if("internal".equals(hostZone)) {
+                continue;
+            }
+            String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get("tenantId"), hostName);
+
+            String result = RestfulUtil.getResponseContent(hostUrl, restParametes, ParamConstant.PARAM_GET);
+            JSONObject hostObj = JSONObject.fromObject(result);
+            JSONObject host = IResourceAddServiceImpl.hostDataParse(hostObj, hostName);
+            int res = iResMap.get(ParamConstant.PARAM_HOST).update(host);
+            LOGGER.warn("function=updateHostResource; result={}, res={}", result, res);
+            if(res < 0) {
+                LOGGER.error("function=updateHostResource; add into DB fail!");
+            }
+
         }
     }
 
