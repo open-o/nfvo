@@ -96,7 +96,8 @@ public class IResourceAddServiceImpl {
         for(Object object : hostResArray) {
             JSONObject hostRes = JSONObject.fromObject(object);
             String hostName = hostRes.getString("host_name");
-            if("controller".equals(hostName)) {
+            String hostZone = hostRes.getString("zone");
+            if("internal".equals(hostZone)) {
                 continue;
             }
             String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get("tenantId"), hostName);
