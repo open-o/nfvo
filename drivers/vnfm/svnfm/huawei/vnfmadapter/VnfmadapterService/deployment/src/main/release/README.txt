@@ -29,7 +29,7 @@ Configuration steps:
     - Update the db credetials in bean with id="source"  in 'services.xml'
       under webapps spring directory.
     - Update the MSB address in $PATH/etc/conf/restclient.json
-    - Update the resmangement service ip address in $PATH/etc/adapterInfo/vnfmadapterinfo.json
+    - Update the vnfmadapter service ip address in $PATH/etc/adapterInfo/vnfmadapterinfo.json
 
 
 How to run?

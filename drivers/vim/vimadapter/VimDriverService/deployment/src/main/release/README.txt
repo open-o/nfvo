@@ -18,7 +18,7 @@ Installation steps:
 Configuration steps:
 ====================
     - Update the MSB address in $PATH/etc/conf/restclient.json
-    - Update the resmangement service ip address in $PATH/etc/adapterInfo/vimadapterinfo.json
+    - Update the vimdriver service ip address in $PATH/etc/adapterInfo/vimadapterinfo.json
 
 How to run?
 ===========
