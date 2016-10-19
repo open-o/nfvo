@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import os
+
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'driver.pub.database',
     'driver.interfaces'
-]
+ ]
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,7 +54,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+ ]
 
 ROOT_URLCONF = 'driver.urls'
 
@@ -62,23 +63,28 @@ WSGI_APPLICATION = 'driver.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-    ),
+        'rest_framework.renderers.JSONRenderer',),
 
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.MultiPartParser',
-        'rest_framework.parsers.JSONParser',
-        # 'rest_framework.parsers.FormParser',
-        # 'rest_framework.parsers.FileUploadParser',
-    )
+        'rest_framework.parsers.JSONParser')}
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'vmanager',
+        'HOST': 'localhost',
+        'USER': 'root',
+        'PASSWORD':'password',
+    },
 }
 
+redis_client = redis.StrictRedis(host='127.0.0.1', port=6379, password='', db=1)
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'), }}
 
 TIME_ZONE = 'UTC'
 
@@ -92,11 +98,8 @@ LOGGING = {
     'disable_existing_loggers': True,
     'formatters': {
         'standard': {
-            'format': '%(asctime)s:[%(name)s]:[%(filename)s]-[%(lineno)d] [%(levelname)s]:%(message)s',
-        },
-    },
-    'filters': {
-    },
+            'format': '%(asctime)s:[%(name)s]:[%(filename)s]-[%(lineno)d] [%(levelname)s]:%(message)s', }, },
+    'filters': {},
     'handlers': {
         'driver_handler': {
             'level': 'DEBUG',
@@ -104,18 +107,13 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'logs/runtime_driver.log'),
             'formatter': 'standard',
             'maxBytes': 1024 * 1024 * 50,
-            'backupCount': 5,
-        },
-    },
+            'backupCount': 5, }, },
 
     'loggers': {
         'driver': {
             'handlers': ['driver_handler'],
             'level': 'DEBUG',
-            'propagate': False
-        },
-    }
-}
+            'propagate': False}, }}
 
 if 'test' in sys.argv:
     import platform
