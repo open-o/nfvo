@@ -1,0 +1,15 @@
+{
+  "name": "MME",
+  "ftp_server_ip": "172.16.22.11",
+  "ftp_server_port": "21",
+  "ftp_username": "ftpuser",
+  "ftp_password": "Huawei_123",
+  "vnfd_file_path": "***/***",
+  "vnfd_file_name": "****",
+  "imap_file_path": "/",
+  "imap_file_name": "***",
+  "software_file_path": "***/***",
+  "software_file_name": "***",
+  "catalog": "***",
+  "vim_id": "***"
+}
