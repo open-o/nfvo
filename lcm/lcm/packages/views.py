@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import logging
 import uuid
-import traceback
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -95,6 +94,3 @@ def nf_delete_pending_csar(request, *args, **kwargs):
     ret = {"jobId": job_id}
     logger.info("Leave %s, Return value is %s", fun_name(), str(ret))
     return Response(data=ret, status=status.HTTP_202_ACCEPTED)
-
-
-

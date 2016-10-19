@@ -13,16 +13,10 @@
 # limitations under the License.
 
 import logging
-import json
 
-from lcm.pub.utils.restcall import req_by_msb
 from lcm.pub.msapi import resmgr
 
-from lcm.pub.exceptions import NSLCMException
-
-
 logger = logging.getLogger(__name__)
-
 
 
 class GrantVnfs(object):
@@ -36,6 +30,3 @@ class GrantVnfs(object):
     def send_grant_vnf_to_resMgr(self):
         req_param = self.data
         resmgr.grant_vnf(req_param)
-
-
-

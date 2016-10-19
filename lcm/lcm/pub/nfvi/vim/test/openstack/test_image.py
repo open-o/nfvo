@@ -26,10 +26,8 @@ class TestImage(unittest.TestCase):
     def setUp(self):
         self.api = vimadaptor.VimAdaptor(pub.connect_info)
         self.currentdir = os.path.dirname(os.path.abspath(__file__))
-        
     def tearDown(self):
         pass
-        
     def createImg(self, data):
         return self.api.create_image(data)
 
@@ -91,4 +89,3 @@ class TestImage(unittest.TestCase):
         imageid = ret[1]["id"]
         self.api.delete_image(image_id = imageid)
 """
-

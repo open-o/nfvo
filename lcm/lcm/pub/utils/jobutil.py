@@ -14,7 +14,6 @@
 import datetime
 import logging
 import uuid
-import time
 
 from lcm.pub.database.models import JobStatusModel, JobModel
 from lcm.pub.utils import idutil
@@ -27,8 +26,9 @@ def enum(**enums):
 
 
 JOB_STATUS = enum(PROCESSING=0, FINISH=1)
-JOB_MODEL_STATUS = enum(STARTED='started', PROCESSING='processing', FINISHED='finished', ERROR='error', TIMEOUT='timeout')
-JOB_TYPE = enum(CREATE_VNF="create vnf",TERMINATE_VNF="terminate vnf",GRANT_VNF="grant vnf")
+JOB_MODEL_STATUS = enum(STARTED='started', PROCESSING='processing', FINISHED='finished', ERROR='error',
+                        TIMEOUT='timeout')
+JOB_TYPE = enum(CREATE_VNF="create vnf", TERMINATE_VNF="terminate vnf", GRANT_VNF="grant vnf")
 
 
 class JobUtil(object):

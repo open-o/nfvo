@@ -98,9 +98,7 @@ class CreateVls(object):
                 "dns_nameservers": self.vl_properties.get("dns_nameservers", ""),
                 "allocation_pools": [
                     {"start": self.vl_properties.get("start_ip", ""), "end": self.vl_properties.get("end_ip", "")}],
-                "host_routes": self.vl_properties.get("host_routes", "")
-            }]
-        }
+                "host_routes": self.vl_properties.get("host_routes", "")}]}
         vl_resp = self.create_network_to_vim(network_data)
         self.related_network_id = vl_resp["id"]
         self.related_subnetwork_id = vl_resp["subnet_list"][0]["id"] if vl_resp["subnet_list"] else ""

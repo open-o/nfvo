@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from lcm.packages import views
 
@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^openoapi/nslcm/v1/vnfpackage/(?P<csarId>[0-9a-zA-Z\-\_]+)$', views.nf_access_csar, name='nf_access_csar'),
     url(r'^openoapi/nslcm/v1/vnfpackage$', views.nf_on_boarding, name='nf_on_boarding'),
     url(r'^openoapi/nslcm/v1/vnfpackage/(?P<csarId>[0-9a-zA-Z\-\_]+)/deletionpending$',
-        views.nf_delete_pending_csar, name='nf_delete_pending_csar'),
-]
+        views.nf_delete_pending_csar, name='nf_delete_pending_csar'), ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

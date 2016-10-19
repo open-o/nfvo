@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2016 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +16,6 @@ import traceback
 import logging
 import json
 
-from rest_framework import status
 from lcm.pub.utils.restcall import req_by_msb
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NSInstModel, VLInstModel, FPInstModel, NfInstModel
@@ -38,7 +36,7 @@ class TerminateNsService(object):
         self.vnfm_inst_id = ''
 
     def do_biz(self):
-        self.checkdata()
+        self.check_data()
 
         if self.cancel_sfc_list() == 'false':
             raise NSLCMException("delete sfc error")
@@ -50,7 +48,7 @@ class TerminateNsService(object):
 
         self.finaldata()
 
-    def checkdata(self):
+    def check_data(self):
         JobUtil.add_job_status(self.job_id, 0, "TERMINATING...", '')
         ns_inst = NSInstModel.objects.filter(id=self.ns_inst_id)
         if not ns_inst.exists():
@@ -59,7 +57,7 @@ class TerminateNsService(object):
         JobUtil.add_job_status(self.job_id, 10, "Ns cancel: check ns_inst_id success", '')
         return ns_inst[0]
 
-    # 删除VLINST
+    # delete VLINST
     def cancel_vl_list(self):
         array_vlinst = VLInstModel.objects.filter(ownertype='2', ownerid=self.ns_inst_id)
         if not array_vlinst:
@@ -68,14 +66,11 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_vlinst)
         cur_progress = 70
         for vlinst in array_vlinst:
-
-            # 删除逻辑平面后 删除VL实例
-            # 终止VL实例
             tmp_msg = vlinst.vlinstanceid
             try:
-                ret = self.deletevl(tmp_msg)
+                ret = self.delete_vl(tmp_msg)
                 if ret[0] == 0:
-                    cur_progress = cur_progress + step_progress
+                    cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
                     if result == '1':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete vlinst:[%s] success." % tmp_msg, '')
@@ -92,7 +87,7 @@ class TerminateNsService(object):
                 return 'false'
         return 'true'
 
-    # 删除SFC
+    # delete SFC
     def cancel_sfc_list(self):
         array_sfcinst = FPInstModel.objects.filter(nsinstid=self.ns_inst_id)
         if not array_sfcinst:
@@ -101,14 +96,11 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_sfcinst)
         cur_progress = 30
         for sfcinst in array_sfcinst:
-
-            # 删除逻辑平面后 删除SFC实例
-            # 终止SFC实例
             tmp_msg = sfcinst.sfcid
             try:
-                ret = self.deletesfc(tmp_msg)
+                ret = self.delete_sfc(tmp_msg)
                 if ret[0] == 0:
-                    cur_progress = cur_progress + step_progress
+                    cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
                     if result == '1':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete sfcinst:[%s] success." % tmp_msg, '')
@@ -125,7 +117,7 @@ class TerminateNsService(object):
                 return 'false'
         return 'true'
 
-    # 删除Vnf
+    # delete Vnf
     def cancel_vnf_list(self):
         array_vnfinst = NfInstModel.objects.filter(ns_inst_id=self.ns_inst_id)
         if not array_vnfinst:
@@ -134,13 +126,10 @@ class TerminateNsService(object):
         step_progress = 20 / len(array_vnfinst)
         cur_progress = 50
         for vnfinst in array_vnfinst:
-
-            # 删除逻辑平面后 删除VNF实例
-            # 终止VNF实例
             tmp_msg = vnfinst.nfinstid
             try:
-                self.deletevnf(tmp_msg)
-                cur_progress = cur_progress + step_progress
+                self.delete_vnf(tmp_msg)
+                cur_progress += step_progress
                 JobUtil.add_job_status(self.job_id, cur_progress, "Delete vnfinst:[%s] success." % tmp_msg, '')
             except Exception as e:
                 logger.error("[cancel_vnf_list] error[%s]!" % e.message)
@@ -149,19 +138,19 @@ class TerminateNsService(object):
                 return 'false'
         return 'true'
 
-    def deletevnf(self, nf_instid):
+    def delete_vnf(self, nf_instid):
         ret = self.call_vnfm_to_cancel_resource('vnf', nf_instid)
-        self.deleteresource(ret)
+        self.delete_resource(ret)
 
-    def deletesfc(self, sfc_instid):
+    def delete_sfc(self, sfc_instid):
         ret = self.call_vnfm_to_cancel_resource('sfc', sfc_instid)
         return ret
 
-    def deletevl(self, vl_instid):
+    def delete_vl(self, vl_instid):
         ret = self.call_vnfm_to_cancel_resource('vl', vl_instid)
         return ret
 
-    def deleteresource(self, result):
+    def delete_resource(self, result):
         if result[0] == 0:
             vnfm_job_id = json.JSONDecoder().decode(result[1]).get("jobid", "")
             self.add_progress(5, "SEND_TERMINATE_REQ_SUCCESS")
@@ -187,18 +176,19 @@ class TerminateNsService(object):
         NSInstModel.objects.filter(id=self.ns_inst_id).update(status='null')
         pass
 
-    def call_vnfm_to_cancel_resource(self, type, instid):
-        if type == 'vl':
+    @staticmethod
+    def call_vnfm_to_cancel_resource(res_type, instid):
+        if res_type == 'vl':
             uri = '/openoapi/nslcm/v1/ns/vls/%s' % instid
-        elif type == 'sfc':
+        elif res_type == 'sfc':
             uri = '/openoapi/nslcm/v1/ns/sfcs/%s' % instid
-        elif type == 'vnf':
+        elif res_type == 'vnf':
             uri = '/openoapi/nslcm/v1/ns/vnfs/%s' % instid
         else:
             uri = '/openoapi/nslcm/v1/ns/vnfs/%s' % instid
         req_param = {}
         ret = req_by_msb(uri, "DELETE", req_param)
-        logger.info("[NS terminate] call vnfm to terminate resource[%s] result:%s" % (str(type), str(ret)))
+        logger.info("[NS terminate] call vnfm to terminate resource[%s] result:%s" % (str(res_type), str(ret)))
         return ret
 
     def add_progress(self, progress, status_decs, error_code=""):
@@ -249,7 +239,9 @@ class TerminateNsService(object):
         return False, 'processing'
 
     @staticmethod
-    def calc_progress_over_100(vnfm_progress, target_range=[0, 100]):
+    def calc_progress_over_100(vnfm_progress, target_range=None):
+        if target_range is None:
+            target_range = [0, 100]
         progress = int(vnfm_progress)
         if progress > 100:
             return progress
@@ -265,13 +257,13 @@ class DeleteNsService(object):
     def do_biz(self):
         logger.debug("[NS Delete] [do_delete] begin")
 
-        if self.getNsFlag() == 0:
-            self.deleteNs()
+        if self.get_ns_flag() == 0:
+            self.delete_ns()
             return 'true'
         else:
             return 'false'
 
-    def getNsFlag(self):
+    def get_ns_flag(self):
         nsinst = NSInstModel.objects.filter(id=self.ns_inst_id)
         if not nsinst:
             logger.error("[Ns delete] ns id not exist")
@@ -286,5 +278,5 @@ class DeleteNsService(object):
             logger.error("[Ns delete] ns status not correct")
             return 255
 
-    def deleteNs(self):
+    def delete_ns(self):
         NSInstModel.objects.filter(id=self.ns_inst_id).delete()

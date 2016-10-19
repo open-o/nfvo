@@ -12,14 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import mock
-import json
 from rest_framework import status
 from django.test import TestCase
 from django.test import Client
 
 from lcm.pub.database.models import NSInstModel
-from lcm.pub.msapi import catalog
-from lcm.pub.utils import restcall, toscautil
+from lcm.pub.utils import restcall
 
 
 class TestNsInstant(TestCase):
@@ -27,7 +25,6 @@ class TestNsInstant(TestCase):
         self.client = Client()
         NSInstModel.objects.filter().delete()
         self.context = {"vnfs": ["a", "b"], "sfcs": ["c"], "vls": ["d", "e", "f"]}
-        nsd_model = json.JSONEncoder().encode(self.context)
         NSInstModel(id="123", nspackage_id="7", nsd_id="2").save()
 
     def tearDown(self):
@@ -37,19 +34,19 @@ class TestNsInstant(TestCase):
     def test_ns_instant_ok(self, mock_call_req):
         mock_vals = {
             "/openoapi/catalog/v1/csars/7/files?relativePath=abc.yaml":
-               [0, '{"downloadUri":"http://test.yaml", "localPath":"./test.yaml"}', '200'],
+                [0, '{"downloadUri":"http://test.yaml", "localPath":"./test.yaml"}', '200'],
             "/openoapi/tosca/v1/indirect/plan":
-               [0, '{"description":"", "metadata":{}, "nodes":[]}', '200'],
+                [0, '{"description":"", "metadata":{}, "nodes":[]}', '200'],
             "/openoapi/catalog/v1/servicetemplates/2/operations":
-               [0, '[{"name":"LCM", "processId":"{http://www.open-o.org/tosca/nfv/2015/12}init-16"}]', '200'],
+                [0, '[{"name":"LCM", "processId":"{http://www.open-o.org/tosca/nfv/2015/12}init-16"}]', '200'],
             "/openoapi/wso2bpel/v1/process/instance":
-               [0, '{"status": 1}', '200']
-        }
+                [0, '{"status": 1}', '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
+
         mock_call_req.side_effect = side_effect
-        
+
         data = {'iaUrl': "", 'vnfmId': "", 'context': "{\"e\":{\"f\":\"4\"}}", 'statusUrl': "",
                 'serviceTemplateId': "", 'roUrl': "", 'containerapiUrl': "", 'flavor': "",
                 'nsInstanceId': "123", 'instanceId': "234", 'resourceUrl': "", 'callbackId': "",

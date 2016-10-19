@@ -34,7 +34,6 @@ class TestNsInstantiate(TestCase):
         data = {
             'nsdid': self.nsd_id,
             'nsname': 'ns',
-            'description': 'description'
-        }
+            'description': 'description'}
         response = self.client.post("/openoapi/nslcm/v1/ns", data=data)
         self.failUnlessEqual(status.HTTP_201_CREATED, response.status_code)

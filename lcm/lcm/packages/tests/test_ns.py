@@ -45,8 +45,7 @@ class TestNsPackage(TestCase):
             "/openoapi/catalog/v1/csars/2":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode({"rawData": {"metadata": {"id": "2"}}}), '200']
-        }
+                [0, json.JSONEncoder().encode({"rawData": {"metadata": {"id": "2"}}}), '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -66,8 +65,7 @@ class TestNsPackage(TestCase):
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
                 [0, json.JSONEncoder().encode(
                     {"rawData": {"metadata": {"id": "2"}},
-                     "vnfs":[{"properties": {"id": "3"}}]}), '200']
-        }
+                     "vnfs": [{"properties": {"id": "3"}}]}), '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -86,10 +84,9 @@ class TestNsPackage(TestCase):
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
                 [0, json.JSONEncoder().encode(
                     {"rawData": {"metadata": {"id": "2"}},
-                     "vnfs":[{"properties": {"id": "5"}}]}), '200'],
+                     "vnfs": [{"properties": {"id": "5"}}]}), '200'],
             "/openoapi/catalog/v1/csars/5":
-                [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
-        }
+                [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'], }
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -108,8 +105,7 @@ class TestNsPackage(TestCase):
                 [0, json.JSONEncoder().encode({
                     "onBoardState": "non-onBoarded",
                     "createTime": "2016-05-15 12:30:34",
-                    "modifyTime": "2016-05-15 12:30:34"
-                }), '200'],
+                    "modifyTime": "2016-05-15 12:30:34"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
                 [0, json.JSONEncoder().encode(
                     {"rawData": {"metadata": {
@@ -117,14 +113,13 @@ class TestNsPackage(TestCase):
                         "name": "3",
                         "vendor": "4",
                         "description": "5",
-                        "version": "6"
-                    }},
-                     "vnfs": [{"properties": {"id": "6"}}]}), '200'],
+                        "version": "6"}},
+                        "vnfs": [{
+                            "properties": {"id": "6"}}]}), '200'],
             "/openoapi/catalog/v1/csars/6":
                 [0, json.JSONEncoder().encode({"onBoardState": "onBoarded"}), '200'],
             "/openoapi/catalog/v1/csars/5?onBoardState=onBoarded":
-                [0, "OK", '200']
-        }
+                [0, "OK", '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -183,9 +178,7 @@ class TestNsPackage(TestCase):
     @mock.patch.object(restcall, 'call_req')
     def test_delete_pending_csar_when_pending_is_false(self, mock_call_req):
         mock_call_req.return_value = [0, '{"deletionPending": "false"}', '200']
-        
         NSDModel(id="10", nsd_id="2").save()
-        
         resp = self.client.delete("/openoapi/nslcm/v1/nspackage/10/deletionpending")
         self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
         self.assertEqual("failed", resp.data["status"])
@@ -194,10 +187,8 @@ class TestNsPackage(TestCase):
     @mock.patch.object(restcall, 'call_req')
     def test_delete_pending_csar_when_refed_by_ns(self, mock_call_req):
         mock_call_req.return_value = [0, '{"deletionPending": "true"}', '200']
-        
         NSDModel(id="11", nsd_id="2").save()
         NSInstModel(id="1", nspackage_id="11").save()
-        
         resp = self.client.delete("/openoapi/nslcm/v1/nspackage/11/deletionpending")
         self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
         self.assertEqual("failed", resp.data["status"])
@@ -208,14 +199,12 @@ class TestNsPackage(TestCase):
         mock_call_req.side_effect = [
             [0, '{"deletionPending": "true"}', '200'],
             [0, "OK", '204']]
-        
         NSDModel(id="12", nsd_id="2").save()
-        
         resp = self.client.delete("/openoapi/nslcm/v1/nspackage/12/deletionpending")
         self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
         self.assertEqual("success", resp.data["status"])
         self.assertEqual("Delete CSAR(12) successfully.", resp.data["statusDescription"])
-        
+
     ###############################################################################################################
     @mock.patch.object(restcall, 'call_req')
     def test_get_csar_successfully(self, mock_call_req):
@@ -234,20 +223,19 @@ class TestNsPackage(TestCase):
             "format": "12",
             "size": "13"
             }), '200']
-            
+
         NSDModel(id="13", nsd_id="2", vendor="3", version="4").save()
         NSInstModel(id="1", nspackage_id="13", name="11").save()
         NSInstModel(id="2", nspackage_id="13", name="22").save()
-        
+
         resp = self.client.get("/openoapi/nslcm/v1/nspackage/13")
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        expect_data = {"nsInstanceInfo": [{"nsInstanceId": "1", "nsInstanceName": "11"}, 
-            {"nsInstanceId": "2", "nsInstanceName": "22"}], "csarId": "13", 
-            "packageInfo": {"nsdProvider": "3", "usageState": "5", 
-                            "onBoardState": "6", "name": "1", "format": "12", 
-                            "modifyTime": "11", "nsdId": "2", "nsdVersion": "4", 
-                            "deletionPending": "8", "version": "3", "downloadUri": "9", 
-                            "processState": "7", "provider": "2", "operationalState": "4", 
-                            "createTime": "10", "size": "13"}}
+        expect_data = {"nsInstanceInfo": [{"nsInstanceId": "1", "nsInstanceName": "11"},
+                                          {"nsInstanceId": "2", "nsInstanceName": "22"}], "csarId": "13",
+                       "packageInfo": {"nsdProvider": "3", "usageState": "5",
+                                       "onBoardState": "6", "name": "1", "format": "12",
+                                       "modifyTime": "11", "nsdId": "2", "nsdVersion": "4",
+                                       "deletionPending": "8", "version": "3", "downloadUri": "9",
+                                       "processState": "7", "provider": "2", "operationalState": "4",
+                                       "createTime": "10", "size": "13"}}
         self.assertEqual(expect_data, resp.data)
-        

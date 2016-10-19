@@ -17,7 +17,6 @@ import logging
 
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.restcall import req_by_msb
-from lcm.pub.utils.values import ignore_case_get
 
 logger = logging.getLogger(__name__)
 

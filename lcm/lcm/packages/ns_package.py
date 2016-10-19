@@ -1,11 +1,11 @@
 # Copyright 2016 ZTE Corporation.
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #         http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,13 +14,13 @@
 
 import json
 import logging
-import uuid
+
 import traceback
 import sys
 
 from lcm.pub.database.models import NSDModel, NSInstModel, NfPackageModel
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.msapi.catalog import STATUS_ONBOARDED, P_STATUS_DELETEFAILED
+from lcm.pub.msapi.catalog import STATUS_ONBOARDED
 from lcm.pub.msapi.catalog import query_csar_from_catalog, set_csar_state
 from lcm.pub.msapi.catalog import query_rawdata_from_catalog, delete_csar_from_catalog
 from lcm.pub.exceptions import NSLCMException

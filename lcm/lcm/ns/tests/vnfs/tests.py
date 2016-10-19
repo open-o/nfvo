@@ -30,7 +30,6 @@ from lcm.ns.vnfs.terminate_nfs import TerminateVnfs
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 
 
-
 class TestGetVnfViews(TestCase):
     def setUp(self):
         self.client = Client()
@@ -59,11 +58,8 @@ class TestCreateVnfViews(TestCase):
                 'vnfprofileid': 'VBras',
                 'additionalparam': {
                     'inputs': json.dumps({'vnf_param1': '11', 'vnf_param2': '22'}),
-                    'vnfminstanceid': "1",
-                }
-            }],
-            'vnfIndex': '1'
-        }
+                    'vnfminstanceid': "1"}}],
+            'vnfIndex': '1'}
         self.client = Client()
         NfPackageModel(uuid=str(uuid.uuid4()), nfpackageid='package_id1', vnfdid='zte_vbras', vendor='zte',
                        vnfdversion='1.0.0', vnfversion='1.0.0', vnfdmodel=json.dumps(vnfd_model_dict)).save()
@@ -93,17 +89,20 @@ class TestCreateVnfViews(TestCase):
                 [0, json.JSONEncoder().encode({}), '200'],
             "/openoapi/resmgr/v1/vnfinfo":
                 [0, json.JSONEncoder().encode({}), '200'],
-            "/openoapi/zte-vnfm/v1/jobs/"+ self.job_id + "&responseId=0":
+            "/openoapi/zte-vnfm/v1/jobs/" + self.job_id + "&responseId=0":
                 [0, json.JSONEncoder().encode({"jobid": self.job_id,
-                   "responsedescriptor": {"progress": "100", "status": JOB_MODEL_STATUS.FINISHED,
-                                          "responseid": "3", "statusdescription": "creating",
-                                          "errorcode": "0",
-                                          "responsehistorylist": [
-                                              {"progress": "0", "status": JOB_MODEL_STATUS.PROCESSING,
-                                               "responseid": "2",
-                                               "statusdescription": "creating",
-                                               "errorcode": "0"}]}}), '200'],
-        }
+                                               "responsedescriptor": {"progress": "100",
+                                                                      "status": JOB_MODEL_STATUS.FINISHED,
+                                                                      "responseid": "3",
+                                                                      "statusdescription": "creating",
+                                                                      "errorcode": "0",
+                                                                      "responsehistorylist": [
+                                                                          {"progress": "0",
+                                                                           "status": JOB_MODEL_STATUS.PROCESSING,
+                                                                           "responseid": "2",
+                                                                           "statusdescription": "creating",
+                                                                           "errorcode": "0"}]}}), '200']}
+
         def side_effect(*args):
             return mock_vals[args[4]]
         mock_call_req.side_effect = side_effect
@@ -131,7 +130,11 @@ class TestTerminateVnfViews(TestCase):
                                    vnfm_inst_id='1', ns_inst_id='1-1-1,2-2-2',
                                    max_cpu='14', max_ram='12296', max_hd='101', max_shd="20", max_net=10,
                                    status='active', mnfinstid=self.nf_uuid, package_id='pkg1',
-                                   vnfd_model='{"metadata": {"vnfdId": "1","vnfdName": "PGW001","vnfProvider": "zte","vnfdVersion": "V00001","vnfVersion": "V5.10.20","productType": "CN","vnfType": "PGW","description": "PGW VNFD description","isShared":true,"vnfExtendType":"driver"}}')
+                                   vnfd_model='{"metadata": {"vnfdId": "1","vnfdName": "PGW001",'
+                                              '"vnfProvider": "zte","vnfdVersion": "V00001","vnfVersion": "V5.10.20",'
+                                              '"productType": "CN","vnfType": "PGW",'
+                                              '"description": "PGW VNFD description",'
+                                              '"isShared":true,"vnfExtendType":"driver"}}')
 
     def tearDown(self):
         NSInstModel.objects.all().delete()
@@ -141,13 +144,10 @@ class TestTerminateVnfViews(TestCase):
     def test_terminate_vnf_url(self, mock_run):
         req_data = {
             "terminationType": "forceful",
-            "gracefulTerminationTimeout": "600"
-        }
+            "gracefulTerminationTimeout": "600"}
 
         response = self.client.post("/openoapi/nslcm/v1/ns/vnfs/%s" % self.nf_inst_id, data=req_data)
         self.failUnlessEqual(status.HTTP_201_CREATED, response.status_code)
-        #context = json.loads(response.content)
-        #self.assertTrue(NfInstModel.objects.filter(nfinstid=context['vnfInstId']).exists())
 
     @mock.patch.object(restcall, "call_req")
     def test_terminate_vnf(self, mock_call_req):
@@ -164,22 +164,23 @@ class TestTerminateVnfViews(TestCase):
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
             "/openoapi/resmgr/v1/vnf":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
-            "/openoapi/zte-vnfm/v1/jobs/"+ job_id + "&responseId=0":
+            "/openoapi/zte-vnfm/v1/jobs/" + job_id + "&responseId=0":
                 [0, json.JSONEncoder().encode({"jobId": job_id,
-                   "responsedescriptor": {"progress": "100", "status": JOB_MODEL_STATUS.FINISHED,
-                                          "responseid": "3", "statusdescription": "creating",
-                                          "errorcode": "0",
-                                          "responsehistorylist": [
-                                              {"progress": "0", "status": JOB_MODEL_STATUS.PROCESSING,
-                                               "responseid": "2",
-                                               "statusdescription": "creating",
-                                               "errorcode": "0"}]}}), '200'],
-        }
+                                               "responsedescriptor": {"progress": "100",
+                                                                      "status": JOB_MODEL_STATUS.FINISHED,
+                                                                      "responseid": "3",
+                                                                      "statusdescription": "creating",
+                                                                      "errorcode": "0",
+                                                                      "responsehistorylist": [
+                                                                          {"progress": "0",
+                                                                           "status": JOB_MODEL_STATUS.PROCESSING,
+                                                                           "responseid": "2",
+                                                                           "statusdescription": "creating",
+                                                                           "errorcode": "0"}]}}), '200']}
 
         req_data = {
             "terminationType": "forceful",
-            "gracefulTerminationTimeout": "600"
-        }
+            "gracefulTerminationTimeout": "600"}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -194,32 +195,19 @@ class TestTerminateVnfViews(TestCase):
 
 
 vnfd_model_dict = {
-    'local_storages': [
-
-    ],
+    'local_storages': [],
     'vdus': [
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'2'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'2'},
+            'local_storages': [],
             'vdu_id': u'vdu_omm.001',
             'image_file': u'opencos_sss_omm_img_release_20150723-1-disk1',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -232,45 +220,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'omm.001',
-                'manual_scale_select_vim': False
-            },
-            'description': u'singleommvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'singleommvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'4'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'4'},
+            'local_storages': [],
             'vdu_id': u'vdu_1',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -283,45 +252,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'1',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ompvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'ompvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'14'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'14'},
+            'local_storages': [],
             'vdu_id': u'vdu_2',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -334,45 +284,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'2',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ompvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'ompvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'14'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'14'},
+            'local_storages': [],
             'vdu_id': u'vdu_3',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -385,45 +316,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'3',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ompvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'ompvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'4'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'4'},
+            'local_storages': [],
             'vdu_id': u'vdu_10',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -436,45 +348,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'10',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ppvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'ppvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'14'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'14'},
+            'local_storages': [],
             'vdu_id': u'vdu_11',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -487,45 +380,26 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'11',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ppvm'
-        },
+                'manual_scale_select_vim': False},
+            'description': u'ppvm'},
         {
-            'volumn_storages': [
-
-            ],
+            'volumn_storages': [],
             'nfv_compute': {
                 'mem_size': '',
-                'num_cpus': u'14'
-            },
-            'local_storages': [
-
-            ],
+                'num_cpus': u'14'},
+            'local_storages': [],
             'vdu_id': u'vdu_12',
             'image_file': u'sss',
-            'dependencies': [
-
-            ],
-            'vls': [
-
-            ],
-            'cps': [
-
-            ],
+            'dependencies': [],
+            'vls': [],
+            'cps': [],
             'properties': {
                 'key_vdu': '',
                 'support_scaling': False,
@@ -538,39 +412,23 @@ vnfd_model_dict = {
                     'region': '',
                     'dc': '',
                     'host': '',
-                    'tenant': ''
-                },
-                'inject_data_list': [
-
-                ],
+                    'tenant': ''},
+                'inject_data_list': [],
                 'watchdog': {
                     'action': '',
-                    'enabledelay': ''
-                },
-                'local_affinity_antiaffinity_rule': {
-
-                },
+                    'enabledelay': ''},
+                'local_affinity_antiaffinity_rule': {},
                 'template_id': u'12',
-                'manual_scale_select_vim': False
-            },
-            'description': u'ppvm'
-        }
-    ],
-    'volumn_storages': [
-
-    ],
+                'manual_scale_select_vim': False},
+            'description': u'ppvm'}],
+    'volumn_storages': [],
     'policies': {
         'scaling': {
-            'targets': {
-
-            },
+            'targets': {},
             'policy_id': u'policy_scale_sss-vnf-template',
             'properties': {
-                'policy_file': '*-vnfd.zip/*-vnf-policy.xml'
-            },
-            'description': ''
-        }
-    },
+                'policy_file': '*-vnfd.zip/*-vnf-policy.xml'},
+            'description': ''}},
     'image_files': [
         {
             'description': '',
@@ -581,10 +439,8 @@ vnfd_model_dict = {
                 'file_url': u'./zte-cn-sss-main-image/OMM/opencos_sss_omm_img_release_20150723-1-disk1.vmdk',
                 'container_type': 'vm',
                 'version': '',
-                'hypervisor_type': 'kvm'
-            },
-            'image_file_id': u'opencos_sss_omm_img_release_20150723-1-disk1'
-        },
+                'hypervisor_type': 'kvm'},
+            'image_file_id': u'opencos_sss_omm_img_release_20150723-1-disk1'},
         {
             'description': '',
             'properties': {
@@ -594,17 +450,10 @@ vnfd_model_dict = {
                 'file_url': u'./zte-cn-sss-main-image/NE/sss.vmdk',
                 'container_type': 'vm',
                 'version': '',
-                'hypervisor_type': 'kvm'
-            },
-            'image_file_id': u'sss'
-        }
-    ],
-    'vls': [
-
-    ],
-    'cps': [
-
-    ],
+                'hypervisor_type': 'kvm'},
+            'image_file_id': u'sss'}],
+    'vls': [],
+    'cps': [],
     'metadata': {
         'vendor': u'zte',
         'is_shared': False,
@@ -616,9 +465,7 @@ vnfd_model_dict = {
         'vnf_type': u'SSS',
         'vnfd_version': u'V00000001',
         'id': u'sss-vnf-template',
-        'name': u'sss-vnf-template'
-    }
-}
+        'name': u'sss-vnf-template'}}
 
 nsd_model_dict = {
     "vnffgs": [],
@@ -626,9 +473,7 @@ nsd_model_dict = {
         "externalDataNetworkName": {
             "default": "",
             "type": "string",
-            "description": ""
-        }
-    },
+            "description": ""}},
     "pnfs": [],
     "fps": [],
     "server_groups": [],
@@ -646,20 +491,15 @@ nsd_model_dict = {
                 "nsh_aware": "True",
                 "cross_dc": "False",
                 "externalDataNetworkName": {
-                    "get_input": "externalDataNetworkName"
-                },
+                    "get_input": "externalDataNetworkName"},
                 "id": "zte_vbras",
-                "name": "vbras"
-            },
+                "name": "vbras"},
             "vnf_id": "VBras",
             "networks": [],
-            "description": ""
-        }
-    ],
+            "description": ""}],
     "ns_exposed": {
         "external_cps": [],
-        "forward_cps": []
-    },
+        "forward_cps": []},
     "vls": [
         {
             "vl_id": "ext_mnet_network",
@@ -673,18 +513,14 @@ nsd_model_dict = {
                     "vimid": 2,
                     "region": True,
                     "tenant": "admin",
-                    "dc": ""
-                },
+                    "dc": ""},
                 "end_ip": "190.168.100.100",
                 "gateway_ip": "190.168.100.1",
                 "start_ip": "190.168.100.2",
                 "cidr": "190.168.100.0/24",
                 "mtu": 1500,
                 "network_name": "sub_mnet",
-                "ip_version": 4
-            }
-        }
-    ],
+                "ip_version": 4}}],
     "cps": [],
     "policies": [],
     "metadata": {
@@ -693,6 +529,4 @@ nsd_model_dict = {
         "version": 1,
         "vendor": "zte",
         "id": "vbras_ns",
-        "name": "vbras_ns"
-    }
-}
+        "name": "vbras_ns"}}

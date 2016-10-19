@@ -13,18 +13,15 @@
 # limitations under the License.
 
 import logging
-import json
 import traceback
 
-from lcm.pub.utils.restcall import req_by_msb
 from rest_framework import status
 from rest_framework.response import Response
 from lcm.pub.exceptions import NSLCMException
-from lcm.pub.database.models import VNFCInstModel,VLInstModel,NfInstModel
+from lcm.pub.database.models import VNFCInstModel, VLInstModel, NfInstModel
 
 
 logger = logging.getLogger(__name__)
-
 
 
 class NotifyLcm(object):
@@ -43,7 +40,7 @@ class NotifyLcm(object):
 
     def do_biz(self):
         try:
-            self.vnf_instid = self.get_vnfinstid(self.m_vnfInstanceId,self.vnfmid)
+            self.vnf_instid = self.get_vnfinstid(self.m_vnfInstanceId, self.vnfmid)
             self.update_Vnfc()
             self.update_Vl()
             self.update_Storage()
@@ -54,8 +51,8 @@ class NotifyLcm(object):
             logger.error(traceback.format_exc())
             self.exception('unexpected exception')
 
-    def get_vnfinstid(self,mnfinstid,vnfm_inst_id):
-        nfinst = NfInstModel.objects.filter(mnfinstid=mnfinstid,vnfm_inst_id=vnfm_inst_id).first()
+    def get_vnfinstid(self, mnfinstid, vnfm_inst_id):
+        nfinst = NfInstModel.objects.filter(mnfinstid=mnfinstid, vnfm_inst_id=vnfm_inst_id).first()
         if nfinst:
             return nfinst.nfinstid
         else:
@@ -71,23 +68,22 @@ class NotifyLcm(object):
             vduId = vnfc['vduId']
             changeType = vnfc['changeType']
             vmResource = vnfc['vmResource']
-            vimId = vmResource['vimId']
             resourceType = vmResource['resourceType']
             resourceId = vmResource['resourceId']
-            resourceName = vmResource['resourceName']
 
             if resourceType != 'vm':
                 self.exception('affectedVnfc struct error: resourceType not euqal vm')
 
             if changeType == 'added':
-                VNFCInstModel(vnfcinstanceid=vnfcInstanceId,vduid=vduId,nfinstid=self.vnf_instid,vmid=resourceId).save()
+                VNFCInstModel(vnfcinstanceid=vnfcInstanceId, vduid=vduId,
+                              nfinstid=self.vnf_instid, vmid=resourceId).save()
             elif changeType == 'removed':
                 VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId).delete()
             elif changeType == 'modified':
-                VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId).update(vduid=vduId,nfinstid=self.vnf_instid,vmid=resourceId)
+                VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId)\
+                    .update(vduid=vduId, nfinstid=self.vnf_instid, vmid=resourceId)
             else:
                 self.exception('affectedVnfc struct error: changeType not in {added,removed,modified}')
-
 
     def update_Vl(self):
         for vl in self.affectedVl:
@@ -95,31 +91,28 @@ class NotifyLcm(object):
             vldid = vl['vldid']
             changeType = vl['changeType']
             networkResource = vl['networkResource']
-            vimId = networkResource['vimId']
             resourceType = networkResource['resourceType']
             resourceId = networkResource['resourceId']
-            resourceName = networkResource['resourceName']
 
             if resourceType != 'network':
                 self.exception('affectedVl struct error: resourceType not euqal network')
 
             ownerId = self.vnf_instid
-            ownerId = self.get_vnfinstid(self.vnf_instid,self.vnfmid)
+            ownerId = self.get_vnfinstid(self.vnf_instid, self.vnfmid)
 
             if changeType == 'added':
-                VLInstModel(vlInstanceId=vlInstanceId,vldId=vldid,ownerType=0,ownerId=ownerId,relatedNetworkId=resourceId,vlType=0).save()
+                VLInstModel(vlInstanceId=vlInstanceId, vldId=vldid, ownerType=0, ownerId=ownerId,
+                            relatedNetworkId=resourceId, vlType=0).save()
             elif changeType == 'removed':
                 VLInstModel.objects.filter(vlInstanceId=vlInstanceId).delete()
             elif changeType == 'modified':
-                VLInstModel.objects.filter(vlInstanceId=vlInstanceId).update(vldId=vldid,ownerType=0,ownerId=ownerId,relatedNetworkId=resourceId,vlType=0)
+                VLInstModel.objects.filter(vlInstanceId=vlInstanceId)\
+                    .update(vldId=vldid, ownerType=0, ownerId=ownerId, relatedNetworkId=resourceId, vlType=0)
             else:
                 self.exception('affectedVl struct error: changeType not in {added,removed,modified}')
-
 
     def update_Storage(self):
         pass
 
     def update_vnf_by_vnfdmodule(self):
         NfInstModel.objects.filter(nfinstid=self.vnf_instid).update(vnfd_model=self.vnfdmodule)
-
-

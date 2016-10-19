@@ -17,4 +17,3 @@ import datetime
 
 def now_time(fmt="%Y-%m-%d %H:%M:%S"):
     return datetime.datetime.now().strftime(fmt)
-

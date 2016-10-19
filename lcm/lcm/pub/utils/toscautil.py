@@ -380,4 +380,3 @@ def convert_vnfd_model(source_json=None):
     target_json['vnf_exposed']['external_cps'] = external_cps
     target_json['vnf_exposed']['forward_cps'] = forward_cps
     return json.dumps(target_json)
-

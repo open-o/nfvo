@@ -15,10 +15,10 @@
 import os
 import sys
 
-import redis
 import redisco
 
-from lcm.pub.config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWD, DB_NAME, DB_IP, DB_USER, DB_PASSWD, DB_PORT
+from lcm.pub.config.config import REDIS_HOST, REDIS_PORT, REDIS_PASSWD
+from lcm.pub.config.config import DB_NAME, DB_IP, DB_USER, DB_PASSWD, DB_PORT
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -127,9 +127,6 @@ LOGGING = {
 }
 
 if 'test' in sys.argv:
-    REDIS_HOST = '127.0.0.1'
-    REDIS_PORT = '6379'
-    REDIS_PASSWD = ''
     DATABASES = {}
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',

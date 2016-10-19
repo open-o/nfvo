@@ -23,7 +23,6 @@ from lcm.ns.vnfs.get_vnfs import GetVnf
 from lcm.ns.vnfs.terminate_nfs import TerminateVnfs
 from lcm.ns.vnfs.grant_vnfs import GrantVnfs
 from lcm.ns.vnfs.notify_lcm import NotifyLcm
-from lcm.pub.database.models import NfInstModel
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 from lcm.pub.utils.values import ignore_case_get
 
@@ -41,8 +40,7 @@ class NfView(APIView):
         CreateVnfs(data, nf_inst_id, job_id).start()
         rsp = {
             "vnfInstId": nf_inst_id,
-            "jobId": job_id
-        }
+            "jobId": job_id}
         return Response(data=rsp, status=status.HTTP_202_ACCEPTED)
 
 

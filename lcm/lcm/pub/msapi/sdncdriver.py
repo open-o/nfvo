@@ -55,22 +55,26 @@ def delete_func(req_param, url, str):
 def create_flow_classfier(data):
     url = "/openoapi/sdncdriver/v1.0/createflowclassfier"
     str = "create flow classfier"
-    return create(data,url,str)
+    return create(data, url, str)
+
 
 def create_port_pair(data):
     url = "/openoapi/sdncdriver/v1.0/createportpair"
     str = "create port pair"
-    return create(data,url,str)
+    return create(data, url, str)
+
 
 def create_port_pair_group(data):
     url = "/openoapi/sdncdriver/v1.0/createportpairgroup"
     str = "create port pair group"
-    return create(data,url,str)
+    return create(data, url, str)
+
 
 def create_port_chain(data):
     url = "/openoapi/sdncdriver/v1.0/createportchain"
     str = "create port chain"
-    return create(data,url,str)
+    return create(data, url, str)
+
 
 def create(req_param, url, str):
     ret = req_by_msb(url, "POST", req_param)
