@@ -59,10 +59,12 @@ public class APIHttpClient {
 			int statusCode = httpClient.executeMethod(getMethod);
 			if (statusCode != HttpStatus.SC_OK) {
 				logger.error("request error: " + getMethod.getStatusLine());
+			}else{
+				byte[] responseBody = getMethod.getResponseBody(); 
+				response = new String(responseBody, charset);
+				logger.debug("----------response:"+ response);
 			}
-			byte[] responseBody = getMethod.getResponseBody(); 
-			response = new String(responseBody, charset);
-			logger.debug("----------response:"+ response);
+
 		} catch (HttpException e) {
 			logger.error("Exception",e);
 		} catch (IOException e) {

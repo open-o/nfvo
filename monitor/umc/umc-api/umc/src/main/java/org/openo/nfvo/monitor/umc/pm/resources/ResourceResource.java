@@ -43,7 +43,8 @@ import io.swagger.annotations.ApiResponses;
 /**
  * Api of resource data querying. Provide resource data querying operations.
  */
-@Path("/umcpm/v1")
+//@Path("/umcpm/v1")
+@Path("/pm")
 @Api(tags = { "eco-pm" })
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

@@ -41,7 +41,8 @@ import io.swagger.annotations.ApiResponses;
 /**
  * Apis of performance models. Provide performance models querying operations.
  */
-@Path("/umcpm/v1/motypes")
+//@Path("/umcpm/v1/motypes")
+@Path("/pm/motypes")
 @Api(tags = { "motypes" })
 @Produces(MediaType.APPLICATION_JSON)
 public class MoTypeResource {

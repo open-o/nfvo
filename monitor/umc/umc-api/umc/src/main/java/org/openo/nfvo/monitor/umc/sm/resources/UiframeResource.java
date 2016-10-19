@@ -49,7 +49,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Path("/umcsm/v1")
+//@Path("/umcsm/v1")
+@Path("/sm")
 @Api(tags = {"umc sm"})
 @Produces(MediaType.APPLICATION_JSON)
 public class UiframeResource {

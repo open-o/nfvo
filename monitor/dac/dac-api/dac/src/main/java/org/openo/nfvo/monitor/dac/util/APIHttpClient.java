@@ -92,6 +92,7 @@ public class APIHttpClient {
 			if (res.getStatusLine().getStatusCode() == HttpStatus.SC_OK
 					|| res.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED) {
 				String result = EntityUtils.toString(res.getEntity());
+				logger.info("post result is :{}",result);
 				if (!Global.isEmpty(result)) {
 					response = result;
 				} else {

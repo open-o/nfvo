@@ -22,7 +22,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path("/umcfm/v1")
+//@Path("/umcfm/v1")
+@Path("/fm")
 @Api(tags = { "SystemTypeMocRelationInterface" })
 @Produces(MediaType.APPLICATION_JSON)
 public class SystemTypeMocRelationResource {

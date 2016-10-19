@@ -38,7 +38,8 @@ import io.swagger.annotations.ApiOperation;
  * API for FM SystemType
  *
  */
-@Path("/umcfm/v1")
+//@Path("/umcfm/v1")
+@Path("/fm")
 @Api(tags = {"FM SystemType Interface"})
 @Produces(MediaType.APPLICATION_JSON)
 public class SystemTypeResource {
