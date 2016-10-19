@@ -18,13 +18,16 @@ package org.openo.nfvo.resmanagement.service.group.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
+import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
+import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
 import org.openo.nfvo.resmanagement.common.util.StringUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Host;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.InterfaceResManagement;
@@ -32,12 +35,14 @@ import org.openo.nfvo.resmanagement.service.base.openstack.inf.Network;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Port;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Sites;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Vim;
+import org.openo.nfvo.resmanagement.service.entity.HostEntity;
 import org.openo.nfvo.resmanagement.service.entity.VimEntity;
 import org.openo.nfvo.resmanagement.service.group.inf.ResOperateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -207,5 +212,41 @@ public class ResOperateServiceImpl implements ResOperateService {
      */
     public void setiResourceDelServiceImpl(IResourceDelServiceImpl iResourceDelServiceImpl) {
         this.iResourceDelServiceImpl = iResourceDelServiceImpl;
+    }
+
+    /**
+     * <br>
+     * 
+     * @param string
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @Override
+    public void sendMsgMonitor(String operateType) throws ServiceException {
+        Map<String, Object> map = new HashMap<>(10);
+        List<HostEntity> hosts = host.getList(map);
+        for(HostEntity entity : hosts) {
+            JSONObject msgObj = new JSONObject();
+            msgObj.put("operationType", operateType);
+            msgObj.put("resourceType", "HOST");
+            msgObj.put("label", entity.getName());
+            if("delete".equals(operateType)) {
+                JSONArray deleteIds = new JSONArray();
+                deleteIds.add(entity.getId());
+                msgObj.put("deleteIds", deleteIds);
+            } else {
+                JSONArray data = new JSONArray();
+                data.add(entity);
+                msgObj.put("data", data);
+            }
+            RestfulParametes restfulParametes = new RestfulParametes();
+            Map<String, String> headerMap = new HashMap<>(3);
+            headerMap.put("Content-Type", "application/json");
+            restfulParametes.setHeaderMap(headerMap);
+            restfulParametes.setRawData(msgObj.toString());
+            String result = RestfulUtil.getResponseContent(UrlConstant.SEND_MSG_MONITOR, restfulParametes,
+                    ParamConstant.PARAM_POST);
+            LOGGER.warn(result);
+        }
     }
 }

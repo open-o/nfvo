@@ -135,7 +135,14 @@ limitations under the License.
                 VIM_NAME = #{vimName,jdbcType=VARCHAR},
             </if>
         </set>
-        where ID = #{id,jdbcType=VARCHAR}
+        <where>
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR}
+            </if>            
+            <if test="vimId != null">
+                AND VIM_ID = #{vimId,jdbcType=VARCHAR}
+            </if>
+        </where>
     </update>
     <update id="updateHost"
         parameterType="org.openo.nfvo.resmanagement.service.entity.HostEntity">

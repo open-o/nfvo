@@ -16,9 +16,9 @@
 
 package org.openo.nfvo.resmanagement.service.group.inf;
 
-import net.sf.json.JSONObject;
-
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+
+import net.sf.json.JSONObject;
 
 /**
  *
@@ -74,4 +74,13 @@ public interface ResOperateService {
      * @since  NFVO 0.5
      */
     int deleteIRes(String vimId) throws ServiceException;
+
+    /**
+     * <br>
+     * 
+     * @param operateType
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    void sendMsgMonitor(String operateType) throws ServiceException;
 }

@@ -32,6 +32,23 @@ public class VimDriverSuccessServer extends MocoHttpServer {
 
     private static final String GET_DISK_LIMITS = "src/integration-test/resources/mocoserver/getdisklimits.json";
 
+    private static final String GET_HOSTS_FILE = "src/integration-test/resources/mocoserver/gethosts.json";
+
+    private static final String GET_HOST_FILE = "src/integration-test/resources/mocoserver/gethost.json";
+
+    private static final String GET_NETWORKS_FILE = "src/integration-test/resources/mocoserver/getnetworks.json";
+
+    private static final String GET_PORTS_FILE = "src/integration-test/resources/mocoserver/getports.json";
+
+    private static final String SEND_ADD_MONITOR_FILE =
+            "src/integration-test/resources/mocoserver/sendmsgmonitor1.json";
+
+    private static final String SEND_MOD_MONITOR_FILE =
+            "src/integration-test/resources/mocoserver/sendmsgmonitor2.json";
+
+    private static final String SEND_DEL_MONITOR_FILE =
+            "src/integration-test/resources/mocoserver/sendmsgmonitor3.json";
+
     public VimDriverSuccessServer() {
         super();
     }
@@ -44,5 +61,12 @@ public class VimDriverSuccessServer extends MocoHttpServer {
     public void addRequestResponsePairs() {
         this.addRequestResponsePair(GET_CPU_LIMITS);
         this.addRequestResponsePair(GET_DISK_LIMITS);
+        this.addRequestResponsePair(GET_HOSTS_FILE);
+        this.addRequestResponsePair(GET_HOST_FILE);
+        this.addRequestResponsePair(GET_NETWORKS_FILE);
+        this.addRequestResponsePair(GET_PORTS_FILE);
+        this.addRequestResponsePair(SEND_ADD_MONITOR_FILE);
+        this.addRequestResponsePair(SEND_MOD_MONITOR_FILE);
+        this.addRequestResponsePair(SEND_DEL_MONITOR_FILE);
     }
 }

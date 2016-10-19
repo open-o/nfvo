@@ -7,7 +7,7 @@
         },
         "json": {
         "id":"12345678",
-        "name": "newName",
+        "name": "hostName",
         "cpu": "20",
         "memory": "8",
         "disk": "100",

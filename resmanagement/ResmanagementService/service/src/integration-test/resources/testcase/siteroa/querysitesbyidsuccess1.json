@@ -18,9 +18,9 @@
             "totalCPU": "100",
             "totalDisk": "100",
             "totalMemory": "100",
-            "usedCPU": "10",
-            "usedDisk": "10",
-            "usedMemory": "10",
+            "usedCPU": "0",
+            "usedDisk": "0",
+            "usedMemory": "0",
             "vimId": "123",
             "vimName": "vimName"
         }]
