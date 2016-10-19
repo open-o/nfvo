@@ -151,9 +151,11 @@ public class UMCApp extends Application<UMCAppConfig> {
         //set DAC cometdClient
         DACServiceWrapper.getInstance().initDACcometdClient();
 
-        if(umcAppConfig.getDacIp() != null){
+/*        if(umcAppConfig.getDacIp() != null){
         	DACServiceWrapper.getInstance().initLocalDac(umcAppConfig.getDacIp());
-        }
+        }*/
+        //init dac 
+        DACServiceWrapper.getInstance().initDac();
 
         //RocCometdClient.getInstance().subscribe(umcAppConfig.getRocServerAddr());
 
@@ -162,6 +164,41 @@ public class UMCApp extends Application<UMCAppConfig> {
     }
 
     private void registerUmcService(UMCAppConfig umcAppConfig) {
+		// TODO Auto-generated method stub
+       	SimpleServerFactory simpleServerFactory = (SimpleServerFactory)umcAppConfig.getServerFactory();
+    	HttpConnectorFactory connector = (HttpConnectorFactory)simpleServerFactory.getConnector();
+		MsbRegisterBean registerBean = new MsbRegisterBean();
+		ServiceNodeBean serviceNode = new ServiceNodeBean();
+		String ip = "";
+		try {
+			ip = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Unable to get host ip: " + e.getMessage());
+		}
+		if(ip.equals("")){
+			ip = connector.getBindHost();
+		}
+		serviceNode.setIp(ip);
+		serviceNode.setPort(String.valueOf(connector.getPort()));
+		serviceNode.setTtl(0);
+		
+		List<ServiceNodeBean> nodeList =  new ArrayList<ServiceNodeBean>();
+		nodeList.add(serviceNode);
+		registerBean.setServiceName("umc");
+		registerBean.setUrl("/openoapi/umc/v1");
+		registerBean.setNodes(nodeList);
+		MSBRestServiceProxy.registerService(registerBean);
+		
+/*		registerBean = new MsbRegisterBean();
+		registerBean.setServiceName("monitor-umcdrill");
+		registerBean.setUrl("/openoapi/umcdrill/v1");
+		registerBean.setNodes(nodeList);
+		MSBRestServiceProxy.registerService(registerBean);*/
+		LOGGER.info("register monitor-umc service to msb finished.");
+	}
+
+    private void registerUmcService_bak(UMCAppConfig umcAppConfig) {
 		// TODO Auto-generated method stub
        	SimpleServerFactory simpleServerFactory = (SimpleServerFactory)umcAppConfig.getServerFactory();
     	HttpConnectorFactory connector = (HttpConnectorFactory)simpleServerFactory.getConnector();
@@ -213,7 +250,6 @@ public class UMCApp extends Application<UMCAppConfig> {
 		MSBRestServiceProxy.registerService(registerBean);*/
 		LOGGER.info("register monitor-umc service to msb finished.");
 	}
-
 	/**
      * initialize cometD server
      *

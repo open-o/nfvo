@@ -29,6 +29,7 @@ import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.monitor.bean.MonitorResult;
 import org.openo.nfvo.monitor.umc.monitor.common.HttpClientUtil;
 import org.openo.nfvo.monitor.umc.monitor.common.MonitorConst;
+import org.openo.nfvo.monitor.umc.msb.MSBRestServiceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +83,7 @@ public class DACServiceWrapper {
         return dao.findAll();
     }
 
-    public void initLocalDac(String localDacIp)
+/*    public void initLocalDac(String localDacIp)
     {
     	if (!ip2CometdClientMap.containsKey(localDacIp))
     	{
@@ -100,6 +101,29 @@ public class DACServiceWrapper {
             LOGGER.info(dacInfo.getIpAddress() + " create DAC cometdClient");
     	}
 
+    }*/
+    public void initDac()
+    {
+    	List<String> ipList = MSBRestServiceProxy.queryService("dac", "v1");
+    	int i=0;
+    	for(String ip:ipList){
+        	if (!ip2CometdClientMap.containsKey(ip))
+        	{   i++;
+                DACInfo dacInfo = new DACInfo();
+                String newId = generateOid();
+                dacInfo.setOid(newId);
+                dacInfo.setMoc("it.dac");
+                String label ="dac"+i;
+                dacInfo.setNodeLabel(label);
+                dacInfo.setIpAddress(ip);
+                DACInfoDao dao = (DACInfoDao) UmcDbUtil.getDao(MonitorConst.DAC_INFO_TABLE);
+                dao.save(dacInfo);
+                DacCometdClient cometdClient = new DacCometdClient(ip);
+                cometdClient.subscribe();
+                ip2CometdClientMap.put(ip, cometdClient);
+                LOGGER.info(dacInfo.getIpAddress() + " create DAC cometdClient");
+        	}
+    	}
     }
     /**
     * @Title saveDACInfoInstance

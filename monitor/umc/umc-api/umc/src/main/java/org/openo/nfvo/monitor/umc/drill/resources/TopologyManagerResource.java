@@ -36,7 +36,7 @@ import com.codahale.metrics.annotation.Timed;
 /**
  *       The resource represent the drill topology info
  */
-@Path("/umcdrill/v1/topology")
+@Path("/drilltopo")
 @Api(tags = {"Resource Drill Topology"})
 public class TopologyManagerResource {
     // get the factory instance creating all the handlers

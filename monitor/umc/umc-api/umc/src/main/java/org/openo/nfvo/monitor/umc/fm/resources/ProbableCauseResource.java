@@ -43,7 +43,8 @@ import com.codahale.metrics.annotation.Timed;
  * API for FM ProbableCause
  *
  */
-@Path("/umcfm/v1")
+//@Path("/umcfm/v1")
+@Path("/fm")
 @Api(tags = {"FM ProbableCause Interface"})
 @Produces(MediaType.APPLICATION_JSON)
 public class ProbableCauseResource {

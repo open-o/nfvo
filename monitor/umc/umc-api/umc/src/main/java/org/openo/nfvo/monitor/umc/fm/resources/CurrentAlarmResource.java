@@ -53,7 +53,8 @@ import io.swagger.annotations.ApiParam;
  * API for FM current alarm
  *
  */
-@Path("/umcfm/v1")
+//@Path("/umcfm/v1")
+@Path("/fm")
 @Api(tags = {"FMCurrentAlarmInterface"})
 @Produces(MediaType.APPLICATION_JSON)
 public class CurrentAlarmResource {

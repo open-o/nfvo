@@ -39,7 +39,8 @@ import io.swagger.annotations.ApiResponses;
  * Api of history performance data querying. Query history performance data according query
  * condition.
  */
-@Path("/umcpm/v1")
+//@Path("/umcpm/v1")
+@Path("/pm")
 @Api(tags = {"historydataqueries"})
 @Produces(MediaType.APPLICATION_JSON)
 public class HistoryPmDataResource {

@@ -48,7 +48,7 @@ public class UMCAppConfig extends Configuration {
     
     private String rocServerAddr;
 
-    private String dacIp;
+    //private String dacIp;
 
     @NotEmpty
     private String dacServerPort;
