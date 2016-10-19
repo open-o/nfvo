@@ -21,7 +21,7 @@ defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
 msbAddress: 10.74.205.123:80
 rocServerAddr: 127.0.0.1:80
-dacIp: 127.0.0.1
+#dacIp: 127.0.0.1
 dacServerPort: 8206
 
 cometdServletInfo:
@@ -62,7 +62,7 @@ versionInfo:
 
 server:
   type: simple
-  rootPath: '/openoapi/*'
+  rootPath: '/openoapi/umc/v1/*'
   applicationContextPath: /
   adminContextPath: /admin
   connector:

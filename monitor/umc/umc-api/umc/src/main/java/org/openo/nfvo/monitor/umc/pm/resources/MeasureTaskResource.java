@@ -39,7 +39,8 @@ import io.swagger.annotations.ApiResponses;
 /**
  * Apis of performance measure task. Provide performance measurement tasks CRUD operations.
  */
-@Path("/umcpm/v1")
+//@Path("/umcpm/v1")
+@Path("/pm")
 @Api(tags = { "meatasks" })
 @Produces(MediaType.APPLICATION_JSON)
 public class MeasureTaskResource {

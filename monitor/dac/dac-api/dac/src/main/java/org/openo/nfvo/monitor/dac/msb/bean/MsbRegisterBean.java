@@ -25,6 +25,7 @@ public class MsbRegisterBean {
 	private String serviceName = "dac";
 	private String version = "v1";
 	private String url = "/openoapi/dac/v1";
+	private String protocol = "REST";
 	private String visualRange = "1";
 	private List<ServiceNodeBean> nodes;
 	

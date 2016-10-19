@@ -34,7 +34,8 @@ import com.codahale.metrics.annotation.Timed;
 /**
  *       The resource represent the layer overview of the ns, vdu and host
  */
-@Path("/umcdrill/v1/layer")
+//@Path("/umcdrill/v1/layer")
+@Path("/drilllayer")
 @Api(tags = {"Resource Layer Overview"})
 public class LayerMonitorResource {
     // get the factory instance creating all the handlers

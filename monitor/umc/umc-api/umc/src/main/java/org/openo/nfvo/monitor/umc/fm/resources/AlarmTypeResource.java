@@ -37,7 +37,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 
-@Path("/umcfm/v1")
+//@Path("/umcfm/v1")
+@Path("/fm")
 @Api(tags = {"FM AlarmType Interface"})
 @Produces(MediaType.APPLICATION_JSON)
 public class AlarmTypeResource {

@@ -45,7 +45,8 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "/openoapi/swagger.json";
+        //url = "/openoapi/swagger.json";
+		url = "/openoapi/umc/v1/swagger.json";
       }
       window.swaggerUi = new SwaggerUi({
         url: url,

@@ -44,7 +44,8 @@ import org.openo.nfvo.monitor.umc.monitor.wrapper.MonitorServiceWrapper;
 
 import com.codahale.metrics.annotation.Timed;
 
-@Path("/umcmonitor/v1")
+//@Path("/umcmonitor/v1")
+@Path("/monitor")
 @Api(tags = {"umc Monitor"})
 @Produces(MediaType.APPLICATION_JSON)
 public class MonitorResource {
