@@ -43,5 +43,3 @@ if [ ! -d "$LOG_DIR" ]; then
 fi
 
 $CATALINA_HOME/bin/catalina.sh start
-
-
