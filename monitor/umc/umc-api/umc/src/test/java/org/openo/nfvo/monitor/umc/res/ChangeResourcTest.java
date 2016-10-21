@@ -17,26 +17,14 @@ package org.openo.nfvo.monitor.umc.res;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import io.dropwizard.testing.junit.ResourceTestRule;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import net.sf.json.JSONObject;
 
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,15 +35,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openo.nfvo.monitor.umc.UMCApp;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
 import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
-import org.openo.nfvo.monitor.umc.db.entity.CurrentAlarm;
 import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.fm.adpt.resources.RocResourceConfig;
 import org.openo.nfvo.monitor.umc.fm.cache.FmCacheUtil;
 import org.openo.nfvo.monitor.umc.fm.db.process.FmDBProcess;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.request.AlarmIds;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.request.UpdateAckStateParam;
-import org.openo.nfvo.monitor.umc.fm.resource.bean.response.DeleteCurAlarmResult;
-import org.openo.nfvo.monitor.umc.fm.resources.CurrentAlarmResource;
 import org.openo.nfvo.monitor.umc.fm.wrapper.ProbableCauseServiceWrapper;
 import org.openo.nfvo.monitor.umc.i18n.I18n;
 import org.openo.nfvo.monitor.umc.pm.adpt.fm.bean.FmAlarmData;

@@ -36,7 +36,6 @@ import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
-import org.openo.nfvo.monitor.umc.cometdclient.RocCometdClient;
 import org.openo.nfvo.monitor.umc.db.UmcDbSession;
 import org.openo.nfvo.monitor.umc.drill.resources.LayerMonitorResource;
 import org.openo.nfvo.monitor.umc.drill.resources.TopologyManagerResource;
@@ -61,6 +60,7 @@ import org.openo.nfvo.monitor.umc.pm.resources.HistoryPmDataResource;
 import org.openo.nfvo.monitor.umc.pm.resources.MeasureTaskResource;
 import org.openo.nfvo.monitor.umc.pm.resources.MoTypeResource;
 import org.openo.nfvo.monitor.umc.pm.resources.ResourceResource;
+import org.openo.nfvo.monitor.umc.res.resource.ChangeResource;
 import org.openo.nfvo.monitor.umc.sm.resources.UiframeResource;
 import org.openo.nfvo.monitor.umc.sm.wrapper.SmcServiceWrapper;
 import org.openo.nfvo.monitor.umc.sm.wrapper.UiFrameServiceWrapper;
@@ -120,6 +120,7 @@ public class UMCApp extends Application<UMCAppConfig> {
         environment.jersey().register(new ProbableCauseResource());
         environment.jersey().register(new SystemTypeMocRelationResource());
         environment.jersey().register(new AlarmTypeResource());
+        environment.jersey().register(new ChangeResource());
 
 		Object[] extendResources = ExtensionAccess.getExtensions(IRecource.class.getName(), EXTEND_RESOURCE);
 
