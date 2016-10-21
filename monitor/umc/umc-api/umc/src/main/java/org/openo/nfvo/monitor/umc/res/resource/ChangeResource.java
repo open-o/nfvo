@@ -31,8 +31,9 @@ import org.openo.nfvo.monitor.umc.res.handler.ResHandler;
 
 import com.codahale.metrics.annotation.Timed;
 
-@Path("/umcres/v1")
-@Api(tags = {"umc Monitor"})
+//@Path("/umcres/v1")
+@Path("")
+@Api(tags = {"res Change Interface"})
 @Produces(MediaType.APPLICATION_JSON)
 public class ChangeResource {
 
