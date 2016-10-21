@@ -43,6 +43,6 @@ echo @JAVA_OPTS@ $JAVA_OPTS
 class_path="$RUNHOME/:$RUNHOME/sfc-service.jar"
 echo @class_path@ $class_path
 
-"$JAVA" $JAVA_OPTS -classpath "$class_path"  com.zte.ums.sfc.console.sfcDriver server "$RUNHOME/conf/console.yml"
+"$JAVA" $JAVA_OPTS -classpath "$class_path"  org.openo.sfc.sfcDriver server "$RUNHOME/conf/console.yml"
 
 
