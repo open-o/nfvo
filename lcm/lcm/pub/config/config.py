@@ -34,7 +34,7 @@ DB_USER = "root"
 DB_PASSWD = "password"
 
 # [register]
-REG_TO_MSB_WHEN_START = False
+REG_TO_MSB_WHEN_START = True
 REG_TO_MSB_REG_URL = "/openoapi/microservices/v1/services"
 REG_TO_MSB_REG_PARAM = {
     "serviceName": "nslcm",
