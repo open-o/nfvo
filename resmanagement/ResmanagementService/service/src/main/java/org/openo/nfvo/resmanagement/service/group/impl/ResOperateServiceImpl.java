@@ -236,7 +236,10 @@ public class ResOperateServiceImpl implements ResOperateService {
                 msgObj.put("deleteIds", deleteIds);
             } else {
                 JSONArray data = new JSONArray();
-                data.add(entity);
+                JSONObject obj = JSONObject.fromObject(entity);
+                obj.put("oid", entity.getId());
+                obj.put("moc", "nfv.host.linux");
+                data.add(obj);
                 msgObj.put("data", data);
             }
             RestfulParametes restfulParametes = new RestfulParametes();
