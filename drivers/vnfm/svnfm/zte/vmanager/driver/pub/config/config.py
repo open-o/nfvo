@@ -17,7 +17,7 @@ MSB_SERVICE_IP = '127.0.0.1'
 MSB_SERVICE_PORT = '10080'
 
 # [register]
-REG_TO_MSB_WHEN_START = False
+REG_TO_MSB_WHEN_START = True
 REG_TO_MSB_REG_URL = "/openoapi/microservices/v1/services"
 REG_TO_MSB_REG_PARAM = {
     "serviceName": "ztevnfm",

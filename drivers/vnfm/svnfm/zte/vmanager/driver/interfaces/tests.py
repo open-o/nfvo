@@ -289,7 +289,7 @@ class InterfacesTest(TestCase):
                       ]}
 
         # mock_call_req.side_effect = [r1, r2]
-        mock_call_req.side_effect = [r2]
+        mock_call_req.return_value = r2
         response = self.client.put("/v1/resource/grant", data=json.dumps(req_data), content_type='application/json')
 
         self.assertEqual(status.HTTP_202_ACCEPTED, response.status_code)
