@@ -40,7 +40,7 @@ public class UrlConstant {
     /**
      * send resource info to monitor url
      */
-    public static final String SEND_MSG_MONITOR = "/openoapi/umcres/v1/resinfo";
+    public static final String SEND_MSG_MONITOR = "/openoapi/umc/v1/resinfo";
 
     /**
      * networks url.
