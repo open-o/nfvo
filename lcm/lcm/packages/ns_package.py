@@ -24,6 +24,7 @@ from lcm.pub.msapi.catalog import STATUS_ONBOARDED
 from lcm.pub.msapi.catalog import query_csar_from_catalog, set_csar_state
 from lcm.pub.msapi.catalog import query_rawdata_from_catalog, delete_csar_from_catalog
 from lcm.pub.exceptions import NSLCMException
+from lcm.pub.utils import toscautil
 
 logger = logging.getLogger(__name__)
 
@@ -88,8 +89,10 @@ class NsPackage(object):
         if ignore_case_get(csar, "onBoardState") == STATUS_ONBOARDED:
             raise NSLCMException("CSAR(%s) already onBoarded." % csar_id)
 
-        nsd = query_rawdata_from_catalog(csar_id)  # TODO: convert to inner model
-        nsd_id = nsd["rawData"]["metadata"]["id"]
+        raw_data = query_rawdata_from_catalog(csar_id)
+        nsd = toscautil.convert_nsd_model(raw_data["rawData"]) # convert to inner json
+        nsd = json.JSONDecoder().decode(nsd)
+        nsd_id = nsd["metadata"]["id"]
         if NSDModel.objects.filter(nsd_id=nsd_id):
             raise NSLCMException("NSD(%s) already exists." % nsd_id)
 
@@ -103,10 +106,10 @@ class NsPackage(object):
         NSDModel(
             id=csar_id,
             nsd_id=nsd_id,
-            name=nsd["rawData"]["metadata"]["name"],
-            vendor=nsd["rawData"]["metadata"]["vendor"],
-            description=nsd["rawData"]["metadata"]["description"],
-            version=nsd["rawData"]["metadata"]["version"],
+            name=nsd["metadata"]["name"],
+            vendor=nsd["metadata"]["vendor"],
+            description=nsd["metadata"]["description"],
+            version=nsd["metadata"]["version"],
             nsd_model=json.JSONEncoder().encode(nsd)).save()
 
         set_csar_state(csar_id, "onBoardState", STATUS_ONBOARDED)
