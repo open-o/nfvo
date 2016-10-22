@@ -21,6 +21,8 @@ import org.openo.sfc.entity.MsbRegisterEntity;
 import org.openo.sfc.entity.NodeEntity;
 import org.openo.sfc.entity.portpair.ServiceFunctionParameter;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -75,17 +77,29 @@ public class SfcDriverUtil {
         MsbRegisterEntity entity = new MsbRegisterEntity();
         entity.setServiceName(SfcConst.SERVICE_NAME);
         entity.setVersion("v1");
-        entity.setUrl(SfcConst.SERVICE_URL);
+        //entity.setUrl(SfcConst.SERVICE_URL);
+        entity.setUrl("/openoapi/sdncdriver/v1");
         entity.setProtocol("REST");
         entity.setVisualRange("1");
         ArrayList<NodeEntity> nodes = new ArrayList<NodeEntity>();
         NodeEntity node = new NodeEntity();
-        node.setIp("");
+        node.setIp(getLocalIp());
         node.setPort("8411");
         node.setTtl("1");
         nodes.add(node);
         entity.setNodes(nodes);
         return entity;
+    }
+
+    public static String getLocalIp()
+    {
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+            return addr.getHostAddress().toString();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }
