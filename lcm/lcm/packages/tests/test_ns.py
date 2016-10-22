@@ -27,9 +27,166 @@ class TestNsPackage(TestCase):
         NSDModel.objects.filter().delete()
         NSInstModel.objects.filter().delete()
         NfPackageModel.objects.filter().delete()
+        self.nsd_raw_data = {"rawData": {
+            "metadata": {
+                "invariant_id": "VBRAS_NS_NO_SFC",
+                "name": "VBRAS_NS",
+                "version": "1.0",
+                "vendor": "ZTE",
+                "id": "VBRAS_NS_ZTE_1.0",
+                "description": "VBRAS_ZTE_NS"
+            },
+            "nodes": [
+                {
+                    "id": "VBras_e4m2s6k126txi8yu65ggr0p54",
+                    "type_name": "tosca.nodes.nfv.ext.zte.VNF.VBras",
+                    "template_name": "VBras",
+                    "properties": {
+                        "plugin_info": {
+                            "type_name": "string",
+                            "value": "vbrasplugin_1.0"
+                        },
+                        "vendor": {
+                            "type_name": "string",
+                            "value": "zte"
+                        },
+                        "is_shared": {
+                            "type_name": "string",
+                            "value": "False"
+                        },
+                        "name": {
+                            "type_name": "string",
+                            "value": "vbras"
+                        },
+                        "vnf_extend_type": {
+                            "type_name": "string",
+                            "value": "driver"
+                        },
+                        "id": {
+                            "type_name": "string",
+                            "value": "zte_vbras_1.0"
+                        },
+                        "version": {
+                            "type_name": "string",
+                            "value": "1.0"
+                        },
+                        "nsh_aware": {
+                            "type_name": "string",
+                            "value": "True"
+                        },
+                        "cross_dc": {
+                            "type_name": "string",
+                            "value": "False"
+                        },
+                        "vnf_type": {
+                            "type_name": "string",
+                            "value": "vbras"
+                        },
+                        "externalDataNetworkName": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "vnfd_version": {
+                            "type_name": "string",
+                            "value": "1.0.0"
+                        },
+                        "request_reclassification": {
+                            "type_name": "string",
+                            "value": "False"
+                        }
+                    },
+                    "interfaces": [
+                        {
+                            "name": "Standard",
+                            "type_name": "tosca.interfaces.node.lifecycle.Standard"
+                        }
+                    ],
+                    "capabilities": [
+                        {
+                            "name": "feature",
+                            "type_name": "tosca.capabilities.Node"
+                        },
+                        {
+                            "name": "forwarder",
+                            "type_name": "tosca.capabilities.nfv.Forwarder"
+                        }
+                    ]
+                },
+                {
+                    "id": "ext_mnet_net_4b6snzsooyg2wvtr0r3n48dd9",
+                    "type_name": "tosca.nodes.nfv.ext.zte.VL",
+                    "template_name": "ext_mnet_net",
+                    "properties": {
+                        "name": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "mtu": {
+                            "type_name": "integer",
+                            "value": 1500
+                        },
+                        "location_info": {
+                            "type_name": "tosca.datatypes.nfv.ext.LocationInfo",
+                            "value": {
+                                "vimid": 2,
+                                "tenant": "admin",
+                                "availability_zone": "nova"
+                            }
+                        },
+                        "ip_version": {
+                            "type_name": "integer",
+                            "value": 4
+                        },
+                        "dhcp_enabled": {
+                            "type_name": "boolean",
+                            "value": True
+                        },
+                        "network_name": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "network_type": {
+                            "type_name": "string",
+                            "value": "vlan"
+                        }
+                    },
+                    "interfaces": [
+                        {
+                            "name": "Standard",
+                            "type_name": "tosca.interfaces.node.lifecycle.Standard"
+                        }
+                    ],
+                    "capabilities": [
+                        {
+                            "name": "feature",
+                            "type_name": "tosca.capabilities.Node"
+                        },
+                        {
+                            "name": "virtual_linkable",
+                            "type_name": "tosca.capabilities.nfv.VirtualLinkable"
+                        }
+                    ]
+                }
+            ],
+            "substitution": {
+                "node_type_name": "tosca.nodes.nfv.NS.VBRAS_NS"
+            },
+            "inputs": {
+                "externalManageNetworkName": {
+                    "type_name": "string",
+                    "value": "vlan_4004_tunnel_net"
+                }
+            }
+        }}
 
     def tearDown(self):
         pass
+
+    def set_nsd_metadata(self, key, val):
+        self.nsd_raw_data["rawData"]["metadata"][key] = val
+
+    def set_nsd_vnf_id(self, val):
+        self.nsd_raw_data["rawData"]["nodes"][0]["properties"]["id"]["value"] = val
 
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_on_boarded(self, mock_call_req):
@@ -41,11 +198,12 @@ class TestNsPackage(TestCase):
 
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_nsd_already_exists(self, mock_call_req):
+        self.set_nsd_metadata(key="id", val="2")
         mock_vals = {
             "/openoapi/catalog/v1/csars/2":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode({"rawData": {"metadata": {"id": "2"}}}), '200']}
+                [0, json.JSONEncoder().encode(self.nsd_raw_data), '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -59,13 +217,13 @@ class TestNsPackage(TestCase):
 
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_vnf_pkg_not_on_boarded(self, mock_call_req):
+        self.set_nsd_metadata(key="id", val="2")
+        self.set_nsd_vnf_id(val="3")
         mock_vals = {
             "/openoapi/catalog/v1/csars/3":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode(
-                    {"rawData": {"metadata": {"id": "2"}},
-                     "vnfs": [{"properties": {"id": "3"}}]}), '200']}
+                [0, json.JSONEncoder().encode(self.nsd_raw_data), '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
@@ -78,13 +236,13 @@ class TestNsPackage(TestCase):
 
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_vnf_pkg_not_on_boarded_on_catalog(self, mock_call_req):
+        self.set_nsd_metadata(key="id", val="2")
+        self.set_nsd_vnf_id(val="5")
         mock_vals = {
             "/openoapi/catalog/v1/csars/4":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode(
-                    {"rawData": {"metadata": {"id": "2"}},
-                     "vnfs": [{"properties": {"id": "5"}}]}), '200'],
+                [0, json.JSONEncoder().encode(self.nsd_raw_data), '200'],
             "/openoapi/catalog/v1/csars/5":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'], }
 
@@ -100,6 +258,12 @@ class TestNsPackage(TestCase):
 
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_on_board_success(self, mock_call_req):
+        self.set_nsd_metadata(key="id", val="2")
+        self.set_nsd_metadata(key="name", val="3")
+        self.set_nsd_metadata(key="vendor", val="4")
+        self.set_nsd_metadata(key="description", val="5")
+        self.set_nsd_metadata(key="version", val="6")
+        self.set_nsd_vnf_id(val="6")
         mock_vals = {
             "/openoapi/catalog/v1/csars/5":
                 [0, json.JSONEncoder().encode({
@@ -107,15 +271,7 @@ class TestNsPackage(TestCase):
                     "createTime": "2016-05-15 12:30:34",
                     "modifyTime": "2016-05-15 12:30:34"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode(
-                    {"rawData": {"metadata": {
-                        "id": "2",
-                        "name": "3",
-                        "vendor": "4",
-                        "description": "5",
-                        "version": "6"}},
-                        "vnfs": [{
-                            "properties": {"id": "6"}}]}), '200'],
+                [0, json.JSONEncoder().encode(self.nsd_raw_data), '200'],
             "/openoapi/catalog/v1/csars/6":
                 [0, json.JSONEncoder().encode({"onBoardState": "onBoarded"}), '200'],
             "/openoapi/catalog/v1/csars/5?onBoardState=onBoarded":

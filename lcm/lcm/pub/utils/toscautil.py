@@ -76,7 +76,7 @@ def convert_vnf_node(source_node, source_node_list):
                 vnf_node['properties'][prop_name] = prop_info['value']
     vnf_node['dependencies'] = []
     vnf_node['networks'] = []
-    source_relationships = source_node['relationships']
+    source_relationships = source_node['relationships'] if 'relationships' in source_node else []
     for relation in source_relationships:
         if relation['type_name'].endswith('.VirtualLinksTo'):
             related_network_info = {'key_name': '',
@@ -273,7 +273,10 @@ def convert_nsd_model(source_json=None):
     target_json = {}
     if source_json is None:
         return target_json
-    source_json_dict = json.loads(source_json)
+    if type(source_json) is str:
+        source_json_dict = json.loads(source_json)
+    else:
+        source_json_dict = source_json
     # convert metadata
     target_json['metadata'] = convert_metadata(source_json_dict)
     # convert inputs
@@ -380,3 +383,162 @@ def convert_vnfd_model(source_json=None):
     target_json['vnf_exposed']['external_cps'] = external_cps
     target_json['vnf_exposed']['forward_cps'] = forward_cps
     return json.dumps(target_json)
+
+if __name__ == '__main__': 
+    src_json = json.JSONEncoder().encode(
+        {
+            "metadata": {
+                "invariant_id": "VBRAS_NS_NO_SFC",
+                "name": "VBRAS_NS",
+                "version": "1.0",
+                "vendor": "ZTE",
+                "id": "VBRAS_NS_ZTE_1.0",
+                "description": "VBRAS_ZTE_NS"
+            },
+            "nodes": [
+                {
+                    "id": "VBras_e4m2s6k126txi8yu65ggr0p54",
+                    "type_name": "tosca.nodes.nfv.ext.zte.VNF.VBras",
+                    "template_name": "VBras",
+                    "properties": {
+                        "plugin_info": {
+                            "type_name": "string",
+                            "value": "vbrasplugin_1.0"
+                        },
+                        "vendor": {
+                            "type_name": "string",
+                            "value": "zte"
+                        },
+                        "is_shared": {
+                            "type_name": "string",
+                            "value": "False"
+                        },
+                        "name": {
+                            "type_name": "string",
+                            "value": "vbras"
+                        },
+                        "vnf_extend_type": {
+                            "type_name": "string",
+                            "value": "driver"
+                        },
+                        "id": {
+                            "type_name": "string",
+                            "value": "zte_vbras_1.0"
+                        },
+                        "version": {
+                            "type_name": "string",
+                            "value": "1.0"
+                        },
+                        "nsh_aware": {
+                            "type_name": "string",
+                            "value": "True"
+                        },
+                        "cross_dc": {
+                            "type_name": "string",
+                            "value": "False"
+                        },
+                        "vnf_type": {
+                            "type_name": "string",
+                            "value": "vbras"
+                        },
+                        "externalDataNetworkName": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "vnfd_version": {
+                            "type_name": "string",
+                            "value": "1.0.0"
+                        },
+                        "request_reclassification": {
+                            "type_name": "string",
+                            "value": "False"
+                        }
+                    },
+                    "interfaces": [
+                        {
+                            "name": "Standard",
+                            "type_name": "tosca.interfaces.node.lifecycle.Standard"
+                        }
+                    ],
+                    "capabilities": [
+                        {
+                            "name": "feature",
+                            "type_name": "tosca.capabilities.Node"
+                        },
+                        {
+                            "name": "forwarder",
+                            "type_name": "tosca.capabilities.nfv.Forwarder"
+                        }
+                    ]
+                },
+                {
+                    "id": "ext_mnet_net_4b6snzsooyg2wvtr0r3n48dd9",
+                    "type_name": "tosca.nodes.nfv.ext.zte.VL",
+                    "template_name": "ext_mnet_net",
+                    "properties": {
+                        "name": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "mtu": {
+                            "type_name": "integer",
+                            "value": 1500
+                        },
+                        "location_info": {
+                            "type_name": "tosca.datatypes.nfv.ext.LocationInfo",
+                            "value": {
+                                "vimid": 2,
+                                "tenant": "admin",
+                                "availability_zone": "nova"
+                            }
+                        },
+                        "ip_version": {
+                            "type_name": "integer",
+                            "value": 4
+                        },
+                        "dhcp_enabled": {
+                            "type_name": "boolean",
+                            "value": True
+                        },
+                        "network_name": {
+                            "type_name": "string",
+                            "value": "vlan_4004_tunnel_net"
+                        },
+                        "network_type": {
+                            "type_name": "string",
+                            "value": "vlan"
+                        }
+                    },
+                    "interfaces": [
+                        {
+                            "name": "Standard",
+                            "type_name": "tosca.interfaces.node.lifecycle.Standard"
+                        }
+                    ],
+                    "capabilities": [
+                        {
+                            "name": "feature",
+                            "type_name": "tosca.capabilities.Node"
+                        },
+                        {
+                            "name": "virtual_linkable",
+                            "type_name": "tosca.capabilities.nfv.VirtualLinkable"
+                        }
+                    ]
+                }
+            ],
+            "substitution": {
+                "node_type_name": "tosca.nodes.nfv.NS.VBRAS_NS"
+            },
+            "inputs": {
+                "externalManageNetworkName": {
+                    "type_name": "string",
+                    "value": "vlan_4004_tunnel_net"
+                }
+            }
+        }
+    )
+    print convert_nsd_model(src_json)
+
+
+
