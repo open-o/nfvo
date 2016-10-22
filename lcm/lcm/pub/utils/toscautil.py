@@ -273,7 +273,7 @@ def convert_nsd_model(source_json=None):
     target_json = {}
     if source_json is None:
         return target_json
-    if type(source_json) is str:
+    if isinstance(source_json, (unicode, str)):
         source_json_dict = json.loads(source_json)
     else:
         source_json_dict = source_json
