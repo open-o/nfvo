@@ -219,6 +219,8 @@
         <property name="resOperateService" ref="resOperateService"></property>
     </bean>
 
+    <bean id="SwaggerRoa" class="org.openo.nfvo.resmanagement.service.rest.SwaggerRoa"></bean>
+
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
         <ref bean="locationRoa" />
@@ -228,6 +230,7 @@
         <ref bean="sitesRoa" />
         <ref bean="resOperateRoa" />
         <ref bean="limitsRoa" />
+        <ref bean="SwaggerRoa" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
