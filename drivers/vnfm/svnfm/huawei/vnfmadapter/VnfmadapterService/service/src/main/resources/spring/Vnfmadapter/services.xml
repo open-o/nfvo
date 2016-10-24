@@ -94,6 +94,7 @@
     <bean id="VnfAdaResRoa" class="org.openo.nfvo.vnfmadapter.service.rest.VnfAdapterResourceRoa">
     </bean>
 
+    <bean id="SwaggerRoa" class="org.openo.nfvo.vnfmadapter.service.rest.SwaggerRoa"></bean>
 
     <!-- bean id="registerMgr" class="org.openo.nfvo.vnfmadapter.service.process.RegisterMgr"
         init-method="register" destroy-method="unRegister">
@@ -105,6 +106,7 @@
             <ref bean="VnfResourceRoa" />
             <ref bean="VnfRoa" />
             <ref bean="VnfAdaResRoa" />
+            <ref bean="SwaggerRoa" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
