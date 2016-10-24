@@ -94,11 +94,15 @@
         <property name="vnfMgr" ref="vnfMgr"></property>
     </bean>
     <bean id="configRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.ConfigRoa"></bean>
+
+    <bean id="SwaggerRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.SwaggerRoa"></bean>
+
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
             <ref bean="jujuClientRoa" />
             <ref bean="vnfRoa" />
             <ref bean="configRoa" />
+            <ref bean="SwaggerRoa" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
