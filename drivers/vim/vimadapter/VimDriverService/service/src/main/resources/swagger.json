@@ -1,0 +1,1333 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "VIM driver API",
+    "description": "OPEN-O Interface provider.",
+    "version": "1.0.0"
+  },
+  "host": "nfvo.openo.org",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "basePath": "/openoapi/vimdriver/v1",
+  "paths": {
+    "/networks": {
+      "get": {
+        "summary": "Get Networks",
+        "description": "Get Networks",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get all Network details",
+            "schema": {
+              "$ref": "#/definitions/NetworksResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Networks Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Network",
+        "description": "Create Network",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "network",
+            "description": "Create Network Interface.",
+            "schema": {
+              "$ref": "#/definitions/NetworkParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Tenant Host Name details",
+            "schema": {
+              "$ref": "#/definitions/NetworkCreateResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Tenant Host Details Not Found"
+          },
+          "500": {
+            "description": "Tenant Host failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/networks/{networkId}": {
+      "get": {
+        "summary": "Network Id based details",
+        "description": "Network Id based details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "networkId",
+            "in": "path",
+            "description": "network Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Network details",
+            "schema": {
+              "$ref": "#/definitions/NetworkInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Create Network",
+        "description": "Create Network",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "networkId",
+            "in": "path",
+            "description": "Network Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully delete network"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network Id Not Found"
+          },
+          "500": {
+            "description": "Network failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ports": {
+      "get": {
+        "summary": "Get Network Ports",
+        "description": "Get Network Ports",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get all Network ports",
+            "schema": {
+              "$ref": "#/definitions/NetworkPortsResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network ports Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/ports/{id}": {
+      "get": {
+        "summary": "Network Port details",
+        "description": "Network Port details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Port Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Port details",
+            "schema": {
+              "$ref": "#/definitions/PortInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network Port Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/limits/{tenant_id}/cpumemory": {
+      "get": {
+        "summary": "Query limits CPU & Memory",
+        "description": "Query limits CPU & Memory",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenant_id",
+            "in": "path",
+            "description": "tenant id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get all Network ports",
+            "schema": {
+              "$ref": "#/definitions/cpumemoryResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network ports Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/limits/{tenant_id}/disk": {
+      "get": {
+        "summary": "Query limits Disk",
+        "description": "Query limits Disk",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenant_id",
+            "in": "path",
+            "description": "tenant id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get all disk limits",
+            "schema": {
+              "$ref": "#/definitions/diskResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Network ports Not Found"
+          },
+          "500": {
+            "description": "Networks failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/tenants": {
+      "get": {
+        "summary": "Get Tenants",
+        "description": "Get Tenants",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get all Tenants",
+            "schema": {
+              "$ref": "#/definitions/TenantsResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Tenants Not Found"
+          },
+          "500": {
+            "description": "Tenants failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/tenants/{id}": {
+      "get": {
+        "summary": "Get Tenant details",
+        "description": "Get Tenants details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Tenant Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Tenant details",
+            "schema": {
+              "$ref": "#/definitions/TenantInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Tenant Details Not Found"
+          },
+          "500": {
+            "description": "Tenant failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/{tenantId}/hosts": {
+      "get": {
+        "summary": "Get Host details",
+        "description": "Get Host details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "Tenant Id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Tenant Host details",
+            "schema": {
+              "$ref": "#/definitions/TenantHostInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Tenant Host Details Not Found"
+          },
+          "500": {
+            "description": "Tenant Host failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/{tenantId}/host/{host_name}": {
+      "get": {
+        "summary": "Get Tenant Host details",
+        "description": "Get Tenant Host details",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "description": "Tenant Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "host_name",
+            "in": "path",
+            "description": "Host Name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get Tenant Host Name details",
+            "schema": {
+              "$ref": "#/definitions/TenantHostNameInfo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Tenant Host Details Not Found"
+          },
+          "500": {
+            "description": "Tenant Host failed to process the request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "NetworkCreateResponse": {
+      "type": "object",
+      "description": "Host Information.",
+      "required": [
+        "status",
+        "availability_zone_hints",
+        "network",
+        "admin_state_up",
+        "tenant_id",
+        "mtu",
+        "subnets",
+        "id",
+        "name"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Network Status."
+        },
+        "router:external": {
+          "type": "string",
+          "description": "Indicates whether this network is externally accessible"
+        },
+        "availability_zone_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cpu": {
+          "type": "integer",
+          "description": "Cpu"
+        },
+        "network": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkObject"
+          }
+        },
+        "provider:physical_network": {
+          "type": "string",
+          "description": "Physical network where this network is implemented"
+        },
+        "admin_state_up": {
+          "type": "string",
+          "description": "Administrative state of resource which is up (true) or down (false)"
+        },
+        "tenant_id": {
+          "type": "string",
+          "description": "The ID of the tenant who owns the resource"
+        },
+        "provider:segmentation_id": {
+          "type": "string",
+          "description": "Isolated segment on the physical network. network_type attribute defines the segmentation model."
+        },
+        "mtu": {
+          "type": "integer",
+          "description": "The MTU of Network resource"
+        },
+        "shared": {
+          "type": "string",
+          "description": "Indicated whether this network is shared across all tenants"
+        },
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "port_security_enabled": {
+          "type": "string",
+          "description": "Port security status. Enabled (true) or Disabled (false)"
+        },
+        "id": {
+          "type": "string",
+          "description": "The UUID of network"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the resource"
+        }
+      }
+    },
+    "NetworkObject": {
+      "type": "object",
+      "description": "Tenant Host Information.",
+      "required": [
+        "name",
+        "admin_state_up"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Network Name"
+        },
+        "admin_state_up": {
+          "type": "string",
+          "description": "Network state"
+        }
+      }
+    },
+    "NetworkParam": {
+      "type": "object",
+      "description": "Tenant Host Information.",
+      "required": [
+        "network",
+        "admin_state_up",
+        "tenant_id",
+        "name"
+      ],
+      "properties": {
+        "network": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkObject"
+          }
+        },
+        "admin_state_up": {
+          "type": "string",
+          "description": "Administrative state of resource which is up (true) or down (false)"
+        },
+        "tenant_id": {
+          "type": "string",
+          "description": "The ID of the tenant who owns the resource"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the resource"
+        },
+        "router:external": {
+          "type": "string",
+          "description": "Indicates whether this network is externally accessible"
+        },
+        "provider:physical_network": {
+          "type": "string",
+          "description": "Physical network where this network is implemented"
+        },
+        "provider:network_type": {
+          "type": "string",
+          "description": "Type of physical network maps to this network resource - flat, vlan, vxlan or gre"
+        },
+        "shared": {
+          "type": "string",
+          "description": "Indicated whether this network is shared across all tenants"
+        },
+        "port_security_enabled": {
+          "type": "string",
+          "description": "Port security status. Enabled (true) or Disabled (false)"
+        },
+        "provider:segmentation_id": {
+          "type": "string",
+          "description": "Isolated segment on the physical network. network_type attribute defines the segmentation model."
+        }
+      }
+    },
+    "TenantHostNameInfo": {
+      "type": "object",
+      "description": "Tenant Host Information.",
+      "required": [
+        "hosts",
+        "vimId",
+        "vimName"
+      ],
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HostResourceInfo"
+          }
+        },
+        "vimId": {
+          "type": "integer",
+          "description": "Vim Id"
+        },
+        "vimName": {
+          "type": "string",
+          "description": "vim Name"
+        }
+      }
+    },
+    "HostResourceInfo": {
+      "type": "object",
+      "description": "Host Information.",
+      "required": [
+        "project",
+        "memory_mb",
+        "host",
+        "cpu",
+        "disk_gb"
+      ],
+      "properties": {
+        "project": {
+          "type": "string",
+          "description": "Project."
+        },
+        "memory_mb": {
+          "type": "integer",
+          "description": "Memory in MB."
+        },
+        "host": {
+          "type": "string",
+          "description": "Host"
+        },
+        "cpu": {
+          "type": "integer",
+          "description": "Cpu"
+        },
+        "disk_gb": {
+          "type": "integer",
+          "description": "Disk in GB"
+        }
+      }
+    },
+    "TenantHostInfo": {
+      "type": "object",
+      "description": "Tenant Host Information.",
+      "required": [
+        "hosts"
+      ],
+      "properties": {
+        "hosts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HostInfo"
+          }
+        }
+      }
+    },
+    "HostInfo": {
+      "type": "object",
+      "description": "Host Information.",
+      "required": [
+        "zone",
+        "host_name",
+        "service",
+        "vimId",
+        "vimName"
+      ],
+      "properties": {
+        "zone": {
+          "type": "string",
+          "description": "Zone."
+        },
+        "host_name": {
+          "type": "string",
+          "description": "Host Name."
+        },
+        "service": {
+          "type": "string",
+          "description": "Service"
+        },
+        "vimId": {
+          "type": "integer",
+          "description": "Vim Id"
+        },
+        "vimName": {
+          "type": "string",
+          "description": "vim Name"
+        }
+      }
+    },
+    "TenantsResponse": {
+      "type": "object",
+      "description": "Tenant Information.",
+      "required": [
+        "projects"
+      ],
+      "properties": {
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenantInfo"
+          }
+        }
+      }
+    },
+    "TenantInfo": {
+      "type": "object",
+      "description": "disk Information.",
+      "required": [
+        "description",
+        "links",
+        "enabled",
+        "id",
+        "domain_id",
+        "name",
+        "vimId",
+        "vimName"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Links"
+          }
+        },
+        "enabled": {
+          "type": "string",
+          "description": "Is enabled?"
+        },
+        "id": {
+          "type": "string",
+          "description": "Id"
+        },
+        "domain_id": {
+          "type": "string",
+          "description": "Domain Id"
+        },
+        "name": {
+          "type": "string",
+          "description": "Tenant Name"
+        },
+        "vimId": {
+          "type": "string",
+          "description": "Vim Id"
+        },
+        "vimName": {
+          "type": "string",
+          "description": "Vim Name"
+        }
+      }
+    },
+    "Links": {
+      "type": "object",
+      "description": "Link Information.",
+      "required": [
+        "self"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "description": "URL details"
+        }
+      }
+    },
+    "diskResponse": {
+      "type": "object",
+      "description": "disk Information.",
+      "required": [
+        "vimId",
+        "vimName",
+        "limits"
+      ],
+      "properties": {
+        "vimId": {
+          "type": "string",
+          "description": "Vim Id."
+        },
+        "vimName": {
+          "type": "string",
+          "description": "Vim Name."
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Disklimits"
+          }
+        }
+      }
+    },
+    "cpumemoryResponse": {
+      "type": "object",
+      "description": "cpu memory Information.",
+      "required": [
+        "vimId",
+        "vimName",
+        "limits"
+      ],
+      "properties": {
+        "vimId": {
+          "type": "string",
+          "description": "Port Status."
+        },
+        "vimName": {
+          "type": "string",
+          "description": "Port binding Id."
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CpuMemorylimits"
+          }
+        }
+      }
+    },
+    "Disklimits": {
+      "type": "object",
+      "description": "Disk limit Information.",
+      "required": [
+        "injected_file_content_bytes",
+        "metadata_items",
+        "ram",
+        "floating_ips",
+        "key_pairs",
+        "id",
+        "instances",
+        "security_group_rules",
+        "injected_files",
+        "cores",
+        "fixed_ips",
+        "injected_file_path_bytes",
+        "security_groups"
+      ],
+      "properties": {
+        "injected_file_content_bytes": {
+          "type": "integer",
+          "description": "Injected file content."
+        },
+        "metadata_items": {
+          "type": "integer",
+          "description": "Meta data items."
+        },
+        "ram": {
+          "type": "integer",
+          "description": "RAM."
+        },
+        "floating_ips": {
+          "type": "integer",
+          "description": "Floating IPs."
+        },
+        "key_pairs": {
+          "type": "integer",
+          "description": "Key Pairs."
+        },
+        "id": {
+          "type": "string",
+          "description": "Id."
+        },
+        "instances": {
+          "type": "integer",
+          "description": "Instances."
+        },
+        "security_group_rules": {
+          "type": "integer",
+          "description": "Group Rules."
+        },
+        "injected_files": {
+          "type": "integer",
+          "description": "Injected files."
+        },
+        "cores": {
+          "type": "integer",
+          "description": "Cores."
+        },
+        "fixed_ips": {
+          "type": "integer",
+          "description": "Fixed IPs."
+        },
+        "injected_file_path_bytes": {
+          "type": "integer",
+          "description": "Injected file path bytes."
+        },
+        "security_groups": {
+          "type": "integer",
+          "description": "Security Groups."
+        }
+      }
+    },
+    "CpuMemorylimits": {
+      "type": "object",
+      "description": "Port Information.",
+      "required": [
+        "rate",
+        "absolute"
+      ],
+      "properties": {
+        "rate": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "absolute": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Absolute"
+          }
+        }
+      }
+    },
+    "Absolute": {
+      "type": "object",
+      "description": "Port Information.",
+      "required": [
+        "maxServerMeta",
+        "maxPersonality",
+        "maxImageMeta",
+        "maxPersonalitySize",
+        "maxSecurityGroupRules",
+        "maxTotalKeypairs",
+        "totalRAMUsed",
+        "totalInstancesUsed",
+        "maxSecurityGroups",
+        "totalFloatingIpsUsed",
+        "maxTotalCores",
+        "totalSecurityGroupsUsed",
+        "maxTotalFloatingIps",
+        "maxTotalInstances",
+        "totalCoresUsed",
+        "maxTotalRAMSize"
+      ],
+      "properties": {
+        "maxServerMeta": {
+          "type": "integer",
+          "description": "Max Server Meta."
+        },
+        "maxPersonality": {
+          "type": "integer",
+          "description": "Max Personality."
+        },
+        "maxImageMeta": {
+          "type": "integer",
+          "description": "Max Image Meta."
+        },
+        "maxPersonalitySize": {
+          "type": "integer",
+          "description": "Max personality Meta."
+        },
+        "maxSecurityGroupRules": {
+          "type": "integer",
+          "description": "Max Security Group Rules."
+        },
+        "maxTotalKeypairs": {
+          "type": "integer",
+          "description": "Max Total Keypairs."
+        },
+        "totalRAMUsed": {
+          "type": "integer",
+          "description": "Max RAM used."
+        },
+        "totalInstancesUsed": {
+          "type": "integer",
+          "description": "Total Instance used."
+        },
+        "maxSecurityGroups": {
+          "type": "integer",
+          "description": "Max security groups."
+        },
+        "totalFloatingIpsUsed": {
+          "type": "integer",
+          "description": "Total floating Ips used."
+        },
+        "maxTotalCores": {
+          "type": "integer",
+          "description": "Max Total Cores."
+        },
+        "totalSecurityGroupsUsed": {
+          "type": "integer",
+          "description": "Total Security Groups."
+        },
+        "maxTotalFloatingIps": {
+          "type": "integer",
+          "description": "Max Total Floating Ips."
+        },
+        "maxTotalInstances": {
+          "type": "integer",
+          "description": "Max Total Instances."
+        },
+        "totalCoresUsed": {
+          "type": "integer",
+          "description": "Total Cores Used."
+        },
+        "maxTotalRAMSize": {
+          "type": "integer",
+          "description": "Max Total RAM size."
+        }
+      }
+    },
+    "NetworkPortsResponse": {
+      "type": "object",
+      "description": "List all Networks.",
+      "required": [
+        "ports"
+      ],
+      "properties": {
+        "ports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PortInfo"
+          }
+        }
+      }
+    },
+    "PortInfo": {
+      "type": "object",
+      "description": "Port Information.",
+      "required": [
+        "status",
+        "binding:host_id",
+        "allowed_address_pairs",
+        "extra_dhcp_opts",
+        "device_owner",
+        "binding:profile",
+        "fixed_ips",
+        "id",
+        "security_groups",
+        "device_id",
+        "name",
+        "admin_state_up",
+        "network_id",
+        "tenant_id",
+        "binding:vif_details",
+        "binding:vnic_type",
+        "binding:vif_type",
+        "mac_address",
+        "vimId",
+        "vimName"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Port Status."
+        },
+        "binding:host_id": {
+          "type": "string",
+          "description": "Port binding Id."
+        },
+        "allowed_address_pairs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Allowed address pairs."
+        },
+        "extra_dhcp_opts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Extra DHCP Options."
+        },
+        "device_owner": {
+          "type": "string",
+          "description": "Device Owner."
+        },
+        "binding:profile": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Port Binding profiles."
+        },
+        "fixed_ips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FixedIPs"
+          }
+        },
+        "id": {
+          "type": "string",
+          "description": "Network Id."
+        },
+        "security_groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "device_id": {
+          "type": "string",
+          "description": "device id."
+        },
+        "name": {
+          "type": "string",
+          "description": "Port Name."
+        },
+        "admin_state_up": {
+          "type": "string",
+          "description": "Is admin state up."
+        },
+        "network_id": {
+          "type": "string",
+          "description": "Network Id"
+        },
+        "tenant_id": {
+          "type": "string",
+          "description": "Tenant id."
+        },
+        "binding:vif_details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/vifdetails"
+          }
+        },
+        "binding:vnic_type": {
+          "type": "string",
+          "description": "vnic type."
+        },
+        "binding:vif_type": {
+          "type": "string",
+          "description": "vif type."
+        },
+        "mac_address": {
+          "type": "string",
+          "description": "mac address."
+        },
+        "vimId": {
+          "type": "string",
+          "description": "vim Id"
+        },
+        "vimName": {
+          "type": "string",
+          "description": "vim Name"
+        }
+      }
+    },
+    "FixedIPs": {
+      "type": "object",
+      "description": "List Fixed IPs.",
+      "required": [
+        "subnet_id",
+        "ip_address"
+      ],
+      "properties": {
+        "subnet_id": {
+          "type": "string",
+          "description": "subnet Id"
+        },
+        "ip_address": {
+          "type": "string",
+          "description": "ip address"
+        }
+      }
+    },
+    "vifdetails": {
+      "type": "object",
+      "description": "List vif details.",
+      "required": [
+        "port_filter",
+        "ovs_hybrid_plug"
+      ],
+      "properties": {
+        "port_filter": {
+          "type": "string",
+          "description": "port filter"
+        },
+        "ovs_hybrid_plug": {
+          "type": "string",
+          "description": "hybrid plug"
+        }
+      }
+    },
+    "NetworksResponse": {
+      "type": "object",
+      "description": "List all Networks.",
+      "required": [
+        "networks"
+      ],
+      "properties": {
+        "networks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NetworkInfo"
+          }
+        }
+      }
+    },
+    "NetworkInfo": {
+      "type": "object",
+      "description": "Network Information.",
+      "required": [
+        "status",
+        "subnets",
+        "name",
+        "provider",
+        "admin_state_up",
+        "tenant_id",
+        "provider:network_type",
+        "router:external",
+        "shared",
+        "id",
+        "provider:segmentation_id",
+        "vimId",
+        "vimName"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Network Status."
+        },
+        "subnets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Network subnet Info."
+        },
+        "name": {
+          "type": "string",
+          "description": "Network Name."
+        },
+        "provider": {
+          "type": "string",
+          "description": "Network Provider."
+        },
+        "admin_state_up": {
+          "type": "string",
+          "description": "Network state up."
+        },
+        "tenant_id": {
+          "type": "string",
+          "description": "Network Tenant Id."
+        },
+        "provider:network_type": {
+          "type": "string",
+          "description": "Provider Network Type."
+        },
+        "router:external": {
+          "type": "string",
+          "description": "Is Network router from external."
+        },
+        "shared": {
+          "type": "string",
+          "description": "Is Network shared."
+        },
+        "id": {
+          "type": "string",
+          "description": "Network Id."
+        },
+        "provider:segmentation_id": {
+          "type": "integer",
+          "description": "Network segmentation Id."
+        },
+        "vimId": {
+          "type": "integer",
+          "description": "Vim Id."
+        },
+        "vimName": {
+          "type": "string",
+          "description": "Network Vim Name."
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -61,10 +61,13 @@
         <property name="adapter" ref="adapterNetworkManager"></property>
     </bean>
 
+    <bean id="SwaggerRoa" class="org.openo.nfvo.vimadapter.service.rest.SwaggerRoa"></bean>
+
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
             <ref bean="resourceRoa" />
             <ref bean="networkRoa" />
+            <ref bean="SwaggerRoa" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
