@@ -56,10 +56,10 @@ def ns_delete_pending_csar(request, *args, **kwargs):
 #################################################################################################################
 @api_view(http_method_names=['POST'])
 def nf_on_boarding(request, *args, **kwargs):
-    logger.info("Enter %s%s, method is %s", fun_name(), args, request.method)
-    csar_id = ignore_case_get(kwargs, "csarId")
-    vim_ids = ignore_case_get(kwargs, "vimIds")
-    lab_vim_id = ignore_case_get(kwargs, "labVimId")
+    logger.info("Enter %s%s, method is %s", fun_name(), request.data, request.method)
+    csar_id = ignore_case_get(request.data, "csarId")
+    vim_ids = ignore_case_get(request.data, "vimIds")
+    lab_vim_id = ignore_case_get(request.data, "labVimId")
     job_id = str(uuid.uuid4())
     nf_package.NfOnBoardingThread(csar_id, vim_ids, lab_vim_id, job_id).start()
     ret = {"jobId": job_id}
