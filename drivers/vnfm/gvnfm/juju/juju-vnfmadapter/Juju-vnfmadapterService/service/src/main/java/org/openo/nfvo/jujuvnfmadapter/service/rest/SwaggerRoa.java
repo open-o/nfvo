@@ -32,7 +32,7 @@ import org.apache.commons.io.IOUtils;
  * @author
  * @version NFVO 0.5 Oct 24, 2016
  */
-@Path("/openoapi/jujuvnfm/v1")
+@Path("/v1")
 @Produces({MediaType.APPLICATION_JSON})
 public class SwaggerRoa {
     /**
