@@ -50,7 +50,7 @@ import net.sf.json.JSONObject;
  * @version NFVO 0.5 Aug 24, 2016
  */
 @SuppressWarnings("unchecked")
-@Path("/v1")
+@Path("/openoapi/hwvnfm/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class VnfRoa {
