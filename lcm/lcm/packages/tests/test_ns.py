@@ -237,7 +237,7 @@ class TestNsPackage(TestCase):
     @mock.patch.object(restcall, 'call_req')
     def test_ns_pkg_on_boarding_when_vnf_pkg_not_on_boarded_on_catalog(self, mock_call_req):
         self.set_nsd_metadata(key="id", val="2")
-        self.set_nsd_vnf_id(val="5")
+        self.set_nsd_vnf_id(val="6")
         mock_vals = {
             "/openoapi/catalog/v1/csars/4":
                 [0, json.JSONEncoder().encode({"onBoardState": "non-onBoarded"}), '200'],
@@ -250,7 +250,7 @@ class TestNsPackage(TestCase):
             return mock_vals[args[4]]
         mock_call_req.side_effect = side_effect
 
-        NfPackageModel(uuid="1", nfpackageid="5").save()
+        NfPackageModel(uuid="1", nfpackageid="5", vnfdid="6").save()
         resp = self.client.post("/openoapi/nslcm/v1/nspackage", {"csarId": "4"}, format='json')
         self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
         self.assertEqual("failed", resp.data["status"])
@@ -263,7 +263,7 @@ class TestNsPackage(TestCase):
         self.set_nsd_metadata(key="vendor", val="4")
         self.set_nsd_metadata(key="description", val="5")
         self.set_nsd_metadata(key="version", val="6")
-        self.set_nsd_vnf_id(val="6")
+        self.set_nsd_vnf_id(val="7")
         mock_vals = {
             "/openoapi/catalog/v1/csars/5":
                 [0, json.JSONEncoder().encode({
@@ -282,7 +282,7 @@ class TestNsPackage(TestCase):
 
         mock_call_req.side_effect = side_effect
 
-        NfPackageModel(uuid="1", nfpackageid="6").save()
+        NfPackageModel(uuid="1", nfpackageid="6", vnfdid="7").save()
         resp = self.client.post("/openoapi/nslcm/v1/nspackage", {"csarId": "5"}, format='json')
         self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
         self.assertEqual("success", resp.data["status"])

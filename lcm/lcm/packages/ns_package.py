@@ -98,10 +98,12 @@ class NsPackage(object):
 
         for vnf in nsd["vnfs"]:
             vnfd_id = vnf["properties"]["id"]
-            if not NfPackageModel.objects.filter(nfpackageid=vnfd_id):
+            pkg = NfPackageModel.objects.filter(vnfdid=vnfd_id)
+            if not pkg:
                 raise NSLCMException("VNF package(%s) is not onBoarded." % vnfd_id)
-            if query_csar_from_catalog(vnfd_id, "onBoardState") != STATUS_ONBOARDED:
-                raise NSLCMException("VNF package(%s) is not onBoarded on catalog." % vnfd_id)
+            pkg_id = pkg[0].nfpackageid
+            if query_csar_from_catalog(pkg_id, "onBoardState") != STATUS_ONBOARDED:
+                raise NSLCMException("VNF package(%s) is not onBoarded on catalog." % pkg_id)
 
         NSDModel(
             id=csar_id,
