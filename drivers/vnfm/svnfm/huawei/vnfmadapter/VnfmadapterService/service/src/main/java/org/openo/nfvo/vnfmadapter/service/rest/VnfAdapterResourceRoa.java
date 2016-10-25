@@ -38,7 +38,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
-@Path("/rest/vnfm/vnfmvim/v2/computeservice/getAllCloud")
+@Path("/v2/computeservice/getAllCloud")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class VnfAdapterResourceRoa {
