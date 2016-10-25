@@ -47,7 +47,7 @@ import net.sf.json.JSONObject;
  * @author 
  * @version NFVO 0.5 Aug 18, 2016
  */
-@Path("/openoapi/juju/v1/vnfms")
+@Path("/v1/vnfms")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class JujuClientRoa {
