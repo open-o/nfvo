@@ -48,7 +48,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
-@Path("/v2")
+@Path("/rest/v2")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthRoa {
