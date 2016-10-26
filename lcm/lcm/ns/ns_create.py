@@ -33,20 +33,27 @@ class CreateNSService(object):
         self.check_nsd_valid()
         self.check_ns_inst_name_exist()
         self.create_ns_inst()
+        logger.debug("CreateNSService::do_biz::ns_inst_id=%s" % self.ns_inst_id)
         return self.ns_inst_id
 
     def check_nsd_valid(self):
+        logger.debug("CreateNSService::check_nsd_valid::nsd_id=%s" % self.nsd_id)
         ns_package_info = NSDModel.objects.filter(nsd_id=self.nsd_id)
         if not ns_package_info:
-            raise NSLCMException("nsd not exists.")
+            raise NSLCMException("nsd(%s) not exists." % self.nsd_id)
         self.ns_package_id = ns_package_info[0].id
+        logger.debug("CreateNSService::check_nsd_valid::ns_package_id=%s" % self.ns_package_id)
 
     def check_ns_inst_name_exist(self):
         is_exist = NSInstModel.objects.filter(name=self.ns_name).exists()
+        logger.debug("CreateNSService::check_ns_inst_name_exist::is_exist=%s" % is_exist)
         if is_exist:
-            raise NSLCMException("ns instance name has already existed.")
+            raise NSLCMException("ns(%s) already existed." % self.ns_name)
 
     def create_ns_inst(self):
-        self.ns_inst_id = uuid.uuid4()
-        NSInstModel(id=self.ns_inst_id, name=self.ns_name, nspackage_id=self.ns_package_id, nsd_id=self.nsd_id,
-                    description=self.description, status='empty', lastuptime=now_time()).save()
+        self.ns_inst_id = str(uuid.uuid4())
+        logger.debug("CreateNSService::create_ns_inst::ns_inst_id=%s" % self.ns_inst_id)
+        NSInstModel(id=self.ns_inst_id, name=self.ns_name, nspackage_id=self.ns_package_id, 
+                    nsd_id=self.nsd_id, description=self.description, status='empty', 
+                    lastuptime=now_time()).save()
+
