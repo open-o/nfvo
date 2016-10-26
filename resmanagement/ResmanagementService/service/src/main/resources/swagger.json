@@ -10,10 +10,10 @@
         "https",
         "http"
     ],
-    "basePath": "/openoapi/resmgr/v1.0",
+    "basePath": "/openoapi/resmgr/v1",
     "paths": {
         "/grantVNFLifeCycleOperation": {
-            "put": {
+            "post": {
                 "summary": "Grant VNF Life Cycle Operation",
                 "description": "Grant Resource",
                 "consumes": [
@@ -56,7 +56,7 @@
             }
         },
         "/vl": {
-            "put": {
+            "post": {
                 "summary": "Create virtual link resource",
                 "description": "virtual link Resource",
                 "consumes": [
@@ -99,7 +99,7 @@
             }
         },
         "/vl/{id}": {
-            "put": {
+            "delete": {
                 "summary": "Delete virtual link resource",
                 "description": "Delete virtual link Resource",
                 "consumes": [
@@ -137,7 +137,7 @@
             }
         },
         "/vnf": {
-            "put": {
+            "post": {
                 "summary": "Create VNF instance resource",
                 "description": "Create VNF Resource",
                 "consumes": [
@@ -180,7 +180,7 @@
             }
         },
         "/vnfinfo": {
-            "put": {
+            "post": {
                 "summary": "Write VNF status information",
                 "description": "VNF Status",
                 "consumes": [
@@ -220,7 +220,7 @@
             }
         },
         "/vnfdetailinfo": {
-            "put": {
+            "post": {
                 "summary": "Write VNF detail information",
                 "description": "VNF detail info",
                 "consumes": [
