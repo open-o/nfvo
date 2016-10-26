@@ -27,7 +27,8 @@ def make_dirs(path):
 
 def delete_dirs(path):
     try:
-        shutil.rmtree(path)
+        if os.path.exists(path):
+            shutil.rmtree(path)
     except Exception as e:
         logger.error(traceback.format_exc())
         logging.error("Failed to delete %s:%s", path, e.message)
@@ -35,6 +36,7 @@ def delete_dirs(path):
 
 def download_file_from_http(url, local_dir, file_name):
     local_file_name = os.path.join(local_dir, file_name)
+    is_download_ok = False
     try:
         make_dirs(local_dir)
         r = urllib2.Request(url)
@@ -43,7 +45,8 @@ def download_file_from_http(url, local_dir, file_name):
         save_file.write(req.read())
         save_file.close()
         req.close()
+        is_download_ok = True
     except:
         logger.error(traceback.format_exc())
         logging.error("Failed to download %s to %s.", url, local_file_name)
-    return local_file_name
+    return is_download_ok, local_file_name

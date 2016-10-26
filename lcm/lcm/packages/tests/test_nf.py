@@ -35,6 +35,117 @@ class TestNfPackage(TestCase):
         NfInstModel.objects.filter().delete()
         JobModel.objects.filter().delete()
         JobStatusModel.objects.filter().delete()
+        self.vnfd_raw_data = {
+            "rawData":{
+                "instance":{
+                    "metadata":{
+                        "is_shared":False,
+                        "plugin_info":"vbrasplugin_1.0",
+                        "vendor":"zte",
+                        "request_reclassification":False,
+                        "name":"vbras",
+                        "version":1,
+                        "vnf_type":"vbras",
+                        "cross_dc":False,
+                        "vnfd_version":"1.0.0",
+                        "id":"zte_vbras_1.0",
+                        "nsh_aware":True
+                    },
+                    "nodes":[
+                        {
+                            "id":"aaa_dnet_cp_0xu2j5sbigxc8h1ega3if0ld1",
+                            "type_name":"tosca.nodes.nfv.ext.zte.CP",
+                            "template_name":"aaa_dnet_cp",
+                            "properties":{
+                                "bandwidth":{
+                                    "type_name":"integer",
+                                    "value":0
+                                },
+                                "direction":{
+                                    "type_name":"string",
+                                    "value":"bidirectional"
+                                },
+                                "vnic_type":{
+                                    "type_name":"string",
+                                    "value":"normal"
+                                },
+                                "sfc_encapsulation":{
+                                    "type_name":"string",
+                                    "value":"mac"
+                                },
+                                "order":{
+                                    "type_name":"integer",
+                                    "value":2
+                                }
+                            },
+                            "relationships":[
+                                {
+                                    "name":"guest_os",
+                                    "source_requirement_index":0,
+                                    "target_node_id":"AAA_image_d8aseebr120nbm7bo1ohkj194",
+                                    "target_capability_name":"feature"
+                                }
+                            ]
+                        },
+                        {
+                            "id":"LB_Image_oj5l2ay8l2g6vcq6fsswzduha",
+                            "type_name":"tosca.nodes.nfv.ext.ImageFile",
+                            "template_name":"LB_Image",
+                            "properties":{
+                                "disk_format":{
+                                    "type_name":"string",
+                                    "value":"qcow2"
+                                },
+                                "file_url":{
+                                    "type_name":"string",
+                                    "value":"/SoftwareImages/image-lb"
+                                },
+                                "name":{
+                                    "type_name":"string",
+                                    "value":"image-lb"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "model":{
+                    "metadata":{
+                        "is_shared":False,
+                        "plugin_info":"vbrasplugin_1.0",
+                        "vendor":"zte",
+                        "request_reclassification":False,
+                        "name":"vbras",
+                        "version":1,
+                        "vnf_type":"vbras",
+                        "cross_dc":False,
+                        "vnfd_version":"1.0.0",
+                        "id":"zte_vbras_1.0",
+                        "nsh_aware":True
+                    },
+                    "node_templates":[
+                        {
+                            "name":"aaa_dnet_cp",
+                            "type_name":"tosca.nodes.nfv.ext.zte.CP",
+                            "default_instances":1,
+                            "min_instances":0,
+                            "properties":{
+                                "bandwidth":{
+                                    "type_name":"integer",
+                                    "value":0
+                                }
+                            },
+                            "requirement_templates":[
+                                {
+                                    "name":"virtualbinding",
+                                    "target_node_template_name":"AAA",
+                                    "target_capability_name":"virtualbinding"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
 
     def tearDown(self):
         pass
@@ -82,16 +193,15 @@ class TestNfPackage(TestCase):
                 [0, json.JSONEncoder().encode({
                     "onBoardState": "onBoardFailed", "processState": "deleteFailed"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode({
-                    "rawData": {"metadata": {"id": "999"}}}), '200']}
+                [0, json.JSONEncoder().encode(self.vnfd_raw_data), '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
 
         mock_call_req.side_effect = side_effect
-        NfPackageModel(vnfdid="999").save()
+        NfPackageModel(uuid="1", nfpackageid="2", vnfdid="zte_vbras_1.0").save()
         NfOnBoardingThread(csar_id="2", vim_ids=["1"], lab_vim_id="", job_id="4").run()
-        self.assert_job_result("4", 255, "NFD(999) already exists.")
+        self.assert_job_result("4", 255, "NFD(zte_vbras_1.0) already exists.")
 
     @mock.patch.object(restcall, 'call_req')
     @mock.patch.object(fileutil, 'download_file_from_http')
@@ -100,22 +210,14 @@ class TestNfPackage(TestCase):
     @mock.patch.object(VimAdaptor, 'get_image')
     def test_nf_on_boarding_when_successfully(self, mock_get_image, mock_create_image,
                                               mock__init__, mock_download_file_from_http, mock_call_req):
-        mock_download_file_from_http.return_value = "/root/package"
+        mock_download_file_from_http.return_value = True, "/root/package"
         mock_vals = {
             "/openoapi/catalog/v1/csars/2":
                 [0, json.JSONEncoder().encode({
                     "onBoardState": "onBoardFailed", "processState": "deleteFailed"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode({
-                    "rawData": {"metadata": {"id": "999", "vendor": "1", "vnfd_version": "2", "version": "3"}},
-                    "image_files": [
-                        {"properties":
-                            {
-                                "name": "4",
-                                "file_url": "5",
-                                "disk_format": "6",
-                                "description": "7"}}]}), '200'],
-            "/openoapi/catalog/v1/csars/2/files?relativePath=5":
+                [0, json.JSONEncoder().encode(self.vnfd_raw_data), '200'],
+            "/openoapi/catalog/v1/csars/2/files?relativePath=/SoftwareImages/image-lb":
                 [0, json.JSONEncoder().encode({
                     "csar_file_info": [{"downloadUri": "8"}, {"localPath": "9"}]}), '200'],
             "/openoapi/extsys/v1/vims":
@@ -144,25 +246,17 @@ class TestNfPackage(TestCase):
                                          mock__init__, mock_download_file_from_http, mock_call_req):
         nf_package.MAX_RETRY_TIMES = 2
         nf_package.SLEEP_INTERVAL_SECONDS = 1
-        mock_download_file_from_http.return_value = "/root/package"
+        mock_download_file_from_http.return_value = True, "/root/package"
         mock_vals = {
-            "/openoapi/catalog/v1/csars/2":
+            "/openoapi/catalog/v1/csars/3":
             [0, json.JSONEncoder().encode({"onBoardState": "onBoardFailed",
                                            "processState": "deleteFailed"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode({
-                    "rawData": {
-                        "metadata": {
-                            "id": "999", "vendor": "1", "vnfd_version": "2", "version": "3"}},
-                 "image_files": [{
-                     "properties":
-                         {
-                             "name": "4", "file_url": "5",
-                             "disk_format": "6",
-                             "description": "7"}}]}), '200'],
-            "/openoapi/catalog/v1/csars/2/files?relativePath=5":
+                [0, json.JSONEncoder().encode(self.vnfd_raw_data), '200'],
+            "/openoapi/catalog/v1/csars/3/files?relativePath=/SoftwareImages/image-lb":
                 [0, json.JSONEncoder().encode({
                     "csar_file_info": [{"downloadUri": "8"}, {"localPath": "9"}]}), '200'],
+            "/openoapi/catalog/v1/csars/3?processState=onBoardFailed": [0, '{}', 200],
             "/openoapi/extsys/v1/vims":
                 [0, json.JSONEncoder().encode([{
                     "vimId": "1", "url": "/root/package", "userName": "tom",
@@ -175,8 +269,8 @@ class TestNfPackage(TestCase):
             return mock_vals[args[4]]
 
         mock_call_req.side_effect = side_effect
-        NfOnBoardingThread(csar_id="2", vim_ids=["1"], lab_vim_id="", job_id="4").run()
-        self.assert_job_result("4", 255, "Failed to create image:timeout(2 seconds.)")
+        NfOnBoardingThread(csar_id="3", vim_ids=["1"], lab_vim_id="", job_id="6").run()
+        self.assert_job_result("6", 255, "Failed to create image:timeout(2 seconds.)")
 
     @mock.patch.object(restcall, 'call_req')
     @mock.patch.object(fileutil, 'download_file_from_http')
@@ -184,20 +278,17 @@ class TestNfPackage(TestCase):
     @mock.patch.object(VimAdaptor, 'create_image')
     def test_nf_on_boarding_when_failed_to_create_image(self, mock_create_image,
                                                         mock__init__, mock_download_file_from_http, mock_call_req):
-        mock_download_file_from_http.return_value = "/root/package"
+        mock_download_file_from_http.return_value = True, "/root/package"
         mock_vals = {
-            "/openoapi/catalog/v1/csars/2":
+            "/openoapi/catalog/v1/csars/5":
                 [0, json.JSONEncoder().encode({
                     "onBoardState": "onBoardFailed", "processState": "deleteFailed"}), '200'],
             "/openoapi/catalog/v1/servicetemplates/queryingrawdata":
-                [0, json.JSONEncoder().encode(
-                    {"rawData": {"metadata": {"id": "999", "vendor": "1",
-                                              "vnfd_version": "2", "version": "3"}},
-                     "image_files": [{"properties": {"name": "4", "file_url": "5",
-                                                     "disk_format": "6", "description": "7"}}]}), '200'],
-            "/openoapi/catalog/v1/csars/2/files?relativePath=5":
+                [0, json.JSONEncoder().encode(self.vnfd_raw_data), '200'],
+            "/openoapi/catalog/v1/csars/5/files?relativePath=/SoftwareImages/image-lb":
                 [0, json.JSONEncoder().encode({
                     "csar_file_info": [{"downloadUri": "8"}, {"localPath": "9"}]}), '200'],
+            "/openoapi/catalog/v1/csars/5?processState=onBoardFailed": [0, '{}', 200],
             "/openoapi/extsys/v1/vims":
                 [0, json.JSONEncoder().encode([{
                     "vimId": "1", "url": "/root/package", "userName": "tom",
@@ -208,8 +299,8 @@ class TestNfPackage(TestCase):
         def side_effect(*args):
             return mock_vals[args[4]]
         mock_call_req.side_effect = side_effect
-        NfOnBoardingThread(csar_id="2", vim_ids=["1"], lab_vim_id="", job_id="4").run()
-        self.assert_job_result("4", 255, "Failed to create image:Unsupported image format.")
+        NfOnBoardingThread(csar_id="5", vim_ids=["1"], lab_vim_id="", job_id="8").run()
+        self.assert_job_result("8", 255, "Failed to create image:Unsupported image format.")
 
     #########################################################################
     @mock.patch.object(restcall, 'call_req')

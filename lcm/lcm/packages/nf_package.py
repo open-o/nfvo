@@ -36,6 +36,7 @@ from lcm.pub.config.config import IMAGE_ROOT_PATH
 from lcm.pub.nfvi.vim.vimadaptor import VimAdaptor
 from lcm.pub.nfvi.vim import const
 from lcm.pub.utils.jobutil import JobUtil
+from lcm.pub.utils import toscautil
 
 logger = logging.getLogger(__name__)
 
@@ -112,8 +113,10 @@ class NfOnBoardingThread(threading.Thread):
 
         JobUtil.add_job_status(self.job_id, 20, "Get model of CSAR(%s) from catalog." % self.csar_id)
 
-        self.nfd = query_rawdata_from_catalog(self.csar_id)  # TODO: convert to inner model
-        self.nfd_id = self.nfd["rawData"]["metadata"]["id"]
+        raw_data = query_rawdata_from_catalog(self.csar_id)
+        self.nfd = toscautil.convert_vnfd_model(raw_data["rawData"]) # convert to inner json
+        self.nfd = json.JSONDecoder().decode(self.nfd)
+        self.nfd_id = self.nfd["metadata"]["id"]
         if NfPackageModel.objects.filter(vnfdid=self.nfd_id):
             raise NSLCMException("NFD(%s) already exists." % self.nfd_id)
 
@@ -124,9 +127,9 @@ class NfOnBoardingThread(threading.Thread):
             uuid=str(uuid.uuid4()),
             nfpackageid=self.csar_id,
             vnfdid=self.nfd_id,
-            vendor=self.nfd["rawData"]["metadata"]["vendor"],
-            vnfdversion=self.nfd["rawData"]["metadata"]["vnfd_version"],
-            vnfversion=self.nfd["rawData"]["metadata"]["version"],
+            vendor=self.nfd["metadata"]["vendor"],
+            vnfdversion=self.nfd["metadata"]["vnfd_version"],
+            vnfversion=self.nfd["metadata"]["version"],
             vnfdmodel=json.JSONEncoder().encode(self.nfd)
             ).save()
 
@@ -136,10 +139,14 @@ class NfOnBoardingThread(threading.Thread):
             img_name = image_file["properties"]["name"]
             img_relative_path = image_file["properties"]["file_url"]
             img_type = image_file["properties"]["disk_format"]
-            img_desc = image_file["properties"]["description"]
+            img_desc = image_file["description"]
             img_url, img_local_path = get_download_url_from_catalog(self.csar_id, img_relative_path)
             JobUtil.add_job_status(self.job_id, 50, "Start to download Image(%s)." % img_name)
-            img_save_full_path = fileutil.download_file_from_http(img_url, self.img_save_path, img_name)
+            is_download_ok, img_save_full_path = fileutil.download_file_from_http(img_url, 
+                self.img_save_path, img_name)
+            if not is_download_ok:
+                raise NSLCMException("Failed to download image from %s" % img_url)
+            logger.debug("Download Image(%s) to %s successfully.", img_name, img_save_full_path)
             nf_images.append({
                 "img_name": img_name,
                 "img_save_full_path": img_save_full_path,
@@ -149,6 +156,8 @@ class NfOnBoardingThread(threading.Thread):
 
     def upload_nf_images(self, nf_images):
         vims = get_vims()
+        if self.lab_vim_id and (not self.vim_ids):
+            self.vim_ids = [self.lab_vim_id]
         for vim_id in self.vim_ids:
             sel_vim = [vim for vim in vims if vim["vimId"] == vim_id]
             if not sel_vim:
@@ -162,6 +171,7 @@ class NfOnBoardingThread(threading.Thread):
                 "tenant": sel_vim[0]["tenant"]})
             for nf_image in nf_images:
                 self.upload_one_nf_image(vim_api, nf_image, vim_id, sel_vim)
+        fileutil.delete_dirs(self.img_save_path)
 
     def upload_one_nf_image(self, vim_api, nf_image, vim_id, sel_vim):
         JobUtil.add_job_status(self.job_id, 80, "Start to upload Image(%s) to VIM(%s)." %
@@ -260,7 +270,7 @@ class NfPkgDeleteThread(threading.Thread):
             JobUtil.add_job_status(self.job_id, 100, ret[1])
             return
 
-        NfPackage().delete_csar(self.csar_id)
+        NfPackage().delete_csar(self.csar_id, self.job_id)
 
 
 class NfPkgDeletePendingThread(threading.Thread):
