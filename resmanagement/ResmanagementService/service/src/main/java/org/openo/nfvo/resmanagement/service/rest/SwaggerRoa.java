@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -42,9 +41,9 @@ public class SwaggerRoa {
      * @throws IOException
      */
     @GET
-    @Path("/{filename}")
-    public String apidoc(@PathParam("filename") String filename) throws IOException{
+    @Path("/swagger.json")
+    public String apidoc() throws IOException{
         ClassLoader classLoader = getClass().getClassLoader();
-        return IOUtils.toString(classLoader.getResourceAsStream(filename));
+        return IOUtils.toString(classLoader.getResourceAsStream("swagger.json"));
     }
 }
