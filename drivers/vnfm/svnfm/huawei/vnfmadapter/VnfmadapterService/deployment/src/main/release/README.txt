@@ -20,7 +20,7 @@ Installation steps:
     - In command console, cd to 'bin' directory under the location,
       where this service installer is unzipped and
       run ./init_db.sh <db user> <db password> <db server ip> <db port>
-        CAUTION: Existing resmanagementdb will be cleaned before
+        CAUTION: Existing vnfmdb will be cleaned before
         initializing the schema, so please take a back-up of it
         before executing it next time.
 
@@ -51,5 +51,7 @@ How to stop?
       where this service installer is unzipped and
       run ./stop.sh
 
-
-
+Update:
+=========
+The latest information are available through the OPEN-O release notes at
+https://wiki.open-o.org/view/OPEN-O_Sun_Release_Notes
