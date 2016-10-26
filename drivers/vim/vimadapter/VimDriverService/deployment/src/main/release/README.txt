@@ -39,3 +39,8 @@ How to stop?
     - In command console, cd to 'bin' directory under the location,
       where this service installer is unzipped and
       run ./stop.sh
+
+Update:
+=========
+The latest information are available through the OPEN-O release notes at
+https://wiki.open-o.org/view/OPEN-O_Sun_Release_Notes
