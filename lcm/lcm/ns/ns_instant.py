@@ -23,7 +23,7 @@ from lcm.pub.msapi.catalog import get_process_id, get_download_url_from_catalog
 from lcm.pub.msapi.tosca import tosca_plan
 from lcm.pub.msapi.wso2bpel import workflow_run
 from lcm.pub.utils.jobutil import JobUtil
-from lcm.pub.utils.toscautil import convert_nsd_model
+from lcm.pub.utils import toscautil
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class InstantNSService(object):
             logger.debug('ns-instant(%s) package-id:%s, yaml-path:%s, catalog-url:%s' %
                          (self.ns_inst_id, ns_inst.nspackage_id, self.yaml_relative_path, url))
             src_plan = tosca_plan(url, self.plan_input['additionalParamForNs'])
-            dst_plan = convert_nsd_model(src_plan)
+            dst_plan = toscautil.convert_nsd_model(src_plan)
             logger.debug('ns-instant(%s) tosca plan src:%s, dest:%s' % (self.ns_inst_id, src_plan, dst_plan))
 
             self.plan_input.update({'jobId': job_id})

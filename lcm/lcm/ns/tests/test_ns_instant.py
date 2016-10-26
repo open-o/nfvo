@@ -18,20 +18,23 @@ from django.test import Client
 
 from lcm.pub.database.models import NSInstModel
 from lcm.pub.utils import restcall
+from lcm.pub.utils import toscautil
 
 
 class TestNsInstant(TestCase):
     def setUp(self):
         self.client = Client()
         NSInstModel.objects.filter().delete()
-        self.context = {"vnfs": ["a", "b"], "sfcs": ["c"], "vls": ["d", "e", "f"]}
+        self.context = '{"vnfs": ["a", "b"], "sfcs": ["c"], "vls": ["d", "e", "f"]}'
         NSInstModel(id="123", nspackage_id="7", nsd_id="2").save()
 
     def tearDown(self):
         pass
 
     @mock.patch.object(restcall, 'call_req')
-    def test_ns_instant_ok(self, mock_call_req):
+    @mock.patch.object(toscautil, 'convert_nsd_model')
+    def test_ns_instant_ok(self, mock_convert_nsd_model, mock_call_req):
+        mock_convert_nsd_model.return_value = self.context
         mock_vals = {
             "/openoapi/catalog/v1/csars/7/files?relativePath=abc.yaml":
                 [0, '{"downloadUri":"http://test.yaml", "localPath":"./test.yaml"}', '200'],
