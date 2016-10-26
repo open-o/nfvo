@@ -33,44 +33,60 @@ logger = logging.getLogger(__name__)
 
 class CreateNSView(APIView):
     def get(self, request):
+        logger.debug("CreateNSView::get")
         ret = GetNSInfoService().get_ns_info()
         if not ret:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        logger.debug("CreateNSView::get::ret=%s", ret)
         return Response(data=ret, status=status.HTTP_200_OK)
 
     def post(self, request):
+        logger.debug("Enter CreateNS: %s", request.data)
         nsd_id = ignore_case_get(request.data, 'nsdId')
         ns_name = ignore_case_get(request.data, 'nsName')
         description = ignore_case_get(request.data, 'description')
-        ns_inst_id = CreateNSService(nsd_id, ns_name, description).do_biz()
-        return Response(data={'ns_instance_id': ns_inst_id}, status=status.HTTP_201_CREATED)
+        try:
+            ns_inst_id = CreateNSService(nsd_id, ns_name, description).do_biz()
+        except Exception as e:
+            logger.error("Exception in CreateNS: %s", e.message)
+            Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.debug("CreateNSView::post::ret={'nsInstanceId':%s}", ns_inst_id)
+        return Response(data={'nsInstanceId': ns_inst_id}, status=status.HTTP_201_CREATED)
 
 
 class NSInstView(APIView):
     def do_get(self, request, ns_instance_id):
+        logger.debug("Enter NSInstView::do_get")
         ret = GetNSInfoService(ns_instance_id).get_ns_info()
         if not ret:
+            logger.debug("Leave NSInstView::do_get::status=404")
             return Response(status=status.HTTP_404_NOT_FOUND)
+        logger.debug("Leave NSInstView::do_get::ret=%s, status=200", ret)
         return Response(data=ret, status=status.HTTP_200_OK)
 
     def post(self, request, ns_instance_id):
         ack = InstantNSService(ns_instance_id, request.data).do_biz()
+        logger.debug("Leave NSInstView::post::ack=%s", ack)
         return Response(data=ack['data'], status=ack['status'])
 
 
 class TerminateNSView(APIView):
     def post(self, request, ns_instance_id):
+        logger.debug("Enter TerminateNSView::post %s", request.data)
         termination_type = ignore_case_get(request.data, 'terminationType')
         graceful_termination_timeout = ignore_case_get(request.data, 'gracefulTerminationTimeout')
         job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, ns_instance_id)
         TerminateNsService(ns_instance_id, termination_type, graceful_termination_timeout, job_id).do_biz()
         ret = {'jobID': job_id}
+        logger.debug("Leave TerminateNSView::post ret=%s", ret)
         return Response(data=ret, status=status.HTTP_202_ACCEPTED)
 
 
 class DeleteNSView(APIView):
     def delete(self, request, ns_instance_id):
+        logger.debug("Enter DeleteNSView::delete %s", request.data)
         ret = DeleteNsService(ns_instance_id).do_biz()
+        logger.debug("Leave DeleteNSView::delete ret= %s", ret)
         if ret == 'true':
             return Response(data={}, status=status.HTTP_202_ACCEPTED)
         else:
@@ -83,11 +99,13 @@ class SwaggerJsonView(APIView):
         f = open(json_file)
         json_data = json.JSONDecoder().decode(f.read())
         f.close()
+        logger.debug("SwaggerJsonView::get::json_data= %s", json_data)
         return Response(json_data)
 
 
 class NSInstPostDealView(APIView):
     def post(self, request, ns_instance_id):
+        logger.debug("Enter NSInstPostDealView::post %s", request.data)
         ns_status = 'ACTIVE' if ignore_case_get(request.data, 'status') == 'true' else 'FAILED'
         try:
             NSInstModel.objects.filter(id=ns_instance_id).update(status=ns_status)
