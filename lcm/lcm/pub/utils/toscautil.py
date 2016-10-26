@@ -34,7 +34,7 @@ def find_node_type(node_id, node_list):
 
 def find_related_node(node_id, src_json_model, requirement_name):
     related_nodes = []
-    for model_tpl in src_json_model["node_templates"]:
+    for model_tpl in safe_get(src_json_model, "node_templates"):
         for rt in safe_get(model_tpl, 'requirement_templates'):
             if safe_get(rt, 'name') == requirement_name and \
                 safe_get(rt, 'target_node_template_name') == node_id:
@@ -73,7 +73,7 @@ def convert_vnf_node(src_node, src_json_model):
     vnf_node = {'type': src_node['type_name'], 'vnf_id': src_node['template_name'],
         'description': '', 'properties': {}, 'dependencies': [], 'networks': []}
     convert_props(src_node, vnf_node)
-    for model_tpl in src_json_model['node_templates']:
+    for model_tpl in safe_get(src_json_model, "node_templates"):
         if model_tpl['name'] != vnf_node['vnf_id']:
             continue
         vnf_node['dependencies'] = [{
@@ -246,7 +246,7 @@ def convert_common(src_json, target_json):
     else:
         src_json_dict = src_json
     src_json_inst = src_json_dict["instance"]
-    src_json_model = src_json_dict["model"]
+    src_json_model = src_json_dict["model"] if "model" in src_json_dict else {}
 
     target_json['metadata'] = convert_metadata(src_json_inst)
     target_json['inputs'] = convert_inputs(src_json_inst)
