@@ -38,8 +38,7 @@ class SfcInstanceView(APIView):
             "ns_model_data": json.loads(request.data['context']),
             'fpindex': request.data['fpindex'],
             'fpinstid': str(uuid.uuid4()),
-            'sdncontrollerid': request.data["sdncontrollerid"]
-        }
+            'sdncontrollerid': request.data["sdncontrollerid"]}
         rsp = SfcInstance(data).do_biz()
         return Response(data=rsp, status=status.HTTP_200_OK)
 
@@ -49,8 +48,7 @@ class PortPairGpView(APIView):
         data = {
             'fpinstid': request.data["fpinstid"],
             "ns_model_data": json.loads(request.data['context']),
-            'ns_inst_id': request.data["nsinstanceid"]
-        }
+            'nsinstid': request.data["nsinstanceid"]}
         CreatePortPairGroup(data).do_biz()
         return Response(status=status.HTTP_200_OK)
 
@@ -59,10 +57,8 @@ class FlowClaView(APIView):
     def post(self, request):
         data = {
             'fpinstid': request.data["fpinstid"],
-            "ns_model_data": json.loads(request.data['context'])
-        }
+            "ns_model_data": json.loads(request.data['context'])}
         CreateFlowClassifier(data).do_biz()
-
         return Response(status=status.HTTP_200_OK)
 
 
@@ -70,24 +66,25 @@ class PortChainView(APIView):
     def post(self, request):
         data = {
             'fpinstid': request.data["fpinstid"],
-            "ns_model_data": json.loads(request.data['context'])
-        }
+            "ns_model_data": json.loads(request.data['context'])}
         CreatePortChain(data).do_biz()
         return Response(status=status.HTTP_200_OK)
 
 
 class SfcView(APIView):
     def post(self, request):
+        logger.info("Create Sfc Thread start")
+        logger.info("context  : %s" %request.data['context'])
         data = {
             'nsinstid': request.data['nsinstanceid'],
-            "ns_model_data": json.loads(request.data['context']),
+            "ns_model_data": json.loads(request.data['context']).replace("'",'"'),
             'fpindex': request.data['fpindex'],
             'fpinstid': str(uuid.uuid4()),
-            'sdncontrollerid': request.data["sdncontrollerid"]
-        }
+            'sdncontrollerid': request.data["sdncontrollerid"]}
         worker = CreateSfcWorker(data)
         job_id = worker.init_data()
         worker.start()
+        logger.info("Create Sfc Thread end")
         return Response(data={"jobId": job_id,
                               "sfcInstId": data["fpinstid"]},
                         status=status.HTTP_200_OK)

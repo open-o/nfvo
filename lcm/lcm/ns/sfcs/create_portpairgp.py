@@ -14,34 +14,45 @@
 
 
 import json
+import logging
 
-from lcm.ns.const import OWNER_TYPE
 from lcm.ns.sfcs.utils import get_fp_model_by_fp_inst_id
-from lcm.pub.database.models import FPInstModel, NfInstModel, CPInstModel, PortInstModel
+from lcm.pub.database.models import FPInstModel, NfInstModel, CPInstModel, PortInstModel, VNFCInstModel
 from lcm.pub.msapi import extsys
 from lcm.pub.msapi import sdncdriver
+
+logger = logging.getLogger(__name__)
 
 
 class CreatePortPairGroup(object):
     def __init__(self, data):
         self.fp_inst_id = data["fpinstid"]
         self.ns_model_data = data["ns_model_data"]
-        self.ns_inst_id = data["ns_inst_id"]
+        self.ns_inst_id = data["nsinstid"]
         self.fp_model = get_fp_model_by_fp_inst_id(self.ns_model_data,
                                                    self.fp_inst_id)
         self.port_pair_groups = []
+        self.port_pair_group_db_infos = []
 
     def do_biz(self):
+        logger.info("CreatePortPairGroup start")
         self.init_port_pair_group(self.fp_model)
         self.create_port_pair_and_groups()
+        self.save_port_pair_group_info_2_db()
+        logger.info("CreatePortPairGroup end")
 
     def create_port_pair_and_groups(self):
         for port_pair_group_info in self.port_pair_groups:
-            port_pairs_info = port_pair_group_info["portpair"]
+            port_pairs_info = port_pair_group_info.get("portpair")
             port_pair_ids = []
             for port_pair_info in port_pairs_info:
                 port_pair_ids.append(self.create_port_pair(port_pair_info))
             self.create_port_pair_and_group(port_pair_ids)
+
+    def save_port_pair_group_info_2_db(self):
+        logger.info("portpairgroups in fpinstmodel:%s" % self.port_pair_group_db_infos)
+        FPInstModel.objects.filter(fpinstid=self.fp_inst_id).update(
+            portpairgroups=json.JSONEncoder().encode(self.port_pair_group_db_infos))
 
     def create_port_pair_and_group(self, port_pair_ids):
         # url = const.port_pair_group_url
@@ -50,34 +61,18 @@ class CreatePortPairGroup(object):
             "url": extsys.get_sdn_controller_by_id(self.sdncontrollerid)["url"],
             "portPairs": port_pair_ids
         }
-        # req_param = json.JSONEncoder.encode(port_pair_group)
-        # ret = req_by_msb("OPENAPI_CREATE_PORTPAIRGROUP", port_pair_group)
-        # if (ret[0] > 0):
-        #     sfc_inst_failed_handle(self.fp_inst_id, "create port pair request to Driver failed.")
-        #     raise NSLCMException('create port pair request to Driver failed.')
-        # ret_body = json.loads(ret[1])
-        # port_pair_group_id = ignorcase_get(ret_body, "id")
         port_pair_group_id = sdncdriver.create_port_pair_group(port_pair_group)
-
         port_pair_group_info = {
             "groupid": port_pair_group_id,
-            "portpair": port_pair_ids
-        }
+            "portpair": port_pair_ids}
 
-        port_pair_group_in_db_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get().portpairgroups
-        port_pair_group_db = []
-        if port_pair_group_in_db_info:
-            port_pair_group_db = json.loads(port_pair_group_in_db_info)
-        port_pair_group_db.append(port_pair_group_info)
-        FPInstModel.objects.filter(fpinstid=self.fp_inst_id).update(
-            portpairgroups=json.JSONEncoder().encode(port_pair_group_db))
+        self.port_pair_group_db_infos.append(port_pair_group_info)
 
     def create_port_pair(self, port_pair_info):
         # url = const.port_pair_url
         port_pair_info.update({
             "sdnControllerId": self.sdncontrollerid,
-            "url": extsys.get_sdn_controller_by_id(self.sdncontrollerid)["url"]
-        })
+            "url": extsys.get_sdn_controller_by_id(self.sdncontrollerid)["url"]})
         return sdncdriver.create_port_pair(port_pair_info)
         # req_param = json.JSONEncoder.encode(port_pair_info)
         # ret = req_by_msb(url,"POST",port_pair_info)
@@ -96,8 +91,10 @@ class CreatePortPairGroup(object):
             if (forwarder_list[index]["type"] == "cp"):
                 index += self.generate_port_pair_group_cp(index, forwarder_list)
             else:
-                self.generate_port_pair_group_vnf(index, forwarder_list)
+                index += self.generate_port_pair_group_vnf(index, forwarder_list)
             index += 1
+
+        logger.info("port pair group: %s" % self.port_pair_groups)
 
     def generate_port_pair_group_cp(self, index, forwarder_list):
         cur_forwarder = forwarder_list[index]["node_name"]
@@ -108,13 +105,11 @@ class CreatePortPairGroup(object):
             if (cur_cp_model_info["pnf_id"] == next_cp_model_info["pnf_id"]):  # same port pair group
                 self.generate_port_pair_group_type_cp(cur_cp_model_info, next_cp_model_info)
                 return 1
-            else:
-                self.generate_port_pair_group_type_cp(cur_cp_model_info, cur_cp_model_info)
-        else:
-            self.generate_port_pair_group_type_cp(cur_cp_model_info, cur_cp_model_info)
+        self.generate_port_pair_group_type_cp(cur_cp_model_info, cur_cp_model_info)
         return 0
 
     def generate_port_pair_group_vnf(self, index, forwarder_list):
+        incre = 0
         cur_vnf_id = forwarder_list[index]["node_name"]
         cur_forwarder = forwarder_list[index]["capability"]
         self.vnf_model_in_ns_info = self.get_vnf_model_info_by_vnf_id(cur_vnf_id)
@@ -125,9 +120,24 @@ class CreatePortPairGroup(object):
         self.vnfd_model_info = vnfd_model_info
         cpd_id = self.get_cpdid_info_forwarder(vnfd_model_info, cur_forwarder)
         self.cp_model_in_vnf = self.get_cp_from_vnfd_model(cpd_id)
-        cp_inst_infos = CPInstModel.objects.filter(cpdid=cpd_id,
-                                                   ownertype=OWNER_TYPE.VNF,
-                                                   ownerid=vnf_inst_database_info.nfinstid)
+
+        vnfc_inst_infos = VNFCInstModel.objects.filter(nfinstid=vnf_inst_database_info.nfinstid)
+
+        if not vnfc_inst_infos:
+            logger.error("VNFCInstModel is None")
+            return 0
+        cp_inst_infos = []
+        for vnfc_inst_info in vnfc_inst_infos:
+            cp_db_info = CPInstModel.objects.filter(cpdid=cpd_id,
+                                                    # ownertype=OWNER_TYPE.VNF,
+                                                    ownertype=3,
+                                                    ownerid=vnfc_inst_info.vnfcinstanceid).get()
+            if cp_db_info:
+                cp_inst_infos.append(cp_db_info)
+        if not cp_inst_infos:
+            logger.error("CPInstModel is None")
+            return 0
+        logger.info("cp info : %s" % cp_inst_infos)
         port_pairs = []
         if (index < len(forwarder_list) - 1 and forwarder_list[index + 1]["type"] == "vnf"):
             next_vnf_id = forwarder_list[index + 1]["node_name"]
@@ -137,12 +147,23 @@ class CreatePortPairGroup(object):
             else:
                 next_forwarder = forwarder_list[index]["capability"]
                 next_forwarder_cpd_id = self.get_cpdid_info_forwarder(vnfd_model_info, next_forwarder)
-                next_cp_inst_infos = CPInstModel.objects.filter(cpdid=next_forwarder_cpd_id,
-                                                                ownertype=OWNER_TYPE.VNF,
-                                                                ownerid=vnf_inst_database_info.nfinstid)
 
-                port_pairs.add(self.generate_port_pair_group(cp_inst_infos[0], next_cp_inst_infos[0]))
+                vnfc_inst_infos = VNFCInstModel.objects.filter(nfinstid=vnf_inst_database_info.nfinstid)
 
+                if not vnfc_inst_infos:
+                    logger.error("VNFCInstModel is None")
+                    return 0
+                next_cp_inst_infos = []
+                for vnfc_inst_info in vnfc_inst_infos:
+                    next_cp_db_info = CPInstModel.objects.filter(cpdid=next_forwarder_cpd_id,
+                                                                 # ownertype=OWNER_TYPE.VNF,
+                                                                 ownertype=3,
+                                                                 ownerid=vnfc_inst_info.vnfcinstanceid).get()
+                    if next_cp_db_info:
+                        next_cp_inst_infos.append(next_cp_db_info)
+
+                port_pairs.append(self.generate_port_pair_group(cp_inst_infos[0], next_cp_inst_infos[0]))
+                incre = 1
 
         else:
             for cp_inst_info in cp_inst_infos:
@@ -152,35 +173,38 @@ class CreatePortPairGroup(object):
                 "portpair": port_pairs
             }
         )
+        return incre
 
     def generate_port_pair_group_type_cp(self, ingress_cp_model_info, egress_cp_model_info):
-        sfType = ""
-        requestReclassification = False
-        nshAware = True
-        sfParam = {}
+        sf_type = ""
+        request_reclassification = False
+        nsh_aware = True
+        sf_param = {}
         if ingress_cp_model_info["pnf_id"] == "":
             pass
         else:
             pnf_model_info = self.get_pnf_model_info_by_cpid(ingress_cp_model_info["pnf_id"])
-            sfType = pnf_model_info["properties"]["pnf_type"]
-            nshAware = pnf_model_info["properties"]["nsh_aware"]
-            requestReclassification = pnf_model_info["properties"]["request_reclassification"]
-            sfParam = pnf_model_info["properties"]
+            sf_type = "pnf_" + pnf_model_info["properties"]["pnf_type"]
+            nsh_aware = pnf_model_info["properties"]["nsh_aware"]
+            request_reclassification = pnf_model_info["properties"]["request_reclassification"]
+            sf_param = pnf_model_info["properties"]
         port_pair_info = {
-            "sfType": sfType,
-            "nshAware": nshAware,
-            "requestReclassification": requestReclassification,
+            "sfType": sf_type,
+            "nshAware": nsh_aware,
+            "requestReclassification": request_reclassification,
             "ingress": {
                 "encapsulation": ingress_cp_model_info["properties"]["sfc_encapsulation"],
                 "ip": ingress_cp_model_info["properties"]["ip_address"],
-                "mac": ingress_cp_model_info["properties"]["mac_address"]
+                "mac": ingress_cp_model_info["properties"]["mac_address"],
+                "portName": ingress_cp_model_info["properties"].get("interface_name")
             },
             "egress": {
                 "encapsulation": egress_cp_model_info["properties"]["sfc_encapsulation"],
                 "ip": egress_cp_model_info["properties"]["ip_address"],
-                "mac": egress_cp_model_info["properties"]["mac_address"]
+                "mac": egress_cp_model_info["properties"]["mac_address"],
+                "portName": egress_cp_model_info["properties"].get("interface_name")
             },
-            "sfParam": sfParam
+            "sfParam": sf_param
         }
         self.port_pair_groups.append(
             {
@@ -205,7 +229,7 @@ class CreatePortPairGroup(object):
         egress_port_inst_info = PortInstModel.objects.filter(portid=egress_port).get()
 
         port_pair_info = {
-            "sfType": self.vnf_model_in_ns_info["properties"]["vnf_type"],
+            "sfType": "vnf_" + self.vnf_model_in_ns_info["properties"]["vnf_type"],
             "nshAware": self.vnf_model_in_ns_info["properties"]["nsh_aware"],
             "requestReclassification": self.vnf_model_in_ns_info["properties"]["request_reclassification"],
             "ingress": {

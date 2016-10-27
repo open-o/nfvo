@@ -17,6 +17,7 @@ import logging
 
 from lcm.pub.database.models import VNFFGInstModel, FPInstModel
 from lcm.pub.exceptions import NSLCMException
+from lcm.pub.utils.share_lock import do_biz_with_share_lock
 
 logger = logging.getLogger(__name__)
 
@@ -35,12 +36,14 @@ class SfcInstance(object):
 
     def init_data(self):
         self.fp_model = self.get_fp_model_by_fp_id()
-        self.symmetric = self.fp_model["properties"]["symmetric"]
-        self.policyinfo = self.fp_model["properties"]["policy"]
+        logger.info("fp_model.properties:%s, fp_id:%s" % (self.fp_model["properties"], self.fp_id))
+        if not self.fp_model:
+            return
+        self.symmetric = self.fp_model["properties"].get("symmetric") or True
+        self.policyinfo = self.fp_model["properties"].get("policy")
         self.status = "enabled"
-
-        vnffg_database_info = VNFFGInstModel.objects.get(vnffgdid=self.get_vnffgdid_by_fp_id(),
-                                                         nsinstid=self.ns_inst_id)
+        vnffg_database_info = VNFFGInstModel.objects.filter(vnffgdid=self.get_vnffgdid_by_fp_id(),
+                                                            nsinstid=self.ns_inst_id).get()
         self.vnffg_inst_id = vnffg_database_info.vnffginstid
 
     def get_fp_model_by_fp_id(self):
@@ -48,6 +51,7 @@ class SfcInstance(object):
         for fp_model in fps_model:
             if fp_model["fp_id"] == self.fp_id:
                 return fp_model
+        return None
 
     def get_vnffgdid_by_fp_id(self):
         vnffgs_model = self.ns_model_data["vnffgs"]
@@ -59,18 +63,19 @@ class SfcInstance(object):
 
     def save(self):
         try:
+            logger.info("Sfc Instanciate save2db start : ")
             FPInstModel(fpid=self.fp_id,
                         fpinstid=self.fp_inst_id,
                         nsinstid=self.ns_inst_id,
                         vnffginstid=self.vnffg_inst_id,
-                        symmetric=0 if self.symmetric == "true" else 1,
+                        symmetric=1 if self.symmetric  else 0 ,
                         policyinfo=self.policyinfo,
                         status=self.status,
                         sdncontrollerid=self.sdnControllerId
                         ).save()
 
-            self.update_vnfffg_info()
-
+            do_biz_with_share_lock("update-sfclist-in-vnffg-%s" % self.ns_inst_id, self.update_vnfffg_info)
+            logger.info("Sfc Instanciate save2db end : ")
 
         except:
             logger.error('SFC instantiation failed')
@@ -78,6 +83,7 @@ class SfcInstance(object):
         return {
             "fpinstid": self.fp_inst_id
         }
+
 
     def update_vnfffg_info(self):
         vnffg_database_info = VNFFGInstModel.objects.filter(vnffginstid=self.vnffg_inst_id).get()

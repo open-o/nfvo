@@ -13,13 +13,18 @@
 # limitations under the License.
 
 
+import logging
+import traceback
 from threading import Thread
 
 from lcm.ns.sfcs.create_flowcla import CreateFlowClassifier
 from lcm.ns.sfcs.create_port_chain import CreatePortChain
 from lcm.ns.sfcs.create_portpairgp import CreatePortPairGroup
 from lcm.ns.sfcs.sfc_instance import SfcInstance
+from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil
+
+logger = logging.getLogger(__name__)
 
 
 class CreateSfcWorker(Thread):
@@ -29,6 +34,7 @@ class CreateSfcWorker(Thread):
         self.ns_model_data = data["ns_model_data"]
         self.fp_id = data["fpindex"]
         self.sdnControllerId = data["sdncontrollerid"]
+        self.fp_inst_id = data["fpinstid"]
         self.data = data
 
     def init_data(self):
@@ -36,8 +42,24 @@ class CreateSfcWorker(Thread):
         return self.job_id
 
     def run(self):
-        rsp = SfcInstance(self.data).do_biz()
-        self.data.append({"fpinstid": rsp.data["fpinstid"]})
-        CreateFlowClassifier(self.data).do_biz()
-        CreatePortPairGroup(self.data).do_biz()
-        CreatePortChain(self.data).do_biz()
+        try:
+            logger.info("CreateSfcWorker  start : ")
+            SfcInstance(self.data).do_biz()
+            JobUtil.add_job_status(self.job_id, 25, "save fp info!", "")
+            CreateFlowClassifier(self.data).do_biz()
+            JobUtil.add_job_status(self.job_id, 50, "create flow classifer successfully!", "")
+            CreatePortPairGroup(self.data).do_biz()
+            JobUtil.add_job_status(self.job_id, 75, "create port pair group successfully!", "")
+            CreatePortChain(self.data).do_biz()
+            JobUtil.add_job_status(self.job_id, 100, "create port chain successful!", "")
+            logger.info("CreateSfcWorker  end : ")
+        except NSLCMException as e:
+            self.handle_exception(e)
+        except Exception as e:
+            self.handle_exception(e)
+
+    def handle_exception(self, e):
+        detail = "sfc instantiation failed, detail message: %s" % e.message
+        JobUtil.add_job_status(self.job_id, 255, "create sfc failed!", "")
+        logger.error(traceback.format_exc())
+        logger.error(detail)

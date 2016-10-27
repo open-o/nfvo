@@ -31,9 +31,11 @@ class CreateFlowClassifier(object):
                                                                 self.fp_inst_id)["properties"]["policy"]
 
     def do_biz(self):
+        logger.info("CreateFlowClassifier start:")
         self.init_data(self.flow_classfiers_model)
         self.create_flow_classfier()
         self.update_fp_inst()
+        logger.info("CreateFlowClassifier end:")
 
     def init_data(self, flow_classfiers_model):
         fp_database_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
@@ -43,8 +45,8 @@ class CreateFlowClassifier(object):
         self.ip_proto = flow_classfiers_model["criteria"]["ip_protocol"],
         self.source_port_range = flow_classfiers_model["criteria"]["source_port_range"],
         self.dest_port_range = flow_classfiers_model["criteria"]["dest_port_range"],
-        self.source_ip_range = flow_classfiers_model["criteria"]["source_ip_range"],
         self.dest_ip_range = flow_classfiers_model["criteria"]["dest_ip_range"]
+        self.source_ip_range = flow_classfiers_model["criteria"]["source_ip_range"]
 
     def update_fp_inst(self):
         fp_inst_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
@@ -61,8 +63,8 @@ class CreateFlowClassifier(object):
             "ip_proto": self.ip_proto,
             "source_port_range": self.source_port_range,
             "dest_port_range": self.dest_port_range,
-            "source_ip_range": self.source_ip_range,
-            "dest_ip_range": self.dest_ip_range
+            "source_ip_range": self.concat_str(self.source_ip_range),
+            "dest_ip_range": self.concat_str(self.dest_ip_range)
         }
         # req_param = json.JSONEncoder().encoding(data)
         # url = "/openoapi/sdncdriver/v1.0/createflowclassfier"
@@ -73,3 +75,8 @@ class CreateFlowClassifier(object):
         #     raise NSLCMException('Send Flow Classifier request to Driver failed.')
         # resp_body = json.loads(ret[1])
         self.flow_classfier_id = sdncdriver.create_flow_classfier(data)
+    def concat_str(self, str_list):
+        final_str = ""
+        for str in str_list:
+            final_str += str + ","
+        return final_str[:-1]

@@ -66,7 +66,9 @@ class TestSfc(TestCase):
             "/openoapi/sdncdriver/v1.0/createportpair":
                 [0, json.JSONEncoder().encode({"id": "createportpair_id"}), '200'],
             "/openoapi/sdncdriver/v1.0/createportpairgroup":
-                [0, json.JSONEncoder().encode({"id": "createportpairgroup_id"}), '200']
+                [0, json.JSONEncoder().encode({"id": "createportpairgroup_id"}), '200'],
+            "/openoapi/microservices/v1/services":
+                [0, None, '200']
         }
 
         def side_effect(*args):

@@ -40,7 +40,9 @@ class TestSfc(TestCase):
             "/openoapi/extsys/v1/sdncontrollers/test":
                 [0, json.JSONEncoder().encode({"url": "url_1"}), '200'],
             "/openoapi/sdncdriver/v1.0/createflowclassfier":
-                [0, json.JSONEncoder().encode({"id": "test_id_1"}), '200']
+                [0, json.JSONEncoder().encode({"id": "test_id_1"}), '200'],
+            "/openoapi/microservices/v1/services":
+                [0, None, '200']
 
         }
 
