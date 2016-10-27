@@ -33,6 +33,7 @@ class CreateVls(object):
         self.owner_id = ignore_case_get(data, "nsInstanceId")
         self.index = int(ignore_case_get(data, "vlIndex"))
         self.context = ignore_case_get(data, "context")
+        self.additionalParam = ignore_case_get(data, "additionalParamForVnf")
         self.vl_inst_id = str(uuid.uuid4())
         self.owner_type = OWNER_TYPE.NS
         self.vld_id = ""
@@ -66,7 +67,8 @@ class CreateVls(object):
         return {"result": 1, "detail": detail, "vlId": self.vl_inst_id}
 
     def get_data(self):
-        self.context = json.JSONDecoder().decode(self.context)
+        if isinstance(self.context, (unicode, str)):
+            self.context = json.JSONDecoder().decode(self.context)
         vl_info = self.get_vl_info(ignore_case_get(self.context, "vls"))
         self.vld_id = ignore_case_get(vl_info, "vl_id")
         self.description = ignore_case_get(vl_info, "description")
@@ -80,25 +82,30 @@ class CreateVls(object):
         return vl_all_info[self.index - 1]
 
     def create_vl_to_vim(self):
-        self.vim_id = self.vl_properties["location_info"]["vimid"]
+        #self.vim_id = self.vl_properties["location_info"]["vimid"]
+        self.vim_id = ignore_case_get(self.additionalParam, "location")
         self.tenant = self.vl_properties["location_info"]["tenant"]
         network_data = {
             "tenant": self.tenant,
-            "name": self.vl_properties.get("network_name", ""),
+            "network_name": self.vl_properties.get("network_name", ""),
             "shared": const.SHARED_NET,
             "network_type": self.vl_properties.get("network_type", ""),
             "mtu": self.vl_properties.get("mtu", const.DEFAULT_MTU),
             "vlan_transparent": self.vl_properties.get("vlan_transparent", False),
             "subnet_list": [{
                 "subnet_name": self.vl_properties.get("name", ""),
-                "cidr": self.vl_properties.get("cidr", ""),
+                "cidr": self.vl_properties.get("cidr", "192.168.0.0/24"),
                 "ip_version": self.vl_properties.get("ip_version", const.IPV4),
                 "enable_dhcp": self.vl_properties.get("dhcp_enabled", False),
                 "gateway_ip": self.vl_properties.get("gateway_ip", ""),
                 "dns_nameservers": self.vl_properties.get("dns_nameservers", ""),
-                "allocation_pools": [
-                    {"start": self.vl_properties.get("start_ip", ""), "end": self.vl_properties.get("end_ip", "")}],
                 "host_routes": self.vl_properties.get("host_routes", "")}]}
+        startip = self.vl_properties.get("start_ip", "")
+        endip = self.vl_properties.get("end_ip", "")
+        if startip and endip:
+            network_data["subnet_list"][0]["allocation_pools"] = [
+                {"start": startip, "end": endip}]
+
         vl_resp = self.create_network_to_vim(network_data)
         self.related_network_id = vl_resp["id"]
         self.related_subnetwork_id = vl_resp["subnet_list"][0]["id"] if vl_resp["subnet_list"] else ""
