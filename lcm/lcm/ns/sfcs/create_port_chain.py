@@ -29,13 +29,15 @@ class CreatePortChain(object):
         self.ns_model_info = data["ns_model_data"]
 
     def do_biz(self):
+        logger.info("CreatePortChain start:")
         self.init_data()
         self.create_sfc()
+        logger.info("CreatePortChain end:")
 
     def init_data(self):
         fp_inst_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
         self.sdnControllerId = fp_inst_info.sdncontrollerid
-        self.symmetric = fp_inst_info.symmetric
+        self.symmetric = "true" if fp_inst_info.symmetric == 1 else "false"
         flow_classfier_str = fp_inst_info.flowclassifiers
         self.flow_classfier_ids = [flow_classfier_str]
         portpairgroup_ids = []
