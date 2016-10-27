@@ -20,7 +20,7 @@ from rest_framework import status
 
 from lcm.pub.database.models import NSInstModel
 from lcm.pub.msapi.catalog import get_process_id, get_download_url_from_catalog
-from lcm.pub.msapi.tosca import tosca_plan
+from lcm.pub.msapi.catalog import query_rawdata_from_catalog, get_servicetemplate_id
 from lcm.pub.msapi.wso2bpel import workflow_run
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils import toscautil
@@ -31,25 +31,35 @@ logger = logging.getLogger(__name__)
 class InstantNSService(object):
     def __init__(self, ns_inst_id, plan_content):
         self.ns_inst_id = ns_inst_id
-        self.plan_input = plan_content
-        self.yaml_relative_path = 'abc.yaml'  # TODO
+        self.req_data = plan_content
 
     def do_biz(self):
         try:
             job_id = JobUtil.create_job("NS", "NS_INST", self.ns_inst_id)
             logger.debug('ns-instant(%s) workflow starting...' % self.ns_inst_id)
+            logger.debug('req_data=%s' % self.req_data)
             ns_inst = NSInstModel.objects.get(id=self.ns_inst_id)
-            url, _ = get_download_url_from_catalog(ns_inst.nspackage_id, self.yaml_relative_path)
-            logger.debug('ns-instant(%s) package-id:%s, yaml-path:%s, catalog-url:%s' %
-                         (self.ns_inst_id, ns_inst.nspackage_id, self.yaml_relative_path, url))
-            src_plan = tosca_plan(url, self.plan_input['additionalParamForNs'])
-            dst_plan = toscautil.convert_nsd_model(src_plan)
-            logger.debug('ns-instant(%s) tosca plan src:%s, dest:%s' % (self.ns_inst_id, src_plan, dst_plan))
 
-            self.plan_input.update({'jobId': job_id})
-            self.plan_input.update(**self.get_model_count(dst_plan))
-            process_id = get_process_id('LCM', ns_inst.nsd_id)
-            data = {"processId": process_id, "params": {"planInput": self.plan_input}}
+            input_parameters = []
+            for key, val in self.req_data['additionalParamForNs'].items():
+                input_parameters.append({"key": key, "value": val})
+
+            src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
+            dst_plan = toscautil.convert_nsd_model(src_plan["rawData"])
+            logger.debug('tosca plan dest:%s' % dst_plan)
+
+            params_json = json.JSONEncoder().encode(self.req_data["additionalParamForNs"])
+            plan_input = {'jobId': job_id, 
+                'nsInstanceId': self.req_data["nsInstanceId"],
+                'object_context': dst_plan,
+                'object_additionalParamForNs': params_json,
+                'object_additionalParamForVnf': params_json}
+            plan_input.update(**self.get_model_count(dst_plan))
+
+
+            servicetemplate_id = get_servicetemplate_id(ns_inst.nsd_id)
+            process_id = get_process_id('init', servicetemplate_id)
+            data = {"processId": process_id, "params": {"planInput": plan_input}}
             logger.debug('ns-instant(%s) workflow data:%s' % (self.ns_inst_id, data))
 
             ret = workflow_run(data)

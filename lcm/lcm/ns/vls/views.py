@@ -20,16 +20,21 @@ from lcm.ns.vls.create_vls import CreateVls
 from lcm.ns.vls.delete_vls import DeleteVls
 from lcm.ns.vls.get_vls import GetVls
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class VlView(APIView):
     def post(self, request):
-        print "VlsCreateView--post::> %s" % request.data
+        logger.debug("VlsCreateView--post::> %s" % request.data)
         resp = CreateVls(request.data).do()
         return Response(data=resp, status=status.HTTP_201_CREATED)
 
 
 class VlDetailView(APIView):
     def get(self, request, vl_inst_id):
+        logger.debug("VlDetailView--get::> %s" % vl_inst_id)
         vl_inst_info = GetVls(vl_inst_id).do()
         if not vl_inst_info:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -38,5 +43,6 @@ class VlDetailView(APIView):
                                                          'vlStatus': "active"})
 
     def delete(self, request_paras, vl_inst_id):
+        logger.debug("VlDetailView--delete::> %s" % vl_inst_id)
         resp = DeleteVls(vl_inst_id).do()
         return Response(data=resp, status=status.HTTP_202_ACCEPTED)
