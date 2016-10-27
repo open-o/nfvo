@@ -25,22 +25,22 @@ def create_vl(req_param):
     ret = req_by_msb("/openoapi/resmgr/v1/vl", "POST", json.JSONEncoder().encode(req_param))
     if ret[0] != 0:
         logger.error("Failed to create vl to resmgr. detail is %s.", ret[1])
-        raise NSLCMException('Failed to create vl to resmgr.')
-    return json.JSONDecoder().decode(ret[1])
+        #raise NSLCMException('Failed to create vl to resmgr.')
+    #return json.JSONDecoder().decode(ret[1])
 
 
 def delete_vl(vl_inst_id):
     ret = req_by_msb("/openoapi/resmgr/v1/vl/%s" % vl_inst_id, "DELETE")
     if ret[0] != 0:
         logger.error("Failed to delete vl(%s) to resmgr. detail is %s.", vl_inst_id, ret[1])
-        raise NSLCMException("Failed to delete vl(%s) to resmgr." % vl_inst_id)
+        #raise NSLCMException("Failed to delete vl(%s) to resmgr." % vl_inst_id)
 
 
 def delete_sfc(sfc_inst_id):
     ret = req_by_msb("/openoapi/resmgr/v1/sfc/%s" % sfc_inst_id, "DELETE")
     if ret[0] != 0:
         logger.error("Failed to delete sfc(%s) to resmgr. detail is %s.", sfc_inst_id, ret[1])
-        raise NSLCMException("Failed to delete sfc(%s) to resmgr." % sfc_inst_id)
+        #raise NSLCMException("Failed to delete sfc(%s) to resmgr." % sfc_inst_id)
 
 
 def grant_vnf(req_param):
@@ -72,7 +72,7 @@ def create_vnf(data):
     ret = req_by_msb(uri, "POST", req_param)
     if ret[0] != 0:
         logger.error('Send create VNF request to resmgr failed.')
-        raise NSLCMException('Send create VNF request to resmgr failed.')
+        #raise NSLCMException('Send create VNF request to resmgr failed.')
 
 
 def create_vnf_creation_info(data):
@@ -86,4 +86,4 @@ def create_vnf_creation_info(data):
     ret = req_by_msb(uri, "POST", req_param)
     if ret[0] > 0:
         logger.error('Send write vnf creation information to resmgr failed.')
-        raise NSLCMException('Send write vnf creation information to resmgr failed.')
+        #raise NSLCMException('Send write vnf creation information to resmgr failed.')

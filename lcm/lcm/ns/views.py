@@ -99,7 +99,6 @@ class SwaggerJsonView(APIView):
         f = open(json_file)
         json_data = json.JSONDecoder().decode(f.read())
         f.close()
-        logger.debug("SwaggerJsonView::get::json_data= %s", json_data)
         return Response(json_data)
 
 

@@ -47,8 +47,7 @@ def create_image(auth_info, data):
     ret = None
     glance = glancebase.get_glance(fun_name(), auth_info)
 
-    glance_v1 = glancebase.get_glance(fun_name(), auth_info, ver="v1")
-    exist_img = [img for img in glance_v1.images.list() if img.name == data["image_name"]]
+    exist_img = [img for img in glance.images.list() if img.name == data["image_name"]]
     if exist_img:
         ret = [0, {"id": exist_img[0].id, "name": data["image_name"], const.RES_TYPE_KEY: const.RES_TYPE_EXIST}]
     else:
@@ -68,7 +67,7 @@ def create_image(auth_info, data):
 
 def get_image(auth_info, image_id):
     from glanceclient.exc import HTTPNotFound
-    glance = glancebase.get_glance(fun_name(), auth_info, ver='v1')
+    glance = glancebase.get_glance(fun_name(), auth_info)
     img = None
     try:
         img = glance.images.get(image_id)
@@ -93,7 +92,7 @@ def delete_image(auth_info, image_id):
 
 
 def get_images(auth_info):
-    glance = glancebase.get_glance(fun_name(), auth_info, ver='v1')
+    glance = glancebase.get_glance(fun_name(), auth_info)
     imgs = glance.images.list()
     return [0, {"image_list": [get_single_image(img) for img in imgs]}]
 

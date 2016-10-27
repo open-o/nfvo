@@ -82,3 +82,14 @@ def get_process_id(name, srv_template_id):
         if item['name'] == name:
             return item['processId']
     raise NSLCMException('service[%s,%s] process id not exist' % (name, srv_template_id))
+
+def get_servicetemplate_id(nsd_id):
+    ret = req_by_msb('/openoapi/catalog/v1/servicetemplates', 'GET')
+    if ret[0] != 0:
+        raise NSLCMException('Failed to get servicetemplates info')
+    stpls = json.JSONDecoder().decode(ret[1])
+    for stpl in stpls:
+        if stpl["id"] == nsd_id:
+            return stpl["serviceTemplateId"]
+    raise NSLCMException('servicetemplate(%s) does not exist.' % nsd_id)
+    
