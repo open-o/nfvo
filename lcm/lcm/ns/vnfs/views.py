@@ -31,9 +31,9 @@ logger = logging.getLogger(__name__)
 
 class NfView(APIView):
     def post(self, request):
-        print "VnfCreateView--post::> %s" % request.data
+        logger.debug("VnfCreateView--post::> %s" % request.data)
         data = {'ns_instance_id': ignore_case_get(request.data, 'nsInstanceId'),
-                'additional_param_for_ns': ignore_case_get(request.data, 'additionalParamForNs'),
+                'additional_param_for_ns': ignore_case_get(request.data, 'additionalParamForVnf'),
                 'additional_param_for_vnf': ignore_case_get(request.data, 'additionalParamForVnf'),
                 'vnf_index': ignore_case_get(request.data, 'vnfIndex')}
         nf_inst_id, job_id = create_vnfs.prepare_create_params()
@@ -46,7 +46,7 @@ class NfView(APIView):
 
 class NfDetailView(APIView):
     def get(self, request, vnfinstid):
-        print "VnfQueryView--get::> %s" % vnfinstid
+        logger.debug("VnfQueryView--get::> %s" % vnfinstid)
         nf_inst_info = GetVnf(vnfinstid).do_biz()
         if not nf_inst_info:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -55,6 +55,7 @@ class NfDetailView(APIView):
                               'vnfStatus': nf_inst_info[0].status})
 
     def post(self, request_paras, vnfinstid):
+        logger.debug("VnfQueryView--post::> %s" % vnfinstid)
         vnf_inst_id = vnfinstid
         terminationType = ignore_case_get(request_paras.data, 'terminationType')
         gracefulTerminationTimeout = ignore_case_get(request_paras.data, 'gracefulTerminationTimeout')
@@ -67,6 +68,7 @@ class NfDetailView(APIView):
 
 class NfGrant(APIView):
     def post(self, request):
+        logger.debug("NfGrant--post::> %s" % request.data)
         try:
             vnf_inst_id = ignore_case_get(request.data, 'vnfInstanceId')
             job_id = JobUtil.create_job("VNF", JOB_TYPE.GRANT_VNF, vnf_inst_id)
@@ -78,6 +80,7 @@ class NfGrant(APIView):
 
 class LcmNotify(APIView):
     def post(self, request_paras, vnfmid, vnfInstanceId):
+        logger.debug("LcmNotify--post::> %s" % request_paras.data)
         try:
             NotifyLcm(vnfmid, vnfInstanceId, request_paras.data).do_biz()
             return Response(data={}, status=status.HTTP_201_CREATED)
