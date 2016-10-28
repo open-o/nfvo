@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_nf_init_request(vnfm_inst_id, vnf_inst_name, nf_package_id, vnfd_id, inputs):
-    uri = '/openoapi/%s/v1/%s/vnfs' % ('zte-vnfm', vnfm_inst_id)
+    uri = '/openoapi/%s/v1/%s/vnfs' % ('ztevmanagerdriver', vnfm_inst_id)
     req_param = json.JSONEncoder().encode(
         {'vnfInstanceName': vnf_inst_name, 'vnfPackageId': nf_package_id, 'vnfDescriptorId': vnfd_id,
          'additionalParam': inputs})

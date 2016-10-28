@@ -99,7 +99,7 @@ class TerminateVnfs(Thread):
         JobUtil.add_job_status(self.job_id, 255, 'VNF Terminate failed, detail message: %s' % error_msg, 0)
 
     def send_nf_terminate_to_vnfmDriver(self):
-        uri = '/openoapi/%s/v1/%s/vnfs/%s/terminate' % ('zte-vnfm', self.vnfm_inst_id, self.vnf_inst_id)
+        uri = '/openoapi/%s/v1/%s/vnfs/%s/terminate' % ('ztevmanagerdriver', self.vnfm_inst_id, self.vnf_inst_id)
         req_param = json.JSONEncoder().encode(
             {'terminationType': self.terminationType, 'gracefulTerminationTimeout': self.gracefulTerminationTimeout})
         ret = req_by_msb(uri, "POST", req_param)

@@ -33,7 +33,7 @@ class CreateVls(object):
         self.owner_id = ignore_case_get(data, "nsInstanceId")
         self.index = int(ignore_case_get(data, "vlIndex"))
         self.context = ignore_case_get(data, "context")
-        self.additionalParam = ignore_case_get(data, "additionalParamForVnf")
+        self.additionalParam = ignore_case_get(data, "additionalParamForNs")
         self.vl_inst_id = str(uuid.uuid4())
         self.owner_type = OWNER_TYPE.NS
         self.vld_id = ""

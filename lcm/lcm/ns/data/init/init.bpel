@@ -348,6 +348,24 @@
                                 </from>
                 <to variable="request"></to>
             </copy>
+			
+			
+			
+			 <copy>
+                                            <from variable="object_additionalParamForNs">
+                </from>
+                                            <to variable="temp"/>
+            </copy>
+            
+            <copy>
+                <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[concat($request,'"additionalParamForNs":',$temp,',')]]>
+                                </from>
+                <to variable="request"></to>
+            </copy>
+			
+			
+			
                     <copy>
                                             <from variable="vl_index">
                 </from>
@@ -398,7 +416,7 @@
         </copy>
             <copy>
                     <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-            <![CDATA[concat(translate($vl_status,'1',''), 'active')]]>
+            <![CDATA[concat(translate($vl_status,'0',''), 'active')]]>
             </from>
                     <to variable="vl_status"/>
         </copy>
@@ -406,7 +424,7 @@
 </scope>
 
                     <wait name="Wait">
-                <for><![CDATA['PT01M30.0S']]></for>
+                <for><![CDATA['PT00M05.0S']]></for>
             </wait>
         </sequence>
     </while>
@@ -579,10 +597,44 @@
             
             <copy>
                 <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                <![CDATA[concat($request,'"additionalParamForVnf":',$temp)]]>
+                                <![CDATA[concat($request,'"additionalParamForVnf":',$temp,',')]]>
                                 </from>
                 <to variable="request"></to>
             </copy>
+			
+						 <copy>
+                                            <from variable="object_additionalParamForNs">
+                </from>
+                                            <to variable="temp"/>
+            </copy>
+            
+            <copy>
+                <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[concat($request,'"additionalParamForNs":',$temp,',')]]>
+                                </from>
+                <to variable="request"></to>
+            </copy>
+			
+			
+			
+                    <copy>
+                                            <from variable="vnf_index">
+                </from>
+                                            <to variable="temp"/>
+            </copy>
+            
+            <copy>
+                <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[concat($request,'"vnfindex":',$temp)]]>
+                                </from>
+                <to variable="request"></to>
+            </copy>
+			
+			
+			
+			
+			
+			
                     <copy>
                 <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                 <![CDATA[concat($request,'}')]]>

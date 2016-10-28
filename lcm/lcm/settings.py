@@ -127,6 +127,8 @@ LOGGING = {
 }
 
 if 'test' in sys.argv:
+    from lcm.pub.config import config
+    config.REG_TO_MSB_WHEN_START = False
     DATABASES = {}
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
