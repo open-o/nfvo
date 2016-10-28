@@ -81,7 +81,7 @@ class TestCreateVnfViews(TestCase):
     @mock.patch.object(restcall, 'call_req')
     def test_create_vnf_thread(self, mock_call_req):
         mock_vals = {
-            "/openoapi/zte-vnfm/v1/1/vnfs":
+            "/openoapi/ztevmanagerdriver/v1/1/vnfs":
                 [0, json.JSONEncoder().encode({"jobId": self.job_id, "vnfInstanceId": 3}), '200'],
             "/openoapi/extsys/v1/vnfms/1":
                 [0, json.JSONEncoder().encode({"name": 'vnfm1'}), '200'],
@@ -89,7 +89,7 @@ class TestCreateVnfViews(TestCase):
                 [0, json.JSONEncoder().encode({}), '200'],
             "/openoapi/resmgr/v1/vnfinfo":
                 [0, json.JSONEncoder().encode({}), '200'],
-            "/openoapi/zte-vnfm/v1/jobs/" + self.job_id + "&responseId=0":
+            "/openoapi/ztevmanagerdriver/v1/jobs/" + self.job_id + "&responseId=0":
                 [0, json.JSONEncoder().encode({"jobid": self.job_id,
                                                "responsedescriptor": {"progress": "100",
                                                                       "status": JOB_MODEL_STATUS.FINISHED,
@@ -160,11 +160,11 @@ class TestTerminateVnfViews(TestCase):
             self.failUnlessEqual(1, 0)
 
         mock_vals = {
-            "/openoapi/zte-vnfm/v1/1/vnfs/1/terminate":
+            "/openoapi/ztevmanagerdriver/v1/1/vnfs/1/terminate":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
             "/openoapi/resmgr/v1/vnf":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
-            "/openoapi/zte-vnfm/v1/jobs/" + job_id + "&responseId=0":
+            "/openoapi/ztevmanagerdriver/v1/jobs/" + job_id + "&responseId=0":
                 [0, json.JSONEncoder().encode({"jobId": job_id,
                                                "responsedescriptor": {"progress": "100",
                                                                       "status": JOB_MODEL_STATUS.FINISHED,

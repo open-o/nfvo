@@ -47,13 +47,24 @@ class InstantNSService(object):
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
             dst_plan = toscautil.convert_nsd_model(src_plan["rawData"])
             logger.debug('tosca plan dest:%s' % dst_plan)
+            NSInstModel.objects.filter(id=self.ns_inst_id).update(nsd_model=dst_plan)
 
             params_json = json.JSONEncoder().encode(self.req_data["additionalParamForNs"])
+            # start
+            params_vnf = [{
+                "vnfProfileId": "VBras",
+                "additionalParam": {
+                    "vnfmInstanceId": "09c22797-6331-4c5d-82ec-6d06e37d5cc4",
+                    "inputs": params_json
+                }
+            }]
+            # end
+            vnf_params_json = json.JSONEncoder().encode(params_vnf)
             plan_input = {'jobId': job_id, 
                 'nsInstanceId': self.req_data["nsInstanceId"],
                 'object_context': dst_plan,
                 'object_additionalParamForNs': params_json,
-                'object_additionalParamForVnf': params_json}
+                'object_additionalParamForVnf': vnf_params_json}
             plan_input.update(**self.get_model_count(dst_plan))
 
 
