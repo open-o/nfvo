@@ -189,7 +189,88 @@
      <bean id="limitsRoa" class="org.openo.nfvo.resmanagement.service.rest.LimitsRoa">
         <property name="limitsBusiness" ref="limitsBusiness"></property>
     </bean>
+    
+    <!-- vl -->
+    <bean id="virtualLinkDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.VirtualLinkDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+    
+    <bean id="virtualLink"
+        class="org.openo.nfvo.resmanagement.service.group.impl.VirtualLinkServiceImpl">
+        <property name="virtualLinkDao" ref="virtualLinkDao"></property>
+    </bean>
 
+     <bean id="virtualLinkRoa" class="org.openo.nfvo.resmanagement.service.rest.VirtualLinkRoa">
+        <property name="virtualLink" ref="virtualLink"></property>
+    </bean>
+    
+    <!-- vnf -->
+    <bean id="vnfDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.VnfDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+    
+    <bean id="vnfService"
+        class="org.openo.nfvo.resmanagement.service.group.impl.VnfServiceImpl">
+        <property name="vnfDao" ref="vnfDao"></property>
+    </bean>
+
+    <bean id="vnfRoa" class="org.openo.nfvo.resmanagement.service.rest.VnfRoa">
+        <property name="vnfService" ref="vnfService"></property>
+    </bean>
+    
+    <!-- vm -->
+    <bean id="vmDao" class="org.openo.nfvo.resmanagement.service.dao.impl.VmDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+    
+    <bean id="vmService" class="org.openo.nfvo.resmanagement.service.group.impl.VmServiceImpl">
+        <property name="vmDao" ref="vmDao"></property>
+    </bean>
+    
+    <bean id="vmRoa" class="org.openo.nfvo.resmanagement.service.rest.VmRoa">
+        <property name="vmService" ref="vmService"></property>
+    </bean>
+    
+    <!-- vnfInfo -->
+    <bean id="vnfInfoDao"
+        class="org.openo.nfvo.resmanagement.service.dao.impl.VnfInfoDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+    
+    <bean id="vnfInfoService"
+        class="org.openo.nfvo.resmanagement.service.group.impl.VnfInfoServiceImpl">
+        <property name="vnfInfoDao" ref="vnfInfoDao"></property>
+        <property name="vmService" ref="vmService"></property>
+    </bean>
+
+    <bean id="vnfInfoRoa" class="org.openo.nfvo.resmanagement.service.rest.VnfInfoRoa">
+        <property name="vnfInfoService" ref="vnfInfoService"></property>
+    </bean>
+    
+    <!-- vnfstatus -->
+    <bean id="vnfStatusDao" class="org.openo.nfvo.resmanagement.service.dao.impl.VnfStatusDaoImpl">
+        <property name="session" ref="session"></property>
+    </bean>
+    
+    <bean id="vnfStatusService" class="org.openo.nfvo.resmanagement.service.group.impl.VnfStatusServiceImpl">
+        <property name="vnfStatusDao" ref="vnfStatusDao"></property>
+    </bean>
+    
+    <bean id="vnfStatusRoa" class="org.openo.nfvo.resmanagement.service.rest.VnfStatusRoa">
+        <property name="vnfStatusService" ref="vnfStatusService"></property>
+    </bean>
+    
+    <!-- grantResource -->
+    <bean id="grantResService" class="org.openo.nfvo.resmanagement.service.group.impl.GrantResServiceImpl">
+        <property name="sites" ref="sites"></property>
+    </bean>
+    
+    <bean id="grantResourseRoa" class="org.openo.nfvo.resmanagement.service.rest.GrantResourseRoa">
+        <property name="grantResService" ref="grantResService"></property>
+    </bean>
+    
     <!--group_resoperate -->
     <bean id="resOperateService"
         class="org.openo.nfvo.resmanagement.service.group.impl.ResOperateServiceImpl">
@@ -230,7 +311,13 @@
         <ref bean="sitesRoa" />
         <ref bean="resOperateRoa" />
         <ref bean="limitsRoa" />
-        <ref bean="SwaggerRoa" />
+        <ref bean="virtualLinkRoa" />
+        <ref bean="vnfRoa" />
+        <ref bean="vmRoa" />
+        <ref bean="vnfInfoRoa" />
+        <ref bean="vnfStatusRoa" />
+        <ref bean="grantResourseRoa" />
+	<ref bean="SwaggerRoa" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />

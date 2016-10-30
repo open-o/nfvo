@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.openo.nfvo.resmanagement.service.mapper.VmMapper" >
+  <resultMap id="BaseResultMap" type="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    <id column="vm_id" property="vmId" jdbcType="VARCHAR" />
+    <result column="vm_name" property="vmName" jdbcType="VARCHAR" />
+    <result column="vm_status" property="vmStatus" jdbcType="VARCHAR" />
+    <result column="vnf_instance_id" property="vnfInstanceId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vm_id, vm_name, vm_status, vnf_instance_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart >= 0" >
+       limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vm
+    where vm_id = #{vmId,jdbcType=VARCHAR}
+  </select>
+  <select id="getVms" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from vm
+        <where>
+            <if test="vmId != null">
+                AND vm_id = #{vmId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from vm
+    where vm_id = #{vmId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" >
+    delete from vm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    insert into vm (vm_id, vm_name, vm_status, 
+      vnf_instance_id)
+    values (#{vmId,jdbcType=VARCHAR}, #{vmName,jdbcType=VARCHAR}, #{vmStatus,jdbcType=VARCHAR}, 
+      #{vnfInstanceId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    insert into vm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vmId != null" >
+        vm_id,
+      </if>
+      <if test="vmName != null" >
+        vm_name,
+      </if>
+      <if test="vmStatus != null" >
+        vm_status,
+      </if>
+      <if test="vnfInstanceId != null" >
+        vnf_instance_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vmId != null" >
+        #{vmId,jdbcType=VARCHAR},
+      </if>
+      <if test="vmName != null" >
+        #{vmName,jdbcType=VARCHAR},
+      </if>
+      <if test="vmStatus != null" >
+        #{vmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="vnfInstanceId != null" >
+        #{vnfInstanceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" resultType="java.lang.Integer" >
+    select count(*) from vm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update vm
+    <set >
+      <if test="record.vmId != null" >
+        vm_id = #{record.vmId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vmName != null" >
+        vm_name = #{record.vmName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vmStatus != null" >
+        vm_status = #{record.vmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vnfInstanceId != null" >
+        vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update vm
+    set vm_id = #{record.vmId,jdbcType=VARCHAR},
+      vm_name = #{record.vmName,jdbcType=VARCHAR},
+      vm_status = #{record.vmStatus,jdbcType=VARCHAR},
+      vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    update vm
+    <set >
+      <if test="vmName != null" >
+        vm_name = #{vmName,jdbcType=VARCHAR},
+      </if>
+      <if test="vmStatus != null" >
+        vm_status = #{vmStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="vnfInstanceId != null" >
+        vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vm_id = #{vmId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
+    update vm
+    set vm_name = #{vmName,jdbcType=VARCHAR},
+      vm_status = #{vmStatus,jdbcType=VARCHAR},
+      vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+    where vm_id = #{vmId,jdbcType=VARCHAR}
+  </update>
+</mapper>

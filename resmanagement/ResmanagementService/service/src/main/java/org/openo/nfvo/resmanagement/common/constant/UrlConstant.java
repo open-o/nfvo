@@ -37,6 +37,10 @@ public class UrlConstant {
      */
     public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
 
+    public static final String ESR_GET_VIM_URL = "/openoapi/extsys/v1/vims/%s";
+
+    public static final String ESR_GET_VIMS_URL = "/openoapi/extsys/v1/vims";
+
     /**
      * send resource info to monitor url
      */
@@ -56,6 +60,36 @@ public class UrlConstant {
      * host url.
      */
     public static final String HOST_URL = "/v1/hosts";
+
+    /**
+     * vl url.
+     */
+    public static final String VL_URL = "/v1/vl";
+
+    /**
+     * vnf url.
+     */
+    public static final String VNF_URL = "/v1/vnf";
+
+    /**
+     * vnfinfo url.
+     */
+    public static final String VNFINFO_URL = "/v1/vnfinfo";
+
+    /**
+     * vnfstatus url.
+     */
+    public static final String VNFSTATUS_URL = "/v1/vnfstatus";
+
+    /**
+     * grant resource url.
+     */
+    public static final String GRANTRES_URL = "/v1/resource/grant";
+
+    /**
+     * vm url.
+     */
+    public static final String VM_URL = "/v1/vm";
 
     /**
      * sites target.
