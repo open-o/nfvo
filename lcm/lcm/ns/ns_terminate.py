@@ -19,6 +19,7 @@ import json
 from lcm.pub.utils.restcall import req_by_msb
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NSInstModel, VLInstModel, FPInstModel, NfInstModel
+from lcm.pub.database.models import DefPkgMappingModel, InputParamMappingModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
 
@@ -280,3 +281,6 @@ class DeleteNsService(object):
 
     def delete_ns(self):
         NSInstModel.objects.filter(id=self.ns_inst_id).delete()
+        DefPkgMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
+        ServiceBaseInfoModel.objects.filter(service_id=self.ns_inst_id).delete()
+        InputParamMappingModel.objects.filter(service_id=self.ns_inst_id).delete()

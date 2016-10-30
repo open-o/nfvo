@@ -93,3 +93,12 @@ def get_servicetemplate_id(nsd_id):
             return stpl["serviceTemplateId"]
     raise NSLCMException('servicetemplate(%s) does not exist.' % nsd_id)
     
+def get_servicetemplate(nsd_id):
+    ret = req_by_msb('/openoapi/catalog/v1/servicetemplates', 'GET')
+    if ret[0] != 0:
+        raise NSLCMException('Failed to get servicetemplates info')
+    stpls = json.JSONDecoder().decode(ret[1])
+    for stpl in stpls:
+        if stpl["id"] == nsd_id:
+            return stpl
+    return NSLCMException('servicetemplate(%s) does not exist.' % nsd_id)

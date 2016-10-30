@@ -26,7 +26,7 @@ from lcm.ns.ns_instant import InstantNSService
 from lcm.ns.ns_terminate import TerminateNsService, DeleteNsService
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.database.models import NSInstModel
+from lcm.pub.database.models import NSInstModel, ServiceBaseInfoModel
 
 logger = logging.getLogger(__name__)
 
@@ -108,6 +108,7 @@ class NSInstPostDealView(APIView):
         ns_status = 'ACTIVE' if ignore_case_get(request.data, 'status') == 'true' else 'FAILED'
         try:
             NSInstModel.objects.filter(id=ns_instance_id).update(status=ns_status)
+            ServiceBaseInfoModel.objects.filter(service_id=ns_instance_id).update(status=ns_status)
         except:
             logger.error(traceback.format_exc())
             return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},

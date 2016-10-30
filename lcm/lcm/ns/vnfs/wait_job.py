@@ -21,27 +21,9 @@ import math
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil, JOB_MODEL_STATUS
 from lcm.pub.utils.restcall import req_by_msb
+from lcm.pub.msapi.vnfmdriver import query_vnfm_job
 
 logger = logging.getLogger(__name__)
-
-
-def query_job(job_id, response_id=0):
-    retry_time = 3
-    rsp = ''
-    uri = '/openoapi/%s/v1/jobs/%s&responseId=%s' % ('ztevmanagerdriver', job_id, str(response_id))
-    while retry_time > 0:
-        rsp = req_by_msb(uri, "GET")
-        if str(rsp[2]) == '404':
-            return False, ''
-        if rsp[0] != 0:
-            logger.warning('retry_time=%s, detail message:%s' % (str(retry_time), rsp[1]))
-            retry_time -= 1
-        else:
-            break
-    if retry_time <= 0:
-        logger.error(rsp[1])
-        raise NSLCMException(msgid='Failed to query job from VNFM!')
-    return True, json.JSONDecoder().decode(rsp[1])
 
 
 def calc_progress(vnfm_progress, target_range=None):
@@ -66,13 +48,14 @@ def default_callback(vnfo_job_id, vnfm_job_id, job_status, jobs, progress_range,
     return False, JOB_MODEL_STATUS.PROCESSING
 
 
-def wait_job_finish(vnfo_job_id, vnfm_job_id, progress_range=None, timeout=600, job_callback=default_callback, **kwargs):
+def wait_job_finish(vnfm_id, vnfo_job_id, vnfm_job_id, progress_range=None, timeout=600, 
+    job_callback=default_callback, **kwargs):
     progress_range = [0, 100] if not progress_range else progress_range
     response_id = 0
     query_interval = 2
     start_time = end_time = datetime.datetime.now()
     while (end_time - start_time).seconds < timeout:
-        query_status, result = query_job(vnfm_job_id, response_id)
+        query_status, result = query_vnfm_job(vnfm_id, vnfm_job_id, response_id)
         time.sleep(query_interval)
         end_time = datetime.datetime.now()
         if not query_status:

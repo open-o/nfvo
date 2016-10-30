@@ -25,6 +25,7 @@ from lcm.pub.utils.values import ignore_case_get
 
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
+from lcm.pub.msapi.vnfmdriver import send_nf_terminate_request
 
 
 logger = logging.getLogger(__name__)
@@ -99,15 +100,11 @@ class TerminateVnfs(Thread):
         JobUtil.add_job_status(self.job_id, 255, 'VNF Terminate failed, detail message: %s' % error_msg, 0)
 
     def send_nf_terminate_to_vnfmDriver(self):
-        uri = '/openoapi/%s/v1/%s/vnfs/%s/terminate' % ('ztevmanagerdriver', self.vnfm_inst_id, self.vnf_inst_id)
-        req_param = json.JSONEncoder().encode(
-            {'terminationType': self.terminationType, 'gracefulTerminationTimeout': self.gracefulTerminationTimeout})
-        ret = req_by_msb(uri, "POST", req_param)
-        if ret[0] > 0:
-            logger.error('Send NF Terminate request to VNFM Driver failed.')
-            raise NSLCMException('Send NF Terminate request to VNFM Driver  failed.')
-        resp_body = json.JSONDecoder().decode(ret[1])
-        self.vnfm_job_id = ignore_case_get(resp_body, 'jobId')
+        req_param = json.JSONEncoder().encode({
+            'terminationType': self.terminationType, 
+            'gracefulTerminationTimeout': self.gracefulTerminationTimeout})
+        rsp = send_nf_terminate_request(self.vnfm_inst_id, self.vnf_inst_id, req_param)
+        self.vnfm_job_id = ignore_case_get(rsp, 'jobId')
 
     def send_terminate_vnf_to_resMgr(self):
         uri = '/openoapi/resmgr/v1/vnf'
@@ -118,8 +115,9 @@ class TerminateVnfs(Thread):
             raise NSLCMException('Send terminate VNF request to resmgr failed.')
 
     def wait_vnfm_job_finish(self):
-        ret = wait_job_finish(vnfo_job_id=self.job_id, vnfm_job_id=self.vnfm_job_id, progress_range=[10, 90],
-                              timeout=NFVO_VNF_INST_TIMEOUT_SECOND)
+        ret = wait_job_finish(vnfm_id=self.vnfm_inst_id, vnfo_job_id=self.job_id, 
+            vnfm_job_id=self.vnfm_job_id, progress_range=[10, 90],
+            timeout=NFVO_VNF_INST_TIMEOUT_SECOND)
 
         if ret != JOB_MODEL_STATUS.FINISHED:
             logger.error('VNF terminate failed on VNFM side.')
