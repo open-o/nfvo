@@ -298,4 +298,6 @@ class ServiceBaseInfoModel(models.Model):
     active_status = models.CharField(db_column='activeStatus', max_length=20)
     status = models.CharField(db_column='status', max_length=20)
     creator = models.CharField(db_column='creator', max_length=50)
-    create_time = models.BigIntegerField(max_length=20)
+    create_time = models.BigIntegerField(db_column='createTime', max_length=20)
+    
+ 
