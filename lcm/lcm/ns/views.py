@@ -105,10 +105,13 @@ class SwaggerJsonView(APIView):
 class NSInstPostDealView(APIView):
     def post(self, request, ns_instance_id):
         logger.debug("Enter NSInstPostDealView::post %s", request.data)
-        ns_status = 'ACTIVE' if ignore_case_get(request.data, 'status') == 'true' else 'FAILED'
+        ns_post_status = ignore_case_get(request.data, 'status')
+        ns_status = 'ACTIVE' if ns_post_status == 'true' else 'FAILED'
+        ns_opr_status = 'success' if ns_post_status == 'true' else 'failed'
         try:
             NSInstModel.objects.filter(id=ns_instance_id).update(status=ns_status)
-            ServiceBaseInfoModel.objects.filter(service_id=ns_instance_id).update(status=ns_status)
+            ServiceBaseInfoModel.objects.filter(service_id=ns_instance_id).update(
+                active_status=ns_status, status=ns_opr_status)
         except:
             logger.error(traceback.format_exc())
             return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},
