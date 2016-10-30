@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.openo.nfvo.resmanagement.service.mapper.VnfStatusMapper" >
+  <resultMap id="BaseResultMap" type="org.openo.nfvo.resmanagement.service.entity.VnfStatusEntity" >
+    <id column="vnf_instance_id" property="vnfInstanceId" jdbcType="VARCHAR" />
+    <result column="job_id" property="jobId" jdbcType="VARCHAR" />
+    <result column="ns_id" property="nsId" jdbcType="VARCHAR" />
+    <result column="vnfm_id" property="vnfmId" jdbcType="VARCHAR" />
+    <result column="response_descriptor" property="responseDescriptor" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="progress" property="progress" jdbcType="VARCHAR" />
+    <result column="status_description" property="statusDescription" jdbcType="VARCHAR" />
+    <result column="error_code" property="errorCode" jdbcType="VARCHAR" />
+    <result column="response_id" property="responseId" jdbcType="VARCHAR" />
+    <result column="response_history_list" property="responseHistoryList" jdbcType="VARCHAR" />
+    <result column="add_vm" property="addVm" jdbcType="VARCHAR" />
+    <result column="del_vm" property="delVm" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vnf_instance_id, job_id, ns_id, vnfm_id, response_descriptor, status, progress, status_description, 
+    error_code, response_id, response_history_list, add_vm, del_vm
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vnfstatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart >= 0" >
+       limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vnfstatus
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+  </select>
+  <select id="getVnfStatuss" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from vnfstatus
+        <where>
+            <if test="vnfInstanceId != null">
+                AND vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from vnfstatus
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusExample" >
+    delete from vnfstatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusEntity" >
+    insert into vnfstatus (vnf_instance_id, job_id, ns_id, 
+      vnfm_id, response_descriptor, status, 
+      progress, status_description, error_code, 
+      response_id, response_history_list, add_vm, 
+      del_vm)
+    values (#{vnfInstanceId,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR}, #{nsId,jdbcType=VARCHAR}, 
+      #{vnfmId,jdbcType=VARCHAR}, #{responseDescriptor,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{progress,jdbcType=VARCHAR}, #{statusDescription,jdbcType=VARCHAR}, #{errorCode,jdbcType=VARCHAR}, 
+      #{responseId,jdbcType=VARCHAR}, #{responseHistoryList,jdbcType=VARCHAR}, #{addVm,jdbcType=VARCHAR}, 
+      #{delVm,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusEntity" >
+    insert into vnfstatus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vnfInstanceId != null" >
+        vnf_instance_id,
+      </if>
+      <if test="jobId != null" >
+        job_id,
+      </if>
+      <if test="nsId != null" >
+        ns_id,
+      </if>
+      <if test="vnfmId != null" >
+        vnfm_id,
+      </if>
+      <if test="responseDescriptor != null" >
+        response_descriptor,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="progress != null" >
+        progress,
+      </if>
+      <if test="statusDescription != null" >
+        status_description,
+      </if>
+      <if test="errorCode != null" >
+        error_code,
+      </if>
+      <if test="responseId != null" >
+        response_id,
+      </if>
+      <if test="responseHistoryList != null" >
+        response_history_list,
+      </if>
+      <if test="addVm != null" >
+        add_vm,
+      </if>
+      <if test="delVm != null" >
+        del_vm,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vnfInstanceId != null" >
+        #{vnfInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobId != null" >
+        #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="nsId != null" >
+        #{nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="vnfmId != null" >
+        #{vnfmId,jdbcType=VARCHAR},
+      </if>
+      <if test="responseDescriptor != null" >
+        #{responseDescriptor,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="progress != null" >
+        #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDescription != null" >
+        #{statusDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null" >
+        #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="responseId != null" >
+        #{responseId,jdbcType=VARCHAR},
+      </if>
+      <if test="responseHistoryList != null" >
+        #{responseHistoryList,jdbcType=VARCHAR},
+      </if>
+      <if test="addVm != null" >
+        #{addVm,jdbcType=VARCHAR},
+      </if>
+      <if test="delVm != null" >
+        #{delVm,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusExample" resultType="java.lang.Integer" >
+    select count(*) from vnfstatus
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update vnfstatus
+    <set >
+      <if test="record.vnfInstanceId != null" >
+        vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobId != null" >
+        job_id = #{record.jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nsId != null" >
+        ns_id = #{record.nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vnfmId != null" >
+        vnfm_id = #{record.vnfmId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responseDescriptor != null" >
+        response_descriptor = #{record.responseDescriptor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.progress != null" >
+        progress = #{record.progress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.statusDescription != null" >
+        status_description = #{record.statusDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorCode != null" >
+        error_code = #{record.errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responseId != null" >
+        response_id = #{record.responseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responseHistoryList != null" >
+        response_history_list = #{record.responseHistoryList,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addVm != null" >
+        add_vm = #{record.addVm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delVm != null" >
+        del_vm = #{record.delVm,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update vnfstatus
+    set vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR},
+      job_id = #{record.jobId,jdbcType=VARCHAR},
+      ns_id = #{record.nsId,jdbcType=VARCHAR},
+      vnfm_id = #{record.vnfmId,jdbcType=VARCHAR},
+      response_descriptor = #{record.responseDescriptor,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      progress = #{record.progress,jdbcType=VARCHAR},
+      status_description = #{record.statusDescription,jdbcType=VARCHAR},
+      error_code = #{record.errorCode,jdbcType=VARCHAR},
+      response_id = #{record.responseId,jdbcType=VARCHAR},
+      response_history_list = #{record.responseHistoryList,jdbcType=VARCHAR},
+      add_vm = #{record.addVm,jdbcType=VARCHAR},
+      del_vm = #{record.delVm,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusEntity" >
+    update vnfstatus
+    <set >
+      <if test="jobId != null" >
+        job_id = #{jobId,jdbcType=VARCHAR},
+      </if>
+      <if test="nsId != null" >
+        ns_id = #{nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="vnfmId != null" >
+        vnfm_id = #{vnfmId,jdbcType=VARCHAR},
+      </if>
+      <if test="responseDescriptor != null" >
+        response_descriptor = #{responseDescriptor,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="progress != null" >
+        progress = #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="statusDescription != null" >
+        status_description = #{statusDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null" >
+        error_code = #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="responseId != null" >
+        response_id = #{responseId,jdbcType=VARCHAR},
+      </if>
+      <if test="responseHistoryList != null" >
+        response_history_list = #{responseHistoryList,jdbcType=VARCHAR},
+      </if>
+      <if test="addVm != null" >
+        add_vm = #{addVm,jdbcType=VARCHAR},
+      </if>
+      <if test="delVm != null" >
+        del_vm = #{delVm,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfStatusEntity" >
+    update vnfstatus
+    set job_id = #{jobId,jdbcType=VARCHAR},
+      ns_id = #{nsId,jdbcType=VARCHAR},
+      vnfm_id = #{vnfmId,jdbcType=VARCHAR},
+      response_descriptor = #{responseDescriptor,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      progress = #{progress,jdbcType=VARCHAR},
+      status_description = #{statusDescription,jdbcType=VARCHAR},
+      error_code = #{errorCode,jdbcType=VARCHAR},
+      response_id = #{responseId,jdbcType=VARCHAR},
+      response_history_list = #{responseHistoryList,jdbcType=VARCHAR},
+      add_vm = #{addVm,jdbcType=VARCHAR},
+      del_vm = #{delVm,jdbcType=VARCHAR}
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+  </update>
+</mapper>

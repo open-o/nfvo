@@ -173,6 +173,30 @@ public class SitesRoa {
         }
     }
 
+    /**
+     * grant resource method
+     * <br>
+     * 
+     * @param context
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @PUT
+    @Path("/grant")
+    public JSONObject grantResource(@Context HttpServletRequest context) throws ServiceException {
+        JSONObject json = RequestUtil.getAllJsonRequestBody(context);
+
+        LOGGER.warn("SitesRoa::grant resource");
+        try {
+            int result = sites.update(json);
+            return RoaResponseUtil.update(result);
+        } catch(ServiceException se) {
+            LOGGER.error("SitesRoa::grant resource:" + se);
+            return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());
+        }
+    }
+
     public void setSites(Sites sites) {
         this.sites = sites;
     }

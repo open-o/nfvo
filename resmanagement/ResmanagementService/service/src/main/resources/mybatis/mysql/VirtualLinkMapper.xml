@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.openo.nfvo.resmanagement.service.mapper.VirtualLinkMapper" >
+  <resultMap id="BaseResultMap" type="org.openo.nfvo.resmanagement.service.entity.VirtualLinkEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="backend_id" property="backendId" jdbcType="VARCHAR" />
+    <result column="is_public" property="isPublic" jdbcType="VARCHAR" />
+    <result column="dc_name" property="dcName" jdbcType="VARCHAR" />
+    <result column="vim_id" property="vimId" jdbcType="VARCHAR" />
+    <result column="vim_name" property="vimName" jdbcType="VARCHAR" />
+    <result column="physicial_net" property="physicialNet" jdbcType="VARCHAR" />
+    <result column="ns_id" property="nsId" jdbcType="VARCHAR" />
+    <result column="ns_name" property="nsName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="network_type" property="networkType" jdbcType="VARCHAR" />
+    <result column="segmentation" property="segmentation" jdbcType="VARCHAR" />
+    <result column="mtu" property="mtu" jdbcType="VARCHAR" />
+    <result column="vlan_transparent" property="vlanTransparent" jdbcType="VARCHAR" />
+    <result column="router_external" property="routerExternal" jdbcType="VARCHAR" />
+    <result column="resource_provider_type" property="resourceProviderType" jdbcType="VARCHAR" />
+    <result column="resource_provider_id" property="resourceProviderId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, backend_id, is_public, dc_name, vim_id, vim_name, physicial_net, ns_id, 
+    ns_name, description, network_type, segmentation, mtu, vlan_transparent, router_external, 
+    resource_provider_type, resource_provider_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart >= 0" >
+       limit ${limitStart} , ${limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from vl
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getVls" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List" />
+        from vl
+        <where>
+            <if test="id != null">
+                AND ID = #{id,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from vl
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkExample" >
+    delete from vl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkEntity" >
+    insert into vl (id, name, backend_id, 
+      is_public, dc_name, vim_id, 
+      vim_name, physicial_net, ns_id, 
+      ns_name, description, network_type, 
+      segmentation, mtu, vlan_transparent, 
+      router_external, resource_provider_type, resource_provider_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{backendId,jdbcType=VARCHAR}, 
+      #{isPublic,jdbcType=VARCHAR}, #{dcName,jdbcType=VARCHAR}, #{vimId,jdbcType=VARCHAR}, 
+      #{vimName,jdbcType=VARCHAR}, #{physicialNet,jdbcType=VARCHAR}, #{nsId,jdbcType=VARCHAR}, 
+      #{nsName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{networkType,jdbcType=VARCHAR}, 
+      #{segmentation,jdbcType=VARCHAR}, #{mtu,jdbcType=VARCHAR}, #{vlanTransparent,jdbcType=VARCHAR}, 
+      #{routerExternal,jdbcType=VARCHAR}, #{resourceProviderType,jdbcType=VARCHAR}, #{resourceProviderId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkEntity" >
+    insert into vl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="backendId != null" >
+        backend_id,
+      </if>
+      <if test="isPublic != null" >
+        is_public,
+      </if>
+      <if test="dcName != null" >
+        dc_name,
+      </if>
+      <if test="vimId != null" >
+        vim_id,
+      </if>
+      <if test="vimName != null" >
+        vim_name,
+      </if>
+      <if test="physicialNet != null" >
+        physicial_net,
+      </if>
+      <if test="nsId != null" >
+        ns_id,
+      </if>
+      <if test="nsName != null" >
+        ns_name,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="networkType != null" >
+        network_type,
+      </if>
+      <if test="segmentation != null" >
+        segmentation,
+      </if>
+      <if test="mtu != null" >
+        mtu,
+      </if>
+      <if test="vlanTransparent != null" >
+        vlan_transparent,
+      </if>
+      <if test="routerExternal != null" >
+        router_external,
+      </if>
+      <if test="resourceProviderType != null" >
+        resource_provider_type,
+      </if>
+      <if test="resourceProviderId != null" >
+        resource_provider_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="backendId != null" >
+        #{backendId,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublic != null" >
+        #{isPublic,jdbcType=VARCHAR},
+      </if>
+      <if test="dcName != null" >
+        #{dcName,jdbcType=VARCHAR},
+      </if>
+      <if test="vimId != null" >
+        #{vimId,jdbcType=VARCHAR},
+      </if>
+      <if test="vimName != null" >
+        #{vimName,jdbcType=VARCHAR},
+      </if>
+      <if test="physicialNet != null" >
+        #{physicialNet,jdbcType=VARCHAR},
+      </if>
+      <if test="nsId != null" >
+        #{nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="nsName != null" >
+        #{nsName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="networkType != null" >
+        #{networkType,jdbcType=VARCHAR},
+      </if>
+      <if test="segmentation != null" >
+        #{segmentation,jdbcType=VARCHAR},
+      </if>
+      <if test="mtu != null" >
+        #{mtu,jdbcType=VARCHAR},
+      </if>
+      <if test="vlanTransparent != null" >
+        #{vlanTransparent,jdbcType=VARCHAR},
+      </if>
+      <if test="routerExternal != null" >
+        #{routerExternal,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceProviderType != null" >
+        #{resourceProviderType,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceProviderId != null" >
+        #{resourceProviderId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkExample" resultType="java.lang.Integer" >
+    select count(*) from vl
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update vl
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.backendId != null" >
+        backend_id = #{record.backendId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPublic != null" >
+        is_public = #{record.isPublic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dcName != null" >
+        dc_name = #{record.dcName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vimId != null" >
+        vim_id = #{record.vimId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vimName != null" >
+        vim_name = #{record.vimName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.physicialNet != null" >
+        physicial_net = #{record.physicialNet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nsId != null" >
+        ns_id = #{record.nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nsName != null" >
+        ns_name = #{record.nsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.networkType != null" >
+        network_type = #{record.networkType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.segmentation != null" >
+        segmentation = #{record.segmentation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mtu != null" >
+        mtu = #{record.mtu,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vlanTransparent != null" >
+        vlan_transparent = #{record.vlanTransparent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.routerExternal != null" >
+        router_external = #{record.routerExternal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resourceProviderType != null" >
+        resource_provider_type = #{record.resourceProviderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resourceProviderId != null" >
+        resource_provider_id = #{record.resourceProviderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update vl
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      backend_id = #{record.backendId,jdbcType=VARCHAR},
+      is_public = #{record.isPublic,jdbcType=VARCHAR},
+      dc_name = #{record.dcName,jdbcType=VARCHAR},
+      vim_id = #{record.vimId,jdbcType=VARCHAR},
+      vim_name = #{record.vimName,jdbcType=VARCHAR},
+      physicial_net = #{record.physicialNet,jdbcType=VARCHAR},
+      ns_id = #{record.nsId,jdbcType=VARCHAR},
+      ns_name = #{record.nsName,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      network_type = #{record.networkType,jdbcType=VARCHAR},
+      segmentation = #{record.segmentation,jdbcType=VARCHAR},
+      mtu = #{record.mtu,jdbcType=VARCHAR},
+      vlan_transparent = #{record.vlanTransparent,jdbcType=VARCHAR},
+      router_external = #{record.routerExternal,jdbcType=VARCHAR},
+      resource_provider_type = #{record.resourceProviderType,jdbcType=VARCHAR},
+      resource_provider_id = #{record.resourceProviderId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkEntity" >
+    update vl
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="backendId != null" >
+        backend_id = #{backendId,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublic != null" >
+        is_public = #{isPublic,jdbcType=VARCHAR},
+      </if>
+      <if test="dcName != null" >
+        dc_name = #{dcName,jdbcType=VARCHAR},
+      </if>
+      <if test="vimId != null" >
+        vim_id = #{vimId,jdbcType=VARCHAR},
+      </if>
+      <if test="vimName != null" >
+        vim_name = #{vimName,jdbcType=VARCHAR},
+      </if>
+      <if test="physicialNet != null" >
+        physicial_net = #{physicialNet,jdbcType=VARCHAR},
+      </if>
+      <if test="nsId != null" >
+        ns_id = #{nsId,jdbcType=VARCHAR},
+      </if>
+      <if test="nsName != null" >
+        ns_name = #{nsName,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="networkType != null" >
+        network_type = #{networkType,jdbcType=VARCHAR},
+      </if>
+      <if test="segmentation != null" >
+        segmentation = #{segmentation,jdbcType=VARCHAR},
+      </if>
+      <if test="mtu != null" >
+        mtu = #{mtu,jdbcType=VARCHAR},
+      </if>
+      <if test="vlanTransparent != null" >
+        vlan_transparent = #{vlanTransparent,jdbcType=VARCHAR},
+      </if>
+      <if test="routerExternal != null" >
+        router_external = #{routerExternal,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceProviderType != null" >
+        resource_provider_type = #{resourceProviderType,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceProviderId != null" >
+        resource_provider_id = #{resourceProviderId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.openo.nfvo.resmanagement.service.entity.VirtualLinkEntity" >
+    update vl
+    set name = #{name,jdbcType=VARCHAR},
+      backend_id = #{backendId,jdbcType=VARCHAR},
+      is_public = #{isPublic,jdbcType=VARCHAR},
+      dc_name = #{dcName,jdbcType=VARCHAR},
+      vim_id = #{vimId,jdbcType=VARCHAR},
+      vim_name = #{vimName,jdbcType=VARCHAR},
+      physicial_net = #{physicialNet,jdbcType=VARCHAR},
+      ns_id = #{nsId,jdbcType=VARCHAR},
+      ns_name = #{nsName,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      network_type = #{networkType,jdbcType=VARCHAR},
+      segmentation = #{segmentation,jdbcType=VARCHAR},
+      mtu = #{mtu,jdbcType=VARCHAR},
+      vlan_transparent = #{vlanTransparent,jdbcType=VARCHAR},
+      router_external = #{routerExternal,jdbcType=VARCHAR},
+      resource_provider_type = #{resourceProviderType,jdbcType=VARCHAR},
+      resource_provider_id = #{resourceProviderId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
