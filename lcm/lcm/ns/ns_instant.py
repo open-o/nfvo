@@ -27,6 +27,7 @@ from lcm.pub.msapi.wso2bpel import workflow_run
 from lcm.pub.msapi.extsys import select_vnfm
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils import toscautil
+from lcm.pub.utils.values import ignore_case_get
 
 logger = logging.getLogger(__name__)
 
@@ -79,6 +80,8 @@ class InstantNSService(object):
                 'object_additionalParamForNs': params_json,
                 'object_additionalParamForVnf': vnf_params_json}
             plan_input.update(**self.get_model_count(dst_plan))
+            plan_input["sdncontrollerid"] = ignore_case_get(
+                self.req_data['additionalParamForNs'], "sdncontroller")
 
             ServiceBaseInfoModel(service_id=self.ns_inst_id,
                                  service_name=ns_inst.name,
