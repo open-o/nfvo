@@ -52,3 +52,16 @@ def get_vnfm_by_id(vnfm_inst_id):
         logger.error('Send get VNFM information request to extsys failed.')
         raise NSLCMException('Send get VNFM information request to extsys failed.')
     return json.JSONDecoder().decode(ret[1])
+
+def select_vnfm(vnfm_type, vim_id):
+    uri = '/openoapi/extsys/v1/vnfms'
+    ret = req_by_msb(uri, "GET")
+    if ret[0] > 0:
+        logger.error("Failed to call %s: %s", uri, ret[1])
+        raise NSLCMException('Failed to get vnfms from extsys.')
+    vnfms = json.JSONDecoder().decode(ret[1])
+    for vnfm in vnfms:
+        if vnfm["type"] == vnfm_type and vnfm["vimId"] == vim_id:
+            return vnfm
+    raise NSLCMException('No vnfm found with %s in vim(%s)' % (vnfm_type, vim_id))
+

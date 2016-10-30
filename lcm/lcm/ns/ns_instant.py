@@ -18,10 +18,11 @@ import traceback
 
 from rest_framework import status
 
-from lcm.pub.database.models import NSInstModel
+from lcm.pub.database.models import NSInstModel, DefPkgMappingModel, ServiceBaseInfoModel, InputParamMappingModel
 from lcm.pub.msapi.catalog import get_process_id, get_download_url_from_catalog
-from lcm.pub.msapi.catalog import query_rawdata_from_catalog, get_servicetemplate_id
+from lcm.pub.msapi.catalog import query_rawdata_from_catalog, get_servicetemplate_id, get_servicetemplate
 from lcm.pub.msapi.wso2bpel import workflow_run
+from lcm.pub.msapi.extsys import select_vnfm
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils import toscautil
 
@@ -43,6 +44,11 @@ class InstantNSService(object):
             input_parameters = []
             for key, val in self.req_data['additionalParamForNs'].items():
                 input_parameters.append({"key": key, "value": val})
+                """
+                InputParamMappingModel(service_id=self.ns_inst_id,
+                    input_key=key, input_value=val).save()
+                """
+            vim_id = self.req_data['additionalParamForNs']['location']
 
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
             dst_plan = toscautil.convert_nsd_model(src_plan["rawData"])
@@ -51,13 +57,21 @@ class InstantNSService(object):
 
             params_json = json.JSONEncoder().encode(self.req_data["additionalParamForNs"])
             # start
-            params_vnf = [{
-                "vnfProfileId": "VBras",
-                "additionalParam": {
-                    "vnfmInstanceId": "09c22797-6331-4c5d-82ec-6d06e37d5cc4",
-                    "inputs": params_json
-                }
-            }]
+            params_vnf = []
+            plan_dict = json.JSONDecoder().decode(dst_plan)
+            for vnf in plan_dict["vnfs"]:
+                vnfd = NfPackageModel.objects.get(vnfdid=vnf['properties']['id'])
+                vnfd_model = json.JSONDecoder().decode(vnfd.vnfdmodel)
+                vnfm_type = vnfd_model["metadata"].get("vnfmType", "ztevmanagerdriver")
+                vnfm_info = select_vnfm(vnfm_type=vnfm_type, vim_id=vim_id)               
+                params_vnf.append({
+                    "vnfProfileId": vnf["vnf_id"],
+                    "additionalParam": {
+                        "vnfmInstanceId": vnfm_info["vnfmId"],
+                        "vnfmType": vnfm_type,
+                        "inputs": params_json
+                    }
+                })
             # end
             vnf_params_json = json.JSONEncoder().encode(params_vnf)
             plan_input = {'jobId': job_id, 
@@ -67,6 +81,20 @@ class InstantNSService(object):
                 'object_additionalParamForVnf': vnf_params_json}
             plan_input.update(**self.get_model_count(dst_plan))
 
+            service_tpl = get_servicetemplate()
+            DefPkgMappingModel(service_id=self.ns_inst_id,
+                               service_def_id=service_tpl['csarId'],
+                               template_name=service_tpl['templateName'],
+                               template_id=service_tpl['serviceTemplateId']).save()
+
+            ServiceBaseInfoModel(service_id=self.ns_inst_id,
+                                 service_name=ns_inst.name,
+                                 service_type='NFVO',
+                                 description=ns_inst.description,
+                                 active_status='--',
+                                 status=ns_inst.status,
+                                 creator='--',
+                                 create_time=ns_inst.create_time).save()
 
             servicetemplate_id = get_servicetemplate_id(ns_inst.nsd_id)
             process_id = get_process_id('init', servicetemplate_id)

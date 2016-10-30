@@ -266,3 +266,36 @@ class JobStatusModel(models.Model):
     def toJSON(self):
         import json
         return json.dumps(dict([(attr, getattr(self, attr)) for attr in [f.name for f in self._meta.fields]]))
+
+
+class DefPkgMappingModel(models.Model):
+    class Meta:
+        db_table = 't_lcm_defPackage_mapping'
+
+    service_id = models.CharField(db_column='serviceId', max_length=255, primary_key=True)
+    service_def_id = models.CharField(db_column='serviceDefId', max_length=255)
+    template_id = models.CharField(db_column='templateId', max_length=255)
+    template_name = models.CharField(db_column='templateName', max_length=255)
+
+
+class InputParamMappingModel(models.Model):
+    class Meta:
+        db_table = 't_lcm_inputParam_mapping'
+
+    service_id = models.CharField(db_column='serviceId', max_length=255, primary_key=True)
+    input_key = models.CharField(db_column='inputKey', max_length=255)
+    input_value = models.CharField(db_column='inputValue', max_length=255, null=True, blank=True)
+
+
+class ServiceBaseInfoModel(models.Model):
+    class Meta:
+        db_table = 't_lcm_servicebaseinfo'
+
+    service_id = models.CharField(db_column='serviceId', max_length=255, primary_key=True)
+    service_name = models.CharField(db_column='serviceName', max_length=255)
+    service_type = models.CharField(db_column='serviceType', max_length=20)
+    description = models.CharField(db_column='description', max_length=255, null=True, blank=True)
+    active_status = models.CharField(db_column='activeStatus', max_length=20)
+    status = models.CharField(db_column='status', max_length=20)
+    creator = models.CharField(db_column='creator', max_length=50)
+    create_time = models.BigIntegerField(max_length=20)
