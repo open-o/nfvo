@@ -113,19 +113,26 @@ class CreateVnfs(Thread):
         self.nf_package_info = nf_package_info[0]
 
     def send_nf_init_request_to_vnfm(self):
-        self.vnfm_job_id, self.vnfm_nf_inst_id = send_nf_init_request(self.vnfm_inst_id, self.vnf_inst_name,
-                                                                      self.nf_package_info.nfpackageid, self.vnfd_id,
-                                                                      self.inputs)
-        NfInstModel.objects.filter(nfinstid=self.nf_inst_id).update(mnfinstid=self.vnfm_nf_inst_id,
-                                                                    nf_name=self.vnf_inst_name,
-                                                                    vnf_id=self.vnf_id,
-                                                                    package_id=self.nf_package_info.nfpackageid,
-                                                                    vnfm_inst_id=self.vnfm_inst_id,
-                                                                    ns_inst_id=self.ns_inst_id,
-                                                                    version=self.nf_package_info.vnfversion,
-                                                                    vendor=self.nf_package_info.vendor,
-                                                                    input_params=json.JSONEncoder().encode(self.inputs),
-                                                                    lastuptime=now_time())
+        req_param = json.JSONEncoder().encode({
+            'vnfInstanceName': self.vnf_inst_name, 
+            'vnfPackageId': self.nf_package_info.nfpackageid, 
+            'vnfDescriptorId': self.vnfd_id,
+            'additionalParam': self.inputs})
+        rsp = send_nf_init_request(self.vnfm_inst_id, req_param)
+        self.vnfm_job_id = ignore_case_get(rsp, 'jobId')
+        self.vnfm_nf_inst_id = ignore_case_get(rsp, 'vnfInstanceId')
+
+        NfInstModel.objects.filter(nfinstid=self.nf_inst_id).update(
+            mnfinstid=self.vnfm_nf_inst_id,
+            nf_name=self.vnf_inst_name,
+            vnf_id=self.vnf_id,
+            package_id=self.nf_package_info.nfpackageid,
+            vnfm_inst_id=self.vnfm_inst_id,
+            ns_inst_id=self.ns_inst_id,
+            version=self.nf_package_info.vnfversion,
+            vendor=self.nf_package_info.vendor,
+            input_params=json.JSONEncoder().encode(self.inputs),
+            lastuptime=now_time())
 
     def send_get_vnfm_request_to_extsys(self):
         resp_body = get_vnfm_by_id(self.vnfm_inst_id)
@@ -150,8 +157,9 @@ class CreateVnfs(Thread):
         create_vnf(data)
 
     def wait_vnfm_job_finish(self):
-        ret = wait_job_finish(vnfo_job_id=self.job_id, vnfm_job_id=self.vnfm_job_id, progress_range=[10, 90],
-                              timeout=NFVO_VNF_INST_TIMEOUT_SECOND)
+        ret = wait_job_finish(vnfm_id=self.vnfm_inst_id, vnfo_job_id=self.job_id, 
+            vnfm_job_id=self.vnfm_job_id, progress_range=[10, 90],
+            timeout=NFVO_VNF_INST_TIMEOUT_SECOND)
 
         if ret != JOB_MODEL_STATUS.FINISHED:
             logger.error('VNF instantiation failed on VNFM side.')

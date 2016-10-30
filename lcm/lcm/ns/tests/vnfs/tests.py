@@ -162,9 +162,11 @@ class TestTerminateVnfViews(TestCase):
         mock_vals = {
             "/openoapi/ztevmanagerdriver/v1/1/vnfs/1/terminate":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
+            "/openoapi/extsys/v1/vnfms/1":
+                [0, json.JSONEncoder().encode({"name": 'vnfm1', "type": 'ztevmanagerdriver'}), '200'],
             "/openoapi/resmgr/v1/vnf":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
-            "/openoapi/ztevmanagerdriver/v1/jobs/" + job_id + "&responseId=0":
+            "/openoapi/ztevmanagerdriver/v1/1/jobs/" + job_id + "?responseId=0":
                 [0, json.JSONEncoder().encode({"jobId": job_id,
                                                "responsedescriptor": {"progress": "100",
                                                                       "status": JOB_MODEL_STATUS.FINISHED,
