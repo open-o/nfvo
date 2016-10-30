@@ -282,7 +282,7 @@ class InputParamMappingModel(models.Model):
     class Meta:
         db_table = 't_lcm_inputParam_mapping'
 
-    service_id = models.CharField(db_column='serviceId', max_length=255, primary_key=True)
+    service_id = models.CharField(db_column='serviceId', max_length=255)
     input_key = models.CharField(db_column='inputKey', max_length=255)
     input_value = models.CharField(db_column='inputValue', max_length=255, null=True, blank=True)
 
