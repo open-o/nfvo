@@ -15,10 +15,12 @@
 import json
 import logging
 import traceback
+import time
 
 from rest_framework import status
 
-from lcm.pub.database.models import NSInstModel, DefPkgMappingModel, ServiceBaseInfoModel, InputParamMappingModel
+from lcm.pub.database.models import DefPkgMappingModel, ServiceBaseInfoModel, InputParamMappingModel
+from lcm.pub.database.models import NSInstModel, NfPackageModel
 from lcm.pub.msapi.catalog import get_process_id, get_download_url_from_catalog
 from lcm.pub.msapi.catalog import query_rawdata_from_catalog, get_servicetemplate_id, get_servicetemplate
 from lcm.pub.msapi.wso2bpel import workflow_run
@@ -44,10 +46,7 @@ class InstantNSService(object):
             input_parameters = []
             for key, val in self.req_data['additionalParamForNs'].items():
                 input_parameters.append({"key": key, "value": val})
-                """
-                InputParamMappingModel(service_id=self.ns_inst_id,
-                    input_key=key, input_value=val).save()
-                """
+
             vim_id = self.req_data['additionalParamForNs']['location']
 
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
@@ -81,12 +80,6 @@ class InstantNSService(object):
                 'object_additionalParamForVnf': vnf_params_json}
             plan_input.update(**self.get_model_count(dst_plan))
 
-            service_tpl = get_servicetemplate()
-            DefPkgMappingModel(service_id=self.ns_inst_id,
-                               service_def_id=service_tpl['csarId'],
-                               template_name=service_tpl['templateName'],
-                               template_id=service_tpl['serviceTemplateId']).save()
-
             ServiceBaseInfoModel(service_id=self.ns_inst_id,
                                  service_name=ns_inst.name,
                                  service_type='NFVO',
@@ -94,7 +87,17 @@ class InstantNSService(object):
                                  active_status='--',
                                  status=ns_inst.status,
                                  creator='--',
-                                 create_time=ns_inst.create_time).save()
+                                 create_time=int(time.time())).save()
+
+            service_tpl = get_servicetemplate(ns_inst.nsd_id)
+            DefPkgMappingModel(service_id=self.ns_inst_id,
+                               service_def_id=service_tpl['csarId'],
+                               template_name=service_tpl['templateName'],
+                               template_id=service_tpl['serviceTemplateId']).save()
+
+            for key, val in self.req_data['additionalParamForNs'].items():
+                InputParamMappingModel(service_id=self.ns_inst_id,
+                    input_key=key, input_value=val).save()
 
             servicetemplate_id = get_servicetemplate_id(ns_inst.nsd_id)
             process_id = get_process_id('init', servicetemplate_id)
