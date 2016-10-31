@@ -17,8 +17,10 @@ import traceback
 
 from rest_framework import status
 from rest_framework.response import Response
+from lcm.ns.vnfs.const import INST_TYPE
 from lcm.pub.exceptions import NSLCMException
-from lcm.pub.database.models import VNFCInstModel, VLInstModel, NfInstModel
+from lcm.pub.database.models import VNFCInstModel, VLInstModel, NfInstModel, PortInstModel, CPInstModel, VmInstModel
+from lcm.pub.utils.values import ignore_case_get
 
 
 logger = logging.getLogger(__name__)
@@ -26,23 +28,25 @@ logger = logging.getLogger(__name__)
 
 class NotifyLcm(object):
     def __init__(self, vnfmid, vnfInstanceId, data):
-
+        logger.debug("[Notify LCM] vnfmid=%s, vnfInstanceId=%s, data=%s" % (vnfmid, vnfInstanceId, data))
         self.vnf_instid = ''
         self.vnfmid = vnfmid
         self.m_vnfInstanceId = vnfInstanceId
-        self.status = data['status']
-        self.operation = data['operation']
-        self.lcm_jobid = data['jobId']
-        self.vnfdmodule = data['vnfdmodule']
-        self.affectedVnfc = data['affectedVnfc']
-        self.affectedVl = data['affectedVl']
-        self.affectedVirtualStorage = data['affectedVirtualStorage']
+        self.status = ignore_case_get(data, 'status')
+        self.operation = ignore_case_get(data, 'operation')
+        self.lcm_jobid = ignore_case_get(data, 'jobId')
+        self.vnfdmodule = ignore_case_get(data, 'vnfdmodule')
+        self.affectedVnfc = ignore_case_get(data, 'affectedVnfc')
+        self.affectedVl = ignore_case_get(data, 'affectedVl')
+        self.affectedCp = ignore_case_get(data, 'affectedCp')
+        self.affectedVirtualStorage = ignore_case_get(data, 'affectedVirtualStorage')
 
     def do_biz(self):
         try:
             self.vnf_instid = self.get_vnfinstid(self.m_vnfInstanceId, self.vnfmid)
             self.update_Vnfc()
             self.update_Vl()
+            self.update_Cp()
             self.update_Storage()
             self.update_vnf_by_vnfdmodule()
         except NSLCMException as e:
@@ -64,35 +68,41 @@ class NotifyLcm(object):
 
     def update_Vnfc(self):
         for vnfc in self.affectedVnfc:
-            vnfcInstanceId = vnfc['vnfcInstanceId']
-            vduId = vnfc['vduId']
-            changeType = vnfc['changeType']
-            vmResource = vnfc['vmResource']
-            resourceType = vmResource['resourceType']
-            resourceId = vmResource['resourceId']
+            vnfcInstanceId = ignore_case_get(vnfc, 'vnfcInstanceId')
+            vduId = ignore_case_get(vnfc, 'vduId')
+            changeType = ignore_case_get(vnfc, 'changeType')
+            vimId = ignore_case_get(vnfc, 'vimid')
+            vmId = ignore_case_get(vnfc, 'vmid')
+            vmName = ignore_case_get(vnfc, 'vmname')
+            # resourceType = ignore_case_get(vmResource, 'resourceType')
+            # resourceId = ignore_case_get(vmId, 'resourceId')
 
-            if resourceType != 'vm':
-                self.exception('affectedVnfc struct error: resourceType not euqal vm')
+
+            # if resourceType != 'vm':
+            #     self.exception('affectedVnfc struct error: resourceType not euqal vm')
 
             if changeType == 'added':
                 VNFCInstModel(vnfcinstanceid=vnfcInstanceId, vduid=vduId,
-                              nfinstid=self.vnf_instid, vmid=resourceId).save()
+                              nfinstid=self.vnf_instid, vmid=vmId).save()
+                VmInstModel(vmid=vmId, vimid=vimId, resouceid=vmId, insttype=INST_TYPE.VNF,
+                            instid=self.vnf_instid, vmname=vmName, hostid='1').save()
             elif changeType == 'removed':
                 VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId).delete()
             elif changeType == 'modified':
-                VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId)\
-                    .update(vduid=vduId, nfinstid=self.vnf_instid, vmid=resourceId)
+                VNFCInstModel.objects.filter(vnfcinstanceid=vnfcInstanceId).update(vduid=vduId,
+                                                                                   nfinstid=self.vnf_instid,
+                                                                                   vmid=vmId)
             else:
                 self.exception('affectedVnfc struct error: changeType not in {added,removed,modified}')
 
     def update_Vl(self):
         for vl in self.affectedVl:
-            vlInstanceId = vl['vlInstanceId']
-            vldid = vl['vldid']
-            changeType = vl['changeType']
-            networkResource = vl['networkResource']
-            resourceType = networkResource['resourceType']
-            resourceId = networkResource['resourceId']
+            vlInstanceId = ignore_case_get(vl, 'vlInstanceId')
+            vldid = ignore_case_get(vl, 'vldid')
+            changeType = ignore_case_get(vl, 'changeType')
+            networkResource = ignore_case_get(vl, 'networkResource')
+            resourceType = ignore_case_get(networkResource, 'resourceType')
+            resourceId = ignore_case_get(networkResource, 'resourceId')
 
             if resourceType != 'network':
                 self.exception('affectedVl struct error: resourceType not euqal network')
@@ -108,6 +118,37 @@ class NotifyLcm(object):
             elif changeType == 'modified':
                 VLInstModel.objects.filter(vlInstanceId=vlInstanceId)\
                     .update(vldId=vldid, ownerType=0, ownerId=ownerId, relatedNetworkId=resourceId, vlType=0)
+            else:
+                self.exception('affectedVl struct error: changeType not in {added,removed,modified}')
+
+    def update_Cp(self):
+        for cp in self.affectedCp:
+            virtualLinkInstanceId = ignore_case_get(cp, 'virtualLinkInstanceId')
+            ownerid = ignore_case_get(cp, 'ownerid')
+            ownertype = ignore_case_get(cp, 'ownertype')
+            cpInstanceId = ignore_case_get(cp, 'cpinstanceid')
+            cpdId = ignore_case_get(cp, 'cpdid')
+            changeType = ignore_case_get(cp, 'changetype')
+            relatedportId = ''
+            portResource = ignore_case_get(cp, 'portResource')
+            if portResource:
+                vimId = ignore_case_get(portResource, 'vimid')
+                resourceId = ignore_case_get(portResource, 'resourceid')
+                relatedportId = ''
+                portinst = PortInstModel.objects.filter(vimid=vimId, resourceid=resourceId)
+                if portinst:
+                    relatedportId = portinst.first().portid
+
+            if changeType == 'added':
+                CPInstModel(cpinstanceid=cpInstanceId, cpdid=cpdId, ownertype=ownertype, ownerid=ownerid,
+                            relatedtype=2, relatedport=relatedportId, status='active').save()
+            elif changeType == 'removed':
+                CPInstModel.objects.filter(cpinstanceid=cpInstanceId).delete()
+            elif changeType == 'changed':
+                CPInstModel.objects.filter(cpinstanceid=cpInstanceId).update(cpdid=cpdId, ownertype=ownertype,
+                                                                             ownerid=ownerid,
+                                                                             vlinstanceid=virtualLinkInstanceId,
+                                                                             relatedtype=2, relatedport=relatedportId)
             else:
                 self.exception('affectedVl struct error: changeType not in {added,removed,modified}')
 
