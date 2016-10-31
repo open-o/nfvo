@@ -26,6 +26,8 @@ class GetJobInfoService(object):
     def do_biz(self):
         logger.info("get job info, job_id=:%s, response_id=:%s" % (self.job_id, self.response_id))
         jobs = JobUtil.query_job_status(self.job_id, self.response_id)
+        if not jobs:
+            return {"jobId": self.job_id}
         ret = {
             "jobId": self.job_id,
             "responseDescriptor": {

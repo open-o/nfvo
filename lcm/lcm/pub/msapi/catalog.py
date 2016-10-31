@@ -79,7 +79,7 @@ def get_process_id(name, srv_template_id):
         raise NSLCMException('Failed to get service[%s,%s] process id' % (name, srv_template_id))
     items = json.JSONDecoder().decode(ret[1])
     for item in items:
-        if item['name'] == name:
+        if name in item['name']:
             return item['processId']
     raise NSLCMException('service[%s,%s] process id not exist' % (name, srv_template_id))
 

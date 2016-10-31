@@ -109,7 +109,7 @@ class TerminateVnfs(Thread):
     def send_terminate_vnf_to_resMgr(self):
         uri = '/openoapi/resmgr/v1/vnf'
         req_param = {}
-        ret = req_by_msb(uri, "DELETE", req_param)
+        ret = req_by_msb(uri, "DELETE", json.dumps(req_param))
         if ret[0] > 0:
             logger.error('Send terminate VNF request to resmgr failed.')
             raise NSLCMException('Send terminate VNF request to resmgr failed.')

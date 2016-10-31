@@ -100,7 +100,7 @@ class CreateVnfs(Thread):
         for vnf_info in self.nsd_model['vnfs']:
             if self.vnf_id == vnf_info['vnf_id']:
                 self.vnfd_id = vnf_info['properties']['id']
-                self.vnf_inst_name = vnf_info['properties']['name']
+                self.vnf_inst_name = vnf_info['properties']['name'] + "_" + self.nf_inst_id
                 return
         logger.error('Can not found vnf in nsd model')
         raise NSLCMException('Can not found vnf in nsd model')
@@ -166,6 +166,7 @@ class CreateVnfs(Thread):
             raise NSLCMException('VNF instantiation failed on VNFM side.')
 
     def write_vnf_creation_info(self):
+        logger.debug("write_vnf_creation_info start")
         vm_inst_infos = VmInstModel.objects.filter(insttype=INST_TYPE.VNF, instid=self.nf_inst_id)
         data = {
             'nf_inst_id': self.nf_inst_id,
@@ -174,11 +175,14 @@ class CreateVnfs(Thread):
             'vms': [{'vmId': vm_inst_info.resouceid, 'vmName': vm_inst_info.vmname, 'vmStatus': 'ACTIVE'} for
                     vm_inst_info in vm_inst_infos]}
         create_vnf_creation_info(data)
+        logger.debug("write_vnf_creation_info end")
 
     def save_info_to_db(self):
+        logger.debug("save_info_to_db start")
         do_biz_with_share_lock("set-vnflist-in-vnffginst-%s" % self.ns_inst_id, self.save_vnf_inst_id_in_vnffg)
         NfInstModel.objects.filter(nfinstid=self.nf_inst_id).update(status=VNF_STATUS.ACTIVE, lastuptime=now_time())
         JobUtil.add_job_status(self.job_id, 100, 'vnf instantiation success', 0)
+        logger.debug("save_info_to_db end")
 
     def vnf_inst_failed_handle(self, error_msg):
         logger.error('VNF instantiation failed, detail message: %s' % error_msg)

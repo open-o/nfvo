@@ -55,13 +55,17 @@ class NfDetailView(APIView):
                               'vnfStatus': nf_inst_info[0].status})
 
     def post(self, request_paras, vnfinstid):
-        logger.debug("VnfQueryView--post::> %s" % vnfinstid)
+        logger.debug("VnfTerminateView--post::> %s, %s", vnfinstid, request_paras.data)
         vnf_inst_id = vnfinstid
         terminationType = ignore_case_get(request_paras.data, 'terminationType')
         gracefulTerminationTimeout = ignore_case_get(request_paras.data, 'gracefulTerminationTimeout')
         job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, vnf_inst_id)
         data = {'terminationType': terminationType, 'gracefulTerminationTimeout': gracefulTerminationTimeout}
-        TerminateVnfs(data, vnf_inst_id, job_id).run()
+        logger.debug("data=%s", data)
+        try:
+            TerminateVnfs(data, vnf_inst_id, job_id).run()
+        except Exception as e:
+            return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
         rsp = {'jobId': job_id}
         return Response(data=rsp, status=status.HTTP_201_CREATED)
 
@@ -73,6 +77,16 @@ class NfGrant(APIView):
             vnf_inst_id = ignore_case_get(request.data, 'vnfInstanceId')
             job_id = JobUtil.create_job("VNF", JOB_TYPE.GRANT_VNF, vnf_inst_id)
             rsp = GrantVnfs(request.data, job_id).send_grant_vnf_to_resMgr()
+            """
+            rsp = {
+                "vim": {
+                    "vimid": ignore_case_get(ignore_case_get(request.data, 'additionalparam'), 'vimid'),
+                    "accessinfo": {
+                        "tenant": "admin"
+                    }
+                }
+            }
+            """
             return Response(data=rsp, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
