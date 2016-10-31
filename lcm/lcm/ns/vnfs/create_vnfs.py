@@ -80,7 +80,7 @@ class CreateVnfs(Thread):
 
     def get_params(self):
         self.ns_inst_id = self.data['ns_instance_id']
-        vnf_index = int(self.data['vnf_index']) - 1
+        vnf_index = int(float(self.data['vnf_index'])) - 1
         additional_vnf_info = self.data['additional_param_for_vnf'][vnf_index]
         self.vnf_id = ignore_case_get(additional_vnf_info, 'vnfProfileId')
         additional_param = ignore_case_get(additional_vnf_info, 'additionalParam')
