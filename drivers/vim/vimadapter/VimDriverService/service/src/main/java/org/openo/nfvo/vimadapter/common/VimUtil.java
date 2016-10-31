@@ -102,7 +102,8 @@ public final class VimUtil {
         Vim vim = new Vim();
         vim.setId(responseContent.getString("vimId"));
         vim.setName(responseContent.getString("name"));
-        vim.setUrl(responseContent.getString("url"));
+        String url = responseContent.getString("url");
+        vim.setUrl(url.split("/v")[0]);
         vim.setUserName(responseContent.getString("userName"));
         vim.setPwd(responseContent.getString("password"));
         vim.setType(responseContent.getString("type"));
