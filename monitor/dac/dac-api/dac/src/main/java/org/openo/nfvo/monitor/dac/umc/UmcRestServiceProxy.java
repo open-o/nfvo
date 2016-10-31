@@ -13,32 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.monitor.dac.util;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+package org.openo.nfvo.monitor.dac.umc;
 
-public class Global {
+import net.sf.json.JSONObject;
 
-	public static boolean isEmpty(String str) {
-		if (null == str || str.isEmpty()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+import org.openo.nfvo.monitor.dac.util.APIHttpClient;
+import org.openo.nfvo.monitor.dac.util.Global;
 
-	public static String getID() {
-		String id = UUID.randomUUID().toString();
-		return id;
-	}
-
-	public static String getMsbApiRootDomain() {
-		return "/openoapi/microservices/v1/services"; 
-	}
-	
-	public static String getUmcApiRootDomain(){
-		return "/openoapi/umc/v1";
-	}
-	
+public class UmcRestServiceProxy {
+    public static void notifyUmc(DacBean dacBean,String umcIP){
+    	String url = "http://"+umcIP+":"+UmcConfiguration.getUmcPort()+Global.getUmcApiRootDomain()+"/dacinfo";
+    	JSONObject registerObj = JSONObject.fromObject(dacBean);
+    	APIHttpClient.doPost2Str(url, registerObj, "");
+    }
 }

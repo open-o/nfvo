@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.openo.nfvo.monitor.umc.cache.CacheUtil;
+import org.openo.nfvo.monitor.umc.cometdclient.DacCometdClient;
 import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
 import org.openo.nfvo.monitor.umc.pm.common.PmConst;
@@ -33,7 +34,16 @@ public class WrapperUtil {
     	Map<String, String> map = new HashMap<String, String>();
     	map.put(PmConst.IPADDRESS, paramInfo.getIpAddress());
     	map.put(PmConst.OID, paramInfo.getOid());
-    	map.put(PmConst.PROXYIP, PmConst.LOCAL_IPADDRESS);
+    	String proxyIp = PmConst.LOCAL_IPADDRESS;
+    	Map<String, DacCometdClient> dacMap = DACServiceWrapper.getInstance().ip2CometdClientMap;
+    	if(!dacMap.isEmpty()){
+    		for(String dacIp:dacMap.keySet()){
+    			proxyIp = dacIp;
+    			break;
+    		}
+    	}
+    	//map.put(PmConst.PROXYIP, PmConst.LOCAL_IPADDRESS);//TODO
+    	map.put(PmConst.PROXYIP, proxyIp);
     	String customPara = paramInfo.getCustomPara();
         if (customPara != null && !customPara.equals("")) {
             ObjectMapper objectMapper = new ObjectMapper();

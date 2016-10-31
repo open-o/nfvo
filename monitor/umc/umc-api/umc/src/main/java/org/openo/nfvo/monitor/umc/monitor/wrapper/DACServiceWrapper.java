@@ -102,19 +102,37 @@ public class DACServiceWrapper {
     	}
 
     }*/
+    public void receiveDacNotification(String ip,String labelIndex){
+    	LOGGER.info("receive dac "+ip+" notification");
+    	if (!ip2CometdClientMap.containsKey(ip))
+    	{   
+            DACInfo dacInfo = new DACInfo();
+            String newId = generateOid();
+            dacInfo.setOid(newId);
+            dacInfo.setMoc("it.dac");
+            String label ="dac"+labelIndex;
+            dacInfo.setNodeLabel(label);
+            dacInfo.setIpAddress(ip);
+            DACInfoDao dao = (DACInfoDao) UmcDbUtil.getDao(MonitorConst.DAC_INFO_TABLE);
+            dao.save(dacInfo);
+            DacCometdClient cometdClient = new DacCometdClient(ip);
+            cometdClient.subscribe();
+            ip2CometdClientMap.put(ip, cometdClient);
+            LOGGER.info(dacInfo.getIpAddress() + " create DAC cometdClient");
+    	}
+	
+    }
     public void initDac()
     {
     	List<String> ipList = MSBRestServiceProxy.queryService("dac", "v1");
-    	int i=0;
     	for(String ip:ipList){
         	if (!ip2CometdClientMap.containsKey(ip))
-        	{   i++;
+        	{   
                 DACInfo dacInfo = new DACInfo();
                 String newId = generateOid();
                 dacInfo.setOid(newId);
                 dacInfo.setMoc("it.dac");
-                String label ="dac"+i;
-                dacInfo.setNodeLabel(label);
+                dacInfo.setNodeLabel(ip);
                 dacInfo.setIpAddress(ip);
                 DACInfoDao dao = (DACInfoDao) UmcDbUtil.getDao(MonitorConst.DAC_INFO_TABLE);
                 dao.save(dacInfo);

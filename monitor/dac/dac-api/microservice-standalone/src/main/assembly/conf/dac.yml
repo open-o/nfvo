@@ -20,6 +20,7 @@ defaultName: ${DW_DEFAULT_NAME:-Stranger}
 
 #microservice Bus address
 msbAddress: 10.74.205.123:80
+umcServerPort: 8205
 
 # use the simple server factory if you only want to run on a single port
 #server:
