@@ -13,32 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.monitor.dac.util;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+package org.openo.nfvo.monitor.umc.dac.bean;
 
-public class Global {
+import lombok.Data;
 
-	public static boolean isEmpty(String str) {
-		if (null == str || str.isEmpty()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+@Data
+public class DacBean {
+	private String ip;
+	private String labelIndex;
 
-	public static String getID() {
-		String id = UUID.randomUUID().toString();
-		return id;
-	}
-
-	public static String getMsbApiRootDomain() {
-		return "/openoapi/microservices/v1/services"; 
-	}
-	
-	public static String getUmcApiRootDomain(){
-		return "/openoapi/umc/v1";
-	}
-	
 }

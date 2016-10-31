@@ -41,7 +41,9 @@ import org.openo.nfvo.monitor.dac.msb.MSBRestServiceProxy;
 import org.openo.nfvo.monitor.dac.msb.MsbConfiguration;
 import org.openo.nfvo.monitor.dac.msb.bean.MsbRegisterBean;
 import org.openo.nfvo.monitor.dac.msb.bean.ServiceNodeBean;
-import org.openo.nfvo.monitor.dac.snmptrap.TrapInitService;
+import org.openo.nfvo.monitor.dac.umc.DacBean;
+import org.openo.nfvo.monitor.dac.umc.UmcConfiguration;
+import org.openo.nfvo.monitor.dac.umc.UmcRestServiceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +68,7 @@ public class DacApp extends Application<DacAppConfig> {
     public void run(DacAppConfig dacAppConfig, Environment environment) throws Exception {
         LOGGER.info("Start to initialize DAC.");
         MsbConfiguration.setMsbAddress(dacAppConfig.getMsbAddress());
+        UmcConfiguration.setUmcPort(dacAppConfig.getUmcServerPort());
         environment.jersey().packages("org.openo.nfvo.monitor.dac.resources");// register rest-api interface
 
         initCometd(environment);
@@ -101,7 +104,20 @@ public class DacApp extends Application<DacAppConfig> {
 		registerBean.setNodes(nodeList);
 		MSBRestServiceProxy.registerService(registerBean);
 		LOGGER.info("register monitor-dac service to msb finished.");
+		notifyUmc(ip);
 	}
+    
+    private void notifyUmc(String ip){
+    	LOGGER.info("notify dac "+ip + " to umc");
+    	DacBean dacBean = new DacBean();
+    	dacBean.setIp(ip);
+    	dacBean.setLabelIndex(ip);
+    	List<String> ipList = MSBRestServiceProxy.queryService("umc", "v1");
+    	for(String umcIp:ipList){
+    		UmcRestServiceProxy.notifyUmc(dacBean, umcIp);
+            LOGGER.info("notify dac "+ ip +" to umc "+ umcIp);
+    	}
+    }
 
 	/**
      * initialize cometD server

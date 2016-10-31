@@ -36,6 +36,7 @@ import javax.servlet.DispatcherType;
 
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.openo.nfvo.monitor.umc.cache.CacheService;
+import org.openo.nfvo.monitor.umc.dac.DacResource;
 import org.openo.nfvo.monitor.umc.db.UmcDbSession;
 import org.openo.nfvo.monitor.umc.drill.resources.LayerMonitorResource;
 import org.openo.nfvo.monitor.umc.drill.resources.TopologyManagerResource;
@@ -121,6 +122,7 @@ public class UMCApp extends Application<UMCAppConfig> {
         environment.jersey().register(new SystemTypeMocRelationResource());
         environment.jersey().register(new AlarmTypeResource());
         environment.jersey().register(new ChangeResource());
+        environment.jersey().register(new DacResource());
 
 		Object[] extendResources = ExtensionAccess.getExtensions(IRecource.class.getName(), EXTEND_RESOURCE);
 

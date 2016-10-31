@@ -29,8 +29,11 @@ public class DacAppConfig extends Configuration {
     @NotEmpty
     private String msbAddress = "";
 
+    
+    private String umcServerPort = "8205";
+    
 
-    @JsonProperty
+	@JsonProperty
     public String getTemplate() {
         return template;
     }
@@ -58,5 +61,14 @@ public class DacAppConfig extends Configuration {
     @JsonProperty
 	public void setMsbAddress(String msbAddress) {
 		this.msbAddress = msbAddress;
+	}
+    
+    @JsonProperty
+    public String getUmcServerPort() {
+		return umcServerPort;
+	}
+    @JsonProperty
+	public void setUmcServerPort(String umcServerPort) {
+		this.umcServerPort = umcServerPort;
 	}
 }

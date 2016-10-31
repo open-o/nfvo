@@ -76,7 +76,7 @@ public class PmTaskDao extends UmcDao<PmTask> {
         try {
             beginTransaction();
             MaxJobId = (Integer) session
-                    .createSQLQuery("select max(t.jobid) from Pm_Task t")
+                    .createSQLQuery("select max(t.jobid) from PM_TASK t")
                     .uniqueResult();
         } catch (HibernateException ex) {
             LOGGER.error("PmTaskDao.getMaxPmJobId throw exception!", ex);
