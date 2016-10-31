@@ -29,4 +29,5 @@ class GrantVnfs(object):
 
     def send_grant_vnf_to_resMgr(self):
         req_param = self.data
-        resmgr.grant_vnf(req_param)
+        return resmgr.grant_vnf(req_param)
+
