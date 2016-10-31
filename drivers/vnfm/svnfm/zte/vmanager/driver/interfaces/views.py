@@ -59,7 +59,7 @@ def vnfm_get(vnfmid):
 
 
 def vnfd_get(vnfpackageid):
-    ret = req_by_msb("openoapi/nslcm/v1/vnfpackage/%s" % vnfpackageid, "POST")
+    ret = req_by_msb("openoapi/nslcm/v1/vnfpackage/%s" % vnfpackageid, "GET")
     return ret
 
 
@@ -93,19 +93,19 @@ def instantiate_vnf(request, *args, **kwargs):
         vnfm_id = ignorcase_get(kwargs, "vnfmid")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnfm_info = json.JSONDecoder().decode(ret[1])
         logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
         vnf_package_id = ignorcase_get(request.data, "vnfPackageId")
         ret = vnfd_get(vnf_package_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnfd_info = json.JSONDecoder().decode(ret[1])
         logger.debug("[%s] vnfd_info=%s", fun_name(), vnfd_info)
         csar_id = ignorcase_get(vnfd_info, "csarId")
         ret = vnfpackage_get(csar_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnf_package_info = json.JSONDecoder().decode(ret[1])
         packageInfo = ignorcase_get(vnf_package_info, "packageInfo")
         logger.debug("[%s] packageInfo=%s", fun_name(), packageInfo)
@@ -114,9 +114,15 @@ def instantiate_vnf(request, *args, **kwargs):
         data["VNFMID"] = vnfm_id
         data["VNFD"] = ignorcase_get(packageInfo, "downloadUri")
         data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
-        # data["extension"] = ignorcase_get(request.data, "additionalparam")
-        # data["extension"]["vnfinstancename"] = ignorcase_get(request.data, "vnfinstancename")
-        # data["VNFID"] =
+        data["extension"] = {}
+        inputs = []
+        for name, value in ignorcase_get(request.data, "additionalParam").items():
+            if name == "externalManageNetworkName":
+                name = "externalDataNetworkName"
+            inputs.append({"name": name, "value": value})
+        data["extension"]["inputs"] = json.dumps(inputs)
+        json.dumps(ignorcase_get(request.data, "additionalParam"))
+        data["extension"]["vnfinstancename"] = ignorcase_get(request.data, "vnfInstanceName")
         logger.debug("[%s] call_req data=%s", fun_name(), data)
         ret = restcall.call_req(
             base_url=ignorcase_get(vnfm_info, "url"),
@@ -128,14 +134,14 @@ def instantiate_vnf(request, *args, **kwargs):
             content=json.JSONEncoder().encode(data))
         logger.debug("[%s] call_req ret=%s", fun_name(), ret)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         resp = json.JSONDecoder().decode(ret[1])
         resp_data = mapping_conv(create_vnf_resp_mapping, resp)
         logger.info("[%s]resp_data=%s", fun_name(), resp_data)
     except Exception as e:
         logger.error("Error occurred when instantiating VNF")
         raise e
-    return Response(data=resp_data, status=status.HTTP_202_ACCEPTED)
+    return Response(data=resp_data, status=ret[2])
 
 
 # ==================================================
@@ -155,7 +161,7 @@ def terminate_vnf(request, *args, **kwargs):
         vnfm_id = ignorcase_get(kwargs, "vnfmid")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnfm_info = json.JSONDecoder().decode(ret[1])
         logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
         data = {}
@@ -166,17 +172,17 @@ def terminate_vnf(request, *args, **kwargs):
             passwd=ignorcase_get(vnfm_info, "password"),
             auth_type=restcall.rest_no_auth,
             resource=vnf_delete_url % (ignorcase_get(kwargs, "vnfInstanceID")),
-            method='post',
+            method='delete',
             content=json.JSONEncoder().encode(data))
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         resp = json.JSONDecoder().decode(ret[1])
         resp_data = mapping_conv(vnf_delete_resp_mapping, resp)
         logger.debug("[%s]resp_data=%s", fun_name(), resp_data)
     except Exception as e:
         logger.error("Error occurred when terminating VNF")
         raise e
-    return Response(data=resp_data, status=status.HTTP_202_ACCEPTED)
+    return Response(data=resp_data, status=ret[2])
 
 
 # ==================================================
@@ -194,7 +200,7 @@ def query_vnf(request, *args, **kwargs):
         vnfm_id = ignorcase_get(kwargs, "vnfmid")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnfm_info = json.JSONDecoder().decode(ret[1])
         logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
         data = {}
@@ -207,7 +213,7 @@ def query_vnf(request, *args, **kwargs):
             method='get',
             content=json.JSONEncoder().encode(data))
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         resp = json.JSONDecoder().decode(ret[1])
         vnf_status = ignorcase_get(resp, "vnfinstancestatus")
         resp_data = {"vnfInfo": {"vnfStatus": vnf_status}}
@@ -215,7 +221,7 @@ def query_vnf(request, *args, **kwargs):
     except Exception as e:
         logger.error("Error occurred when querying VNF information.")
         raise e
-    return Response(data=resp_data, status=status.HTTP_202_ACCEPTED)
+    return Response(data=resp_data, status=ret[2])
 
 
 # Get Operation Status
@@ -239,7 +245,7 @@ def operation_status(request, *args, **kwargs):
         vnfm_id = ignorcase_get(kwargs, "vnfmid")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         vnfm_info = json.JSONDecoder().decode(ret[1])
         logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
         ret = restcall.call_req(
@@ -249,22 +255,22 @@ def operation_status(request, *args, **kwargs):
             auth_type=restcall.rest_no_auth,
             resource=operation_status_url.format(jobId=ignorcase_get(kwargs, 'jobid'), nfvoId=1,
                                                  vnfmId=ignorcase_get(kwargs, 'vnfmid'),
-                                                 responseId=ignorcase_get(kwargs, 'responseId')),
+                                                 responseId=ignorcase_get(request.GET, 'responseId')),
             method='get',
             content=json.JSONEncoder().encode(data))
 
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         resp_data = json.JSONDecoder().decode(ret[1])
         logger.info("[%s]resp_data=%s", fun_name(), resp_data)
     except Exception as e:
         logger.error("Error occurred when getting operation status information.")
         raise e
-    return Response(data=resp_data, status=status.HTTP_202_ACCEPTED)
+    return Response(data=resp_data, status=ret[2])
 
 
 # Grant VNF Lifecycle Operation
-grant_vnf_url = 'openoapi/nslcm/v1/grantvnf'
+grant_vnf_url = 'openoapi/nslcm/v1/ns/grantvnf'
 grant_vnf_param_map = {
     "VNFMID": "",
     "NFVOID": "",
@@ -310,7 +316,7 @@ def grantvnf(request, *args, **kwargs):
         ret = req_by_msb(grant_vnf_url, "POST", content=json.JSONEncoder().encode(data))
         logger.info("ret = %s", ret)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
         resp = json.JSONDecoder().decode(ret[1])
 
         resp_data['vimid'] = ignorcase_get(resp['vim'], 'vimid')
@@ -320,14 +326,14 @@ def grantvnf(request, *args, **kwargs):
     except Exception as e:
         logger.error("Error occurred in Grant VNF.")
         raise e
-    return Response(data=resp_data, status=status.HTTP_202_ACCEPTED)
+    return Response(data=resp_data, status=ret[2])
 
 
 # Notify LCM Events
-notify_url = 'openoapi/nslcm/v1/vnfs/{vnfInstanceId}/Notify'
+notify_url = 'openoapi/nslcm/v1/ns/{vnfmid}/vnfs/{vnfInstanceId}/Notify'
 notify_param_map = {
     "NFVOID": "",
-    "VNFMID": "",
+    "VNFMID": "VNFMID",
     "VIMID": "vimid",
     "VNFInstanceID": "vnfInstanceId",
     "TimeStamp": "",
@@ -345,15 +351,58 @@ def notify(request, *args, **kwargs):
         logger.info("[%s]req_data = %s", fun_name(), request.data)
         data = mapping_conv(notify_param_map, request.data)
         logger.info("[%s]data = %s", fun_name(), data)
-        ret = req_by_msb(notify_url.format(vnfInstanceId=ignorcase_get(kwargs, 'vnfinstanceid')), "POST",
-                         content=json.JSONEncoder().encode(data))
+
+        data["status"] = "result"
+        data["jobId"] = "notMust"
+        data["affectedVnfc"] = []
+        data["affectedVl"] = []
+        data["affectedVirtualStorage"] = []
+        data["affectedCp"] = []
+
+        affectedvnfcs = ignorcase_get(ignorcase_get(request.data, "extension"), "affectedvnfc")
+        affectedvls = ignorcase_get(ignorcase_get(request.data, "extension"), "affectedvl")
+        affectedcps = ignorcase_get(ignorcase_get(request.data, "extension"), "affectedcp")
+        vnfdmodule = ignorcase_get(ignorcase_get(request.data, "extension"), "vnfdmodule")
+
+        data["vnfdmodule"] = vnfdmodule
+
+        for affectedvnfc in affectedvnfcs:
+            data["affectedVnfc"].append({
+                "vnfcInstanceId": ignorcase_get(affectedvnfc, "vnfcinstanceid"),
+                "vduId": ignorcase_get(affectedvnfc, "vduId"),
+                "changeType": ignorcase_get(affectedvnfc, "changeType"),
+                "vimid": ignorcase_get(ignorcase_get(affectedvnfc, "computeresource"), "vimid"),
+                "vmId": ignorcase_get(ignorcase_get(affectedvnfc, "computeresource"), "resourceid"),
+                "vmName": ignorcase_get(ignorcase_get(affectedvnfc, "computeresource"), "resourcename")
+            })
+
+        for affectedvl in affectedvls:
+            data["affectedVl"].append({
+                "vlInstanceId": ignorcase_get(affectedvl, "virtuallinkinstanceid"),
+                "vimid": ignorcase_get(ignorcase_get(affectedvl, "networkresource"), "vimid"),
+                "vldid": ignorcase_get(affectedvl, "virtuallinkdescid"),
+                "vllid": ignorcase_get(ignorcase_get(affectedvl, "networkresource"), "resourceid"),
+                "vlName": ignorcase_get(ignorcase_get(affectedvl, "networkresource"), "resourcename")
+            })
+
+        for affectedcp in affectedcps:
+            data["affectedCp"].append(affectedcp)
+            #     {
+            #     "virtualLinkInstanceId": ignorcase_get(affectedcp, "virtuallinkinstanceid"),
+            #     "ownerId": ignorcase_get(affectedcp, "ownerId"),
+            #     "ownerType": ignorcase_get(affectedcp, "ownerType")
+            # }
+        ret = req_by_msb(notify_url.format(vnfmid=ignorcase_get(data, 'VNFMID'),
+                                           vnfInstanceId=ignorcase_get(data, 'vnfinstanceid')),
+                         "POST", content=json.JSONEncoder().encode(data))
+
         logger.info("[%s]data = %s", fun_name(), ret)
         if ret[0] != 0:
-            return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': ret[1]}, status=ret[2])
     except Exception as e:
         logger.error("Error occurred in LCM notification.")
         raise e
-    return Response(data=None, status=status.HTTP_202_ACCEPTED)
+    return Response(data=None, status=ret[2])
 
 
 @api_view(http_method_names=['GET'])

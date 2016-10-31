@@ -29,6 +29,6 @@ urlpatterns = [
     url(
         r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/jobs/(?P<jobid>[0-9a-zA-Z\-\_]+)$',
         views.operation_status, name='operation_status'),
-    url(r'^v1/resource/grant$', views.grantvnf, name='grantvnf'),
-    url(r'^v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/resource/grant$', views.grantvnf, name='grantvnf'),
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
     url(r'^samples/$', views.samples, name='samples'), ]
