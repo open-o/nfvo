@@ -116,12 +116,15 @@ def instantiate_vnf(request, *args, **kwargs):
         data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
         data["extension"] = {}
         inputs = []
-        for name, value in ignorcase_get(request.data, "additionalParam").items():
+        for name, value in ignorcase_get(ignorcase_get(request.data, "additionalParam"), "inputs").items():
             if name == "externalManageNetworkName":
                 name = "externalDataNetworkName"
             inputs.append({"name": name, "value": value})
+
+        logger.info("ignorcase_get(request.data, \"additionalParam\") = %s" % ignorcase_get(request.data, "additionalParam"))
         data["extension"]["inputs"] = json.dumps(inputs)
-        json.dumps(ignorcase_get(request.data, "additionalParam"))
+        data["extension"]["extVirtualLinks"] = ignorcase_get(
+            ignorcase_get(request.data, "additionalParam"), "extVirtualLinks")
         data["extension"]["vnfinstancename"] = ignorcase_get(request.data, "vnfInstanceName")
         logger.debug("[%s] call_req data=%s", fun_name(), data)
         ret = restcall.call_req(
