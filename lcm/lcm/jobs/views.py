@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import logging
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -18,6 +20,7 @@ from lcm.jobs.job_get import GetJobInfoService
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils.values import ignore_case_get
 
+logger = logging.getLogger(__name__)
 
 class JobView(APIView):
     def get(self, request, job_id):
@@ -27,11 +30,12 @@ class JobView(APIView):
 
     def post(self, request, job_id):
         try:
+            logger.debug("Enter JobView:post, %s ", job_id)
             jobs = JobUtil.query_job_status(job_id)
             if len(jobs) > 0 and jobs[-1:].errcode == '255':
                 return Response(data={'result': 'ok'})
             progress = request.data.get('progress')
-            desc = request.data.get('desc')
+            desc = request.data.get('desc', '%s' % progress)
             errcode = '0' if request.data.get('errcode') == 'active' else '255'
             JobUtil.add_job_status(job_id, progress, desc, error_code=errcode)
             return Response(data={'result': 'ok'})

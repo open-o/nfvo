@@ -14,6 +14,7 @@
 import datetime
 import logging
 import uuid
+import traceback
 
 from lcm.pub.database.models import JobStatusModel, JobModel
 from lcm.pub.utils import idutil
@@ -87,7 +88,10 @@ class JobUtil(object):
     @staticmethod
     def add_job_status(job_id, progress, status_decs, error_code=""):
         jobs = JobModel.objects.filter(jobid=job_id)
-        if jobs:
+        if not jobs:
+            logger.error("Job[%s] is not exists, please create job first." % job_id)
+            raise Exception("Job[%s] is not exists." % job_id)
+        try:
             int_progress = int(progress)
             job_status = JobStatusModel()
             job_status.indexid = int(idutil.get_auto_id(job_id))
@@ -120,9 +124,8 @@ class JobUtil(object):
                 job.endtime = datetime.datetime.now().strftime('%Y-%m-%d %X')
             job.save()
             logger.debug("update job, jobid=%s, progress=%d" % (job_status.jobid, int_progress))
-        else:
-            logger.error("Job[%s] is not exists, please create job first." % job_id)
-            raise Exception("Job[%s] is not exists." % job_id)
+        except:
+            logger.error(traceback.format_exc())
 
     @staticmethod
     def clear_job_status(job_id):

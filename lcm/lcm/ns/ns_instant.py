@@ -16,11 +16,12 @@ import json
 import logging
 import traceback
 import time
+import uuid
 
 from rest_framework import status
 
 from lcm.pub.database.models import DefPkgMappingModel, ServiceBaseInfoModel, InputParamMappingModel
-from lcm.pub.database.models import NSInstModel, NfPackageModel
+from lcm.pub.database.models import NSInstModel, NfPackageModel, VNFFGInstModel
 from lcm.pub.msapi.catalog import get_process_id, get_download_url_from_catalog
 from lcm.pub.msapi.catalog import query_rawdata_from_catalog, get_servicetemplate_id, get_servicetemplate
 from lcm.pub.msapi.wso2bpel import workflow_run
@@ -50,6 +51,7 @@ class InstantNSService(object):
 
             vim_id = self.req_data['additionalParamForNs']['location']
 
+            JobUtil.add_job_status(job_id, 5, 'Start query nsd(%s)' % ns_inst.nspackage_id)
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
             dst_plan = toscautil.convert_nsd_model(src_plan["rawData"])
             logger.debug('tosca plan dest:%s' % dst_plan)
@@ -59,7 +61,7 @@ class InstantNSService(object):
             # start
             params_vnf = []
             plan_dict = json.JSONDecoder().decode(dst_plan)
-            for vnf in plan_dict["vnfs"]:
+            for vnf in ignore_case_get(plan_dict, "vnfs"):
                 vnfd = NfPackageModel.objects.get(vnfdid=vnf['properties']['id'])
                 vnfd_model = json.JSONDecoder().decode(vnfd.vnfdmodel)
                 vnfm_type = vnfd_model["metadata"].get("vnfmType", "ztevmanagerdriver")
@@ -80,7 +82,7 @@ class InstantNSService(object):
                 'object_additionalParamForNs': params_json,
                 'object_additionalParamForVnf': vnf_params_json}
             plan_input.update(**self.get_model_count(dst_plan))
-            plan_input["sdncontrollerid"] = ignore_case_get(
+            plan_input["sdnControllerId"] = ignore_case_get(
                 self.req_data['additionalParamForNs'], "sdncontroller")
 
             ServiceBaseInfoModel(service_id=self.ns_inst_id,
@@ -102,6 +104,12 @@ class InstantNSService(object):
                 InputParamMappingModel(service_id=self.ns_inst_id,
                     input_key=key, input_value=val).save()
 
+            for vnffg in ignore_case_get(plan_dict, "vnffgs"):
+                VNFFGInstModel(vnffgdid=vnffg["vnffg_id"],
+                    vnffginstid=str(uuid.uuid4()),
+                    nsinstid=self.ns_inst_id,
+                    endpointnumber=0).save()
+
             servicetemplate_id = get_servicetemplate_id(ns_inst.nsd_id)
             process_id = get_process_id('init', servicetemplate_id)
             data = {"processId": process_id, "params": {"planInput": plan_input}}
@@ -109,12 +117,15 @@ class InstantNSService(object):
 
             ret = workflow_run(data)
             logger.info("ns-instant(%s) workflow result:%s" % (self.ns_inst_id, ret))
+            JobUtil.add_job_status(job_id, 10, 'NS inst(%s) workflow started: %s' % (
+                self.ns_inst_id, ret.get('status')))
             if ret.get('status') == 1:
                 return dict(data={'jobId': job_id}, status=status.HTTP_200_OK)
             return dict(data={'error': ret['message']}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             logger.error(traceback.format_exc())
             logger.error("ns-instant(%s) workflow error:%s" % (self.ns_inst_id, e.message))
+            JobUtil.add_job_status(job_id, 255, 'NS instantiation failed: %s' % e.message)
             return dict(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @staticmethod
