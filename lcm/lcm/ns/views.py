@@ -55,15 +55,6 @@ class CreateNSView(APIView):
 
 
 class NSInstView(APIView):
-    def do_get(self, request, ns_instance_id):
-        logger.debug("Enter NSInstView::do_get")
-        ret = GetNSInfoService(ns_instance_id).get_ns_info()
-        if not ret:
-            logger.debug("Leave NSInstView::do_get::status=404")
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        logger.debug("Leave NSInstView::do_get::ret=%s, status=200", ret)
-        return Response(data=ret, status=status.HTTP_200_OK)
-
     def post(self, request, ns_instance_id):
         ack = InstantNSService(ns_instance_id, request.data).do_biz()
         logger.debug("Leave NSInstView::post::ack=%s", ack)
@@ -87,6 +78,15 @@ class TerminateNSView(APIView):
 
 
 class DeleteNSView(APIView):
+    def get(self, request, ns_instance_id):
+        logger.debug("Enter NSInstView::do_get")
+        ret = GetNSInfoService(ns_instance_id).get_ns_info()
+        if not ret:
+            logger.debug("Leave NSInstView::do_get::status=404")
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        logger.debug("Leave NSInstView::do_get::ret=%s, status=200", ret)
+        return Response(data=ret, status=status.HTTP_200_OK)
+
     def delete(self, request, ns_instance_id):
         logger.debug("Enter DeleteNSView::delete %s", request.data)
         ret = DeleteNsService(ns_instance_id).do_biz()
