@@ -62,6 +62,10 @@ public class Constant {
 
     public static final String DOWNLOADCSAR_SUCCESS = "Success";
 
+    public static final int UNZIP_SUCCESS = 0;
+
+    public static final int UNZIP_FAIL = -1;
+
     public static final String DOWNLOADCSAR_FAIL = "FAIL";
 
     public static final int HTTP_OK = 200;

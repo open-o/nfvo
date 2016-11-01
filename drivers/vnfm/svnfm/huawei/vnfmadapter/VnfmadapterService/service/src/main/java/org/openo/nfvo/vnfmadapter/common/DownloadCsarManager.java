@@ -16,9 +16,14 @@
 
 package org.openo.nfvo.vnfmadapter.common;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
@@ -147,5 +152,55 @@ public class DownloadCsarManager {
     public static String getRandomFileName() {
         return String.valueOf(System.currentTimeMillis());
     }
-
+    
+    /**
+     * unzip CSAR packge
+     * @param fileName filePath
+     * @return
+     */
+    public static int unzipCSAR(String fileName,String filePath){
+    	final int BUFFER = 2048;
+    	int status=0;
+    	
+        try {
+            ZipFile zipFile = new ZipFile(fileName);
+            Enumeration emu = zipFile.entries();
+            int i=0;
+            while(emu.hasMoreElements()){
+                ZipEntry entry = (ZipEntry)emu.nextElement();
+                //read directory as file first,so only need to create directory 
+                if (entry.isDirectory())
+                {
+                    new File(filePath + entry.getName()).mkdirs();
+                    continue;
+                }
+                BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
+                File file = new File(filePath + entry.getName());
+                //Because that is random to read zipfile,maybe the file is read first
+                //before the directory is read,so we need to create directory first.
+                File parent = file.getParentFile();
+                if(parent != null && (!parent.exists())){
+                    parent.mkdirs();
+                }
+                FileOutputStream fos = new FileOutputStream(file);
+                BufferedOutputStream bos = new BufferedOutputStream(fos,BUFFER);           
+                
+                int count;
+                byte data[] = new byte[BUFFER];
+                while ((count = bis.read(data, 0, BUFFER)) != -1)
+                {
+                    bos.write(data, 0, count);
+                }
+                bos.flush();
+                bos.close();
+                bis.close();
+            }
+            status=Constant.UNZIP_SUCCESS;
+            zipFile.close();
+        } catch (Exception e) {
+        	status=Constant.UNZIP_FAIL;
+            e.printStackTrace();
+        }
+        return status;
+    }
 }
