@@ -4,6 +4,8 @@
   "ftp_server_port": "21",
   "ftp_username": "ftpuser",
   "ftp_password": "Huawei_123",
+  "csar_file_path": "***/***",
+  "csar_file_name": "***",
   "vnfd_file_path": "***/***",
   "vnfd_file_name": "****",
   "imap_file_path": "/",
