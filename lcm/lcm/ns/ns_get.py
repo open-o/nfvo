@@ -41,9 +41,10 @@ class GetNSInfoService(object):
         return ns_info_list
 
     def get_single_ns_info(self, ns_inst_id):
-        ns_inst_info = NSInstModel.objects.filter(id=ns_inst_id)
-        if not ns_inst_info:
+        ns_insts = NSInstModel.objects.filter(id=ns_inst_id)
+        if not ns_insts:
             return None
+        ns_inst_info = ns_insts[0]
         ret = {
             'nsInstanceId': ns_inst_info.id,
             'nsName': ns_inst_info.name,
@@ -63,7 +64,7 @@ class GetNSInfoService(object):
             vnf_info = {
                 'vnfInstanceId': info.nfinstid,
                 'vnfInstanceName': info.nf_name,
-                'vnfProfileId': info.vnfd_id}
+                'vnfProfileId': info.vnf_id}
             vnf_info_list.append(vnf_info)
         return vnf_info_list
 
