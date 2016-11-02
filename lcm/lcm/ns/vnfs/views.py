@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import logging
+import traceback
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -89,6 +90,7 @@ class NfGrant(APIView):
             """
             return Response(data=rsp, status=status.HTTP_201_CREATED)
         except Exception as e:
+            logger.error(traceback.format_exc())
             return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
 
 
