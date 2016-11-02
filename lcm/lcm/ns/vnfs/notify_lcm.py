@@ -49,6 +49,7 @@ class NotifyLcm(object):
             self.update_Cp()
             self.update_Storage()
             self.update_vnf_by_vnfdmodule()
+            logger.debug("notify lcm end")
         except NSLCMException as e:
             self.exception(e.message)
         except Exception:
@@ -124,8 +125,9 @@ class NotifyLcm(object):
     def update_Cp(self):
         for cp in self.affectedCp:
             virtualLinkInstanceId = ignore_case_get(cp, 'virtualLinkInstanceId')
-            ownerid = ignore_case_get(cp, 'ownerid')
+            #ownerid = ignore_case_get(cp, 'ownerid')
             ownertype = ignore_case_get(cp, 'ownertype')
+            ownerid = self.vnf_instid if str(ownertype) == "0" else ignore_case_get(cp, 'ownerid')
             cpInstanceId = ignore_case_get(cp, 'cpinstanceid')
             cpdId = ignore_case_get(cp, 'cpdid')
             changeType = ignore_case_get(cp, 'changetype')

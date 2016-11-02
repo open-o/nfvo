@@ -49,7 +49,7 @@ class CreateNSView(APIView):
             ns_inst_id = CreateNSService(nsd_id, ns_name, description).do_biz()
         except Exception as e:
             logger.error("Exception in CreateNS: %s", e.message)
-            Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         logger.debug("CreateNSView::post::ret={'nsInstanceId':%s}", ns_inst_id)
         return Response(data={'nsInstanceId': ns_inst_id}, status=status.HTTP_201_CREATED)
 
@@ -71,7 +71,7 @@ class TerminateNSView(APIView):
             TerminateNsService(ns_instance_id, termination_type, graceful_termination_timeout, job_id).do_biz()
         except Exception as e:
             logger.error("Exception in CreateNS: %s", e.message)
-            Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         ret = {'jobId': job_id}
         logger.debug("Leave TerminateNSView::post ret=%s", ret)
         return Response(data=ret, status=status.HTTP_202_ACCEPTED)
