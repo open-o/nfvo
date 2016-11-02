@@ -51,7 +51,7 @@ class DeleteVls(object):
     def exception_handle(self, e):
         detail = "vl delete failed, detail message: %s" % e.message
         logger.error(detail)
-        return {"result": 1, "detail": detail}
+        return {"result": 0, "detail": detail}
 
     def delete_vl_from_vim(self, vim_id, subnetwork_id_list, network_id):
         vim_resp_body = extsys.get_vim_by_id(vim_id)
