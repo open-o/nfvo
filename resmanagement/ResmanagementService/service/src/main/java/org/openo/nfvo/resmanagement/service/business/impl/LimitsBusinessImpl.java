@@ -18,6 +18,7 @@ package org.openo.nfvo.resmanagement.service.business.impl;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
+import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
@@ -87,6 +88,43 @@ public class LimitsBusinessImpl implements LimitsBusiness {
             return obj;
         }
         return JSONObject.fromObject(result);
+    }
+
+    /**
+     * <br>
+     * 
+     * @param paramJson
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @Override
+    public JSONObject getLimits(String vimId) throws ServiceException {
+        JSONObject vimInfo = VimUtil.getVimById(vimId);
+        LOGGER.info("GetLimits vimInfo: {}", vimInfo);
+        String vimName = vimInfo.getString("name");
+        String tenant = vimInfo.getString("tenant");
+        String tenantId = VimUtil.getTenantIdByName(tenant, vimId);
+        JSONObject paramJson = new JSONObject();
+        paramJson.put(ParamConstant.PARAM_VIMID, vimId);
+        paramJson.put(ParamConstant.PARAM_TENANTID, tenantId);
+        JSONObject cpuObj = getCpuLimits(paramJson);
+        JSONObject diskObj = getDiskLimits(paramJson);
+
+        JSONObject cpuMem = cpuObj.getJSONObject("limits").getJSONObject("absolute");
+        String totalCPU = String.valueOf(cpuMem.get("maxTotalCores"));
+        String totalMemory = String.valueOf(cpuMem.get("maxTotalRAMSize"));
+        JSONObject disk = diskObj.getJSONObject("limits");
+        String totalDisk = String.valueOf(disk.get("gigabytes"));
+
+        JSONObject result = new JSONObject();
+        result.put("vimId", vimId);
+        result.put("vimName", vimName);
+        result.put("totalCPU", totalCPU);
+        result.put("totalMemory", totalMemory);
+        result.put("totalDisk", totalDisk);
+        LOGGER.info("getLimits result:{}", result);
+        return result;
     }
 
 }

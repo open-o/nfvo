@@ -136,6 +136,7 @@ public class VnfInfoServiceImpl implements VnfInfoService {
      */
     @Override
     public int delete(String id) throws ServiceException {
+        vmService.deleteByVnfId(id);
         return vnfInfoDao.deleteVnfInfoById(id);
     }
 

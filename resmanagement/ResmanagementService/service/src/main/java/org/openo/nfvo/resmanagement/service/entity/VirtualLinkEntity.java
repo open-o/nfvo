@@ -238,7 +238,7 @@ public class VirtualLinkEntity implements Serializable {
      */
     public static VirtualLinkEntity toEntity(JSONObject jsonObject) {
         VirtualLinkEntity virtualLinkEntity = new VirtualLinkEntity();
-        virtualLinkEntity.setId(JsonUtil.getJsonFieldStr(jsonObject, "id"));
+        virtualLinkEntity.setId(JsonUtil.getJsonFieldStr(jsonObject, "vlInstanceId"));
         virtualLinkEntity.setName(JsonUtil.getJsonFieldStr(jsonObject, "name"));
         virtualLinkEntity.setBackendId(JsonUtil.getJsonFieldStr(jsonObject, "backendId"));
         virtualLinkEntity.setIsPublic(JsonUtil.getJsonFieldStr(jsonObject, "isPublic"));

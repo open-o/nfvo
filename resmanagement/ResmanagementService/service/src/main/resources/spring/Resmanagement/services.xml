@@ -47,7 +47,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/resmanagementdb"/>
         <property name="username" value="root"/>
-        <property name="password" value="Test_12345"/>
+        <property name="password" value="123456"/>
     </bean>
 
     <bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -159,6 +159,7 @@
     <bean id="sites"
         class="org.openo.nfvo.resmanagement.service.base.openstack.impl.SitesImpl">
         <property name="sitesBusiness" ref="sitesBusiness"></property>
+        <property name="limitsBusiness" ref="limitsBusiness"></property>
     </bean>
 
     <bean id="sitesRoa" class="org.openo.nfvo.resmanagement.service.rest.SitesRoa">

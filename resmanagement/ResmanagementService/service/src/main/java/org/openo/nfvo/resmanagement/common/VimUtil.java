@@ -17,6 +17,7 @@
 package org.openo.nfvo.resmanagement.common;
 
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
+import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
 import org.slf4j.Logger;
@@ -74,5 +75,42 @@ public class VimUtil {
         } else {
             return esrResponse;
         }
+    }
+
+    /**
+     * Get tenants.
+     * 
+     * @param vimId
+     * @return
+     */
+    public static JSONArray getTenants(String vimId) {
+        String url = UrlConstant.GET_TENANT_URL;
+        RestfulParametes restParametes = new RestfulParametes();
+        restParametes.put("vimId", vimId);
+        String result = RestfulUtil.getResponseContent(url, restParametes, ParamConstant.PARAM_GET);
+        JSONObject resultObj = JSONObject.fromObject(result);
+        JSONArray tenants = resultObj.getJSONArray("projects");
+        LOG.info("Get tenants from vimdriver! tenants:{}", tenants);
+        return tenants;
+    }
+
+    /**
+     * <br>
+     * 
+     * @param tenant
+     * @return
+     * @since NFVO 0.5
+     */
+    public static String getTenantIdByName(String tenant, String vimId) {
+        JSONArray tenants = VimUtil.getTenants(vimId);
+        String tenantId = "";
+        for(int i = 0; i < tenants.size(); i++) {
+            JSONObject obj = tenants.getJSONObject(i);
+            String name = obj.getString("name");
+            if(name.equals(tenant)) {
+                tenantId = obj.getString("id");
+            }
+        }
+        return tenantId;
     }
 }

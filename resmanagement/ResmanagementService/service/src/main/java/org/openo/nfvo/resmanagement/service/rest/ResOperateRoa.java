@@ -28,6 +28,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.HttpConstant;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
@@ -41,13 +42,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Resource Operate ROA Class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 @Path(UrlConstant.RESOPERATE_URL)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -59,7 +59,6 @@ public class ResOperateRoa {
     private ResOperateService resOperateService;
 
     /**
-     *
      * Update iResource pool.<br>
      *
      * @param context
@@ -67,14 +66,13 @@ public class ResOperateRoa {
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @PUT
     @Path(UrlConstant.MODRES_URL)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject updateIResPool(@Context HttpServletRequest context,
-            @QueryParam(ParamConstant.PARAM_TENANTID) String tenantId,
             @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
         if(null == vimId || vimId.isEmpty()) {
             LOGGER.warn("ResPoolRoa::start to update all IResource");
@@ -82,6 +80,9 @@ public class ResOperateRoa {
         }
         JSONObject json = RequestUtil.getAllJsonRequestBody(context);
         LOGGER.warn("ResPoolRoa::modVimId :{}", vimId);
+        JSONObject vimInfo = VimUtil.getVimById(vimId);
+        String tenant = vimInfo.getString("tenant");
+        String tenantId = VimUtil.getTenantIdByName(tenant, vimId);
         try {
             resOperateService.updateIRes(tenantId, vimId, json);
             resOperateService.sendMsgMonitor("update");
@@ -103,7 +104,6 @@ public class ResOperateRoa {
     }
 
     /**
-     *
      * Add all resource pool.<br>
      *
      * @param context
@@ -111,7 +111,7 @@ public class ResOperateRoa {
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @POST
     @Path(UrlConstant.ADDRES_URL)
@@ -134,14 +134,13 @@ public class ResOperateRoa {
     }
 
     /**
-     *
      * Delete iResource.<br>
      *
      * @param context
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
