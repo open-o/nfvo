@@ -136,7 +136,7 @@ def convert_router_node(src_node, src_node_list):
     return router_node
 
 
-def convert_fp_node(src_node, src_node_list):
+def convert_fp_node(src_node, src_node_list, src_json_model):
     fp_node = {'fp_id': src_node['template_name'], 'description': '', 
         'properties': {}, 'forwarder_list': []}
     convert_props(src_node, fp_node)
@@ -149,6 +149,16 @@ def convert_fp_node(src_node, src_node_list):
             forwarder_point['type'] = 'cp'
         forwarder_point['node_name'] = find_node_name(relation['target_node_id'], src_node_list)
         forwarder_point['capability'] = ''
+        if forwarder_point['type'] == 'vnf':
+            for node_tpl in src_json_model["node_templates"]:
+                if fp_node['fp_id'] != node_tpl["name"]:
+                    continue
+                for r_tpl in node_tpl["requirement_templates"]:
+                    if safe_get(r_tpl, "target_node_template_name") != forwarder_point['node_name']:
+                        continue
+                    forwarder_point['capability'] = safe_get(r_tpl, "target_capability_name")
+                    break
+                break
         fp_node['forwarder_list'].append(forwarder_point)
     return fp_node
 
@@ -274,7 +284,7 @@ def convert_nsd_model(src_json):
         elif type_name.find('.CP.') > 0 or type_name.endswith('.CP'):
             target_json['cps'].append(convert_cp_node(node, src_nodes))
         elif type_name.find('.FP.') > 0 or type_name.endswith('.FP'):
-            target_json['fps'].append(convert_fp_node(node, src_nodes))
+            target_json['fps'].append(convert_fp_node(node, src_nodes, src_json_model))
         elif type_name.endswith('.Router'):
             target_json['routers'].append(convert_router_node(node, src_nodes))
 

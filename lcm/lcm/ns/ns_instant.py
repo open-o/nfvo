@@ -92,7 +92,7 @@ class InstantNSService(object):
                                  active_status='--',
                                  status=ns_inst.status,
                                  creator='--',
-                                 create_time=int(time.time())).save()
+                                 create_time=int(time.time()*1000)).save()
 
             service_tpl = get_servicetemplate(ns_inst.nsd_id)
             DefPkgMappingModel(service_id=self.ns_inst_id,
