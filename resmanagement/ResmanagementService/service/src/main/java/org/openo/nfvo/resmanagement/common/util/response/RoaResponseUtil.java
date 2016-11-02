@@ -69,7 +69,7 @@ public final class RoaResponseUtil {
      * @since NFVO 0.5
      */
     public static JSONObject add(int result) {
-        LOGGER.info("function=get; msg=add result{}", result);
+        LOGGER.info("function=add; msg=add result{}", result);
         if(result <= 0) {
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, ResponseConstant.ADD_FAIL_MSG);
         } else {
@@ -86,7 +86,7 @@ public final class RoaResponseUtil {
      * @since NFVO 0.5
      */
     public static JSONObject update(int result) {
-        LOGGER.info("function=get; msg=update result{}", result);
+        LOGGER.info("function=update; msg=update result{}", result);
         if(result <= 0) {
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, ResponseConstant.MOD_FAIL_MSG);
         } else {
@@ -103,7 +103,7 @@ public final class RoaResponseUtil {
      * @since NFVO 0.5
      */
     public static JSONObject delete(int result) {
-        LOGGER.info("function=get; msg=delete result{}", result);
+        LOGGER.info("function=delete; msg=delete result{}", result);
         if(result <= 0) {
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, ResponseConstant.DEL_FAIL_MSG);
         } else {

@@ -162,6 +162,11 @@ public class UrlConstant {
     public static final String GET_NETWORK_URL = "/openoapi/vimdriver/v1/networks";
 
     /**
+     * getTenantURL.
+     */
+    public static final String GET_TENANT_URL = "/openoapi/vimdriver/v1/tenants";
+
+    /**
      * getHostURL.
      */
     public static final String GET_HOST_URL = "/openoapi/vimdriver/v1/%s/hosts";
@@ -277,7 +282,7 @@ public class UrlConstant {
     public static final String LIMITS_URL = "/v1/limits";
 
     private UrlConstant() {
-        //private constructor
+        // private constructor
     }
 
 }

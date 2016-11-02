@@ -27,6 +27,7 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Sites;
+import org.openo.nfvo.resmanagement.service.business.inf.LimitsBusiness;
 import org.openo.nfvo.resmanagement.service.business.inf.SitesBusiness;
 import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 import org.slf4j.Logger;
@@ -48,9 +49,20 @@ public class SitesImpl implements Sites {
 
     private SitesBusiness sitesBusiness;
 
+    private LimitsBusiness limitsBusiness;
+
     @Override
     public int add(JSONObject jsonObject) throws ServiceException {
+        LOGGER.info("Add datacenter jsonObject: {}", jsonObject);
         SitesEntity sitesEntity = SitesEntity.toEntity(jsonObject);
+        sitesEntity.setStatus("active");
+        String vimId = jsonObject.getString("vimName");
+        sitesEntity.setVimId(vimId);
+        JSONObject resource = limitsBusiness.getLimits(vimId);
+        sitesEntity.setVimName(resource.getString("vimName"));
+        sitesEntity.setTotalCPU(resource.getString("totalCPU"));
+        sitesEntity.setTotalMemory(resource.getString("totalMemory"));
+        sitesEntity.setTotalDisk(resource.getString("totalDisk"));
         if(StringUtils.isEmpty(sitesEntity.getId())) {
             sitesEntity.setId(UUID.randomUUID().toString());
             jsonObject.put(ParamConstant.PARAM_ID, sitesEntity.getId());
@@ -65,23 +77,24 @@ public class SitesImpl implements Sites {
 
     @Override
     public int update(JSONObject jsonObject) throws ServiceException {
+        LOGGER.info("grantResource jsonObject: {}", jsonObject);
         JSONObject sitesObj = dataParse(jsonObject);
         return sitesBusiness.updateSiteSelective(SitesEntity.toEntity(sitesObj));
     }
 
     private JSONObject dataParse(JSONObject jsonObject) throws ServiceException {
-        String id = jsonObject.getString("id");
+        String vimId = jsonObject.getString("vimId");
         Map<String, Object> condition = new HashMap<>();
-        condition.put("id", id);
+        condition.put("vimId", vimId);
         SitesEntity sitesEntity = get(condition);
         if(null == sitesEntity) {
-            LOGGER.error("Get sites null, id={}", id);
+            LOGGER.error("Get sites null, vimId={}", vimId);
             return null;
         }
         return computeSiteUsed(jsonObject, sitesEntity);
     }
 
-    private JSONObject computeSiteUsed(JSONObject jsonObject, SitesEntity sitesEntity) {
+    private JSONObject computeSiteUsed(JSONObject jsonObject, SitesEntity sitesEntity) throws ServiceException {
         String action = JsonUtil.getJsonFieldStr(jsonObject, "action");
         String usedCpu = JsonUtil.getJsonFieldStr(jsonObject, "usedCPU");
         String usedMemory = JsonUtil.getJsonFieldStr(jsonObject, "usedMemory");
@@ -89,9 +102,9 @@ public class SitesImpl implements Sites {
         String oldCpu = sitesEntity.getUsedCPU();
         String oldMemory = sitesEntity.getUsedMemory();
         String oldDisk = sitesEntity.getUsedDisk();
-        String newCpu = accumOrFreeRes(usedCpu, oldCpu, action);
-        String newMemory = accumOrFreeRes(usedMemory, oldMemory, action);
-        String newDisk = accumOrFreeRes(usedDisk, oldDisk, action);
+        String newCpu = accumOrFreeRes(usedCpu, oldCpu, action, sitesEntity.getTotalCPU(), "cpu");
+        String newMemory = accumOrFreeRes(usedMemory, oldMemory, action, sitesEntity.getTotalMemory(), "memory");
+        String newDisk = accumOrFreeRes(usedDisk, oldDisk, action, sitesEntity.getTotalDisk(), "disk");
 
         JSONObject resUsed = new JSONObject();
         resUsed.put("usedCPU", newCpu);
@@ -110,12 +123,20 @@ public class SitesImpl implements Sites {
         return resUsed;
     }
 
-    private String accumOrFreeRes(String resUsed, String resOld, String action) {
+    private String accumOrFreeRes(String resUsed, String resOld, String action, String total, String type)
+            throws ServiceException {
         BigDecimal iResUsed = new BigDecimal(resUsed);
         BigDecimal iResOld = new BigDecimal(resOld);
+        BigDecimal itotal = new BigDecimal(total);
         if("online".equals(action)) {
+            if(iResOld.add(iResUsed).compareTo(itotal) > 0) {
+                throw new ServiceException("Grant resource fail! The " + type + " resource not enough.");
+            }
             return String.valueOf(iResOld.add(iResUsed));
         } else {
+            if(iResOld.subtract(iResUsed).compareTo(BigDecimal.ZERO) < 0) {
+                throw new ServiceException("Grant resource fail! The " + type + " resource used below zero.");
+            }
             return String.valueOf(iResOld.subtract(iResUsed));
         }
     }
@@ -149,13 +170,17 @@ public class SitesImpl implements Sites {
         return siteList.get(0);
     }
 
+    @Override
+    public int deleteResByVimId(String vimId) throws ServiceException {
+        return 0;
+    }
+
     public void setSitesBusiness(SitesBusiness sitesBusiness) {
         this.sitesBusiness = sitesBusiness;
     }
 
-    @Override
-    public int deleteResByVimId(String vimId) throws ServiceException {
-        return 0;
+    public void setLimitsBusiness(LimitsBusiness limitsBusiness) {
+        this.limitsBusiness = limitsBusiness;
     }
 
 }

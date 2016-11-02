@@ -118,13 +118,11 @@ public class HostBusinessImpl implements HostBusiness {
 
     @Override
     public int updateHostSelective(HostEntity hostEntity) throws ServiceException {
-        if(null == hostEntity) {
-            LOGGER.error("function=updateHostSelective; msg=update error, because hostEntity is null.");
-            throw new ServiceException(
-                    ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.host.update.entity.null"));
+        if(!checkId(hostEntity.getId())) {
+            return hostDao.updateHostSelective(hostEntity);
+        } else {
+            return addHostSelective(hostEntity);
         }
-
-        return hostDao.updateHostSelective(hostEntity);
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.openo.nfvo.resmanagement.service.entity.VnfEntity;
 
 public interface VnfMapper {
 
-    int deleteByPrimaryKey(String id);
+    int deleteByPrimaryKey(String vnfInstanceId);
 
     int insert(VnfEntity record);
 

@@ -39,4 +39,6 @@ public interface GrantResService {
      */
     JSONObject grantResource(JSONObject object) throws ServiceException;
 
+    JSONObject grantResourceReal(JSONObject object) throws ServiceException;
+
 }

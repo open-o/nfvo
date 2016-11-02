@@ -96,6 +96,13 @@ public class LimitsRoa {
         return limitsBusiness.getDiskLimits(paramJson);
     }
 
+    @GET
+    public JSONObject getLimitsResource(@Context HttpServletRequest context,
+            @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
+        LOGGER.warn("function=getLimitsResource, vimId={}", vimId);
+        return limitsBusiness.getLimits(vimId);
+    }
+
     public void setLimitsBusiness(LimitsBusiness limitsBusiness) {
         this.limitsBusiness = limitsBusiness;
     }

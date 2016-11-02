@@ -40,4 +40,6 @@ public interface VmDao {
     int deleteVmById(String id);
 
     int updateVm(VmEntity vmEntity);
+
+    int deleteVmByVnfId(String vnfInstanceId);
 }

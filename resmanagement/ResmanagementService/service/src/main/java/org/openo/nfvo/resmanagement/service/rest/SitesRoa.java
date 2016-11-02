@@ -33,6 +33,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.HttpConstant;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
@@ -44,6 +45,7 @@ import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -195,6 +197,24 @@ public class SitesRoa {
             LOGGER.error("SitesRoa::grant resource:" + se);
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());
         }
+    }
+
+    @GET
+    @Path("/vims")
+    public String getVims(@Context HttpServletRequest context) throws ServiceException {
+        LOGGER.info("SitesRoa::get vims");
+        JSONArray vims = VimUtil.getVims();
+        JSONObject result = new JSONObject();
+        result.put("data", vims);
+        return result.toString();
+    }
+
+    @GET
+    @Path("/vims/{vimId}")
+    public String getVim(@Context HttpServletRequest context, @PathParam("vimId") String vimId)
+            throws ServiceException {
+        LOGGER.info("SitesRoa::get vim by id: {}", vimId);
+        return VimUtil.getVimById(vimId).toString();
     }
 
     public void setSites(Sites sites) {

@@ -54,6 +54,7 @@ public class GrantResourseRoa {
     private GrantResService grantResService;
 
     @PUT
+    @Path("/stub")
     public JSONObject grantResource(@Context HttpServletRequest context) throws ServiceException {
         JSONObject object = RequestUtil.getJsonRequestBody(context);
         if(null == object) {
@@ -64,6 +65,23 @@ public class GrantResourseRoa {
         LOGGER.info("GrantResourseRoa::grantResource:{}", object.toString());
         try {
             return grantResService.grantResource(object);
+        } catch(ServiceException se) {
+            LOGGER.error("GrantResourseRoa::grantResource error:{}" + se);
+            return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());
+        }
+    }
+
+    @PUT
+    public JSONObject grantResourceReal(@Context HttpServletRequest context) throws ServiceException {
+        JSONObject object = RequestUtil.getJsonRequestBody(context);
+        if(null == object) {
+            LOGGER.error("function=grantResource; msg=grantResource error, because body is null.");
+            throw new ServiceException(ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.grantResource.null"));
+        }
+
+        LOGGER.info("GrantResourseRoa::grantResource:{}", object.toString());
+        try {
+            return grantResService.grantResourceReal(object);
         } catch(ServiceException se) {
             LOGGER.error("GrantResourseRoa::grantResource error:{}" + se);
             return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());
