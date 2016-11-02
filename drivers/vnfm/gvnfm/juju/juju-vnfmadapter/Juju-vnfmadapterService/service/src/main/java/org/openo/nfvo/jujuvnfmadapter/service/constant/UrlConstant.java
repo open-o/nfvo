@@ -39,7 +39,11 @@ public class UrlConstant {
 
     public static final String REST_JUJU_CLIENT_DESTORY = "/openoapi/juju/v1/vnfms/destroy";
 
-    public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/%s/status";
+    public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/status?modelName=%s";
+    
+    public static final String RES_VNF = "/openoapi/resmgr/v1/resource/grant";
+    
+    public static final String REST_JUJU_VNFM_GRANT_URL = "/openoapi/jujuvnfm/v1/instances/%s/grant";
 
     private UrlConstant() {
         // Constructor

@@ -22,8 +22,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -47,7 +47,7 @@ import net.sf.json.JSONObject;
  * @author 
  * @version NFVO 0.5 Aug 18, 2016
  */
-@Path("/openoapi/juju/v1/vnfms")
+@Path("/v1/vnfms")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class JujuClientRoa {
@@ -98,7 +98,7 @@ public class JujuClientRoa {
      * parameter: vnfInstanceId
      * <br/>
      * 
-     * @param appName
+     * @param modelName
      * @param resp
      * @param context
      * @return Depends on juju's return
@@ -106,10 +106,10 @@ public class JujuClientRoa {
      * @since NFVO 0.5
      */
     @GET
-    @Path("/{appName}/status")
-    public String getVnfStatus(@PathParam(Constant.APP_NAME) String appName, @Context HttpServletRequest context,
+    @Path("/status")
+    public String getVnfStatus(@QueryParam("modelName") String modelName, @Context HttpServletRequest context,
             @Context HttpServletResponse resp) throws ServiceException {
-        JSONObject result = jujuClientManager.getStatus(appName);
+        JSONObject result = jujuClientManager.getStatus(modelName);
         LOG.debug("status json str:"+result.toString());
         return result.toString();
 
@@ -144,13 +144,12 @@ public class JujuClientRoa {
                 return result.toString();
             }
             String charmPath = (String)reqJsonObject.get("charmPath");
-            Object memObj = reqJsonObject.get("mem");
-            int mem = StringUtils.isEmpty((String)memObj)?0:(Integer)memObj;
+          
             String appName = reqJsonObject.getString(Constant.APP_NAME);
             if(StringUtils.isBlank(charmPath)) {
                 charmPath = JujuConfigUtil.getValue("charmPath");
             }
-            result = jujuClientManager.deploy(charmPath, mem, appName);
+            result = jujuClientManager.deploy(charmPath,appName);
             if(result.getInt(EntityUtils.RESULT_CODE_KEY) == EntityUtils.ExeRes.SUCCESS){
                 resp.setStatus(Constant.HTTP_CREATED); 
             }
@@ -166,7 +165,7 @@ public class JujuClientRoa {
 
     /**
      * <br/>
-     * 
+     * here appName equals modelName
      * @param resp
      * @param context
      * @return

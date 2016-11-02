@@ -16,7 +16,6 @@
 
 package org.openo.nfvo.jujuvnfmadapter.service.activator;
 
-import org.openo.nfvo.jujuvnfmadapter.common.JujuConfigUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.api.internalsvc.inf.IJujuAdapterMgrService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +37,7 @@ public class ROAJujuServicePostProcessor implements DestructionAwareBeanPostProc
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
-        String autoRegister = JujuConfigUtil.getValue("charmPath");
-        if(bean instanceof IJujuAdapterMgrService && "true".equals(autoRegister)){
+        if(bean instanceof IJujuAdapterMgrService){
             IJujuAdapterMgrService jujuAdapterSvc = (IJujuAdapterMgrService)bean;
             jujuAdapterSvc.register();
             LOG.info("Successfully Registered to Microservice BUS!", ROAJujuServicePostProcessor.class);
