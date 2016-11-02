@@ -123,11 +123,13 @@ class TestTerminateVnfViews(TestCase):
         self.vnffg_id = str(uuid.uuid4())
         self.vim_id = str(uuid.uuid4())
         self.job_id = str(uuid.uuid4())
-        self.nf_uuid = '1-1-1'
+        self.nf_uuid = '111'
         self.tenant = "tenantname"
+        NSInstModel.objects.all().delete()
+        NfInstModel.objects.all().delete()
         NSInstModel(id=self.ns_inst_id, name="ns_name").save()
         NfInstModel.objects.create(nfinstid=self.nf_inst_id, nf_name='name_1', vnf_id='1',
-                                   vnfm_inst_id='1', ns_inst_id='1-1-1,2-2-2',
+                                   vnfm_inst_id='1', ns_inst_id='111,2-2-2',
                                    max_cpu='14', max_ram='12296', max_hd='101', max_shd="20", max_net=10,
                                    status='active', mnfinstid=self.nf_uuid, package_id='pkg1',
                                    vnfd_model='{"metadata": {"vnfdId": "1","vnfdName": "PGW001",'
@@ -160,11 +162,11 @@ class TestTerminateVnfViews(TestCase):
             self.failUnlessEqual(1, 0)
 
         mock_vals = {
-            "/openoapi/ztevmanagerdriver/v1/1/vnfs/1/terminate":
+            "/openoapi/ztevmanagerdriver/v1/1/vnfs/111/terminate":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
             "/openoapi/extsys/v1/vnfms/1":
                 [0, json.JSONEncoder().encode({"name": 'vnfm1', "type": 'ztevmanagerdriver'}), '200'],
-            "/openoapi/resmgr/v1/vnf":
+            "/openoapi/resmgr/v1/vnf/1":
                 [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
             "/openoapi/ztevmanagerdriver/v1/1/jobs/" + job_id + "?responseId=0":
                 [0, json.JSONEncoder().encode({"jobId": job_id,

@@ -103,11 +103,11 @@ class TerminateVnfs(Thread):
         req_param = json.JSONEncoder().encode({
             'terminationType': self.terminationType, 
             'gracefulTerminationTimeout': self.gracefulTerminationTimeout})
-        rsp = send_nf_terminate_request(self.vnfm_inst_id, self.vnf_inst_id, req_param)
+        rsp = send_nf_terminate_request(self.vnfm_inst_id, self.vnf_uuid, req_param)
         self.vnfm_job_id = ignore_case_get(rsp, 'jobId')
 
     def send_terminate_vnf_to_resMgr(self):
-        uri = '/openoapi/resmgr/v1/vnf'
+        uri = '/openoapi/resmgr/v1/vnf/%s' % self.vnf_inst_id
         req_param = {}
         ret = req_by_msb(uri, "DELETE", json.dumps(req_param))
         if ret[0] > 0:
