@@ -110,7 +110,7 @@ class NsPackage(object):
             nsd_id=nsd_id,
             name=nsd["metadata"]["name"],
             vendor=nsd["metadata"]["vendor"],
-            description=nsd["metadata"]["description"],
+            description=nsd["metadata"].get("description", ""),
             version=nsd["metadata"]["version"],
             nsd_model=json.JSONEncoder().encode(nsd)).save()
 

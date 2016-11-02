@@ -73,7 +73,7 @@ class TerminateNsService(object):
                 if ret[0] == 0:
                     cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
-                    if result == '1':
+                    if result == '0':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete vlinst:[%s] success." % tmp_msg, '')
                     else:
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete vlinst:[%s] failed." % tmp_msg, '')
@@ -103,7 +103,7 @@ class TerminateNsService(object):
                 if ret[0] == 0:
                     cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
-                    if result == '1':
+                    if result == '0':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete sfcinst:[%s] success." % tmp_msg, '')
                     else:
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete sfcinst:[%s] failed." % tmp_msg, '')
@@ -258,11 +258,17 @@ class DeleteNsService(object):
 
     def do_biz(self):
         logger.debug("[NS Delete] [do_delete] begin")
-
-        if self.get_ns_flag() == 0:
-            self.delete_ns()
-            return 'true'
-        else:
+        try:
+            if self.get_ns_flag() == 0:
+                self.delete_ns()
+                logger.debug("[NS Delete] [do_delete] end")
+                return 'true'
+            else:
+                logger.debug("[NS Delete] [do_delete] end")
+                return 'false'
+        except Exception as e:
+            logger.error(traceback.format_exc())
+            logger.debug("[NS Delete] [do_delete] failed")
             return 'false'
 
     def get_ns_flag(self):
@@ -282,6 +288,6 @@ class DeleteNsService(object):
 
     def delete_ns(self):
         NSInstModel.objects.filter(id=self.ns_inst_id).delete()
+        InputParamMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
         DefPkgMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
         ServiceBaseInfoModel.objects.filter(service_id=self.ns_inst_id).delete()
-        InputParamMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
