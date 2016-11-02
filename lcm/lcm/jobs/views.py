@@ -30,9 +30,9 @@ class JobView(APIView):
 
     def post(self, request, job_id):
         try:
-            logger.debug("Enter JobView:post, %s ", job_id)
+            logger.debug("Enter JobView:post, %s, %s ", job_id, request.data)
             jobs = JobUtil.query_job_status(job_id)
-            if len(jobs) > 0 and jobs[-1:].errcode == '255':
+            if len(jobs) > 0 and jobs[-1].errcode == '255':
                 return Response(data={'result': 'ok'})
             progress = request.data.get('progress')
             desc = request.data.get('desc', '%s' % progress)
