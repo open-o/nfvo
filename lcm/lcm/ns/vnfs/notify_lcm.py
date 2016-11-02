@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import uuid
 import logging
 import traceback
 
@@ -136,10 +136,19 @@ class NotifyLcm(object):
             if portResource:
                 vimId = ignore_case_get(portResource, 'vimid')
                 resourceId = ignore_case_get(portResource, 'resourceid')
-                relatedportId = ''
-                portinst = PortInstModel.objects.filter(vimid=vimId, resourceid=resourceId)
-                if portinst:
-                    relatedportId = portinst.first().portid
+                resourceName = ignore_case_get(portResource, 'resourceName')
+                tenant = ignore_case_get(portResource, 'tenant')
+                ipAddress = ignore_case_get(portResource, 'ipAddress')
+                macAddress = ignore_case_get(portResource, 'macAddress')
+                sfcEncapsulation = ignore_case_get(portResource, 'sfcEncapsulation')
+                instId = ignore_case_get(portResource, 'instId')
+                portid = str(uuid.uuid4())
+                PortInstModel(portid=portid, networkid='unknown', subnetworkid='unknown', vimid=vimId,
+                              resourceid=resourceId, name=resourceName, instid=instId, cpinstanceid=cpInstanceId,
+                              bandwidth='unknown', operationalstate='active', ipaddress=ipAddress, macaddress=macAddress,
+                              floatipaddress='unknown', serviceipaddress='unknown', typevirtualnic='unknown',
+                              sfcencapsulation='gre', direction='unknown', tenant=tenant).save()
+                relatedportId = portid
 
             if changeType == 'added':
                 CPInstModel(cpinstanceid=cpInstanceId, cpdid=cpdId, ownertype=ownertype, ownerid=ownerid,

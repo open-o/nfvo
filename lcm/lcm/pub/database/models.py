@@ -86,13 +86,13 @@ class FPInstModel(models.Model):
     nsinstid = models.CharField(db_column='NSINSTID', max_length=255)
     vnffginstid = models.CharField(db_column='VNFFGINSTID', max_length=255)
     symmetric = models.IntegerField(db_column='SYMMETRIC', null=True)
-    policyinfo = models.CharField(db_column='POLICYINFO', max_length=255)
+    policyinfo = models.TextField(db_column='POLICYINFO', max_length=65535)
     forworderpaths = models.CharField(db_column='FORWORDERPATHS', max_length=255, null=True, blank=True)
     status = models.CharField(db_column='STATUS', max_length=255)
     sdncontrollerid = models.CharField(db_column='SDNCONTROLLERID', max_length=255)
     sfcid = models.CharField(db_column='SFCID', max_length=255)
     flowclassifiers = models.CharField(db_column='FLOWCLASSIFIERS', max_length=255)
-    portpairgroups = models.CharField(db_column='PORTPAIRGROUPS', max_length=255)
+    portpairgroups = models.TextField(db_column='PORTPAIRGROUPS', max_length=65535)
 
 
 class VNFFGInstModel(models.Model):
