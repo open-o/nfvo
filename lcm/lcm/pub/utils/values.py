@@ -13,12 +13,13 @@
 # limitations under the License.
 
 
-def ignore_case_get(args, key):
+def ignore_case_get(args, key, def_val=""):
     if not key:
-        return ""
+        return def_val
     if key in args:
         return args[key]
     for old_key in args:
         if old_key.upper() == key.upper():
             return args[old_key]
-    return ""
+    return def_val
+
