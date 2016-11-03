@@ -59,13 +59,21 @@ public class NfvVduLinuxFsDao extends UmcDao<NfvVduLinuxFs> implements IPmDbQuer
             String hsql =
                     "FROM NfvVduLinuxFs t WHERE t.beginTime >= :beginTime AND t.beginTime < :endTime "
                             + "AND t.granularity = :granularity AND t.nedn IN( :nednList )";
+            if(neDns.isEmpty()){
+            	hsql =
+                        "FROM NfvVduLinuxFs t WHERE t.beginTime >= :beginTime AND t.beginTime < :endTime "
+                                + "AND t.granularity = :granularity";
+            }
 
             beginTransaction();
             Query query = session.createQuery(hsql);
             query.setParameter("beginTime", new Timestamp(beginTime.getTime()));
             query.setParameter("endTime", new Timestamp(endTime.getTime()));
             query.setParameter("granularity", granularity);
-            query.setParameterList("nednList", neDns);
+            if(!neDns.isEmpty()){
+                query.setParameterList("nednList", neDns);           	
+            }
+
             list = query.list();
 
         } catch (HibernateException ex) {
