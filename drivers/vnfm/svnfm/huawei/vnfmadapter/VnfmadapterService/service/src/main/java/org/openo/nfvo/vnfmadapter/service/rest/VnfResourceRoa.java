@@ -26,7 +26,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.openo.nfvo.vnfmadapter.common.VnfmJsonUtil;
-import org.openo.nfvo.vnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
 import org.openo.nfvo.vnfmadapter.service.process.VnfResourceMgr;
 import org.slf4j.Logger;
@@ -67,11 +66,12 @@ public class VnfResourceRoa {
     @PUT
     @Path("/instances/{vnfId}/grant")
     public String grantVnfRes(@Context HttpServletRequest context, @PathParam("vnfId") String vnfId) {
-        LOG.info("function=grantVnfRes, msg=enter to grant vnf resource");
+        LOG.info("function=grantVnfRes, msg=enter to grant vnf resource.");
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         JSONObject dataObject = VnfmJsonUtil.getJsonFromContexts(context);
+        LOG.info("function=grantVnfRes, dataObject: {}", dataObject);
         if(null == dataObject) {
             LOG.error("function=grantVnfRes, msg=param error");
             restJson.put("data", "Params error");
@@ -86,11 +86,20 @@ public class VnfResourceRoa {
             return restJson.toString();
         }
 
-        String reqIp = context.getHeader("x-real-client-addr");
-        String vnfmId = VnfmUtil.getVnfmIdByIp(reqIp);
+        String vnfmId = grantObj.getString("project_id");
 
         JSONObject resultObj = vnfResourceMgr.grantVnfResource(grantObj, vnfId, vnfmId);
         handleResult(resultObj, restJson);
+
+        return resultObj.toString();
+    }
+
+    @PUT
+    @Path("/lifecycle_changes_notification")
+    public String notify(@Context HttpServletRequest context) {
+        LOG.info("function=notify, msg=enter to notify vnf resource");
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
 
         return restJson.toString();
     }

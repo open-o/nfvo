@@ -65,7 +65,7 @@ public interface IResourceManager {
      * @return
      * @since  NFVO 0.5
      */
-    JSONObject getVNFDPlanInfo(String url, String vnfdid);
+    JSONObject getVNFDPlanInfo(String url, String vnfdid, String conntoken);
 
     /**
      * Upload VNF package.<br>

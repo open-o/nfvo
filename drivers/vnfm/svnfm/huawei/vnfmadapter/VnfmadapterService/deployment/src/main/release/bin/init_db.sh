@@ -14,34 +14,43 @@
 # limitations under the License.
 #*******************************************************************************
 #!/bin/bash
+
 cd ..
+
 if [ -z "$1" ]
 then
     echo "usage: init_db.sh <db user> <db password> <db server ip> <db port> "
     exit 1
 fi
+
 if [ -z "$2" ]
 then
     echo "usage: init_db.sh <db user> <db password> <db server ip> <db port> "
     exit 1
 fi
+
 if [ -z "$3" ]
 then
     echo "usage: init_db.sh <db user> <db password> <db server ip> <db port> "
     exit 1
 fi
+
 if [ -z "$4" ]
 then
     echo "usage: init_db.sh <db user> <db password> <db server ip> <db port> "
     exit 1
 fi
+
 echo
 echo "DB-INIT [vnfmdb] : START"
+
 mysql -u$1 -p$2 -h$3 -P$4 <$(cd `dirname $0`; pwd)/db/mysql/db-schema.sql
+
 if [ $? != 0 ] ; then
    echo "DB-INIT [vnfmdb] : FAILED !"
    exit 1
 fi
+
 echo "DB-INIT [vnfmdb] : PASSED"
 echo
 echo "*************************************************************"
