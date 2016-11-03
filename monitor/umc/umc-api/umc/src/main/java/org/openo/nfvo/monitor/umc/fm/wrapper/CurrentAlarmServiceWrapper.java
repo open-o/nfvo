@@ -39,8 +39,8 @@ import org.openo.nfvo.monitor.umc.fm.resource.bean.response.ExceedLimitException
 import org.openo.nfvo.monitor.umc.fm.resource.bean.response.NeMap;
 import org.openo.nfvo.monitor.umc.fm.resource.bean.response.NgictAlarmData;
 import org.openo.nfvo.monitor.umc.fm.util.BasicDataTypeConvertTool;
-import org.openo.nfvo.monitor.umc.monitor.wrapper.DACServiceWrapper;
 import org.openo.nfvo.monitor.umc.pm.common.PmConst;
+import org.openo.nfvo.monitor.umc.pm.db.process.PmDBProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +111,6 @@ public class CurrentAlarmServiceWrapper {
     }
 
     private List<NgictAlarmData> queryByCond(CurAlarmQueryCond condition) throws Exception {
-        //HashMap<String, String> neMap = getNeMap();
         List<CurrentAlarm> alarms  = FmDBProcess.queryCurAlarm(condition);
         if (alarms == null) {
             return new ArrayList<NgictAlarmData>();
@@ -137,7 +136,7 @@ public class CurrentAlarmServiceWrapper {
         return map;
     }
 
-    private HashMap<String, String> getNeMap() throws Exception {
+    private HashMap<String, String> getNeMap_bak() throws Exception {
         HashMap<String, String> neMap = new HashMap<String, String>();
         String instances = ResourceRestServiceProxy.getAllResource();
         RocInstances instanceObjs = new Gson().fromJson(instances, RocInstances.class);
@@ -146,7 +145,7 @@ public class CurrentAlarmServiceWrapper {
         NeMap[] vnfInstance = instanceObjs.getVnf();
         NeMap[] vimInstance = instanceObjs.getVim();
         NeMap[] vduInstance = instanceObjs.getVdu();
-
+        
         for(int i=0; i<hostsInstance.length; i++) {
             neMap.put(hostsInstance[i].getOid(), hostsInstance[i].getName());
         }
@@ -161,6 +160,15 @@ public class CurrentAlarmServiceWrapper {
         }
         for(int m=0; m<vduInstance.length; m++) {
             neMap.put(vduInstance[m].getOid(), vduInstance[m].getName());
+        }
+        return neMap;
+    }
+    
+    private HashMap<String, String> getNeMap() throws Exception {
+        HashMap<String, String> neMap = new HashMap<String, String>();
+        List<MonitorInfo> monitorInfos = PmDBProcess.queryDB(PmConst.MONITOR_INFO);
+        for(MonitorInfo monitorInfo:monitorInfos){
+        	neMap.put(monitorInfo.getOid(), monitorInfo.getLabel());
         }
         return neMap;
     }
@@ -179,10 +187,10 @@ public class CurrentAlarmServiceWrapper {
         ngictAlarm.setPosition1(alarm.getPosition1());
         //ngictAlarm.setPosition1DisplayName(neMap.get(alarm.getPosition1()));
         MonitorInfo monitorInfo = queryMonitorInfo(alarm.getPosition1());
+        ngictAlarm.setPosition1DisplayName("");
         if(monitorInfo != null){
         	 ngictAlarm.setPosition1DisplayName(monitorInfo.getLabel());
         }
-        ngictAlarm.setPosition1DisplayName("");
         ngictAlarm.setSubPosition1(alarm.getSubPosition1());
         ngictAlarm.setSubName1(alarm.getSubName1());
         ngictAlarm.setPosition2(alarm.getPosition2());
@@ -333,5 +341,7 @@ public class CurrentAlarmServiceWrapper {
         MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(PmConst.MONITOR_INFO);
         return dao.queryByOid(oid);   	
     }
+    
+
 
 }

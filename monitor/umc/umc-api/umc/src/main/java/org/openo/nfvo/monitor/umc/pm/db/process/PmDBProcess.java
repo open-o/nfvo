@@ -21,6 +21,7 @@ import org.openo.nfvo.monitor.umc.db.UmcDbUtil;
 import org.openo.nfvo.monitor.umc.db.dao.MonitorInfoDao;
 import org.openo.nfvo.monitor.umc.db.dao.PmTaskDao;
 import org.openo.nfvo.monitor.umc.db.dao.PmTaskThresholdDao;
+import org.openo.nfvo.monitor.umc.db.entity.MonitorInfo;
 import org.openo.nfvo.monitor.umc.db.entity.PmTask;
 import org.openo.nfvo.monitor.umc.db.entity.PmTaskThreshold;
 import org.openo.nfvo.monitor.umc.pm.common.DebugPrn;
@@ -91,5 +92,14 @@ public class PmDBProcess extends PmCommonProcess {
         }
 
         return null;
+    }
+    
+    public static List<MonitorInfo> queryDB(String tableName){
+    	if ( tableName.equals(PmConst.MONITOR_INFO)) {
+            MonitorInfoDao dao = (MonitorInfoDao) UmcDbUtil.getDao(tableName);
+            return dao.findAll();
+    	}
+    	return null;
+            
     }
 }
