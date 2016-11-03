@@ -19,7 +19,10 @@ package org.openo.nfvo.vnfmadapter.common;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
@@ -37,6 +40,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * Utility class to download CSAR

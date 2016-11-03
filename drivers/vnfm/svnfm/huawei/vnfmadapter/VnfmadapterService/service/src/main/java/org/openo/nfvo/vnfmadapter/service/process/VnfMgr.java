@@ -83,7 +83,7 @@ public class VnfMgr {
                 return restJson;
             }
 
-            JSONObject csmBody = transferVnfBody(vnfObject, resObjcet);
+            JSONObject csmBody = transferVnfBody(vnfObject, resObjcet, vnfmId);
             restJson = (new VnfMgrVnfm()).createVnf(csmBody, vnfmObjcet);
             saveVnfInfo(restJson, resObjcet);
         } catch(JSONException e) {
@@ -186,15 +186,18 @@ public class VnfMgr {
     }
 
     @SuppressWarnings("unchecked")
-    private JSONObject transferVnfBody(JSONObject vnfObject, JSONObject resObject) {
+    private JSONObject transferVnfBody(JSONObject vnfObject, JSONObject resObject, String vnfmId) {
         JSONObject restJson = new JSONObject();
         JSONObject vappIfno = new JSONObject();
         restJson.put("vnfd_id", resObject.getString("vnfdId"));
-        restJson.put("plan_id", vnfObject.getOrDefault("planId", ""));
-        restJson.put("plan_name", vnfObject.getOrDefault("planName", ""));
+        restJson.put("plan_id", resObject.getOrDefault("planId", ""));
+        restJson.put("plan_name", resObject.getOrDefault("planName", ""));
         restJson.put("vapp_name", vnfObject.get("vnfInstanceName"));
-        restJson.put("project_id", vnfObject.getOrDefault("projectId", ""));
+        restJson.put("project_id", vnfmId);
         restJson.put("parameters", vnfObject.getJSONObject("additionalParam").getJSONObject("parameters"));
+        restJson.put("nfvo_id", "");
+        restJson.put("location", "");
+        restJson.put("vnfm_id", vnfmId);
         vappIfno.put("vapp_info", restJson);
         return vappIfno;
     }
