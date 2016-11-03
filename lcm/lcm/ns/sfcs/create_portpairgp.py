@@ -33,6 +33,7 @@ class CreatePortPairGroup(object):
                                                    self.fp_inst_id)
         self.port_pair_groups = []
         self.port_pair_group_db_infos = []
+        self.sdncontrollerid = ""
 
     def do_biz(self):
         logger.info("CreatePortPairGroup start")
@@ -74,14 +75,6 @@ class CreatePortPairGroup(object):
             "sdnControllerId": self.sdncontrollerid,
             "url": extsys.get_sdn_controller_by_id(self.sdncontrollerid)["url"]})
         return sdncdriver.create_port_pair(port_pair_info)
-        # req_param = json.JSONEncoder.encode(port_pair_info)
-        # ret = req_by_msb(url,"POST",port_pair_info)
-        # ret = req_by_msb("OPENAPI_CREATE_PORTPAIR", port_pair_info)
-        # if (ret[0] != 0):
-        #     sfc_inst_failed_handle(self.fp_inst_id, "create port pair request to Driver failed.")
-        #     raise NSLCMException('create port pair request to Driver failed.')
-        # ret_body = json.loads(ret[1])
-        # return ret_body["id"]
 
     def init_port_pair_group(self, fp_model):
         forwarder_list = fp_model["forwarder_list"]
@@ -116,16 +109,21 @@ class CreatePortPairGroup(object):
         vnf_inst_database_info = NfInstModel.objects.filter(vnf_id=self.vnf_model_in_ns_info["vnf_id"],
                                                             ns_inst_id=self.ns_inst_id).get()
         self.vnf_inst_database_info = vnf_inst_database_info
+        logger.info("VNFD MODEL : %s" %vnf_inst_database_info.vnfd_model)
         vnfd_model_info = json.loads(vnf_inst_database_info.vnfd_model)
+        # vnfd_model_info = json.dumps(vnf_inst_database_info.vnfd_model)
+        # vnfd_model_info = json.dumps(self.vnf_inst_database_info.vnfd_model)
         self.vnfd_model_info = vnfd_model_info
+        logger.info("forward list: %s" % forwarder_list)
+        logger.info("current fowarder : %s" % cur_forwarder)
         cpd_id = self.get_cpdid_info_forwarder(vnfd_model_info, cur_forwarder)
         self.cp_model_in_vnf = self.get_cp_from_vnfd_model(cpd_id)
-
         vnfc_inst_infos = VNFCInstModel.objects.filter(nfinstid=vnf_inst_database_info.nfinstid)
-
         if not vnfc_inst_infos:
             logger.error("VNFCInstModel is None")
             return 0
+        logger.info("vnfc instance id: %s" % vnfc_inst_infos.get().vnfcinstanceid)
+        logger.info("cpd id: %s" % cpd_id)
         cp_inst_infos = []
         for vnfc_inst_info in vnfc_inst_infos:
             cp_db_info = CPInstModel.objects.filter(cpdid=cpd_id,
@@ -267,6 +265,12 @@ class CreatePortPairGroup(object):
                 return vnf_model_info
 
     def get_cpdid_info_forwarder(self, vnf_model, forwarder):
+        logger.info("vnf_exposed %s" % type(vnf_model))
+        # logger.info("vnf_exposed %s" % json.loads(vnf_model))
+        # vnf_model = json.loads(vnf_model)
+        logger.info("vnf_exposed %s" % type(vnf_model["vnf_exposed"]))
+        logger.info("vnf_exposed %s" % vnf_model["vnf_exposed"])
+        logger.info("foward_cps %s" % vnf_model["vnf_exposed"]["forward_cps"])
         for forwarder_info in vnf_model["vnf_exposed"]["forward_cps"]:
             if (forwarder_info["key_name"] == forwarder):
                 return forwarder_info["cp_id"]

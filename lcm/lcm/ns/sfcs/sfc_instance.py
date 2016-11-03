@@ -41,7 +41,7 @@ class SfcInstance(object):
             return
         self.symmetric = self.fp_model["properties"].get("symmetric") or True
         self.policyinfo = self.fp_model["properties"].get("policy")
-        self.status = "enabled"
+        self.status = "processing"
         vnffg_database_info = VNFFGInstModel.objects.filter(vnffgdid=self.get_vnffgdid_by_fp_id(),
                                                             nsinstid=self.ns_inst_id).get()
         self.vnffg_inst_id = vnffg_database_info.vnffginstid

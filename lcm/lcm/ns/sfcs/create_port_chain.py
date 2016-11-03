@@ -27,6 +27,10 @@ class CreatePortChain(object):
     def __init__(self, data):
         self.fp_inst_id = data["fpinstid"]
         self.ns_model_info = data["ns_model_data"]
+        self.sdnControllerId = ""
+        self.symmetric = ""
+        self.port_pair_groups_ids = []
+        self.flow_classifier_ids = []
 
     def do_biz(self):
         logger.info("CreatePortChain start:")
@@ -39,7 +43,7 @@ class CreatePortChain(object):
         self.sdnControllerId = fp_inst_info.sdncontrollerid
         self.symmetric = "true" if fp_inst_info.symmetric == 1 else "false"
         flow_classfier_str = fp_inst_info.flowclassifiers
-        self.flow_classfier_ids = [flow_classfier_str]
+        self.flow_classifier_ids = [flow_classfier_str]
         portpairgroup_ids = []
         for portpairgroup in json.loads(fp_inst_info.portpairgroups):
             portpairgroup_ids.append(portpairgroup["groupid"])
@@ -49,7 +53,7 @@ class CreatePortChain(object):
         data = {
             "sdnControllerId": self.sdnControllerId,
             "url": extsys.get_sdn_controller_by_id(self.sdnControllerId)["url"],
-            "flowClassifiers": self.flow_classfier_ids,
+            "flowClassifiers": self.flow_classifier_ids,
             "portPairGroups": self.port_pair_groups_ids,
             "symmetric": self.symmetric
         }
@@ -66,7 +70,6 @@ class CreatePortChain(object):
         # sfc_id = resp_body["id"]
         sfc_id = sdncdriver.create_port_chain(data)
         FPInstModel.objects.filter(fpinstid=self.fp_inst_id).update(sfcid=sfc_id)
-
 
         # def get_url_by_sdncontrollerid(self):
         #     try:

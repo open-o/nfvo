@@ -21,6 +21,7 @@ from lcm.ns.sfcs.create_flowcla import CreateFlowClassifier
 from lcm.ns.sfcs.create_port_chain import CreatePortChain
 from lcm.ns.sfcs.create_portpairgp import CreatePortPairGroup
 from lcm.ns.sfcs.sfc_instance import SfcInstance
+from lcm.ns.sfcs.utils import update_fp_status
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil
 
@@ -36,6 +37,7 @@ class CreateSfcWorker(Thread):
         self.sdnControllerId = data["sdncontrollerid"]
         self.fp_inst_id = data["fpinstid"]
         self.data = data
+        self.job_id = ""
 
     def init_data(self):
         self.job_id = JobUtil.create_job("SFC", "sfc_init", self.ns_inst_id + "_" + self.fp_id)
@@ -43,7 +45,7 @@ class CreateSfcWorker(Thread):
 
     def run(self):
         try:
-            logger.info("CreateSfcWorker  start : ")
+            logger.info("Service Function Chain Worker  start : ")
             SfcInstance(self.data).do_biz()
             JobUtil.add_job_status(self.job_id, 25, "save fp info!", "")
             CreateFlowClassifier(self.data).do_biz()
@@ -51,8 +53,9 @@ class CreateSfcWorker(Thread):
             CreatePortPairGroup(self.data).do_biz()
             JobUtil.add_job_status(self.job_id, 75, "create port pair group successfully!", "")
             CreatePortChain(self.data).do_biz()
+            update_fp_status(self.fp_inst_id, "active")
             JobUtil.add_job_status(self.job_id, 100, "create port chain successful!", "")
-            logger.info("CreateSfcWorker  end : ")
+            logger.info("Service Function Chain Worker end : ")
         except NSLCMException as e:
             self.handle_exception(e)
         except Exception as e:
@@ -63,3 +66,4 @@ class CreateSfcWorker(Thread):
         JobUtil.add_job_status(self.job_id, 255, "create sfc failed!", "")
         logger.error(traceback.format_exc())
         logger.error(detail)
+        update_fp_status(self.fp_inst_id, "failed")
