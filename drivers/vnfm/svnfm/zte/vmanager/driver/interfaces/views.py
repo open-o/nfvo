@@ -117,8 +117,6 @@ def instantiate_vnf(request, *args, **kwargs):
         data["extension"] = {}
         inputs = []
         for name, value in ignorcase_get(ignorcase_get(request.data, "additionalParam"), "inputs").items():
-            if name == "externalManageNetworkName":
-                name = "externalDataNetworkName"
             inputs.append({"name": name, "value": value})
 
         logger.info("ignorcase_get(request.data, \"additionalParam\") = %s" % ignorcase_get(request.data, "additionalParam"))
