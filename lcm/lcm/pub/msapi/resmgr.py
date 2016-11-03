@@ -49,18 +49,26 @@ def grant_vnf(req_param):
     if ret[0] != 0:
         logger.error("Failed to grant vnf to resmgr. detail is %s.", ret[1])
         #raise NSLCMException('Failed to grant vnf to resmgr.')
-        from lcm.pub.msapi import extsys
-        vim = extsys.get_vim_by_id(req_param["vimId"])
-        grant_rsp = {
-            "vim": {
-                "vimid": req_param["vimId"],
-                "accessinfo": {
-                    "tenant": vim["tenant"]
+        vim_id = ""
+        if "vimId" in req_param:
+            vim_id = req_param["vimId"]
+        elif "additionalparam" in req_param and "vimid" in req_param["additionalparam"]:
+            vim_id = req_param["additionalparam"]["vimid"]
+        try:
+            from lcm.pub.msapi import extsys
+            vim = extsys.get_vim_by_id(vim_id)
+            grant_rsp = {
+                "vim": {
+                    "vimid": vim_id,
+                    "accessinfo": {
+                        "tenant": vim["tenant"]
+                    }
                 }
             }
-        }
-        logger.debug("grant_rsp=%s" % grant_rsp)
-        return grant_rsp
+            logger.debug("grant_rsp=%s" % grant_rsp)
+            return grant_rsp
+        except:
+            raise NSLCMException('Failed to grant vnf to resmgr.')
     return json.JSONDecoder().decode(ret[1])
 
 
