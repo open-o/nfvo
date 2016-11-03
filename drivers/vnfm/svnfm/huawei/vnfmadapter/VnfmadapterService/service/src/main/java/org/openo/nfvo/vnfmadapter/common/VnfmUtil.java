@@ -75,6 +75,7 @@ public final class VnfmUtil {
         }
 
         JSONArray vnfmList = JSONArray.fromObject(rsp.getResponseContent());
+        LOGGER.info("vnfm ip: {}, vnfmList: {}", ip, vnfmList);
         for(int i = 0; i < vnfmList.size(); i++) {
             if(vnfmList.getJSONObject(i).getString("url").contains(ip)) {
                 return vnfmList.getJSONObject(i).getString("vnfmId");

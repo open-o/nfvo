@@ -48,7 +48,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
-@Path("/rest/v2")
+@Path("/rest/vnfmmed/v2")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthRoa {
@@ -72,8 +72,9 @@ public class AuthRoa {
     @POST
     @Path("/auth/tokens")
     public String authToken(@Context HttpServletRequest context, @Context HttpServletResponse resp) {
-        LOG.warn("function=login, msg=enter to get token");
+        LOG.warn("function=login, msg=enter to get token.");
         JSONObject subJsonObject = VnfmJsonUtil.getJsonFromContexts(context);
+        LOG.warn("subJsonObject: {}", subJsonObject);
 
         if(null == subJsonObject) {
             LOG.error("function=login, msg=params are insufficient");
@@ -84,6 +85,7 @@ public class AuthRoa {
         }
 
         JSONObject authResult = authMgr.authToken(subJsonObject);
+        LOG.warn("authResult: {}", authResult);
         if(authResult.getInt("retCode") == Constant.REST_SUCCESS) {
             JSONObject data = authResult.getJSONObject("data");
 

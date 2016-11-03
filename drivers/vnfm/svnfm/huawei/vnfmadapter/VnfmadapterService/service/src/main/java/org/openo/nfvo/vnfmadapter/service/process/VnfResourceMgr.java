@@ -20,9 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.openo.nfvo.vnfmadapter.common.servicetoken.VnfmRestfulUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
-import org.openo.nfvo.vnfmadapter.service.constant.ParamConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,8 +115,8 @@ public class VnfResourceMgr {
             resInfo.put("drTotal", drRes);
 
             resParam.put("vapp", resInfo);
-
-            resultJson = VnfmRestfulUtil.sendReqToApp(ParamConstants.RES_VNF, Constant.POST, resParam);
+            resultJson.put("retCode", Constant.REST_SUCCESS);
+            // VnfmRestfulUtil.sendReqToApp(ParamConstants.RES_VNF, Constant.POST, resParam);
         } catch(JSONException e) {
             LOG.error("function=grantVnfResource, msg=parse params occoured JSONException e={}.", e);
             resultJson.put("errorMsg", "params parse exception");
