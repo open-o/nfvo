@@ -57,6 +57,8 @@ public class AdapterResourceManager implements IResourceManager {
     @Override
     public JSONObject uploadVNFPackage(JSONObject vnfpkg, Map<String, String> paramsMap) {
         JSONObject resultObj = new JSONObject();
+        JSONObject csarTempObj = new JSONObject();
+        
         try {
             // if upper layer do not provide vnfpackage info,then get the
             // vnfpackage info from JSON file.
@@ -92,33 +94,40 @@ public class AdapterResourceManager implements IResourceManager {
         JSONObject csarobj = getVnfmCsarInfo(csarid);
         String downloadUri = "";
         if (Integer.valueOf(csarobj.get("retCode").toString()) == Constant.HTTP_OK) {
+        	LOG.info("get CSAR info successful.",csarobj.get("retCode"));
             downloadUri = csarobj.getString("downloadUri");
         } else {
+        	LOG.error("get CSAR info fail.",csarobj.get("retCode"));
             resultObj.put("reason", csarobj.get("reason").toString());
             resultObj.put("retCode", Constant.REST_FAIL);
             return resultObj;
         }
 
-        String csarfilepath = vnfpkg.getString("csar_file_path");
-        String csarfilename = vnfpkg.getString("csar_file_name");
+        csarTempObj = vnfpkg.getJSONObject("template");
+        String csarfilepath = csarTempObj.getString("csar_file_path");
+        String csarfilename = csarTempObj.getString("csar_file_name");
 
         // download csar package and save in location.
         JSONObject downloadObject = downloadCsar(downloadUri, csarfilepath+ System.getProperty("file.separator") +csarfilename);
 
         if (Integer.valueOf(downloadObject.get("retCode").toString()) != Constant.REST_SUCCESS) {
+        	LOG.error("download CSAR fail.", downloadObject.get("retCode"));
             resultObj.put("reason", downloadObject.get("reason").toString());
             resultObj.put("retCode", downloadObject.get("retCode").toString());
             return resultObj;
         }
+    	LOG.info("download CSAR successful.", downloadObject.get("retCode"));
 
         // unzip csar package to location.
         JSONObject unzipObject = unzipCSAR(csarfilepath+ System.getProperty("file.separator") +csarfilename, csarfilepath);
 
         if (Integer.valueOf(unzipObject.get("retCode").toString()) != Constant.REST_SUCCESS) {
+        	LOG.error("unzip CSAR fail.", unzipObject.get("retCode"));
             resultObj.put("reason", unzipObject.get("reason").toString());
             resultObj.put("retCode", unzipObject.get("retCode").toString());
             return resultObj;
         }
+    	LOG.info("unzip CSAR successful.", unzipObject.get("retCode"));
 
         Map<String, String> vnfmMap = new HashMap<>();
         vnfmMap.put("url", String.format(UrlConstant.REST_VNFMINFO_GET, vnfmid));
@@ -127,10 +136,12 @@ public class AdapterResourceManager implements IResourceManager {
         // get VNFM connection info
         JSONObject vnfmObject = getVnfmConnInfo(vnfmMap);
         if (Integer.valueOf(vnfmObject.get("retCode").toString()) != Constant.HTTP_OK) {
+        	LOG.error("get Vnfm Connection Info fail.", vnfmObject.get("retCode"));
             resultObj.put("reason", vnfmObject.get("reason").toString());
             resultObj.put("retCode", vnfmObject.get("retCode").toString());
             return resultObj;
         }
+        LOG.info("get Vnfm Connection Info successful.", vnfmObject.get("retCode"));
 
         String vnfmUrl = vnfmObject.getString("url");
         String userName = vnfmObject.getString("userName");
@@ -144,43 +155,54 @@ public class AdapterResourceManager implements IResourceManager {
         connObject.put("userName", userName);
         connObject.put("password", password);
         if (Constant.HTTP_OK != mgrVcmm.connect(vnfmObject)) {
+        	LOG.error("get Access Session fail.");
             resultObj.put(Constant.RETCODE, Constant.HTTP_INNERERROR);
             resultObj.put("reason", "connect fail.");
             return resultObj;
         }
-
-        String connToken = mgrVcmm.getRoaRand();
+    	LOG.info("get Access Session successful.");
+        String connToken = mgrVcmm.getAccessSession();
 
         // get vim_id
         JSONObject cloudObject = getAllCloud(vnfmUrl);
         String vimId = "";
 
         if (!cloudObject.isEmpty() && cloudObject.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
+        	LOG.info("get all cloud successful.", cloudObject.get(Constant.RETCODE));
             vimId = cloudObject.getString("dn");
         } else {
+        	LOG.error("get all cloud fail.", cloudObject.get(Constant.RETCODE));
             return cloudObject;
         }
 
         // upload VNF package
-        vnfpkg.put("vim_id", vimId);
+        csarTempObj.put("vim_id", vimId);
+        vnfpkg.put("template", csarTempObj);
 
         JSONObject uploadPkgObject = upload(vnfpkg, vnfmUrl, connToken);
 
         String vnfdid = "";
-        if (!uploadPkgObject.isEmpty() && uploadPkgObject.get(Constant.RETCODE).equals(HttpStatus.SC_CREATED)) {
+        if (!uploadPkgObject.isEmpty() && uploadPkgObject.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
+        	LOG.info("upload vnf package info successful.", uploadPkgObject.get(Constant.RETCODE));
             vnfdid = uploadPkgObject.getString("id");
         } else {
+        	LOG.error("upload vnf package info fail.", uploadPkgObject.get(Constant.RETCODE));
             return uploadPkgObject;
         }
 
         // get vnfd version
         String vnfdVersion = "";
 
-        JSONObject vnfdVerObject = getVnfdVersion(vnfmUrl, String.format(UrlConstant.URL_VNFDINFO_GET, vnfdid));
+        JSONObject vnfdVerObject = getVnfdVersion(vnfmUrl, String.format(UrlConstant.URL_VNFDINFO_GET, vnfdid), connToken);
 
         if (!vnfdVerObject.isEmpty() && vnfdVerObject.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
-            vnfdVersion = vnfdVerObject.getString("vnfd_version");
+        	LOG.info("get vnfd version successful.", vnfdVerObject.get(Constant.RETCODE));
+        	JSONArray verArr = vnfdVerObject.getJSONArray("templates");
+        	JSONObject verTmpObj = verArr.getJSONObject(0);
+        	
+            vnfdVersion = verTmpObj.getString("vnfdVersion");
         } else {
+        	LOG.error("get vnfd version fail.", vnfdVerObject.get(Constant.RETCODE));
             return vnfdVerObject;
         }
 
@@ -188,12 +210,18 @@ public class AdapterResourceManager implements IResourceManager {
         String planName = "";
         String planId = "";
 
-        JSONObject vnfdPlanInfo = getVNFDPlanInfo(vnfmUrl, vnfdid);
+        JSONObject vnfdPlanInfo = getVNFDPlanInfo(vnfmUrl, vnfdid, connToken);
 
         if (!vnfdPlanInfo.isEmpty() && vnfdPlanInfo.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
-            planName = vnfdPlanInfo.getString("plan_name");
-            planId = vnfdPlanInfo.getString("plan_id");
+        	LOG.info("get vnfd plan info successful.", vnfdPlanInfo.get(Constant.RETCODE));
+        	JSONObject planTmpObj = vnfdPlanInfo.getJSONObject("template");
+        	JSONArray topoTmpObj = planTmpObj.getJSONArray("topology_template");
+        	
+        	JSONObject planObj = topoTmpObj.getJSONObject(0);
+            planName = planObj.getString("plan_name");
+            planId = planObj.getString("plan_id");
         } else {
+        	LOG.error("get vnfd plan info fail.", vnfdPlanInfo.get(Constant.RETCODE));
             return vnfdPlanInfo;
         }
 
@@ -203,6 +231,8 @@ public class AdapterResourceManager implements IResourceManager {
         resultObj.put("vnfdVersion", vnfdVersion);
         resultObj.put("planName", planName);
         resultObj.put("planId", planId);
+        
+        LOG.info("resultObj:"+resultObj.toString());
 
         return resultObj;
     }
@@ -283,14 +313,14 @@ public class AdapterResourceManager implements IResourceManager {
         JSONArray resArray = new JSONArray();
         
         if(url == null || url.equals("")){
-        	url="http://127.0.0.1";
+        	url="http://127.0.0.1:31943";
         }
-
+        
         // get vim_id
         HttpMethod httpMethodCloud = null;
         try {
             httpMethodCloud = new HttpRequests.Builder(Constant.ANONYMOUS)
-                    .setUrl(url.trim() + ":" + UrlConstant.PORT_COMMON, UrlConstant.URL_ALLCLOUD_GET).setParams("")
+                    .setUrl(url.substring(0, url.lastIndexOf(Constant.COLON)) + Constant.COLON + UrlConstant.PORT_COMMON, UrlConstant.URL_ALLCLOUD_GET).setParams("")
                     .get().execute();
 
             int statusCode = httpMethodCloud.getStatusCode();
@@ -341,14 +371,15 @@ public class AdapterResourceManager implements IResourceManager {
 
         try {
             httpMethodVnf = new HttpRequests.Builder(Constant.ANONYMOUS)
-                    .setUrl(vnfmurl.trim() + ":" + UrlConstant.PORT_UPLOADVNFPKG, UrlConstant.URL_VNFPACKAGE_POST)
+                    .setUrl(vnfmurl.trim(), UrlConstant.URL_VNFPACKAGE_POST)
                     .setParams(vnfpackage.toString()).addHeader(Constant.HEADER_AUTH_TOKEN, conntoken).post().execute();
 
             int statusCodeUp = httpMethodVnf.getStatusCode();
 
             String resultUp = httpMethodVnf.getResponseBodyAsString();
 
-            if (statusCodeUp == HttpStatus.SC_CREATED) {
+            if (statusCodeUp == HttpStatus.SC_CREATED || statusCodeUp == HttpStatus.SC_OK) {
+                LOG.info("uploadVNFPackage upload VNF package successful, code:" + statusCodeUp + " re:" + resultUp);
                 resultObj = JSONObject.fromObject(resultUp);
                 resultObj.put(Constant.RETCODE, statusCodeUp);
             } else {
@@ -384,12 +415,12 @@ public class AdapterResourceManager implements IResourceManager {
      * @return
      * @since  NFVO 0.5
      */
-    public JSONObject getVnfdVersion(String prefixUrl, String serviceUrl) {
+    public JSONObject getVnfdVersion(String prefixUrl, String serviceUrl, String conntoken) {
         JSONObject resultObj = new JSONObject();
         HttpMethod httpMethodVnfd = null;
        try {
             httpMethodVnfd = new HttpRequests.Builder(Constant.ANONYMOUS)
-                    .setUrl(prefixUrl.trim() + ":" + UrlConstant.PORT_COMMON, serviceUrl).setParams("").get()
+                    .setUrl(prefixUrl.trim(), serviceUrl).setParams("").addHeader(Constant.HEADER_AUTH_TOKEN, conntoken).get()
                     .execute();
 
             int statusCodeVnfd = httpMethodVnfd.getStatusCode();
@@ -436,14 +467,13 @@ public class AdapterResourceManager implements IResourceManager {
     }
 
     @Override
-    public JSONObject getVNFDPlanInfo(String url, String vnfdid) {
+    public JSONObject getVNFDPlanInfo(String url, String vnfdid, String conntoken) {
         JSONObject resultObj = new JSONObject();
-        JSONArray resArray = new JSONArray();
 
         HttpMethod httpMethodPlan = null;
         try {
             httpMethodPlan = new HttpRequests.Builder(Constant.ANONYMOUS)
-                    .setUrl(url.trim() + ":" + UrlConstant.PORT_COMMON, String.format(UrlConstant.URL_VNFDPLANINFO_GET,vnfdid)).setParams("")
+                    .setUrl(url.trim(), String.format(UrlConstant.URL_VNFDPLANINFO_GET,vnfdid)).setParams("").addHeader(Constant.HEADER_AUTH_TOKEN, conntoken)
                     .get().execute();
 
             int statusCode = httpMethodPlan.getStatusCode();
@@ -451,8 +481,7 @@ public class AdapterResourceManager implements IResourceManager {
             String result = httpMethodPlan.getResponseBodyAsString();
 
             if (statusCode == HttpStatus.SC_OK) {
-                resArray = JSONArray.fromObject(result);
-                resultObj = resArray.getJSONObject(0);
+            	resultObj = JSONObject.fromObject(result);
                 resultObj.put(Constant.RETCODE, statusCode);
            } else {
                 LOG.error("uploadVNFPackage get VNFDPlanInfo failed, code:" + statusCode + " re:" + result);
