@@ -112,7 +112,7 @@ class TerminateVnfs(Thread):
         ret = req_by_msb(uri, "DELETE", json.dumps(req_param))
         if ret[0] > 0:
             logger.error('Send terminate VNF request to resmgr failed.')
-            raise NSLCMException('Send terminate VNF request to resmgr failed.')
+            #raise NSLCMException('Send terminate VNF request to resmgr failed.')
 
     def wait_vnfm_job_finish(self):
         ret = wait_job_finish(vnfm_id=self.vnfm_inst_id, vnfo_job_id=self.job_id, 
