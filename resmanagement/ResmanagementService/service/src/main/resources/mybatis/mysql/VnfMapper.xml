@@ -123,7 +123,7 @@
     </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from vnf
-    where id = #{id,jdbcType=VARCHAR}
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfExample" >
     delete from vnf

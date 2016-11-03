@@ -39,4 +39,6 @@ public interface VmService {
     List<VmEntity> getList(Map<String, Object> map) throws ServiceException;
 
     int delete(String id) throws ServiceException;
+
+    int deleteByVnfId(String vnfInstanceId) throws ServiceException;
 }

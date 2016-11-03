@@ -25,6 +25,7 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
 import org.openo.nfvo.resmanagement.service.dao.inf.VnfDao;
 import org.openo.nfvo.resmanagement.service.entity.VnfEntity;
+import org.openo.nfvo.resmanagement.service.group.inf.VnfInfoService;
 import org.openo.nfvo.resmanagement.service.group.inf.VnfService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,8 @@ public class VnfServiceImpl implements VnfService {
     private static final Logger LOGGER = LoggerFactory.getLogger(VnfServiceImpl.class);
 
     private VnfDao vnfDao;
+
+    private VnfInfoService vnfInfoService;
 
     /**
      * <br>
@@ -113,11 +116,26 @@ public class VnfServiceImpl implements VnfService {
      */
     @Override
     public int delete(String id) throws ServiceException {
+        deleteVnfInfo(id);
         return vnfDao.deleteVnfById(id);
+    }
+
+    /**
+     * <br>
+     * 
+     * @param id
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    private void deleteVnfInfo(String vnfInstanceId) throws ServiceException {
+        vnfInfoService.delete(vnfInstanceId);
     }
 
     public void setVnfDao(VnfDao vnfDao) {
         this.vnfDao = vnfDao;
     }
 
+    public void setVnfInfoService(VnfInfoService vnfInfoService) {
+        this.vnfInfoService = vnfInfoService;
+    }
 }

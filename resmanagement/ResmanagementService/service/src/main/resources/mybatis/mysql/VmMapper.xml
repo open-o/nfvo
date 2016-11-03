@@ -99,11 +99,18 @@
             <if test="vmId != null">
                 AND vm_id = #{vmId,jdbcType=VARCHAR}
             </if>
+            <if test="vnfInstanceId != null">
+                AND vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
+            </if>
         </where>
     </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from vm
     where vm_id = #{vmId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByVnfId" parameterType="java.lang.String" >
+    delete from vm
+    where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" >
     delete from vm

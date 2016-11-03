@@ -30,13 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * Host business implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class HostBusinessImpl implements HostBusiness {
 
@@ -118,13 +117,11 @@ public class HostBusinessImpl implements HostBusiness {
 
     @Override
     public int updateHostSelective(HostEntity hostEntity) throws ServiceException {
-        if(null == hostEntity) {
-            LOGGER.error("function=updateHostSelective; msg=update error, because hostEntity is null.");
-            throw new ServiceException(
-                    ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.host.update.entity.null"));
+        if(!checkId(hostEntity.getId())) {
+            return hostDao.updateHostSelective(hostEntity);
+        } else {
+            return addHostSelective(hostEntity);
         }
-
-        return hostDao.updateHostSelective(hostEntity);
     }
 
     @Override

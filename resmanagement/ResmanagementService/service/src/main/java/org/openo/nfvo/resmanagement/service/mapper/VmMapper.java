@@ -25,6 +25,8 @@ public interface VmMapper {
 
     int deleteByPrimaryKey(String vmId);
 
+    int deleteByVnfId(String vnfInstanceId);
+
     int insert(VmEntity record);
 
     int insertSelective(VmEntity record);
