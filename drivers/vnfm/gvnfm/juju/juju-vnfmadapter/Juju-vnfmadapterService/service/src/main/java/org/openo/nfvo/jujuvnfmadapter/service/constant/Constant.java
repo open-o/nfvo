@@ -178,6 +178,17 @@ public class Constant {
     public static final String ROARAND = "?roarand=%s";
     
     public static final long PROCESS_WAIT_MILLIS = 30000;
+    
+    public static final String CSARINFO="csarinfo.json";
+    
+    public static final String DOWNLOADCSAR_SUCCESS = "Success";
+
+    public static final String DOWNLOADCSAR_FAIL = "FAIL";
+
+    public static final int UNZIP_SUCCESS = 0;
+
+    public static final int UNZIP_FAIL = -1;
+
 
     /**
      * Constructor<br/>
