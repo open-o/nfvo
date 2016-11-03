@@ -113,7 +113,7 @@ public class VnfMgr {
             if(statusCode == Constant.HTTP_CREATED) {
 
                 String vnfId = UUID.randomUUID().toString();
-                saveJujuVnfmInfo(vnfInstanceName,vnfId,vnfId,vnfmId);
+                saveJujuVnfmInfo(vnfInstanceName,vnfId,vnfId,vnfmId,vnfObject);
                 restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_SUCCESS);
                 JSONObject resultObj = new JSONObject();
                 resultObj.put("vnfInstanceId", vnfId);
@@ -140,7 +140,7 @@ public class VnfMgr {
      * @param vnfmId
      * @since  NFVO 0.5
      */
-    private void saveJujuVnfmInfo(String appName,String jobId,String vnfId,String vnfmId){
+    private void saveJujuVnfmInfo(String appName,String jobId,String vnfId,String vnfmId, JSONObject vnfObject){
         JujuVnfmInfo record = new JujuVnfmInfo();
         record.setId(UUID.randomUUID().toString());
         record.setAppName(appName);
@@ -150,6 +150,7 @@ public class VnfMgr {
         record.setStatus(0);
         record.setCreateTime(new Date());
         record.setModifyTime(new Date());
+        record.setExtend(vnfObject.toString());
         jujuVnfmInfoMapper.insert(record);
     }
     /**

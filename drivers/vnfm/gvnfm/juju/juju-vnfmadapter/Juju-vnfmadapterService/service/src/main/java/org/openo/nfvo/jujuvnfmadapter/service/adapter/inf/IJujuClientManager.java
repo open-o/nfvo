@@ -41,11 +41,12 @@ public interface IJujuClientManager {
      * @return
      * @since NFVO 0.5
      */
-    JSONObject deploy(String charmPath, int mem, String appName);
+    JSONObject deploy(String charmPath, String appName);
 
     /**
      * * remove a charm completely
      * juju remove-application example
+     * juju destroy-model model-name
      * <br/>
      * 
      * @param appName
@@ -56,15 +57,16 @@ public interface IJujuClientManager {
 
     /**
      * juju status --format=json
+     * juju status -m model-name --format=json
      * get the status of a single charm
      * juju status example --format=json
      * Here is an example output from juju status --format=json
      * http://paste.ubuntu.com/23113992/
      * <br/>
      * 
-     * @param appName
+     * @param modelName
      * @return
      * @since NFVO 0.5
      */
-    JSONObject getStatus(String appName);
+    JSONObject getStatus(String modelName);
 }
