@@ -41,7 +41,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
-@Path("/openoapi/jujuvnfm/v1")
+@Path("/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class VnfResourceRoa {
