@@ -56,7 +56,7 @@ def query_vnfm_job(vnfm_inst_id, job_id, response_id=0):
             break
     if retry_time <= 0:
         logger.error(rsp[1])
-        raise NSLCMException(msgid='Failed to query job from VNFM!')
+        raise NSLCMException('Failed to query job from VNFM!')
     return True, json.JSONDecoder().decode(rsp[1])
 
 

@@ -59,7 +59,7 @@ class TerminateVnfs(Thread):
         vnf_status = vnf_inst_info.status
         if (vnf_status == VNF_STATUS.TERMINATING):
             logger.info('[VNF terminate] VNF is dealing by other application,try again later.')
-            raise NSLCMException(msgid='[VNF terminate] VNF is dealing by other application,try again later.')
+            raise NSLCMException('[VNF terminate] VNF is dealing by other application,try again later.')
         else:
             vnf_inst_info.status = VNF_STATUS.TERMINATING
             vnf_inst_info.save()
@@ -88,10 +88,10 @@ class TerminateVnfs(Thread):
         vnf_inst = NfInstModel.objects.filter(nfinstid=self.vnf_inst_id)
         if not vnf_inst.exists():
             logger.warning('[VNF terminate] Vnf instance [%s] is not exist.' % self.vnf_inst_id)
-            raise NSLCMException(msgid='[VNF terminate] Vnf instance is not exist.')
+            raise NSLCMException('[VNF terminate] Vnf instance is not exist.')
         if not vnf_inst:
             self.add_progress(100, "TERM_VNF_NOT_EXIST_SUCCESS", "finished")
-            raise NSLCMException(msgid='[VNF terminate] Vnf instance is not exist.')
+            raise NSLCMException('[VNF terminate] Vnf instance is not exist.')
         self.set_vnf_status(vnf_inst[0])
 
     def exception(self, error_msg):
@@ -121,7 +121,7 @@ class TerminateVnfs(Thread):
 
         if ret != JOB_MODEL_STATUS.FINISHED:
             logger.error('VNF terminate failed on VNFM side.')
-            raise NSLCMException(msgid='VNF terminate failed on VNFM side.')
+            raise NSLCMException('VNF terminate failed on VNFM side.')
 
     def delete_data_from_db(self):
         NfInstModel.objects.filter(nfinstid=self.vnf_inst_id).delete()
