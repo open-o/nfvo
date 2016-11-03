@@ -186,7 +186,7 @@ class CreatePortPairGroup(object):
             nsh_aware = pnf_model_info["properties"]["nsh_aware"]
             request_reclassification = pnf_model_info["properties"]["request_reclassification"]
             sf_param = pnf_model_info["properties"]
-        sf_param.append({"mng-address":pnf_model_info["properties"]["management_address"]})
+        sf_param["mng-address"] = pnf_model_info["properties"]["management_address"]
         port_pair_info = {
             "sfType": sf_type,
             "nshAware": nsh_aware,
