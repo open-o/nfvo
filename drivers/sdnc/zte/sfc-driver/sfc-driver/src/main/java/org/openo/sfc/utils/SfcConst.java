@@ -19,6 +19,6 @@ public interface SfcConst {
     public static final int HTTP_OK = 200;
     public static final int HTTP_POST_OK = 204;
     public static final String SERVICE_NAME = "ztesdncdriver";
-    public static final String SERVICE_URL="/openoapi/sdncdriver/v1";
+    public static final String SERVICE_URL="/openoapi/ztesdncdriver/v1";
 
 }

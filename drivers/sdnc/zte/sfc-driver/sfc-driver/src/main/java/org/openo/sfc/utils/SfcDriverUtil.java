@@ -78,7 +78,7 @@ public class SfcDriverUtil {
         entity.setServiceName(SfcConst.SERVICE_NAME);
         entity.setVersion("v1");
         //entity.setUrl(SfcConst.SERVICE_URL);
-        entity.setUrl("/openoapi/sdncdriver/v1");
+        entity.setUrl("/openoapi/ztesdncdriver/v1");
         entity.setProtocol("REST");
         entity.setVisualRange("1");
         ArrayList<NodeEntity> nodes = new ArrayList<NodeEntity>();
