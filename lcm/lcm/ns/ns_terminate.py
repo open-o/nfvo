@@ -39,13 +39,9 @@ class TerminateNsService(object):
     def do_biz(self):
         self.check_data()
 
-        if self.cancel_sfc_list() == 'false':
-            raise NSLCMException("delete sfc error")
-
+        self.cancel_sfc_list()
         self.cancel_vnf_list()
-
-        if self.cancel_vl_list() == 'false':
-            raise NSLCMException("delete vl error")
+        self.cancel_vl_list()
 
         self.finaldata()
 
