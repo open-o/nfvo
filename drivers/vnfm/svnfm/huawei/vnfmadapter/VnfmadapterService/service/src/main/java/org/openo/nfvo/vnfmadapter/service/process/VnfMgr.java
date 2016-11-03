@@ -59,6 +59,7 @@ public class VnfMgr {
      * @since NFVO 0.5
      */
     public JSONObject addVnf(JSONObject vnfObject, String vnfmId) {
+        LOG.info("addVnf vnfObject: {}", vnfObject);
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         try {
@@ -77,7 +78,8 @@ public class VnfMgr {
             conMap.put("csarid", vnfObject.getString("vnfPackageId"));
             conMap.put("vnfmid", vnfmId);
 
-            JSONObject resObjcet = (new AdapterResourceManager()).uploadVNFPackage(null, conMap);
+            String vnfDesId = vnfObject.getString("vnfDescriptorId");
+            JSONObject resObjcet = (new AdapterResourceManager()).uploadVNFPackage(null, conMap, vnfDesId);
 
             if(resObjcet.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
                 return restJson;

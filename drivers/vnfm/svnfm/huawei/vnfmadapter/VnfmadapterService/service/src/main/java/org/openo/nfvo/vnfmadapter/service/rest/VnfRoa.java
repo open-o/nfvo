@@ -234,7 +234,7 @@ public class VnfRoa {
         responseJson.put("status", JOBSTATUSITEM.get(retJson.getString(Constant.STATUS)));
         responseJson.put("errorCode", "null");
         responseJson.put("responseId", "1");
-        jobInfoJson.put("responseDescription", responseJson);
+        jobInfoJson.put("responseDescriptor", responseJson);
         return jobInfoJson.toString();
     }
 }

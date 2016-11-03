@@ -40,114 +40,125 @@ public class AdapterResourceManagerTest {
     AdapterResourceManager manager = null;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         manager = new AdapterResourceManager();
     }
+
     @Test(expected = JSONException.class)
-    public void uploadVNFPackageTestJsonException(){
+    public void uploadVNFPackageTestJsonException() {
         JSONObject vnfpkg = new JSONObject();
         Map<String, String> paramsMap = new HashMap<>();
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res != null);
 
     }
+
     @Test(expected = JSONException.class)
-    public void uploadVNFPackageTestJsonException2(){
+    public void uploadVNFPackageTestJsonException2() {
         JSONObject vnfpkg = new JSONObject();
         Map<String, String> paramsMap = new HashMap<>();
-        JSONObject res = manager.uploadVNFPackage(null, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(null, paramsMap, "");
         assertTrue(res != null);
 
     }
+
     @Test
-    public void uploadVNFPackageTestJsonException3(){
+    public void uploadVNFPackageTestJsonException3() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("csarid and vnfmid are null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestEmptyParam(){
+    public void uploadVNFPackageTestEmptyParam() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("csarid and vnfmid are null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestNullParam(){
+    public void uploadVNFPackageTestNullParam() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, null);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, null, "");
         assertTrue(res.get("reason").equals("csarid and vnfmid are null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestInvalidCsrid(){
+    public void uploadVNFPackageTestInvalidCsrid() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "");
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("csarid is null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestInvalidCsrid2(){
+    public void uploadVNFPackageTestInvalidCsrid2() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", null);
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("csarid is null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestInvalidVnfmid(){
+    public void uploadVNFPackageTestInvalidVnfmid() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "csarid123");
         paramsMap.put("vnfmid", null);
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("vnfmid is null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestInvalidVnfmid2(){
+    public void uploadVNFPackageTestInvalidVnfmid2() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "csarid123");
         paramsMap.put("vnfmid", "");
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("vnfmid is null."));
 
     }
+
     @Test
-    public void uploadVNFPackageTestNullResp(){
+    public void uploadVNFPackageTestNullResp() {
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "csarid123");
         paramsMap.put("vnfmid", "vnfmid1234");
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("RestfulResponse is null."));
 
     }
 
     @Test
-    public void uploadVNFPackageTestValidResp(){
-        new MockUp<VNFRestfulUtil>(){
+    public void uploadVNFPackageTestValidResp() {
+        new MockUp<VNFRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(200);
-                Map<String,String> objMap = new HashMap<String,String>();
+                Map<String, String> objMap = new HashMap<String, String>();
                 objMap.put("downloadUri", "/test/123");
 
                 String responseString = toJson(objMap);
@@ -158,23 +169,24 @@ public class AdapterResourceManagerTest {
         };
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
-        vnfpkg.put("vnfd_file_path","/test");
+        vnfpkg.put("vnfd_file_path", "/test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "csarid123");
         paramsMap.put("vnfmid", "vnfmid1234");
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("download csar file failed."));
 
     }
 
     @Test
-    public void uploadVNFPackageTestValidRespSuccess(){
-        new MockUp<VNFRestfulUtil>(){
+    public void uploadVNFPackageTestValidRespSuccess() {
+        new MockUp<VNFRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(200);
-                Map<String,String> objMap = new HashMap<String,String>();
+                Map<String, String> objMap = new HashMap<String, String>();
                 objMap.put("downloadUri", "/test/123");
                 objMap.put("url", "http://localhost:8080");
                 objMap.put("userName", "test");
@@ -186,7 +198,8 @@ public class AdapterResourceManagerTest {
             }
 
         };
-        new MockUp<DownloadCsarManager>(){
+        new MockUp<DownloadCsarManager>() {
+
             @Mock
             public String download(String url, String filepath) {
                 return "Success";
@@ -195,16 +208,17 @@ public class AdapterResourceManagerTest {
         };
         JSONObject vnfpkg = new JSONObject();
         vnfpkg.put("name", "test");
-        vnfpkg.put("vnfd_file_path","/test");
+        vnfpkg.put("vnfd_file_path", "/test");
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put("csarid", "csarid123");
         paramsMap.put("vnfmid", "vnfmid1234");
-        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap);
+        JSONObject res = manager.uploadVNFPackage(vnfpkg, paramsMap, "");
         assertTrue(res.get("reason").equals("connect fail."));
 
     }
+
     @Test
-    public void downloadCsarTestNullUrl(){
+    public void downloadCsarTestNullUrl() {
         String url = null;
         String filePath = null;
         JSONObject res = manager.downloadCsar(url, filePath);
@@ -212,14 +226,15 @@ public class AdapterResourceManagerTest {
     }
 
     @Test
-    public void downloadCsarTestEmptyUrl(){
+    public void downloadCsarTestEmptyUrl() {
         String url = "";
         String filePath = null;
         JSONObject res = manager.downloadCsar(url, filePath);
         assertTrue(res.get("reason").equals("url is null."));
     }
+
     @Test
-    public void downloadCsarTestNullFilePath(){
+    public void downloadCsarTestNullFilePath() {
         String url = "http://localhost:8080";
         String filePath = null;
         JSONObject res = manager.downloadCsar(url, filePath);
@@ -227,7 +242,7 @@ public class AdapterResourceManagerTest {
     }
 
     @Test
-    public void downloadCsarTestEmptyFilePath(){
+    public void downloadCsarTestEmptyFilePath() {
         String url = "http://localhost:8080";
         String filePath = "";
         JSONObject res = manager.downloadCsar(url, filePath);
@@ -235,13 +250,14 @@ public class AdapterResourceManagerTest {
     }
 
     @Test
-    public void getVnfmConnInfoTestSuccess(){
-        new MockUp<VNFRestfulUtil>(){
+    public void getVnfmConnInfoTestSuccess() {
+        new MockUp<VNFRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(200);
-                Map<String,String> objMap = new HashMap<String,String>();
+                Map<String, String> objMap = new HashMap<String, String>();
                 objMap.put("id", "test123");
 
                 String responseString = toJson(objMap);
@@ -250,14 +266,15 @@ public class AdapterResourceManagerTest {
             }
 
         };
-        Map<String, String> paramsMap = new HashMap<String,String>();
+        Map<String, String> paramsMap = new HashMap<String, String>();
         JSONObject res = manager.getVnfmConnInfo(paramsMap);
         assertTrue(res.get("id").equals("test123"));
     }
 
     @Test
-    public void getVnfmConnInfoTestNullResp(){
-        new MockUp<VNFRestfulUtil>(){
+    public void getVnfmConnInfoTestNullResp() {
+        new MockUp<VNFRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
 
@@ -265,19 +282,20 @@ public class AdapterResourceManagerTest {
             }
 
         };
-        Map<String, String> paramsMap = new HashMap<String,String>();
+        Map<String, String> paramsMap = new HashMap<String, String>();
         JSONObject res = manager.getVnfmConnInfo(paramsMap);
         assertTrue(res.get("reason").equals("RestfulResponse is null."));
     }
 
     @Test
-    public void getVnfmConnInfoTestServerError(){
-        new MockUp<VNFRestfulUtil>(){
+    public void getVnfmConnInfoTestServerError() {
+        new MockUp<VNFRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(500);
-                Map<String,String> objMap = new HashMap<String,String>();
+                Map<String, String> objMap = new HashMap<String, String>();
                 objMap.put("id", "test123");
 
                 String responseString = toJson(objMap);
@@ -286,29 +304,31 @@ public class AdapterResourceManagerTest {
             }
 
         };
-        Map<String, String> paramsMap = new HashMap<String,String>();
+        Map<String, String> paramsMap = new HashMap<String, String>();
         JSONObject res = manager.getVnfmConnInfo(paramsMap);
         assertTrue(res.get("reason").equals("ESR return fail."));
     }
+
     @Test
-    public void getAllCloudTestInternalError(){
+    public void getAllCloudTestInternalError() {
         String url = "http://localhost";
         JSONObject res = manager.getAllCloud(url);
-        assertEquals(res.get("retCode"),500);
+        assertEquals(res.get("retCode"), 500);
     }
+
     @Test
-    public void uploadTestInternalError(){
+    public void uploadTestInternalError() {
         JSONObject vnfpackage = new JSONObject();
         String vnfmurl = "http://localhost";
         String conntoken = "test";
-        JSONObject res = manager.upload(vnfpackage,vnfmurl,conntoken);
-        assertEquals(res.get("retCode"),500);
+        JSONObject res = manager.upload(vnfpackage, vnfmurl, conntoken);
+        assertEquals(res.get("retCode"), 500);
     }
 
     public static String toJson(Map o) {
         try {
             return JsonUtil.marshal(o);
-        } catch (IOException e) {
+        } catch(IOException e) {
             return "";
         }
     }
