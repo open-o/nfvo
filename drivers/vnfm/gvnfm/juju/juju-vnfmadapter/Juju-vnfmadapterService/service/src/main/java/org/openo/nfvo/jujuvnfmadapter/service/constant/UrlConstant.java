@@ -41,6 +41,8 @@ public class UrlConstant {
 
     public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/%s/status";
 
+    public static final String REST_CSARINFO_GET = "/openoapi/catalog/v1/csars/%s";
+
     private UrlConstant() {
         // Constructor
     }

@@ -154,7 +154,7 @@ public class AdapterResourceManagerTest {
 		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
 		paramsMap.put("methodType", "get");
 		adapterResManager = new AdapterResourceManager();
-		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		jsonObj = adapterResManager.getVnfdInfo("1111");
 		assertTrue(jsonObj.get("reason").equals("RestfulResponse is null."));
 	}
 
@@ -183,7 +183,7 @@ public class AdapterResourceManagerTest {
 		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
 		paramsMap.put("methodType", "get");
 		adapterResManager = new AdapterResourceManager();
-		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		jsonObj = adapterResManager.getVnfdInfo("1111");
 		assertTrue(jsonObj != null);
 	}
 
@@ -206,7 +206,7 @@ public class AdapterResourceManagerTest {
 		paramsMap.put("url", "/openoapi/extsys/v1/vnfms/11111");
 		paramsMap.put("methodType", "get");
 		adapterResManager = new AdapterResourceManager();
-		jsonObj = adapterResManager.getVnfdInfo(paramsMap);
+		jsonObj = adapterResManager.getVnfdInfo("1111");
 		assertTrue(jsonObj != null);
 	}
 }

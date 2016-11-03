@@ -48,6 +48,6 @@ public interface IResourceManager {
      * @return
      * @since  NFVO 0.5
      */
-    JSONObject getVnfdInfo(Map<String,String> paramsMap);
+    JSONObject getVnfdInfo(String csarId);
 
 }
