@@ -35,15 +35,16 @@ class GrantVnfs(object):
         logger.debug("grant data from vnfm:%s", self.data)
         if isinstance(self.data, (unicode, str)):
             self.data = json.JSONDecoder().decode(self.data)
+        has_res_tpl = False
         grant_type = None
         if ignore_case_get(self.data, "addResource"):
             grant_type = "addResource"
         elif ignore_case_get(self.data, "removeResource"):
             grant_type = "removeResource"
         else:
-            raise NSLCMException("No grant resource is found.")
+            #raise NSLCMException("No grant resource is found.")
+            has_res_tpl = True
 
-        has_res_tpl = False
         for res in ignore_case_get(self.data, grant_type):
             if "resourceTemplate" in res:
                 has_res_tpl = True
