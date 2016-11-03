@@ -99,14 +99,24 @@ public class AdapterResourceManager implements IResourceManager {
             return resultObj;
         }
 
-        String csarfilepath = vnfpkg.getString("vnfd_file_path");
+        String csarfilepath = vnfpkg.getString("csar_file_path");
+        String csarfilename = vnfpkg.getString("csar_file_name");
 
         // download csar package and save in location.
-        JSONObject downloadObject = downloadCsar(downloadUri, csarfilepath);
+        JSONObject downloadObject = downloadCsar(downloadUri, csarfilepath+ System.getProperty("file.separator") +csarfilename);
 
         if (Integer.valueOf(downloadObject.get("retCode").toString()) != Constant.REST_SUCCESS) {
             resultObj.put("reason", downloadObject.get("reason").toString());
             resultObj.put("retCode", downloadObject.get("retCode").toString());
+            return resultObj;
+        }
+
+        // unzip csar package to location.
+        JSONObject unzipObject = unzipCSAR(csarfilepath+ System.getProperty("file.separator") +csarfilename, csarfilepath);
+
+        if (Integer.valueOf(unzipObject.get("retCode").toString()) != Constant.REST_SUCCESS) {
+            resultObj.put("reason", unzipObject.get("reason").toString());
+            resultObj.put("retCode", unzipObject.get("retCode").toString());
             return resultObj;
         }
 
@@ -508,5 +518,37 @@ public class AdapterResourceManager implements IResourceManager {
 
         return fileContent;
     }
+    
+    /*
+     * unzip CSAR packge
+     * @param fileName filePath
+     * @return     
+     */
+    public JSONObject unzipCSAR(String fileName,String filePath) {
+        JSONObject resultObj = new JSONObject();
 
+        if(fileName == null || "".equals(fileName)) {
+            resultObj.put("reason", "fileName is null.");
+            resultObj.put("retCode", Constant.REST_FAIL);
+            return resultObj;
+        }
+        if(filePath == null || "".equals(filePath)) {
+            resultObj.put("reason", "unzipCSAR filePath is null.");
+            resultObj.put("retCode", Constant.REST_FAIL);
+            return resultObj;
+        }
+
+        int status = DownloadCsarManager.unzipCSAR(fileName, filePath);
+
+        if (Constant.UNZIP_SUCCESS == status) {
+            resultObj.put("reason", "unzip csar file successfully.");
+            resultObj.put("retCode", Constant.REST_SUCCESS);
+        } else {
+            resultObj.put("reason", "unzip csar file failed.");
+            resultObj.put("retCode", Constant.REST_FAIL);
+        }
+        return resultObj;
+    }
+
+    
 }
