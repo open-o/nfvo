@@ -27,26 +27,35 @@ class CreateFlowClassifier(object):
     def __init__(self, data):
         self.ns_model_data = data["ns_model_data"]
         self.fp_inst_id = data["fpinstid"]
-        self.flow_classfiers_model = get_fp_model_by_fp_inst_id(data["ns_model_data"],
-                                                                self.fp_inst_id)["properties"]["policy"]
+        self.flow_classifiers_model = get_fp_model_by_fp_inst_id(data["ns_model_data"], self.fp_inst_id)["properties"][
+            "policy"]
+        self.sdnControllerId = ""
+        self.url = ""
+        self.dscp = ""
+        self.ip_proto = ""
+        self.source_port_range = ""
+        self.dest_port_range = ""
+        self.source_ip_range = ""
+        self.dest_ip_range = ""
+        self.flow_classfier_id = ""
 
     def do_biz(self):
         logger.info("CreateFlowClassifier start:")
-        self.init_data(self.flow_classfiers_model)
+        self.init_data(self.flow_classifiers_model)
         self.create_flow_classfier()
         self.update_fp_inst()
         logger.info("CreateFlowClassifier end:")
 
-    def init_data(self, flow_classfiers_model):
+    def init_data(self, flow_classifiers_model):
         fp_database_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
         self.sdnControllerId = fp_database_info.sdncontrollerid
         self.url = extsys.get_sdn_controller_by_id(self.sdnControllerId)["url"]
-        self.dscp = flow_classfiers_model["criteria"]["dscp"]
-        self.ip_proto = flow_classfiers_model["criteria"]["ip_protocol"],
-        self.source_port_range = flow_classfiers_model["criteria"]["source_port_range"],
-        self.dest_port_range = flow_classfiers_model["criteria"]["dest_port_range"],
-        self.dest_ip_range = flow_classfiers_model["criteria"]["dest_ip_range"]
-        self.source_ip_range = flow_classfiers_model["criteria"]["source_ip_range"]
+        self.dscp = flow_classifiers_model["criteria"]["dscp"]
+        self.ip_proto = flow_classifiers_model["criteria"]["ip_protocol"]
+        self.source_port_range = flow_classifiers_model["criteria"]["source_port_range"]
+        self.dest_port_range = flow_classifiers_model["criteria"]["dest_port_range"]
+        self.dest_ip_range = flow_classifiers_model["criteria"]["dest_ip_range"]
+        self.source_ip_range = flow_classifiers_model["criteria"]["source_ip_range"]
 
     def update_fp_inst(self):
         fp_inst_info = FPInstModel.objects.filter(fpinstid=self.fp_inst_id).get()
@@ -75,6 +84,7 @@ class CreateFlowClassifier(object):
         #     raise NSLCMException('Send Flow Classifier request to Driver failed.')
         # resp_body = json.loads(ret[1])
         self.flow_classfier_id = sdncdriver.create_flow_classfier(data)
+
     def concat_str(self, str_list):
         final_str = ""
         for str in str_list:

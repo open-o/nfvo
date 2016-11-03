@@ -15,6 +15,7 @@
 
 import json
 import logging
+import traceback
 import uuid
 
 from rest_framework import status
@@ -26,7 +27,7 @@ from lcm.ns.sfcs.create_port_chain import CreatePortChain
 from lcm.ns.sfcs.create_portpairgp import CreatePortPairGroup
 from lcm.ns.sfcs.create_sfc_worker import CreateSfcWorker
 from lcm.ns.sfcs.sfc_instance import SfcInstance
-
+from lcm.ns.sfcs.utils import get_fp_id, ignorcase_get
 
 logger = logging.getLogger(__name__)
 
@@ -73,18 +74,28 @@ class PortChainView(APIView):
 
 class SfcView(APIView):
     def post(self, request):
-        logger.info("Create Sfc Thread start")
-        logger.info("context  : %s" %request.data['context'])
+        try:
+            logger.info("Create Service Function Chain start")
+            logger.info("service_function_chain_request: %s" % json.dumps(request.data))
+            logger.info("service_function_chain_context  : %s" % json.dumps(request.data['context']))
+            logger.info("service_function_chain_context  : %s" % request.data['context'])
+            logger.info("service_function_chain_instanceid : %s" % ignorcase_get(request.data, 'nsinstanceid'))
+            logger.info("service_function_chain_sdncontrollerid : %s" % ignorcase_get(request.data, 'sdncontrollerid'))
+            logger.info("service_function_chain_fpindex : %s" % ignorcase_get(request.data, 'fpindex'))
+            ns_model_data = request.data['context']
+        except Exception as e:
+            logger.error(traceback.format_exc())
         data = {
-            'nsinstid': request.data['nsinstanceid'],
-            "ns_model_data": json.loads(request.data['context']).replace("'",'"'),
-            'fpindex': request.data['fpindex'],
+            'nsinstid': ignorcase_get(request.data, 'nsinstanceid'),
+            "ns_model_data": ns_model_data,
+            'fpindex': get_fp_id(ignorcase_get(request.data, 'fpindex'), ns_model_data),
             'fpinstid': str(uuid.uuid4()),
-            'sdncontrollerid': request.data["sdncontrollerid"]}
+            'sdncontrollerid': ignorcase_get(request.data, 'sdncontrollerid')
+        }
         worker = CreateSfcWorker(data)
         job_id = worker.init_data()
         worker.start()
-        logger.info("Create Sfc Thread end")
+        logger.info("Create Service Function Chain end")
         return Response(data={"jobId": job_id,
                               "sfcInstId": data["fpinstid"]},
                         status=status.HTTP_200_OK)
