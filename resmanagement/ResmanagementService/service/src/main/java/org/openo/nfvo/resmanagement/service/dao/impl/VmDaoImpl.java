@@ -93,4 +93,16 @@ public class VmDaoImpl extends AbstractDao implements VmDao {
         return getMapperManager(VmMapper.class).updateByPrimaryKeySelective(vmEntity);
     }
 
+    /**
+     * <br>
+     * 
+     * @param vnfInstanceId
+     * @return
+     * @since NFVO 0.5
+     */
+    @Override
+    public int deleteVmByVnfId(String vnfInstanceId) {
+        return getMapperManager(VmMapper.class).deleteByVnfId(vnfInstanceId);
+    }
+
 }

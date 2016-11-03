@@ -16,18 +16,24 @@
 
 package org.openo.nfvo.resmanagement.service.group.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.baseservice.roa.util.restclient.RestfulParametes;
+import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
+import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
+import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
 import org.openo.nfvo.resmanagement.service.dao.inf.VmDao;
 import org.openo.nfvo.resmanagement.service.entity.VmEntity;
 import org.openo.nfvo.resmanagement.service.group.inf.VmService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -57,11 +63,13 @@ public class VmServiceImpl implements VmService {
         int result;
         if(!checkId(vmEntity.getVmId())) {
             result = vmDao.updateVm(vmEntity);
+            sendMsgMonitor("create", vmEntity);
         } else {
             if(StringUtils.isEmpty(vmEntity.getVmId())) {
                 vmEntity.setVmId(UUID.randomUUID().toString());
             }
             result = vmDao.addVm(vmEntity);
+            sendMsgMonitor("update", vmEntity);
         }
         JSONObject restJson = new JSONObject();
         if(result > 0) {
@@ -87,6 +95,35 @@ public class VmServiceImpl implements VmService {
             return true;
         }
         return false;
+    }
+
+    public void sendMsgMonitor(String operateType, VmEntity vmEntity) throws ServiceException {
+        JSONObject msgObj = new JSONObject();
+        msgObj.put("operationType", operateType);
+        msgObj.put("resourceType", "VDU");
+        msgObj.put("label", vmEntity.getVmName());
+        if("delete".equals(operateType)) {
+            JSONArray deleteIds = new JSONArray();
+            deleteIds.add(vmEntity.getVmId());
+            msgObj.put("deleteIds", deleteIds);
+        } else {
+            JSONArray data = new JSONArray();
+            JSONObject obj = JSONObject.fromObject(vmEntity);
+            obj.put("oid", vmEntity.getVmId());
+            obj.put("moc", "nfv.vdu.linux");
+            data.add(obj);
+            msgObj.put("data", data);
+        }
+        LOGGER.info("sendMsgMonitor msgObj: {}", msgObj);
+        RestfulParametes restfulParametes = new RestfulParametes();
+        Map<String, String> headerMap = new HashMap<>(3);
+        headerMap.put("Content-Type", "application/json");
+        restfulParametes.setHeaderMap(headerMap);
+        restfulParametes.setRawData(msgObj.toString());
+        String result = RestfulUtil.getResponseContent(UrlConstant.SEND_MSG_MONITOR, restfulParametes,
+                ParamConstant.PARAM_POST);
+        LOGGER.warn(result);
+
     }
 
     /**
@@ -117,5 +154,24 @@ public class VmServiceImpl implements VmService {
 
     public void setVmDao(VmDao vmDao) {
         this.vmDao = vmDao;
+    }
+
+    /**
+     * <br>
+     * 
+     * @param vnfInstanceId
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @Override
+    public int deleteByVnfId(String vnfInstanceId) throws ServiceException {
+        Map<String, Object> map = new HashMap<>(10);
+        map.put("vnfInstanceId", vnfInstanceId);
+        List<VmEntity> vms = vmDao.getVms(map);
+        for(int i = 0; i < vms.size(); i++) {
+            VmEntity vm = vms.get(i);
+            sendMsgMonitor("delete", vm);
+        }
+        return vmDao.deleteVmByVnfId(vnfInstanceId);
     }
 }

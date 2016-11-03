@@ -49,4 +49,13 @@ public interface LimitsBusiness {
      */
     JSONObject getDiskLimits(JSONObject paramJson) throws ServiceException;
 
+    /**
+     * <br>
+     * 
+     * @param paramJson
+     * @return
+     * @since NFVO 0.5
+     */
+    JSONObject getLimits(String vimId) throws ServiceException;
+
 }
