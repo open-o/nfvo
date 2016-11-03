@@ -22,6 +22,7 @@ from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil, JOB_MODEL_STATUS
 from lcm.pub.utils.restcall import req_by_msb
 from lcm.pub.msapi.vnfmdriver import query_vnfm_job
+from lcm.pub.utils.values import ignore_case_get
 
 logger = logging.getLogger(__name__)
 
@@ -38,13 +39,21 @@ def calc_progress(vnfm_progress, target_range=None):
 
 def default_callback(vnfo_job_id, vnfm_job_id, job_status, jobs, progress_range, **kwargs):
     for job in jobs:
-        progress = calc_progress(job['progress'], progress_range)
-        JobUtil.add_job_status(vnfo_job_id, progress, job.get('statusdescription', ''), job.get('errorcode', ''))
-    latest_progress = calc_progress(job_status['progress'], progress_range)
-    JobUtil.add_job_status(vnfo_job_id, latest_progress, job_status.get('statusdescription', ''),
-                           job_status.get('errorcode', ''))
-    if job_status['status'] in (JOB_MODEL_STATUS.ERROR, JOB_MODEL_STATUS.FINISHED):
-        return True, job_status['status']
+        progress = calc_progress(
+            ignore_case_get(job, 'progress'), 
+            progress_range)
+        JobUtil.add_job_status(vnfo_job_id, progress, 
+            ignore_case_get(job, 'statusdescription'), 
+            ignore_case_get(job, 'errorcode'))
+    latest_progress = calc_progress(
+        ignore_case_get(job_status, 'progress'), 
+        progress_range)
+    JobUtil.add_job_status(vnfo_job_id, latest_progress, 
+        ignore_case_get(job_status, 'statusdescription'),
+        ignore_case_get(job_status, 'errorcode'))
+    jobstatus = ignore_case_get(job_status, 'status')
+    if jobstatus in (JOB_MODEL_STATUS.ERROR, JOB_MODEL_STATUS.FINISHED):
+        return True, jobstatus
     return False, JOB_MODEL_STATUS.PROCESSING
 
 
@@ -60,14 +69,15 @@ def wait_job_finish(vnfm_id, vnfo_job_id, vnfm_job_id, progress_range=None, time
         end_time = datetime.datetime.now()
         if not query_status:
             continue
-        job_status = result['responsedescriptor']
-        response_id_new = job_status['responseid']
+        job_status = ignore_case_get(result, 'responsedescriptor')
+        response_id_new = ignore_case_get(job_status, 'responseid')
         if response_id_new == response_id:
             continue
         response_id = response_id_new
-        jobs = job_status.get('responsehistorylist', [])
+        jobs = ignore_case_get(job_status, 'responsehistorylist', [])
         jobs.reverse()
-        is_end, status = job_callback(vnfo_job_id, vnfm_job_id, job_status, jobs, progress_range, **kwargs)
+        is_end, status = job_callback(vnfo_job_id, vnfm_job_id, job_status, 
+            jobs, progress_range, **kwargs)
         if is_end:
             return status
     return JOB_MODEL_STATUS.TIMEOUT
