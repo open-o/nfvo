@@ -171,7 +171,7 @@ class TerminateNsService(object):
 
     def finaldata(self):
         NSInstModel.objects.filter(id=self.ns_inst_id).update(status='null')
-        pass
+        JobUtil.add_job_status(self.job_id, 100, "ns terminate ends.", '')
 
     @staticmethod
     def call_vnfm_to_cancel_resource(res_type, instid):
