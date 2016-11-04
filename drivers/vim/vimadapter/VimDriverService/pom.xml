@@ -19,10 +19,10 @@ limitations under the License.
     <parent>
         <artifactId>vimadapter</artifactId>
         <groupId>org.openo.nfvo</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>vimadapter-service-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>VIMDriverServiceRoot</name>
     <packaging>pom</packaging>
 

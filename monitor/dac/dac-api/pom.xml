@@ -20,12 +20,12 @@
     <parent>
         <groupId>org.openo.nfvo.monitor.dac</groupId>
         <artifactId>dac-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openo.nfvo.monitor.dac.dac-api</groupId>
     <artifactId>dac-api-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>openo/dac/dac-api</name>
     <packaging>pom</packaging>
     <modules>

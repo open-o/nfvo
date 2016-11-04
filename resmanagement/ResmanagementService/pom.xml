@@ -19,10 +19,10 @@
         <parent>
         <artifactId>resmanagement</artifactId>
         <groupId>org.openo.nfvo</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>resmanagement-service-root</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>ResmanagementRoot</name>
     <packaging>pom</packaging>
 

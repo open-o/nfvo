@@ -20,14 +20,14 @@
   <parent>
       <groupId>org.openo.nfvo</groupId>
       <artifactId>nfvo-root</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.1-SNAPSHOT</version>
       <relativePath>../../../..</relativePath>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openo.nfvo.drivers.vnfm-svnfm-etsi</groupId>
   <artifactId>etsi-ia</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
   <name>etsi-ia</name>
   <packaging>pom</packaging>
   
@@ -82,7 +82,7 @@
 		<jaxrs.consumer.version>5.0</jaxrs.consumer.version>
 		<jaxrs.jersey-all.version>2.18</jaxrs.jersey-all.version>
 		<gson.version>2.2.4</gson.version>
-		<zenap.version>1.0.0-SNAPSHOT</zenap.version>
+		<zenap.version>1.0.1-SNAPSHOT</zenap.version>
 		<karaf.version>3.0.4</karaf.version>
 		<mortbay.jetty.version>3.0.20100224</mortbay.jetty.version>
 		<cometd.version>3.0.7</cometd.version>
