@@ -18,6 +18,7 @@ import logging
 import traceback
 import uuid
 
+import time
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -92,9 +93,15 @@ class SfcView(APIView):
             'fpinstid': str(uuid.uuid4()),
             'sdncontrollerid': ignorcase_get(request.data, 'sdncontrollerid')
         }
+        logger.info("Save FPInstModel start: ")
+        SfcInstance(self.data).do_biz()
+        logger.info("Save FPInstModel end: ")
         worker = CreateSfcWorker(data)
         job_id = worker.init_data()
         worker.start()
+        logger.info("Service Function Chain Thread Sleep start : %s" %time.ctime())
+        time.sleep(2)
+        logger.info("Service Function Chain Thread Sleep end: %s" % time.ctime())
         logger.info("Create Service Function Chain end")
         return Response(data={"jobId": job_id,
                               "sfcInstId": data["fpinstid"]},
