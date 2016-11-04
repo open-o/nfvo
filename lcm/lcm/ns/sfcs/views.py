@@ -94,7 +94,7 @@ class SfcView(APIView):
             'sdncontrollerid': ignorcase_get(request.data, 'sdncontrollerid')
         }
         logger.info("Save FPInstModel start: ")
-        SfcInstance(self.data).do_biz()
+        SfcInstance(data).do_biz()
         logger.info("Save FPInstModel end: ")
         worker = CreateSfcWorker(data)
         job_id = worker.init_data()
