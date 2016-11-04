@@ -46,8 +46,7 @@ class CreateSfcWorker(Thread):
     def run(self):
         try:
             logger.info("Service Function Chain Worker  start : ")
-            SfcInstance(self.data).do_biz()
-            JobUtil.add_job_status(self.job_id, 25, "save fp info!", "")
+
             CreateFlowClassifier(self.data).do_biz()
             JobUtil.add_job_status(self.job_id, 50, "create flow classifer successfully!", "")
             CreatePortPairGroup(self.data).do_biz()
