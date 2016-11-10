@@ -35,8 +35,6 @@ class CreateNSView(APIView):
     def get(self, request):
         logger.debug("CreateNSView::get")
         ret = GetNSInfoService().get_ns_info()
-        if not ret:
-            return Response(status=status.HTTP_404_NOT_FOUND)
         logger.debug("CreateNSView::get::ret=%s", ret)
         return Response(data=ret, status=status.HTTP_200_OK)
 
@@ -77,24 +75,19 @@ class TerminateNSView(APIView):
         return Response(data=ret, status=status.HTTP_202_ACCEPTED)
 
 
-class DeleteNSView(APIView):
+class NSDetailView(APIView):
     def get(self, request, ns_instance_id):
-        logger.debug("Enter NSInstView::do_get")
+        logger.debug("Enter NSDetailView::get ns(%s)", ns_instance_id)
         ret = GetNSInfoService(ns_instance_id).get_ns_info()
         if not ret:
-            logger.debug("Leave NSInstView::do_get::status=404")
             return Response(status=status.HTTP_404_NOT_FOUND)
-        logger.debug("Leave NSInstView::do_get::ret=%s, status=200", ret)
+        logger.debug("Leave NSDetailView::get::ret=%s", ret)
         return Response(data=ret, status=status.HTTP_200_OK)
 
     def delete(self, request, ns_instance_id):
-        logger.debug("Enter DeleteNSView::delete %s", request.data)
-        ret = DeleteNsService(ns_instance_id).do_biz()
-        logger.debug("Leave DeleteNSView::delete ret= %s", ret)
-        if ret == 'true':
-            return Response(data={}, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response(data={}, status=status.HTTP_409_CONFLICT)
+        logger.debug("Enter NSDetailView::delete ns(%s)", ns_instance_id)
+        DeleteNsService(ns_instance_id).do_biz()
+        return Response(data={}, status=status.HTTP_204_NO_CONTENT)
 
 
 class SwaggerJsonView(APIView):

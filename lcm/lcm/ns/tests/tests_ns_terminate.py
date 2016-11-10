@@ -58,7 +58,7 @@ class TestTerminateNsViews(TestCase):
         self.failUnlessEqual(status.HTTP_202_ACCEPTED, response.status_code)
 
         response = self.client.delete("/openoapi/nslcm/v1/ns/%s" % self.ns_inst_id)
-        self.failUnlessEqual(status.HTTP_202_ACCEPTED, response.status_code)
+        self.failUnlessEqual(status.HTTP_204_NO_CONTENT, response.status_code)
 
     @mock.patch.object(restcall, "call_req")
     def test_terminate_vnf(self, mock_call_req):

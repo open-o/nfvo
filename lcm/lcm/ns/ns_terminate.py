@@ -253,37 +253,20 @@ class DeleteNsService(object):
         self.ns_inst_id = ns_inst_id
 
     def do_biz(self):
-        logger.debug("[NS Delete] [do_delete] begin")
         try:
-            if self.get_ns_flag() == 0:
-                self.delete_ns()
-                logger.debug("[NS Delete] [do_delete] end")
-                return 'true'
-            else:
-                logger.debug("[NS Delete] [do_delete] end")
-                return 'false'
-        except Exception as e:
+            self.delete_ns()
+        except:
             logger.error(traceback.format_exc())
-            logger.debug("[NS Delete] [do_delete] failed")
-            return 'false'
-
-    def get_ns_flag(self):
-        nsinst = NSInstModel.objects.filter(id=self.ns_inst_id)
-        if not nsinst:
-            logger.error("[Ns delete] ns id not exist")
-            return 255
-        if not nsinst.exists():
-            logger.error("[Ns delete] ns id not exist")
-            return 255
-        ns_status = nsinst.first().status
-        if ns_status == 'null':
-            return 0
-        else:
-            logger.error("[Ns delete] ns status not correct")
-            return 255
 
     def delete_ns(self):
+        logger.debug("delele NSInstModel(%s)", self.ns_inst_id)
         NSInstModel.objects.filter(id=self.ns_inst_id).delete()
+
+        logger.debug("delele InputParamMappingModel(%s)", self.ns_inst_id)
         InputParamMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
+
+        logger.debug("delele DefPkgMappingModel(%s)", self.ns_inst_id)
         DefPkgMappingModel.objects.filter(service_id=self.ns_inst_id).delete()
+
+        logger.debug("delele ServiceBaseInfoModel(%s)", self.ns_inst_id)
         ServiceBaseInfoModel.objects.filter(service_id=self.ns_inst_id).delete()

@@ -14,7 +14,7 @@
 from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from lcm.ns.views import CreateNSView, NSInstView, TerminateNSView, DeleteNSView, SwaggerJsonView, NSInstPostDealView
+from lcm.ns.views import CreateNSView, NSInstView, TerminateNSView, NSDetailView, SwaggerJsonView, NSInstPostDealView
 
 urlpatterns = patterns('',
                        url(r'^openoapi/nslcm/v1/ns$', CreateNSView.as_view()),
@@ -23,7 +23,7 @@ urlpatterns = patterns('',
                            NSInstView.as_view()),
                        url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/terminate$',
                            TerminateNSView.as_view()),
-                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)$', DeleteNSView.as_view()),
+                       url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)$', NSDetailView.as_view()),
                        url(r'^openoapi/nslcm/v1/ns/(?P<ns_instance_id>[0-9a-zA-Z_-]+)/postdeal$',
                            NSInstPostDealView.as_view()),
                        )

@@ -13,6 +13,7 @@
 # limitations under the License.
 import json
 import logging
+import traceback
 
 from lcm.ns.const import OWNER_TYPE
 from lcm.pub.database.models import NSInstModel, NfInstModel, VLInstModel, CPInstModel, VNFFGInstModel
@@ -25,10 +26,14 @@ class GetNSInfoService(object):
         self.ns_inst_id = ns_inst_id
 
     def get_ns_info(self):
-        if self.ns_inst_id:
-            return self.get_single_ns_info(self.ns_inst_id)
-        else:
-            return self.get_total_ns_info()
+        try:
+            if self.ns_inst_id:
+                return self.get_single_ns_info(self.ns_inst_id)
+            else:
+                return self.get_total_ns_info()
+        except:
+            logger.error(traceback.format_exc())
+            return None if self.ns_inst_id else []
 
     def get_total_ns_info(self):
         ns_inst_infos = NSInstModel.objects.all()
