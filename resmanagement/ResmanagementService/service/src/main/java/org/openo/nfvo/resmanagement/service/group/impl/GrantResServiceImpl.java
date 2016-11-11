@@ -66,13 +66,22 @@ public class GrantResServiceImpl implements GrantResService {
         return result;
     }
 
+    @Override
     public JSONObject grantResourceReal(JSONObject object) throws ServiceException {
         LOGGER.info("function=grantResource; object: {}", object.toString());
-        String vimId = object.getString("vimid");
+        String vimId = object.getString("vimId");
         JSONObject vimJson = VimUtil.getVimById(vimId);
         JSONObject vim = parseVim(vimJson);
-        JSONArray addResource = parseAddResource(object);
-        JSONObject resInfo = getResInfo(object);
+        String resType = "";
+        JSONArray resArr = new JSONArray();
+        if(object.containsKey("addResource")) {
+            resType = "addResource";
+            resArr = parseResource(object, resType);
+        } else if(object.containsKey("removeResource")) {
+            resType = "removeResource";
+            resArr = parseResource(object, resType);
+        }
+        JSONObject resInfo = getResInfo(object, resType);
         resInfo.put("vimId", vimId);
         sites.update(resInfo);
 
@@ -80,49 +89,59 @@ public class GrantResServiceImpl implements GrantResService {
         result.put("vim", vim);
         result.put("zone", "");
         result.put("zoneGroup", "");
-        result.put("addResource", addResource);
+        result.put(resType, resArr);
         result.put("tempResource", "");
-        result.put("removeResource", "");
         result.put("updateResource", "");
         result.put("vimAssets", new JSONObject());
         result.put("additionalParam", "");
-        LOGGER.info("function=grantResource; vim: {}", vim.toString());
-        return vim;
+        LOGGER.info("function=grantResource; result: {}", result.toString());
+        return result;
+    }
+
+    private JSONObject getResInfo(JSONObject object, String type) {
+        JSONArray arr = object.getJSONArray(type);
+        LOGGER.info("function=getResInfo; arr: {}, type: {}", arr, type);
+        JSONObject resourceObj = new JSONObject();
+        if("addResource".equals(type)) {
+            resourceObj = getGrantResource(arr);
+            resourceObj.put("action", "online");
+        } else if("removeResource".equals(type)) {
+            resourceObj = getGrantResource(arr);
+            resourceObj.put("action", "offline");
+        }
+        LOGGER.info("function=getResInfo; resutl: {}", resourceObj.toString());
+        return resourceObj;
     }
 
     /**
      * <br>
      * 
-     * @param object
+     * @param addResource
      * @return
      * @since NFVO 0.5
      */
-    private JSONObject getResInfo(JSONObject object) {
-        JSONArray oldResource = object.getJSONArray("addResource");
-        LOGGER.info("function=getResInfo; Resource: {}", oldResource.toString());
+    private JSONObject getGrantResource(JSONArray resource) {
         int cpuNum = 0;
         int memNum = 0;
         int diskNum = 0;
-        for(int i = 0; i < oldResource.size(); i++) {
-            JSONObject res = oldResource.getJSONObject(i);
-            JSONObject vCpu = res.getJSONObject("resourceTemplate").getJSONObject("VirtualComputeDescriptor")
+        for(int i = 0; i < resource.size(); i++) {
+            JSONObject res = resource.getJSONObject(i);
+            JSONObject vCpu = res.getJSONObject("resourceTemplate").getJSONObject("virtualComputeDescriptor")
                     .getJSONObject("virtualCpu");
             int vCpuNum = vCpu.getInt("numVirtualCpu");
-            JSONObject vMem = res.getJSONObject("resourceTemplate").getJSONObject("VirtualComputeDescriptor")
+            JSONObject vMem = res.getJSONObject("resourceTemplate").getJSONObject("virtualComputeDescriptor")
                     .getJSONObject("virtualMemory");
             int vMemNum = vMem.getInt("virtualMemSize");
-            JSONObject vDisk = res.getJSONObject("resourceTemplate").getJSONObject("VirtualStorageDescriptor");
-            int vDiskNum = vDisk.getInt("virtualMemSize");
+            JSONObject vDisk = res.getJSONObject("resourceTemplate").getJSONObject("virtualStorageDescriptor");
+            int vDiskNum = vDisk.getInt("sizeOfStorage");
             cpuNum = cpuNum + vCpuNum;
             memNum = memNum + vMemNum;
             diskNum = diskNum + vDiskNum;
         }
         JSONObject obj = new JSONObject();
-        obj.put("usedCPU", cpuNum);
-        obj.put("usedMemory", cpuNum);
-        obj.put("usedDisk", cpuNum);
-        obj.put("action", "online");
-        LOGGER.info("function=getResInfo; resutl: {}", obj.toString());
+        obj.put("usedCPU", String.valueOf(cpuNum));
+        obj.put("usedMemory", String.valueOf(memNum));
+        obj.put("usedDisk", String.valueOf(diskNum));
         return obj;
     }
 
@@ -133,21 +152,21 @@ public class GrantResServiceImpl implements GrantResService {
      * @return
      * @since NFVO 0.5
      */
-    private JSONArray parseAddResource(JSONObject object) {
+    private JSONArray parseResource(JSONObject object, String key) {
         JSONArray newResources = new JSONArray();
-        JSONArray oldResource = object.getJSONArray("addResource");
-        LOGGER.info("function=parseAddResource; Resource: {}", oldResource.toString());
+        JSONArray oldResource = object.getJSONArray(key);
+        LOGGER.info("function=parseResource; Resource: {}", oldResource.toString());
         for(int i = 0; i < oldResource.size(); i++) {
             JSONObject res = oldResource.getJSONObject(i);
             JSONObject obj = new JSONObject();
             obj.put("reservationId", "");
             obj.put("resourceProviderId", "");
             obj.put("zoneId", "");
-            obj.put("vimId", object.getString("vimid"));
+            obj.put("vimId", object.getString("vimId"));
             obj.put("resourceDefinitionId", res.getString("resourceDefinitionId"));
             newResources.add(obj);
         }
-        LOGGER.info("function=parseAddResource; Parse Resource result: {}", newResources.toString());
+        LOGGER.info("function=parseResource; Parse Resource result: {}", newResources.toString());
         return newResources;
     }
 
@@ -166,7 +185,7 @@ public class GrantResServiceImpl implements GrantResService {
         interfaceInfo.put("protocolType", "http");
         JSONObject accessInfo = new JSONObject();
         accessInfo.put("tenant", vimJson.getString("tenant"));
-        accessInfo.put("usename", vimJson.getString("useName"));
+        accessInfo.put("username", vimJson.getString("userName"));
         accessInfo.put("password", vimJson.getString("password"));
         JSONObject vim = new JSONObject();
         vim.put("vimInfoId", vimJson.getString("vimId"));
