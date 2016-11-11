@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <process xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="init"
-    xmlns:tns="http://www.open-o.org/tosca/nfv/2015/12"
-    targetNamespace="http://www.open-o.org/tosca/nfv/2015/12"
+    xmlns:tns="http://www.zte.com.cn/tosca/nfv/ns"
+    targetNamespace="http://www.zte.com.cn/tosca/nfv/ns"
     xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:bpel4RestLight="http://iaas.uni-stuttgart.de/bpel/extensions/bpel4restlight"
     xmlns:si="http://siserver.org/wsdl" 
@@ -11,7 +28,7 @@
 
     <import namespace="http://siserver.org/wsdl" location="invoker.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"></import>
     <import importType="http://schemas.xmlsoap.org/wsdl/" location="init.wsdl"
-        namespace="http://www.open-o.org/tosca/nfv/2015/12" /> <!-- Todo place_holder wsdl and namespace -->
+        namespace="http://www.zte.com.cn/tosca/nfv/ns" /> <!-- Todo place_holder wsdl and namespace -->
 
     <extensions>
         <extension mustUnderstand="yes"
@@ -44,25 +61,15 @@
                 <variable name="query_vnf_nslcmResponse" type="xsd:string" />
                 <variable name="createSFCResponse" type="xsd:string" />
                 <variable name="querySFCResponse" type="xsd:string" />
-                                <variable name="iaUrl" type="xsd:string" />
-                <variable name="vnfmId" type="xsd:string" />
+                                <variable name="jobId" type="xsd:string" />
+                <variable name="nsInstanceId" type="xsd:string" />
                 <variable name="object_context" type="xsd:string" />
-                <variable name="statusUrl" type="xsd:string" />
-                <variable name="serviceTemplateId" type="xsd:string" />
-                <variable name="roUrl" type="xsd:string" />
+                <variable name="vlCount" type="xsd:string" />
                 <variable name="sfcCount" type="xsd:string" />
                 <variable name="vnfCount" type="xsd:string" />
-                <variable name="containerapiUrl" type="xsd:string" />
-                <variable name="flavor" type="xsd:string" />
-                <variable name="jobId" type="xsd:string" />
-                <variable name="nsInstanceId" type="xsd:string" />
-                <variable name="instanceId" type="xsd:string" />
-                <variable name="resourceUrl" type="xsd:string" />
-                <variable name="callbackId" type="xsd:string" />
-                <variable name="vlCount" type="xsd:string" />
                 <variable name="object_additionalParamForVnf" type="xsd:string" />
+                <variable name="sdnControllerId" type="xsd:string" />
                 <variable name="object_additionalParamForNs" type="xsd:string" />
-                <variable name="flavorParams" type="xsd:string" />
             </variables>
 
     <correlationSets>
@@ -82,15 +89,15 @@
         <assign name="initFromInputMsg" validate="no">
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:iaUrl]]></query>
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:jobId]]></query>
                 </from>
-                <to variable="iaUrl" />
+                <to variable="jobId" />
             </copy>
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:vnfmId]]></query>
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:nsInstanceId]]></query>
                 </from>
-                <to variable="vnfmId" />
+                <to variable="nsInstanceId" />
             </copy>
                         <copy>
                 <from variable="input" part="payload">
@@ -100,21 +107,9 @@
             </copy>
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:statusUrl]]></query>
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:vlCount]]></query>
                 </from>
-                <to variable="statusUrl" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:serviceTemplateId]]></query>
-                </from>
-                <to variable="serviceTemplateId" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:roUrl]]></query>
-                </from>
-                <to variable="roUrl" />
+                <to variable="vlCount" />
             </copy>
                         <copy>
                 <from variable="input" part="payload">
@@ -130,69 +125,21 @@
             </copy>
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:containerapiUrl]]></query>
-                </from>
-                <to variable="containerapiUrl" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:flavor]]></query>
-                </from>
-                <to variable="flavor" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:jobId]]></query>
-                </from>
-                <to variable="jobId" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:nsInstanceId]]></query>
-                </from>
-                <to variable="nsInstanceId" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:instanceId]]></query>
-                </from>
-                <to variable="instanceId" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:resourceUrl]]></query>
-                </from>
-                <to variable="resourceUrl" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:callbackId]]></query>
-                </from>
-                <to variable="callbackId" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:vlCount]]></query>
-                </from>
-                <to variable="vlCount" />
-            </copy>
-                        <copy>
-                <from variable="input" part="payload">
                     <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:object_additionalParamForVnf]]></query>
                 </from>
                 <to variable="object_additionalParamForVnf" />
             </copy>
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:object_additionalParamForNs]]></query>
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:sdnControllerId]]></query>
                 </from>
-                <to variable="object_additionalParamForNs" />
+                <to variable="sdnControllerId" />
             </copy>
                         <copy>
                 <from variable="input" part="payload">
-                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:flavorParams]]></query>
+                    <query queryLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[tns:object_additionalParamForNs]]></query>
                 </from>
-                <to variable="flavorParams" />
+                <to variable="object_additionalParamForNs" />
             </copy>
                     </assign>
 
@@ -271,7 +218,23 @@
             </copy>
                     </assign>
         
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="While_WhileTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <while name="While">
@@ -279,7 +242,23 @@
             $vl_index&lt;=$vlCount and $vl_status='active'
         </condition>
                 <sequence name="While_WhileBranch_Sequence">
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="createVL" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -348,10 +327,7 @@
                                 </from>
                 <to variable="request"></to>
             </copy>
-			
-			
-			
-			 <copy>
+                    <copy>
                                             <from variable="object_additionalParamForNs">
                 </from>
                                             <to variable="temp"/>
@@ -363,9 +339,6 @@
                                 </from>
                 <to variable="request"></to>
             </copy>
-			
-			
-			
                     <copy>
                                             <from variable="vl_index">
                 </from>
@@ -404,7 +377,23 @@
                             </sequence>
 </scope>
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="Assign_vl_index_AssignTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <assign name="Assign_vl_index_Assign">
@@ -424,18 +413,50 @@
 </scope>
 
                     <wait name="Wait">
-                <for><![CDATA['PT00M05.0S']]></for>
+                <for><![CDATA['PT01M30.0S']]></for>
             </wait>
         </sequence>
     </while>
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="jobstatus" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -524,7 +545,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="While_WhileTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <while name="While">
@@ -532,7 +569,23 @@
             $vnf_index&lt;=$vnfCount and $vl_status='active' and $vnf_status='active'
         </condition>
                 <sequence name="While_WhileBranch_Sequence">
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="createVNF" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -601,8 +654,7 @@
                                 </from>
                 <to variable="request"></to>
             </copy>
-			
-						 <copy>
+                    <copy>
                                             <from variable="object_additionalParamForNs">
                 </from>
                                             <to variable="temp"/>
@@ -610,31 +662,10 @@
             
             <copy>
                 <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                <![CDATA[concat($request,'"additionalParamForNs":',$temp,',')]]>
+                                <![CDATA[concat($request,'"additionalParamForNs":',$temp)]]>
                                 </from>
                 <to variable="request"></to>
             </copy>
-			
-			
-			
-                    <copy>
-                                            <from variable="vnf_index">
-                </from>
-                                            <to variable="temp"/>
-            </copy>
-            
-            <copy>
-                <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                <![CDATA[concat($request,'"vnfindex":',$temp)]]>
-                                </from>
-                <to variable="request"></to>
-            </copy>
-			
-			
-			
-			
-			
-			
                     <copy>
                 <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
                 <![CDATA[concat($request,'}')]]>
@@ -651,12 +682,44 @@
                         </sequence>
 </scope>
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="RepeatUntil_RepeatTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <repeatUntil name="RepeatUntil">
                 <sequence name="RepeatUntil_RepeatBranch_Sequence">
-                                        
+                                        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="query_vnf_nslcm" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -735,15 +798,47 @@
             </wait>
         </sequence>
         <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-            $vnf_status='active'
+            $vnf_status='active' or $vnf_status='failed'
         </condition>
     </repeatUntil>
 </scope>
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="Assign_vnf_index_AssignTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <assign name="Assign_vnf_index_Assign">
@@ -764,11 +859,43 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="jobstatus" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -857,7 +984,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="While_WhileTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <while name="While">
@@ -865,7 +1008,23 @@
             $sfc_index&lt;=$sfcCount and $vl_status='active' and $vnf_status='active' and $sfc_status='active'
         </condition>
                 <sequence name="While_WhileBranch_Sequence">
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="createSFC" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -923,6 +1082,18 @@
                 <to variable="request"></to>
             </copy>
                     <copy>
+                                            <from variable="sdnControllerId">
+                </from>
+                                            <to variable="temp"/>
+            </copy>
+            
+            <copy>
+                <from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                <![CDATA[concat($request,'"sdnControllerId":"',$temp,'"',',')]]>
+                                </from>
+                <to variable="request"></to>
+            </copy>
+                    <copy>
                                             <from variable="object_additionalParamForVnf">
                 </from>
                                             <to variable="temp"/>
@@ -974,12 +1145,44 @@
                         </sequence>
 </scope>
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="RepeatUntil_RepeatTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <repeatUntil name="RepeatUntil">
                 <sequence name="RepeatUntil_RepeatBranch_Sequence">
-                                        
+                                        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="querySFC" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -1058,15 +1261,47 @@
             </wait>
         </sequence>
         <condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-            $sfc_status='active'
+            $sfc_status='active' or $sfc_status='failed'
         </condition>
     </repeatUntil>
 </scope>
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
-                    
+                    <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="Assign_sfc_index_AssignTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <assign name="Assign_sfc_index_Assign">
@@ -1087,11 +1322,43 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="jobstatus" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -1180,7 +1447,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="Assign_all_stauts_AssignTask" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <assign name="Assign_all_stauts_Assign">
@@ -1194,7 +1477,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="post_do" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -1270,7 +1569,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <scope name="jobstatus" xmlns:pp="http://opentosca.org/api/pp"
     xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- add by qinlihan   add rest Components -->
@@ -1359,7 +1674,23 @@
 </scope>
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->
-        
+        <!--
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
 <!-- do nothing -->
 
         <!--"/src/main/resources/templates/bpel_management_activity_scope_template.xml"-->

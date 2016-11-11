@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016 ZTE Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <definitions name="init"
-    targetNamespace="http://www.open-o.org/tosca/nfv/2015/12"
-    xmlns:tns="http://www.open-o.org/tosca/nfv/2015/12"
+    targetNamespace="http://www.zte.com.cn/tosca/nfv/ns"
+    xmlns:tns="http://www.zte.com.cn/tosca/nfv/ns"
     xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
     xmlns:si="http://siserver.org/wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -10,30 +27,20 @@
     <import namespace="http://siserver.org/wsdl" location="invoker.wsdl" />
     <types>
         <schema attributeFormDefault="unqualified" elementFormDefault="qualified"
-            targetNamespace="http://www.open-o.org/tosca/nfv/2015/12"
+            targetNamespace="http://www.zte.com.cn/tosca/nfv/ns"
             xmlns="http://www.w3.org/2001/XMLSchema">
             <element name="planInput">
                 <complexType>
                     <sequence>
-                                                    <element name="iaUrl" type="string" />
-                                                    <element name="vnfmId" type="string" />
-                                                    <element name="object_context" type="string" />
-                                                    <element name="statusUrl" type="string" />
-                                                    <element name="serviceTemplateId" type="string" />
-                                                    <element name="roUrl" type="string" />
-                                                    <element name="sfcCount" type="string" />
-                                                    <element name="vnfCount" type="string" />
-                                                    <element name="containerapiUrl" type="string" />
-                                                    <element name="flavor" type="string" />
                                                     <element name="jobId" type="string" />
                                                     <element name="nsInstanceId" type="string" />
-                                                    <element name="instanceId" type="string" />
-                                                    <element name="resourceUrl" type="string" />
-                                                    <element name="callbackId" type="string" />
+                                                    <element name="object_context" type="string" />
                                                     <element name="vlCount" type="string" />
+                                                    <element name="sfcCount" type="string" />
+                                                    <element name="vnfCount" type="string" />
                                                     <element name="object_additionalParamForVnf" type="string" />
+                                                    <element name="sdnControllerId" type="string" />
                                                     <element name="object_additionalParamForNs" type="string" />
-                                                    <element name="flavorParams" type="string" />
                                             </sequence>
                 </complexType>
             </element>
@@ -103,7 +110,7 @@
             transport="http://schemas.xmlsoap.org/soap/http" />
         <operation name="initiatePlan">
             <soap:operation
-                soapAction="http://www.open-o.org/tosca/nfv/2015/12/initiate" />
+                soapAction="http://www.zte.com.cn/tosca/nfv/ns/initiate" />
             <input>
                 <soap:body use="literal" />
             </input>
@@ -114,7 +121,7 @@
             transport="http://schemas.xmlsoap.org/soap/http" />
         <operation name="onResult">
             <soap:operation
-                soapAction="http://www.open-o.org/tosca/nfv/2015/12/onResult" />
+                soapAction="http://www.zte.com.cn/tosca/nfv/ns/onResult" />
             <input>
                 <soap:body use="literal" />
             </input>
