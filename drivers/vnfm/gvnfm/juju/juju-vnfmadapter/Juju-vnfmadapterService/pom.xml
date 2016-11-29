@@ -14,7 +14,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
  -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -24,7 +23,7 @@
     </parent>
     <artifactId>juju-vnfmadapter-service-root</artifactId>
     <version>1.1.0-SNAPSHOT</version>
-    <name>Juju-vnfmadapterServiceRoot</name>
+    <name>nfvo/drivers/vnfm/gvnfm/juju/juju-vnfmadapter/Juju-vnfmadapterService</name>
     <packaging>pom</packaging>
 
     <properties>
@@ -38,4 +37,3 @@
     </modules>
 
 </project>
- 

@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
     Copyright 2016 ZTE Corporation.
 
@@ -24,7 +25,7 @@
     <artifactId>nfvo-lcm</artifactId>
     <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>nfvo-lcm</name>
+    <name>nfvo/lcm</name>
     <description>nfvo lcm</description>
     <build>
       <plugins>
