@@ -79,10 +79,10 @@ def convert_vnf_node(src_node, src_json_model):
         vnf_node['dependencies'] = [{
             'key_name': requirement['name'],
             'vl_id': requirement['target_node_template_name']} for \
-            requirement in model_tpl['requirement_templates'] if \
+            requirement in safe_get(model_tpl, 'requirement_templates') if \
             safe_get(requirement, 'target_capability_name') == 'virtual_linkable']
         vnf_node['networks'] = [requirement['target_node_template_name'] for \
-            requirement in model_tpl['requirement_templates'] if \
+            requirement in safe_get(model_tpl, 'requirement_templates') if \
             safe_get(requirement, 'name') == 'dependency']
     return vnf_node
 
@@ -153,7 +153,7 @@ def convert_fp_node(src_node, src_node_list, src_json_model):
             for node_tpl in src_json_model["node_templates"]:
                 if fp_node['fp_id'] != node_tpl["name"]:
                     continue
-                for r_tpl in node_tpl["requirement_templates"]:
+                for r_tpl in safe_get(node_tpl, "requirement_templates"):
                     if safe_get(r_tpl, "target_node_template_name") != forwarder_point['node_name']:
                         continue
                     forwarder_point['capability'] = safe_get(r_tpl, "target_capability_name")
