@@ -44,6 +44,9 @@ limitations under the License.
             <if test="id != null">
                 AND ID = #{id,jdbcType=VARCHAR}
             </if>
+            <if test="vimId != null">
+                AND VIM_ID = #{vimId,jdbcType=VARCHAR}
+            </if>
         </where>
     </select>
     <delete id="deleteHost" parameterType="java.lang.String">

@@ -42,13 +42,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Resource Operate ROA Class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 @Path(UrlConstant.RESOPERATE_URL)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -60,7 +59,6 @@ public class ResOperateRoa {
     private ResOperateService resOperateService;
 
     /**
-     *
      * Update iResource pool.<br>
      *
      * @param context
@@ -87,7 +85,7 @@ public class ResOperateRoa {
         String tenantId = VimUtil.getTenantIdByName(tenant, vimId);
         try {
             resOperateService.updateIRes(tenantId, vimId, json);
-            resOperateService.sendMsgMonitor("update");
+            resOperateService.sendMsgMonitor("update", vimId);
             return RoaResponseUtil.update(HttpConstant.OK_CODE);
         } catch(ServiceException se) {
             LOGGER.error("ResOperateRoa::updateIResPool error:{}" + se);
@@ -106,7 +104,6 @@ public class ResOperateRoa {
     }
 
     /**
-     *
      * Add all resource pool.<br>
      *
      * @param context
@@ -114,7 +111,7 @@ public class ResOperateRoa {
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @POST
     @Path(UrlConstant.ADDRES_URL)
@@ -128,7 +125,7 @@ public class ResOperateRoa {
 
         try {
             resOperateService.addIRes(tenantId, vimId, json);
-            resOperateService.sendMsgMonitor("create");
+            resOperateService.sendMsgMonitor("create", vimId);
             return RoaResponseUtil.add(HttpConstant.OK_CODE);
         } catch(ServiceException se) {
             LOGGER.error("ResOperateRoa::addAllResPool error:{}" + se);
@@ -137,14 +134,13 @@ public class ResOperateRoa {
     }
 
     /**
-     *
      * Delete iResource.<br>
      *
      * @param context
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
@@ -154,7 +150,7 @@ public class ResOperateRoa {
         LOGGER.warn("ResOperateRoa::deleteIResource vimId:{}", vimId);
 
         try {
-            resOperateService.sendMsgMonitor("delete");
+            resOperateService.sendMsgMonitor("delete", vimId);
             int result = resOperateService.deleteIRes(vimId);
             return RoaResponseUtil.delete(result);
         } catch(ServiceException se) {

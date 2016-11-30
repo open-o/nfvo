@@ -46,13 +46,12 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Resource operation service implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class ResOperateServiceImpl implements ResOperateService {
 
@@ -182,33 +181,30 @@ public class ResOperateServiceImpl implements ResOperateService {
     }
 
     /**
-     *
      * Set iResource Add service implemtation.<br>
      *
      * @param iResourceAddServiceImpl
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public void setiResourceAddServiceImpl(IResourceAddServiceImpl iResourceAddServiceImpl) {
         this.iResourceAddServiceImpl = iResourceAddServiceImpl;
     }
 
     /**
-     *
      * Set iResource update service implementation.<br>
      *
      * @param iResourceUpdateServiceImpl
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public void setiResourceUpdateServiceImpl(IResourceUpdateServiceImpl iResourceUpdateServiceImpl) {
         this.iResourceUpdateServiceImpl = iResourceUpdateServiceImpl;
     }
 
     /**
-     *
      * Set iresource delete service implementation.<br>
      *
      * @param iResourceDelServiceImpl
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public void setiResourceDelServiceImpl(IResourceDelServiceImpl iResourceDelServiceImpl) {
         this.iResourceDelServiceImpl = iResourceDelServiceImpl;
@@ -222,8 +218,10 @@ public class ResOperateServiceImpl implements ResOperateService {
      * @since NFVO 0.5
      */
     @Override
-    public void sendMsgMonitor(String operateType) throws ServiceException {
+    public void sendMsgMonitor(String operateType, String vimId) throws ServiceException {
+        LOGGER.info("Enter sendMsgMonitor!");
         Map<String, Object> map = new HashMap<>(10);
+        map.put("vimId", vimId);
         List<HostEntity> hosts = host.getList(map);
         for(HostEntity entity : hosts) {
             JSONObject msgObj = new JSONObject();
@@ -247,6 +245,7 @@ public class ResOperateServiceImpl implements ResOperateService {
             headerMap.put("Content-Type", "application/json");
             restfulParametes.setHeaderMap(headerMap);
             restfulParametes.setRawData(msgObj.toString());
+            LOGGER.info("sendMsgMonitor msgObj: {}", msgObj);
             String result = RestfulUtil.getResponseContent(UrlConstant.SEND_MSG_MONITOR, restfulParametes,
                     ParamConstant.PARAM_POST);
             LOGGER.warn(result);

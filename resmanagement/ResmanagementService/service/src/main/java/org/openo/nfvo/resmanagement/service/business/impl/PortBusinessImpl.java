@@ -30,13 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * Port business implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class PortBusinessImpl implements PortBusiness {
 
@@ -81,8 +80,7 @@ public class PortBusinessImpl implements PortBusiness {
         }
 
         if(!checkId(portEntity.getId())) {
-            LOGGER.error("function=addPort; msg=add error, because id is already exist.");
-            throw new ServiceException(ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.port.add.id.check"));
+            return portDao.updatePortSelective(portEntity);
         }
         if(StringUtils.isEmpty(portEntity.getId())) {
             portEntity.setId(UUID.randomUUID().toString());
@@ -98,8 +96,7 @@ public class PortBusinessImpl implements PortBusiness {
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.port.add.entity.null"));
         }
         if(!checkId(portEntity.getId())) {
-            LOGGER.error("function=addPortSelective; msg=add error, because id is allready exist.");
-            throw new ServiceException(ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.port.add.id.check"));
+            return portDao.updatePortSelective(portEntity);
         }
 
         if(StringUtils.isEmpty(portEntity.getId())) {

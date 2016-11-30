@@ -114,6 +114,8 @@ public class LimitsBusinessImpl implements LimitsBusiness {
         JSONObject cpuMem = cpuObj.getJSONObject("limits").getJSONObject("absolute");
         String totalCPU = String.valueOf(cpuMem.get("maxTotalCores"));
         String totalMemory = String.valueOf(cpuMem.get("maxTotalRAMSize"));
+        String usedCPU = String.valueOf(cpuMem.get("totalCoresUsed"));
+        String usedMemory = String.valueOf(cpuMem.get("totalRAMUsed"));
         JSONObject disk = diskObj.getJSONObject("limits");
         String totalDisk = String.valueOf(disk.get("gigabytes"));
 
@@ -123,6 +125,8 @@ public class LimitsBusinessImpl implements LimitsBusiness {
         result.put("totalCPU", totalCPU);
         result.put("totalMemory", totalMemory);
         result.put("totalDisk", totalDisk);
+        result.put("usedCPU", usedCPU);
+        result.put("usedMemory", usedMemory);
         LOGGER.info("getLimits result:{}", result);
         return result;
     }

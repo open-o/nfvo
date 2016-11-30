@@ -30,13 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
  * Network business implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class NetworkBusinessImpl implements NetworkBusiness {
 
@@ -76,9 +75,7 @@ public class NetworkBusinessImpl implements NetworkBusiness {
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.network.add.entity.null"));
         }
         if(!checkId(networkEntity.getId())) {
-            LOGGER.error("function=addNetwork; msg=add error, because id is allready exist.");
-            throw new ServiceException(
-                    ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.network.add.entity.check"));
+            return networkDao.updateNetworkSelective(networkEntity);
         }
         if(StringUtils.isEmpty(networkEntity.getId())) {
             networkEntity.setId(UUID.randomUUID().toString());
@@ -94,8 +91,7 @@ public class NetworkBusinessImpl implements NetworkBusiness {
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.network.add.entity.null"));
         }
         if(!checkId(networkEntity.getId())) {
-            LOGGER.error("function=addNetworkSelective; msg=add error, because id is allready exist.");
-            throw new ServiceException(ResourceUtil.getMessage("network is already exit"));
+            return networkDao.updateNetworkSelective(networkEntity);
         }
         if(StringUtils.isEmpty(networkEntity.getId())) {
             networkEntity.setId(UUID.randomUUID().toString());

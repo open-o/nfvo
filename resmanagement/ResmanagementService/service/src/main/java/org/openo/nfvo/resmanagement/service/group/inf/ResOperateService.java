@@ -21,57 +21,52 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import net.sf.json.JSONObject;
 
 /**
- *
  * resource operational service class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public interface ResOperateService {
 
     /**
-     *
      * Update iresource.<br>
      *
      * @param tenantId
      * @param vimId
      * @param header
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     void updateIRes(String tenantId, String vimId, JSONObject header) throws ServiceException;
 
     /**
-     *
      * Update all iResource.<br>
      *
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     void updateAllIRes() throws ServiceException;
 
     /**
-     *
      * Add iResource.<br>
      *
      * @param tenantId
      * @param vimId
      * @param header
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     void addIRes(String tenantId, String vimId, JSONObject header) throws ServiceException;
 
     /**
-     *
      * Delete iResource.<br>
      *
      * @param vimId
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     int deleteIRes(String vimId) throws ServiceException;
 
@@ -79,8 +74,9 @@ public interface ResOperateService {
      * <br>
      * 
      * @param operateType
+     * @param vimId
      * @throws ServiceException
      * @since NFVO 0.5
      */
-    void sendMsgMonitor(String operateType) throws ServiceException;
+    void sendMsgMonitor(String operateType, String vimId) throws ServiceException;
 }
