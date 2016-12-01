@@ -53,6 +53,17 @@ def ns_delete_pending_csar(request, *args, **kwargs):
     return Response(data=ret[1], status=status.HTTP_202_ACCEPTED)
 
 
+@api_view(http_method_names=['PUT'])
+def ns_set_state_csar(request, *args, **kwargs):
+    csar_id = ignore_case_get(kwargs, "csarId")
+    operation = ignore_case_get(kwargs, "operation")
+    logger.info("Enter %s, method is %s, csar_id is %s, operation is %s", fun_name(), request.method, csar_id, operation)
+    ret = ns_package.ns_set_state_csar(csar_id, operation)
+    logger.info("Leave %s, Return value is %s", fun_name(), str(ret))
+    if ret[0] != 0:
+        return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(data=ret[1], status=status.HTTP_202_ACCEPTED)
+
 #################################################################################################################
 @api_view(http_method_names=['POST'])
 def nf_on_boarding(request, *args, **kwargs):

@@ -348,3 +348,71 @@ class TestNsPackage(TestCase):
                                        "processState": "7", "provider": "2", "operationalState": "4",
                                        "createTime": "10", "size": "13"}}
         self.assertEqual(expect_data, resp.data)
+
+    ###############################################################################################################
+    def test_disable_csar_when_id_not_exist_table(self):
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/14/disabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("failed", resp.data["status"])
+        self.assertEqual("CSAR(14) does not exist.", resp.data["statusDescription"])
+
+    @mock.patch.object(restcall, 'call_req')
+    def test_disable_csar_when_csar_is_disabled(self, mock_call_req):
+        NSDModel(id="15", nsd_id="2").save()
+        mock_call_req.return_value = [0, json.JSONEncoder().encode({"operationalState": "Disabled"}), '200']
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/15/disabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("failed", resp.data["status"])
+        self.assertEqual("CSAR(15) already disabled.", resp.data["statusDescription"])
+
+    @mock.patch.object(restcall, 'call_req')
+    def test_disable_csar_successfully(self, mock_call_req):
+        NSDModel(id="16", nsd_id="2").save()
+        mock_vals = {
+            "/openoapi/catalog/v1/csars/16":
+                [0, json.JSONEncoder().encode({"operationalState": "Enabled"}), '200'],
+            "/openoapi/catalog/v1/csars/16?operationState=Disabled":
+                [0, "OK", '200']}
+
+        def side_effect(*args):
+            return mock_vals[args[4]]
+        mock_call_req.side_effect = side_effect
+
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/16/disabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("success", resp.data["status"])
+        self.assertEqual("Set operationState to Disabled of CSAR(16) successfully.", resp.data["statusDescription"])
+
+    ###############################################################################################################
+    def test_enable_csar_when_id_not_exist_table(self):
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/17/enabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("failed", resp.data["status"])
+        self.assertEqual("CSAR(17) does not exist.", resp.data["statusDescription"])
+
+    @mock.patch.object(restcall, 'call_req')
+    def test_enable_csar_when_csar_is_enabled(self, mock_call_req):
+        NSDModel(id="18", nsd_id="2").save()
+        mock_call_req.return_value = [0, json.JSONEncoder().encode({"operationalState": "Enabled"}), '200']
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/18/enabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("failed", resp.data["status"])
+        self.assertEqual("CSAR(18) already enabled.", resp.data["statusDescription"])
+
+    @mock.patch.object(restcall, 'call_req')
+    def test_enable_csar_successfully(self, mock_call_req):
+        NSDModel(id="19", nsd_id="2").save()
+        mock_vals = {
+            "/openoapi/catalog/v1/csars/19":
+                [0, json.JSONEncoder().encode({"operationalState": "Disabled"}), '200'],
+            "/openoapi/catalog/v1/csars/19?operationState=Enabled":
+                [0, "OK", '200']}
+
+        def side_effect(*args):
+            return mock_vals[args[4]]
+        mock_call_req.side_effect = side_effect
+
+        resp = self.client.put("/openoapi/nslcm/v1/nspackage/19/enabled")
+        self.assertEqual(resp.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual("success", resp.data["status"])
+        self.assertEqual("Set operationState to Enabled of CSAR(19) successfully.", resp.data["statusDescription"])

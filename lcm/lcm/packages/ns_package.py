@@ -35,10 +35,14 @@ def fmt_ns_pkg_rsp(status, desc, error_code="500"):
     return [0, {"status": status, "statusDescription": desc, "errorCode": error_code}]
 
 
-def ns_common_call(fun, csar_id):
+def ns_common_call(fun, csar_id, operation=""):
     ret = None
     try:
-        ret = fun(csar_id)
+        if operation == "":
+            ret = fun(csar_id)
+        else:
+            ret = fun(csar_id, operation)
+
         if ret[0] != 0:
             return fmt_ns_pkg_rsp(STATUS_FAILED, ret[1])
     except NSLCMException as e:
@@ -47,7 +51,6 @@ def ns_common_call(fun, csar_id):
         logger.error(traceback.format_exc())
         return fmt_ns_pkg_rsp(STATUS_FAILED, str(sys.exc_info()))
     return fmt_ns_pkg_rsp(STATUS_SUCCESS, ret[1], "")
-
 
 def ns_on_boarding(csar_id):
     return ns_common_call(NsPackage().on_boarding, csar_id)
@@ -59,6 +62,10 @@ def ns_delete_csar(csar_id):
 
 def ns_delete_pending_csar(csar_id):
     return ns_common_call(NsPackage().delete_pending_csar, csar_id)
+
+
+def ns_set_state_csar(csar_id, operation):
+    return ns_common_call(NsPackage().set_state_csar, csar_id, operation)
 
 
 def ns_get_csar(csar_id):
@@ -168,3 +175,13 @@ class NsPackage(object):
         ns_instance_info = [{"nsInstanceId": ns.id, "nsInstanceName": ns.name} for ns in nss]
 
         return [0, {"csarId": csar_id, "packageInfo": package_info, "nsInstanceInfo": ns_instance_info}]
+
+
+    def set_state_csar(self, csar_id, operation):
+        if not NSDModel.objects.filter(id=csar_id):
+            raise NSLCMException("CSAR(%s) does not exist." % csar_id)
+
+        csar = query_csar_from_catalog(csar_id)
+        if ignore_case_get(csar, "operationalState") == operation.capitalize():
+            raise NSLCMException("CSAR(%s) already %s." % (csar_id, operation))
+        return set_csar_state(csar_id, 'operationState', operation.capitalize())
