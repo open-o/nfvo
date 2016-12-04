@@ -160,6 +160,7 @@
         class="org.openo.nfvo.resmanagement.service.base.openstack.impl.SitesImpl">
         <property name="sitesBusiness" ref="sitesBusiness"></property>
         <property name="limitsBusiness" ref="limitsBusiness"></property>
+        <property name="resOperateService" ref="resOperateService"></property>
     </bean>
 
     <bean id="sitesRoa" class="org.openo.nfvo.resmanagement.service.rest.SitesRoa">
@@ -319,8 +320,8 @@
         <ref bean="vnfInfoRoa" />
         <ref bean="vnfStatusRoa" />
         <ref bean="grantResourseRoa" />
-	<ref bean="SwaggerRoa" />
-        </jaxrs:serviceBeans>
+        <ref bean="SwaggerRoa" />
+     </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
             <bean class="org.openo.nfvo.resmanagement.service.rest.exceptionmapper.ServiceExceptionMapper" />

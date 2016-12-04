@@ -24,7 +24,6 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
-import org.openo.nfvo.resmanagement.common.constant.Constant;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.StringUtil;
 import org.openo.nfvo.resmanagement.service.business.inf.SitesBusiness;
@@ -76,19 +75,7 @@ public class SitesBusinessImpl implements SitesBusiness {
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.site.delete.id.null"));
         }
 
-        SitesEntity siteEntity = getSite(id);
-        int result = Constant.ERROR_CODE;
-        if(null == siteEntity) {
-            result = sitesDao.deleteSite(id);
-        } else {
-            if(!SitesEntity.checkResourceIsZero(siteEntity)) {
-                LOGGER.error("function=deleteSite; msg=delete error, because site resource{}.", siteEntity.toString());
-                throw new ServiceException(
-                        ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.site.delete.resource.check"));
-            }
-            result = sitesDao.deleteSite(id);
-        }
-        return result;
+        return sitesDao.deleteSite(id);
     }
 
     @Override

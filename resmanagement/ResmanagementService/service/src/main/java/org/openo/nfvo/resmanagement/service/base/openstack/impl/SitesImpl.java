@@ -24,12 +24,14 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Sites;
 import org.openo.nfvo.resmanagement.service.business.inf.LimitsBusiness;
 import org.openo.nfvo.resmanagement.service.business.inf.SitesBusiness;
 import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
+import org.openo.nfvo.resmanagement.service.group.inf.ResOperateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,8 @@ public class SitesImpl implements Sites {
 
     private LimitsBusiness limitsBusiness;
 
+    private ResOperateService resOperateService;
+
     @Override
     public int add(JSONObject jsonObject) throws ServiceException {
         LOGGER.info("Add datacenter jsonObject: {}", jsonObject);
@@ -61,13 +65,38 @@ public class SitesImpl implements Sites {
         JSONObject resource = limitsBusiness.getLimits(vimId);
         sitesEntity.setVimName(resource.getString("vimName"));
         sitesEntity.setTotalCPU(resource.getString("totalCPU"));
+        sitesEntity.setUsedCPU(resource.getString("usedCPU"));
         sitesEntity.setTotalMemory(resource.getString("totalMemory"));
+        sitesEntity.setUsedMemory(resource.getString("usedMemory"));
         sitesEntity.setTotalDisk(resource.getString("totalDisk"));
         if(StringUtils.isEmpty(sitesEntity.getId())) {
             sitesEntity.setId(UUID.randomUUID().toString());
             jsonObject.put(ParamConstant.PARAM_ID, sitesEntity.getId());
         }
+
         return sitesBusiness.addSite(sitesEntity);
+    }
+
+    /**
+     * <br>
+     * 
+     * @param json
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @Override
+    public void sendToMonitor(JSONObject jsonObject) throws ServiceException {
+        LOGGER.info("SitesImpl sendToMonitor jsonObject: {}", jsonObject);
+        String vimId = jsonObject.getString("vimName");
+        JSONObject vimInfo = VimUtil.getVimById(vimId);
+        LOGGER.info("SitesImpl sendToMonitor vimInfo: {}", vimInfo);
+        String tenant = vimInfo.getString("tenant");
+        String tenantId = VimUtil.getTenantIdByName(tenant, vimId);
+        JSONObject json = new JSONObject();
+        json.put("header", null);
+        LOGGER.info("tenantId:{}, vimId:{}", tenantId, vimId);
+        resOperateService.addIRes(tenantId, vimId, json);
+        resOperateService.sendMsgMonitor("create", vimId);
     }
 
     @Override
@@ -148,6 +177,15 @@ public class SitesImpl implements Sites {
 
     @Override
     public int delete(String id) throws ServiceException {
+        Map<String, Object> map = new HashMap<String, Object>(10);
+        map.put(ParamConstant.PARAM_ID, id);
+        List<SitesEntity> datacenters = getList(map);
+        SitesEntity site = datacenters.get(0);
+        LOGGER.info("site: {}", site);
+        String vimId = site.getVimId();
+        LOGGER.info("vimId: {}", vimId);
+        resOperateService.sendMsgMonitor("delete", vimId);
+        resOperateService.deleteIRes(vimId);
         return sitesBusiness.deleteSite(id);
     }
 
@@ -181,6 +219,10 @@ public class SitesImpl implements Sites {
 
     public void setLimitsBusiness(LimitsBusiness limitsBusiness) {
         this.limitsBusiness = limitsBusiness;
+    }
+
+    public void setResOperateService(ResOperateService resOperateService) {
+        this.resOperateService = resOperateService;
     }
 
 }

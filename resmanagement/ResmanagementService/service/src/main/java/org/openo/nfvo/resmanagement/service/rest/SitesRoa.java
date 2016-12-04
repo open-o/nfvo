@@ -122,6 +122,7 @@ public class SitesRoa {
         LOGGER.warn("SitesRoa:: start add Sites");
         try {
             int result = sites.add(json);
+            sites.sendToMonitor(json);
             return RoaResponseUtil.add(result);
         } catch(ServiceException se) {
             LOGGER.error("SitesRoa::addSites error:{}" + se);

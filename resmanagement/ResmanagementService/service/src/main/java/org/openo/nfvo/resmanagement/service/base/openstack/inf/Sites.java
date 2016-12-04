@@ -83,4 +83,13 @@ public interface Sites extends InterfaceResManagement {
      * @since NFVO 0.5
      */
     int update(SitesEntity sitesEntity) throws ServiceException;
+
+    /**
+     * <br>
+     * 
+     * @param json
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    void sendToMonitor(JSONObject json) throws ServiceException;
 }
