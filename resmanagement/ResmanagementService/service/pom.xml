@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>resmanagement-service</artifactId>
-    <name>ResmanagementService</name>
+    <name>nfvo/resmanagement/ResmanagementService/service</name>
     <packaging>war</packaging>
 
     <dependencies>

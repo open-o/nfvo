@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>vnfmadapter-service</artifactId>
-    <name>VnfmadapterService</name>
+    <name>nfvo/drivers/vnfm/svnfm/huawei/vnfmadapter/VnfmadapterService/service</name>
     <packaging>war</packaging>
 
     <dependencies>

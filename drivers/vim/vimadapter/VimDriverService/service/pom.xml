@@ -23,7 +23,7 @@
     </parent>
 
     <artifactId>vimadapter-service</artifactId>
-    <name>VimDriverService</name>
+    <name>nfvo/drivers/vim/vimadapter/VimDriverService/service</name>
     <packaging>war</packaging>
 
     <dependencies>

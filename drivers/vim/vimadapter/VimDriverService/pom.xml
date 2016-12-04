@@ -23,7 +23,7 @@ limitations under the License.
     </parent>
     <artifactId>vimadapter-service-root</artifactId>
     <version>1.1.0-SNAPSHOT</version>
-    <name>VIMDriverServiceRoot</name>
+    <name>nfvo/drivers/vim/vimadapter/VimDriverService</name>
     <packaging>pom</packaging>
 
     <properties>
