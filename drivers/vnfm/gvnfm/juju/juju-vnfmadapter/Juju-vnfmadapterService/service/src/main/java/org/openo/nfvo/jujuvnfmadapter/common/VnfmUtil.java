@@ -57,7 +57,7 @@ public final class VnfmUtil {
             json.put("vnfdId","testVnfdId");
             json.put("vnfPackageId", "testPackageId");
             json.put("version", "1");
-            json.put("url",JujuConfigUtil.getValue("url"));
+            json.put("url",JujuConfigUtil.getValue("jujuvnfm_server_url"));
             return json;
         }
         RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(UrlConstant.REST_ESRINFO_GET, vnfmId), JujuVnfmRestfulUtil.GET_TYPE, null);

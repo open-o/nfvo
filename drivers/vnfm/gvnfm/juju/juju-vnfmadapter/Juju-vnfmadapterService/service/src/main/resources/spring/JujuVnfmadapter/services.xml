@@ -48,19 +48,21 @@
 
     <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
 
+    <bean id="db" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:db.properties"/>
+    </bean>
+
     <bean id="source"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/jujuvnfmdb" />
-        <property name="username" value="root" />
-        <property name="password" value="Test_12345" />
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
 
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="source" />
         <property name="mapperLocations" value="classpath*:mybatis/mysql/*.xml" />
-        <!-- <property name="configLocation" value="classpath:mybatis-config.xml">
-            </property> -->
     </bean>
 
     <bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
@@ -74,28 +76,39 @@
     </bean>
     <bean id="jujuVnfmInfoMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface"
-            value="org.openo.nfvo.jujuvnfmadapter.service.mapper.JujuVnfmInfoMapper"></property>
-        <property name="sqlSessionFactory" ref="sessionFactory"></property>
+            value="org.openo.nfvo.jujuvnfmadapter.service.mapper.JujuVnfmInfoMapper"/>
+        <property name="sqlSessionFactory" ref="sessionFactory"/>
     </bean>
 
 
     <bean id="vnfMgr" class="org.openo.nfvo.jujuvnfmadapter.service.process.VnfMgr">
-        <property name="jujuVnfmInfoMapper" ref="jujuVnfmInfoMapper"></property>
+        <property name="jujuVnfmInfoMapper" ref="jujuVnfmInfoMapper"/>
+        <property name="resourceManager" ref="resourceManager"/>
+    </bean>
+    <bean id="vnfResourceMgr" class="org.openo.nfvo.jujuvnfmadapter.service.process.VnfResourceMgr">
+        <property name="jujuVnfmInfoMapper" ref="jujuVnfmInfoMapper"/>
+
     </bean>
     <bean id="jujuClientManager"
-        class="org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuClientManager"></bean>
+        class="org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuClientManager"/>
+    <bean id="resourceManager"
+          class="org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.AdapterResourceManager"/>
 
     <!-- -->
     <bean id="jujuClientRoa"
         class="org.openo.nfvo.jujuvnfmadapter.service.rest.JujuClientRoa">
-        <property name="jujuClientManager" ref="jujuClientManager"></property>
+        <property name="jujuClientManager" ref="jujuClientManager"/>
+        <property name="vnfMgr" ref="vnfMgr"/>
     </bean>
     <bean id="vnfRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.VnfRoa">
-        <property name="vnfMgr" ref="vnfMgr"></property>
+        <property name="vnfMgr" ref="vnfMgr"/>
     </bean>
-    <bean id="configRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.ConfigRoa"></bean>
+    <bean id="configRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.ConfigRoa"/>
 
-    <bean id="SwaggerRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.SwaggerRoa"></bean>
+    <bean id="SwaggerRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.SwaggerRoa"/>
+    <bean id="vnfResourceRoa" class="org.openo.nfvo.jujuvnfmadapter.service.rest.VnfResourceRoa">
+    	<property name="vnfResourceMgr" ref="vnfResourceMgr"/>
+    </bean>
 
     <jaxrs:server id="restContainer" address="/">
         <jaxrs:serviceBeans>
@@ -103,6 +116,7 @@
             <ref bean="vnfRoa" />
             <ref bean="configRoa" />
             <ref bean="SwaggerRoa" />
+            <ref bean="vnfResourceRoa"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jsonProvider" />

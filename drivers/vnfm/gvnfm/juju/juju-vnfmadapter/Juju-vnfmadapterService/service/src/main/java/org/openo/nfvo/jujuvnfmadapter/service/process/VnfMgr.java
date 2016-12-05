@@ -27,6 +27,7 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VnfmRestfulUtil;
+import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IResourceManager;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.UrlConstant;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
@@ -49,8 +50,16 @@ public class VnfMgr {
 
     private static final Logger LOG = LoggerFactory.getLogger(VnfMgr.class);
     private JujuVnfmInfoMapper jujuVnfmInfoMapper;
-    
-    
+    private IResourceManager resourceManager;
+
+    public IResourceManager getResourceManager() {
+        return resourceManager;
+    }
+
+    public void setResourceManager(IResourceManager resourceManager) {
+        this.resourceManager = resourceManager;
+    }
+
     /**
      * @return Returns the jujuVnfmInfoMapper.
      */
@@ -87,15 +96,17 @@ public class VnfMgr {
             JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
 
             if(vnfmObject == null || vnfmObject.isNullObject()) {
+                LOG.error("function=addVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
                 return restJson;
             }
             String vnfInstanceName = vnfObject.getString("vnfInstanceName");
-
+            String csarId = vnfObject.getString("vnfPackageId");
+            
+            //call juju-cliento deploy
             JSONObject params = new JSONObject();
             params.put(Constant.VNFM_ID, vnfmId);
             params.put("appName", vnfInstanceName);
-            params.put("charmPath", "");
-            params.put("mem", "");
+            params.put("csarId", csarId);
 
             String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
@@ -111,9 +122,9 @@ public class VnfMgr {
 
             int statusCode = rsp.getStatus();
             if(statusCode == Constant.HTTP_CREATED) {
-
-                String vnfId = UUID.randomUUID().toString();
-                saveJujuVnfmInfo(vnfInstanceName,vnfId,vnfId,vnfmId);
+                JSONObject res = JSONObject.fromObject(rsp.getResponseContent());
+                String vnfId = res.getString("vnfId");
+                saveJujuVnfmInfo(vnfInstanceName,vnfId,vnfId,vnfmId,vnfObject);
                 restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_SUCCESS);
                 JSONObject resultObj = new JSONObject();
                 resultObj.put("vnfInstanceId", vnfId);
@@ -129,7 +140,27 @@ public class VnfMgr {
         LOG.info("request:{},response:{}", vnfmId, restJson.toString());
         return restJson;
     }
-    
+   
+    /**
+     * 
+     * <br/>
+     * 
+     * @param csarId
+     * @return
+     * @since  NFVO 0.5
+     */
+    public String getCharmPath(String csarId){
+        try {
+            JSONObject res = resourceManager.getVnfdInfo(csarId);
+            if(res != null && res.getString("csarFilePath") != null){
+                return res.getString("csarFilePath");
+            }
+        } catch(Exception e) {
+            LOG.error("get charmPath fail:csarId="+csarId,e);
+        }
+        LOG.warn("get charmPath fail:csarId="+csarId);
+        return null;
+    }
     /**
      * save object to db
      * <br/>
@@ -140,7 +171,7 @@ public class VnfMgr {
      * @param vnfmId
      * @since  NFVO 0.5
      */
-    private void saveJujuVnfmInfo(String appName,String jobId,String vnfId,String vnfmId){
+    private void saveJujuVnfmInfo(String appName,String jobId,String vnfId,String vnfmId, JSONObject vnfObject){
         JujuVnfmInfo record = new JujuVnfmInfo();
         record.setId(UUID.randomUUID().toString());
         record.setAppName(appName);
@@ -150,6 +181,7 @@ public class VnfMgr {
         record.setStatus(0);
         record.setCreateTime(new Date());
         record.setModifyTime(new Date());
+        record.setExtend(vnfObject.toString());
         jujuVnfmInfoMapper.insert(record);
     }
     /**
@@ -200,7 +232,7 @@ public class VnfMgr {
         try {
             JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
             if(vnfmObject==null || vnfmObject.isNullObject()) {
-                LOG.error("function=deleteVnf, msg=vnfm not exists, vnfmId: {}", vnfmId);
+                LOG.error("function=deleteVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
                 return restJson;
             }
 
@@ -257,9 +289,10 @@ public class VnfMgr {
         JSONObject restJson = new JSONObject();
         restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_FAIL);
         try {
+            // call the ESR to get jujuvnfm server url
             JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
             if(vnfmObject==null || vnfmObject.isNullObject()) {
-                LOG.error("function=getVnf, msg=vnfm not exists, vnfmId: {}", vnfmId);
+                LOG.error("Unable to get jujuvnfm url info from the 'ESR', vnfmId: {}", vnfmId);
                 return restJson;
             }
             

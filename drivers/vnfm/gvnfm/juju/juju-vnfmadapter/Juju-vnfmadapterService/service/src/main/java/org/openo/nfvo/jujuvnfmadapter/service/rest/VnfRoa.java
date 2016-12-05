@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -101,6 +102,7 @@ public class VnfRoa {
             @PathParam("vnfmId") String vnfmId) throws ServiceException {
         LOG.warn("function=addVnf, msg=enter to add a vnf");
         JSONObject subJsonObject = StringUtil.getJsonFromContexts(context);
+        LOG.info("request context:"+subJsonObject);
         JSONObject restJson = new JSONObject();
 
         if(null == subJsonObject) {
@@ -118,6 +120,27 @@ public class VnfRoa {
         }
 
         return JSONObject.fromObject(restJson.getJSONObject("data")).toString();
+    }
+    
+    /**
+     * Provide function for terminate VNF
+     * <br/>
+     * 
+     * @param vnfmId
+     * @param resp
+     * @param vnfInstanceId
+     * @param context
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @DELETE
+    @Path("/{vnfmId}/vnfs/{vnfInstanceId}/terminate")
+    public String delVnfDel(@PathParam("vnfmId") String vnfmId, @Context HttpServletResponse resp,
+            @PathParam("vnfInstanceId") String vnfInstanceId, @Context HttpServletRequest context)
+            throws ServiceException {
+
+        return this.delVnf(vnfmId, resp, vnfInstanceId, context);
     }
 
     /**
@@ -139,6 +162,7 @@ public class VnfRoa {
             throws ServiceException {
         LOG.warn("function=delVnf, msg=enter to delete a vnf: vnfInstanceId: {}, vnfmId: {}", vnfInstanceId, vnfmId);
         JSONObject vnfObject = StringUtil.getJsonFromContexts(context);
+        LOG.info("request context:"+vnfObject);
         JSONObject restJson = new JSONObject();
 
         if(StringUtils.isEmpty(vnfInstanceId) || StringUtils.isEmpty(vnfmId)) {

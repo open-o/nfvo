@@ -16,14 +16,16 @@
 
 package org.openo.nfvo.jujuvnfmadapter.service.rest;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -32,8 +34,10 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.JujuConfigUtil;
 import org.openo.nfvo.jujuvnfmadapter.common.StringUtil;
+import org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuClientManager;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IJujuClientManager;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
+import org.openo.nfvo.jujuvnfmadapter.service.process.VnfMgr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +59,7 @@ public class JujuClientRoa {
     private static final Logger LOG = LoggerFactory.getLogger(JujuClientRoa.class);
 
     private IJujuClientManager jujuClientManager;
+    private VnfMgr vnfMgr;
 
     /**
      * @return Returns the jujuClientManager.
@@ -69,7 +74,22 @@ public class JujuClientRoa {
     public void setJujuClientManager(IJujuClientManager jujuClientManager) {
         this.jujuClientManager = jujuClientManager;
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    public VnfMgr getVnfMgr() {
+        return vnfMgr;
+    }
+
+    /**
+     *
+     * @param vnfMgr
+     */
+    public void setVnfMgr(VnfMgr vnfMgr) {
+        this.vnfMgr = vnfMgr;
+    }
 
     /**
      * Set Charm url for juju deployment
@@ -98,7 +118,7 @@ public class JujuClientRoa {
      * parameter: vnfInstanceId
      * <br/>
      * 
-     * @param appName
+     * @param modelName
      * @param resp
      * @param context
      * @return Depends on juju's return
@@ -106,12 +126,13 @@ public class JujuClientRoa {
      * @since NFVO 0.5
      */
     @GET
-    @Path("/{appName}/status")
-    public String getVnfStatus(@PathParam(Constant.APP_NAME) String appName, @Context HttpServletRequest context,
+    @Path("/status")
+    public String getVnfStatus(@QueryParam("modelName") String modelName, @Context HttpServletRequest context,
             @Context HttpServletResponse resp) throws ServiceException {
-        JSONObject result = jujuClientManager.getStatus(appName);
+        JSONObject result = jujuClientManager.getStatus(modelName);
         LOG.debug("status json str:"+result.toString());
         return result.toString();
+
 
     }
 
@@ -134,27 +155,39 @@ public class JujuClientRoa {
     public String deploySerivce(@Context HttpServletRequest context, @Context HttpServletResponse resp)
             throws ServiceException {
         JSONObject result = new JSONObject();
-        String msg;
+        String msg = null;
         try {
             result.put(EntityUtils.RESULT_CODE_KEY, EntityUtils.ExeRes.FAILURE);
             JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
+            LOG.info("deploySerivce request data-->"+reqJsonObject);
             if(reqJsonObject == null || reqJsonObject.get(Constant.APP_NAME) == null){
                 result.put(EntityUtils.MSG_KEY, "the param 'appName' can't be null");
                 resp.setStatus(Constant.HTTP_INNERERROR); 
                 return result.toString();
             }
-            String charmPath = (String)reqJsonObject.get("charmPath");
-            Object memObj = reqJsonObject.get("mem");
-            int mem = StringUtils.isEmpty((String)memObj)?0:(Integer)memObj;
+            String csarId = (String)reqJsonObject.get("csarId");
+          
             String appName = reqJsonObject.getString(Constant.APP_NAME);
+            //1、download the catalog,unzip file and get the charmPath  
+            String charmPath = vnfMgr.getCharmPath(csarId);
             if(StringUtils.isBlank(charmPath)) {
-                charmPath = JujuConfigUtil.getValue("charmPath");
+                    charmPath = JujuConfigUtil.getValue("charmPath");     
             }
-            result = jujuClientManager.deploy(charmPath, mem, appName);
-            if(result.getInt(EntityUtils.RESULT_CODE_KEY) == EntityUtils.ExeRes.SUCCESS){
-                resp.setStatus(Constant.HTTP_CREATED); 
+            String vnfId = UUID.randomUUID().toString();
+            //2、grant resource
+            boolean grantRes = jujuClientManager.grantResource(charmPath, appName, JujuClientManager.ADDRESOURCE, vnfId);
+            LOG.info("grantResource result:"+grantRes);
+            //3、deploy service
+            if(grantRes){
+                result = jujuClientManager.deploy(charmPath,appName);
+                if(result.getInt(EntityUtils.RESULT_CODE_KEY) == EntityUtils.ExeRes.SUCCESS){
+                    resp.setStatus(Constant.HTTP_CREATED); 
+                }
+                result.put("vnfId", vnfId);//return vnfId
+                return result.toString();
+            }else{
+                msg = "Grant resource fail:"+vnfId;
             }
-            return result.toString();
         } catch(Exception e) {
             msg = e.getMessage();
            LOG.error("deploy fail in method deployService",e);
@@ -166,7 +199,7 @@ public class JujuClientRoa {
 
     /**
      * <br/>
-     * 
+     * here appName equals modelName
      * @param resp
      * @param context
      * @return
@@ -188,8 +221,13 @@ public class JujuClientRoa {
                 return result.toString();
             }
             String appName = reqJsonObject.getString(Constant.APP_NAME);
+            String vnfId="";
+            if(reqJsonObject.containsKey("vnfId")) {
+                vnfId = reqJsonObject.getString("vnfId");
+            }
             result = jujuClientManager.destroy(appName);
             resp.setStatus(Constant.UNREG_SUCCESS);
+            LOG.info("destroy service success!!!"+appName+vnfId);
             return result.toString();
         } catch(Exception e) {
             msg = e.getMessage();

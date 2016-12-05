@@ -16,16 +16,29 @@
 
 package org.openo.nfvo.jujuvnfmadapter.service.adapter.impl;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
+import org.openo.nfvo.jujuvnfmadapter.common.FileUtils;
+import org.openo.nfvo.jujuvnfmadapter.common.JujuConfigUtil;
+import org.openo.nfvo.jujuvnfmadapter.common.YamlUtil;
+import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VnfmRestfulUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IJujuClientManager;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.UrlConstant;
+import org.openo.nfvo.jujuvnfmadapter.service.juju.JujuHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 
 
@@ -39,18 +52,20 @@ import net.sf.json.JSONObject;
  */
 public class JujuClientManager implements IJujuClientManager {
     private static final Logger LOG = LoggerFactory.getLogger(JujuClientManager.class);
+    
+    public static final String ADDRESOURCE="addResource";
+    public static final String REMOVERESOURCE = "removeResource";
 
     /**
      * <br/>
      * 
      * @param charmPath
-     * @param mem
      * @param appName
      * @return
      * @since   NFVO 0.5
      */
     @Override
-    public JSONObject deploy(String charmPath, int mem, String appName) {
+    public JSONObject deploy(String charmPath, String appName) {
         JSONObject result = new JSONObject();
         if(charmPath == null || appName == null){
             String msg = "the 'charmPath' or 'appName' can not be null";
@@ -59,14 +74,24 @@ public class JujuClientManager implements IJujuClientManager {
             LOG.error(msg);
             return result;
         }
+        String modelName = JujuHelper.getModelName(appName);
+        //add-model
+        this.addModel(modelName);//use appName as modelName
+        //switch model
+        this.switchModel(modelName);
+        //deploy service
         List<String> commands = new ArrayList<>();
         commands.add("juju");
         commands.add("deploy");
         if(StringUtils.isNotBlank(charmPath)){
-            commands.add(charmPath);
+            String fullPath = charmPath+appName;
+            commands.add(fullPath);
+        }else{
+            commands.add(appName);
         }
-        commands.add(appName);
-        ExeRes exeRes = EntityUtils.execute(null,commands);
+        commands.add("-m"); 
+        commands.add(modelName);
+        ExeRes exeRes = EntityUtils.execute(charmPath,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
             LOG.info("deploy success. command:"+EntityUtils.formatCommand(commands));
             result.put(EntityUtils.RESULT_CODE_KEY, 0);
@@ -75,6 +100,149 @@ public class JujuClientManager implements IJujuClientManager {
             LOG.error("deploy failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
             result.put(EntityUtils.RESULT_CODE_KEY, -1);
             result.put(EntityUtils.MSG_KEY, "deploy failed:"+exeRes.getBody());
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * <br/>
+     * 
+     * @param modelName
+     * @return
+     * @since  NFVO 0.5
+     */
+    private JSONObject addModel(String modelName) {
+        JSONObject result = new JSONObject();
+        List<String> commands = new ArrayList<>();
+        commands.add("juju");
+        commands.add("add-model");
+        commands.add(modelName);
+        String extraParam = getExtraParam();
+        if(extraParam != null){
+            commands.add(extraParam);
+        }
+        ExeRes exeRes = EntityUtils.execute(null,commands);
+        if(exeRes.getCode() == ExeRes.SUCCESS){
+            LOG.info("addModel success. command:"+EntityUtils.formatCommand(commands));
+            result.put(EntityUtils.RESULT_CODE_KEY, 0);
+            result.put(EntityUtils.DATA_KEY, exeRes.getBody());
+        }else{
+            LOG.error("addModel failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            result.put(EntityUtils.RESULT_CODE_KEY, -1);
+            result.put(EntityUtils.MSG_KEY, "addModel failed:"+exeRes.getBody());
+        }
+        
+        return result;
+    }
+
+    /**
+     * getExtraParam
+     * add model
+        juju add-model <model-name> --config image-metadata-url=http://192.168.20.106/images --config network=demo-net --config use-floating-ip=True --config use-default-secgroup=True
+     * @return
+     */
+    private String getExtraParam(){
+        try {
+            String configInfo = readJujuConfigInfo();
+            if(configInfo != null){
+                JSONObject json = JSONObject.fromObject(configInfo);
+                StringBuilder builder = new StringBuilder();
+                builder.append(" --config "+json.getString("image-metadata-url"));
+                builder.append(" --config "+json.getString("network"));
+                builder.append(" --config "+json.getString("use-floating-ip"));
+                builder.append(" --config "+json.getString("use-default-secgroup"));
+                return builder.toString();
+            }
+        } catch (Exception e) {
+            LOG.error("read juju command config error:",e);
+        }
+        return null;
+    }
+
+    /**
+     * Get csar package information.<br>
+     *
+     * @return
+     * @throws IOException
+     * @since  NFVO 0.5
+     */
+    public static String readJujuConfigInfo() {
+        InputStream ins = null;
+
+        BufferedInputStream bins = null;
+        String fileContent = null;
+        String fileName = SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
+                + "etc" + System.getProperty("file.separator") + "conf" + System.getProperty("file.separator")
+                + "juju_conf.json";
+        try {
+            ins = new FileInputStream(fileName);
+            bins = new BufferedInputStream(ins);
+
+            byte[] contentByte = new byte[ins.available()];
+            int num = bins.read(contentByte);
+
+            if (num > 0) {
+                fileContent = new String(contentByte);
+            }
+        } catch (Exception e) {
+            LOG.error(fileName + "is not found!", e);
+        } finally {
+            try {
+                if (ins != null) {
+                    ins.close();
+                }
+                if (bins != null) {
+                    bins.close();
+                }
+            } catch (IOException e) {
+            }
+        }
+        return fileContent;
+    }
+    private JSONObject changeDir(String charmPath) {
+        JSONObject result = new JSONObject();
+        List<String> commands = new ArrayList<>();
+        commands.add("cd");
+        commands.add(charmPath);
+        ExeRes exeRes = EntityUtils.execute(null,commands);
+        if(exeRes.getCode() == ExeRes.SUCCESS){
+            LOG.info("changeDir success. command:"+EntityUtils.formatCommand(commands));
+            result.put(EntityUtils.RESULT_CODE_KEY, 0);
+            result.put(EntityUtils.DATA_KEY, exeRes.getBody());
+        }else{
+            LOG.error("changeDir failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            result.put(EntityUtils.RESULT_CODE_KEY, -1);
+            result.put(EntityUtils.MSG_KEY, "addModel failed:"+exeRes.getBody());
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 
+     * <br/>
+     * 
+     * @param modelName
+     * @return
+     * @since  NFVO 0.5
+     */
+    private JSONObject switchModel(String modelName) {
+        JSONObject result = new JSONObject();
+        List<String> commands = new ArrayList<>();
+        commands.add("juju");
+        commands.add("switch");
+        commands.add(modelName);
+        ExeRes exeRes = EntityUtils.execute(null,commands);
+        if(exeRes.getCode() == ExeRes.SUCCESS){
+            LOG.info("switchModel success. command:"+EntityUtils.formatCommand(commands));
+            result.put(EntityUtils.RESULT_CODE_KEY, 0);
+            result.put(EntityUtils.DATA_KEY, exeRes.getBody());
+        }else{
+            LOG.error("switchModel failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
+            result.put(EntityUtils.RESULT_CODE_KEY, -1);
+            result.put(EntityUtils.MSG_KEY, "addModel failed:"+exeRes.getBody());
         }
         
         return result;
@@ -89,11 +257,13 @@ public class JujuClientManager implements IJujuClientManager {
      */
     @Override
     public JSONObject destroy(String appName) {
+        String modelName = JujuHelper.getModelName(appName);
         JSONObject result = new JSONObject();
         List<String> commands = new ArrayList<>();
         commands.add("juju");
-        commands.add("remove-application");
-        commands.add(appName);
+        commands.add("destroy-model");
+        commands.add("-y");
+        commands.add(modelName);
         
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
@@ -119,12 +289,14 @@ public class JujuClientManager implements IJujuClientManager {
      */
     @Override
     public JSONObject getStatus(String appName) {
+        String modelName = JujuHelper.getModelName(appName);
         JSONObject result = new JSONObject();
         List<String> commands = new ArrayList<>();
         commands.add("juju");
         commands.add("status");
-        if(StringUtils.isNotBlank(appName)){
-            commands.add(appName); 
+        if(StringUtils.isNotBlank(modelName)){
+            commands.add("-m"); 
+            commands.add(modelName);
         }
         commands.add("--format=json");
         
@@ -132,7 +304,7 @@ public class JujuClientManager implements IJujuClientManager {
         if(exeRes.getCode() == ExeRes.SUCCESS){
             LOG.info("getStatus success. command:"+EntityUtils.formatCommand(commands));
             result.put(EntityUtils.RESULT_CODE_KEY, 0);
-            JSONObject dataObj = buildDataObj(exeRes,appName);
+            JSONObject dataObj = buildDataObj(exeRes);
             result.put(EntityUtils.DATA_KEY, dataObj);
         }else{
             LOG.error("getStatus failed. command:"+EntityUtils.formatCommand(commands)+"\n"+exeRes);
@@ -150,7 +322,7 @@ public class JujuClientManager implements IJujuClientManager {
      * @return
      * @since  NFVO 0.5
      */
-    private JSONObject buildDataObj(ExeRes exeRes,String appName) {
+    private JSONObject buildDataObj(ExeRes exeRes) {
         JSONObject dataObj = null;
         if(StringUtils.isNotBlank(exeRes.getBody())){
             dataObj = JSONObject.fromObject(exeRes.getBody());
@@ -158,6 +330,122 @@ public class JujuClientManager implements IJujuClientManager {
         }
         return dataObj;
     }
+    
+    
+    /**
+     * call the juju vnfm to grant resource(disk,mem,cpu)
+     * <br/>
+     *  (fields:cpu,mem,disk,action(addResource/removeResource))
+     * @param vnfId
+     * @param appName
+     * @param action
+     * @since  NFVO 0.5
+     * @return
+     */
+    @Override
+    public boolean grantResource(String charmPath, String appName,String action , String vnfId){
+        //1.parse yaml file
+        JSONObject params;
+        try {
+            params = this.parseYaml(charmPath, appName, action);
+        } catch(Exception e) {
+            LOG.error("ParseYaml error,please check it.",e);
+            return false;
+        }
+        if(params == null){
+            LOG.error("ParseYaml fail,please check it.");
+            return false;
+        }
+        
+        //2. call grant service
+        String url = JujuConfigUtil.getValue("grant_jujuvnfm_url");
+        Map<String, String> paramsMap = new HashMap<>(6);
+        paramsMap.put("url", url);
+        paramsMap.put(Constant.METHOD_TYPE, Constant.PUT);
+        paramsMap.put("path", String.format(UrlConstant.REST_JUJU_VNFM_GRANT_URL,vnfId));
+        paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
+        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, params.toString(), null);
+        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
+            LOG.error("function=grantResource, msg=send grantResource msg to juju-vnfm get wrong results");
+            return false;
+        }
+        //3.process result
+        String response = rsp.getResponseContent();
+        LOG.info("grant resource result:"+response);
+        return true;
+    }
+    
+    /**
+     * 
+     * <br/>
+     * "constraints":"arch=amd64 cpu-cores=1 cpu-power=100 mem=1740 root-disk=8192"
+     * @param charmPath
+     * @param appName
+     * @param action
+     * @return
+     * @since  NFVO 0.5
+     */
+    public JSONObject parseYaml(String charmPath, String appName,String action){
+        JSONObject compute = new JSONObject();
+        compute.put("action", action);
+        if(StringUtils.isBlank(charmPath)){
+            LOG.error("the charmPath can't be null! [in unzipFileAndParseYaml]");
+            return null;
+        }
+      //set default values for non 'yaml' type
+        if(!appName.endsWith(".yaml")){
+            compute.put("cpu", 4);
+            compute.put("mem", 2);
+            compute.put("disk", 40);
+            return compute;
+        }
+        String yaml = FileUtils.getFriendlyPath(charmPath)+appName;
+        File yamlFile = new File(yaml);
+        if(yamlFile.exists()){
+            JSON json = YamlUtil.yamlToJson(yamlFile.getAbsolutePath());
+            LOG.info(yaml+":\n"+json);
+            if(json.isArray()){
+                LOG.error("the yaml file has error format,please check it!"+yamlFile);
+                return null;
+            }
+            JSONObject jsonObj = (JSONObject)json;
+            JSONObject services = jsonObj.getJSONObject("services");
+            int cpu = 0;
+            int mem = 0;
+            int disk = 0;
+            for(Object key: services.keySet()){
+                JSONObject app = services.getJSONObject(key.toString());
+                if(app.containsKey("constraints")){
+                    String constraints = app.getString("constraints");
+                    String[] vals = constraints.split("\\s+");
+                    LOG.info(key+"="+constraints);
+                    for(String val : vals){
+                        String[] kv = val.split("=");
+                        if("cpu-cores".equals(kv[0]) && StringUtils.isNotBlank(kv[1])){
+                            cpu+=Integer.valueOf(kv[1]);
+                        }else if("mem".equals(kv[0]) && StringUtils.isNotBlank(kv[1])){
+                            mem+=Integer.valueOf(kv[1]);
+                        }else if("root-disk".equals(kv[0]) && StringUtils.isNotBlank(kv[1])){
+                            disk+=Integer.valueOf(kv[1]);
+                        }
+                    }
+                }
+            }
+            compute.put("cpu", cpu);
+            compute.put("mem", mem);
+            compute.put("disk", disk);
+        }else{
+            LOG.error("the yaml file not exist!file="+yamlFile); 
+            return null;
+        }
+        LOG.info("parse yaml result-->"+compute);
+        return compute;
+    }
 
+  
+    public static void main(String[] args) {
+        JujuClientManager jujuClientManager = new JujuClientManager();
+        jujuClientManager.parseYaml("E:/workspace/openo-common-utils/src/org/openo/common/yaml", "test.yaml", "addResource");
+    }
     
 }

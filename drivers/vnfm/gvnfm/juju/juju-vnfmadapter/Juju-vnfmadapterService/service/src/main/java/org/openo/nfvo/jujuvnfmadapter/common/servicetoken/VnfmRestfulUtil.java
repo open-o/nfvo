@@ -121,9 +121,7 @@ public final class VnfmRestfulUtil {
 
     /**
      * encapsulate the java reflect exception
-     * 
-     * @param methodName
-     *            Restful's method
+     *
      * @param objects
      *            method param array
      * @return
@@ -304,13 +302,18 @@ public final class VnfmRestfulUtil {
            String[] strs = url.split("(http(s)?://)|:|/");
 
            opt.setHost(strs[1]);
-           opt.setPort(Integer.parseInt(strs[2]));
+           if(strs.length > 0){
+               opt.setPort(Integer.parseInt(strs[2]));
+           }else{
+               opt.setPort(80);
+           }
+
            for(int i=strs.length-1;i>=0;i--){
                 if(i > 2){
                     path = "/"+strs[i]+path;  
                 }
             }
-
+           LOG.info("restfull options:"+EntityUtils.toString(opt, RestfulOptions.class));
            RestfulParametes restfulParametes = new RestfulParametes();
            Map<String, String> headerMap = new HashMap<>(3);
            headerMap.put(Constant.CONTENT_TYPE, Constant.APPLICATION);

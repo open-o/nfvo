@@ -23,8 +23,8 @@ import java.util.Date;
  * 
  *
  * @author z00292420
- * @date 2016-9-12
- *
+ * @date 2016-9-12*
+
  */
 public class JujuVnfmInfo implements Serializable {
     /**  */

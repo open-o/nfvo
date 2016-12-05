@@ -205,7 +205,9 @@ public class EntityUtils {
         StringBuilder sb = new StringBuilder();
         try {
             if(SwitchController.isDebugModel()) {
-                command.set(0, "juju.bat");
+                String resContent = new String(FileUtils.readFile(new File(JujuConfigUtil.getValue("juju_cmd_res_file")), "UTF-8"));
+                er.setBody(resContent);
+                return er;
             }
             ProcessBuilder pb = new ProcessBuilder(command);
             if(StringUtils.isNotBlank(dir)) {

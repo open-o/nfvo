@@ -200,6 +200,18 @@ public class DownloadCsarManager {
                 bos.flush();
                 bos.close();
                 bis.close();
+
+                if(entry.getName().endsWith(".zip")){
+                    File subFile = new File(filePath+entry.getName());
+                    if(subFile.exists()){
+                        int subStatus = unzipCSAR(filePath+entry.getName(),subFile.getParent()+"/");
+                        if(subStatus != 0){
+                            LOG.error("sub file unzip fail!"+subFile.getName());
+                            status=Constant.UNZIP_FAIL;
+                            return status;
+                        }
+                    }
+                }
             }
             status=Constant.UNZIP_SUCCESS;
             zipFile.close();
@@ -208,5 +220,21 @@ public class DownloadCsarManager {
             e.printStackTrace();
         }
         return status;
+    }
+
+    private static  String getImagesPath(String csarfilepath){
+        File imageFile = new File(csarfilepath+"SoftwareImages");
+        if(imageFile.exists()){
+            File[] charmFiles = imageFile.listFiles();
+            for(File file : charmFiles){
+                if(!file.getName().endsWith(".zip")){
+                    return file.getAbsolutePath();
+                }
+            }
+        }
+        return csarfilepath;
+    }
+    public static void main(String[] args) {
+        System.out.println(getImagesPath("e:/juju/csar2/"));
     }
 }
