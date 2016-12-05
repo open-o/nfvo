@@ -30,7 +30,7 @@ public class JujuClientManagerTest {
 	@Test
 	public void testdeploy() {
 		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
+		JSONObject json = jujuClientManager.deploy("charmPath", "appName");
 		assertTrue(json != null);
 	}
 
@@ -44,7 +44,7 @@ public class JujuClientManagerTest {
 			}
 		};
 		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 10, "appName");
+		JSONObject json = jujuClientManager.deploy("charmPath","appName");
 		assertTrue(json != null);
 	}
 
@@ -52,7 +52,7 @@ public class JujuClientManagerTest {
 	public void testdeploy1() {
 
 		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy("charmPath", 1, null);
+		JSONObject json = jujuClientManager.deploy("charmPath", null);
 		assertTrue(json != null);
 	}
 
@@ -60,7 +60,7 @@ public class JujuClientManagerTest {
 	public void testdeploy2() {
 
 		JujuClientManager jujuClientManager = new JujuClientManager();
-		JSONObject json = jujuClientManager.deploy(null, 1, null);
+		JSONObject json = jujuClientManager.deploy(null, null);
 		assertTrue(json != null);
 	}
 
@@ -115,5 +115,10 @@ public class JujuClientManagerTest {
 		JujuClientManager jujuClientManager = new JujuClientManager();
 		JSONObject json = jujuClientManager.getStatus("");
 		assertTrue(json != null);
+	}
+	@Test
+	public void testParseYaml(){
+	    JujuClientManager jujuClientManager = new JujuClientManager();
+	    jujuClientManager.parseYaml("abc/efg", "mediawiki.yaml", "addResource");
 	}
 }

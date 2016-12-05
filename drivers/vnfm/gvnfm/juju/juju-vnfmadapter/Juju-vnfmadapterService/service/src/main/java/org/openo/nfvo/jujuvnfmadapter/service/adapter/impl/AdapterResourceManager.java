@@ -16,23 +16,20 @@
 
 package org.openo.nfvo.jujuvnfmadapter.service.adapter.impl;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
+import org.openo.nfvo.jujuvnfmadapter.common.DownloadCsarManager;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.JujuVnfmRestfulUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IResourceManager;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.UrlConstant;
-import org.openo.nfvo.jujuvnfmadapter.common.DownloadCsarManager;
-import org.openo.baseservice.roa.util.restclient.RestfulResponse;
-import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import net.sf.json.JSONObject;
 
@@ -45,6 +42,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version     NFVO 0.5  Sep 12, 2016
  */
+@Service
 public class AdapterResourceManager implements IResourceManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(AdapterResourceManager.class);
@@ -81,7 +79,6 @@ public class AdapterResourceManager implements IResourceManager {
     @Override
     public JSONObject getVnfdInfo(String csarId) {
         JSONObject resultObj = new JSONObject();
-        JSONObject csarObj = new JSONObject();
         JSONObject csarPkgInfoObj = new JSONObject();
         
         if(null == csarId || "".equals(csarId)) {
@@ -89,30 +86,13 @@ public class AdapterResourceManager implements IResourceManager {
             resultObj.put("retCode", Constant.REST_FAIL);
             return resultObj;
         }
-
-        Map paramsMap = new HashMap();
-
-        paramsMap.put("url", String.format(UrlConstant.REST_CSARINFO_GET, csarId));
-        paramsMap.put("methodType", Constant.GET);
-        
-        RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
-        if(null == rsp) {
-            LOG.error("function=getVnfdInfo,  RestfulResponse is null");
-            resultObj.put(Constant.REASON, "RestfulResponse is null.");
+       String downloadUri =  this.fetchDownloadUrlFromCatalog(csarId);
+        if(downloadUri == null){
+            LOG.error("fetchDownloadUrlFromCatalog return null,csarId="+csarId);
+            resultObj.put(Constant.REASON, "fetchDownloadUrlFromCatalog is null.");
             resultObj.put(Constant.RETURN_CODE, Constant.ERROR_STATUS_CODE);
             return resultObj;
         }
-        String resultCreate = rsp.getResponseContent();
-
-        if(rsp.getStatus() != Constant.HTTP_OK) {
-            LOG.error("function=getVnfdInfo, msg=catalog return fail,status={}, result={}.", rsp.getStatus(),
-                    resultCreate);
-            resultObj.put(Constant.REASON, "catalog return fail.");
-            resultObj.put(Constant.RETURN_CODE, rsp.getStatus());
-            return resultObj;
-        } 
-        csarObj = JSONObject.fromObject(resultCreate);
-        String downloadUri = csarObj.getString("downloadUri");
         String csarPkgInfo;
 		try {
 			csarPkgInfo = readCsarPkgInfo();
@@ -147,9 +127,49 @@ public class AdapterResourceManager implements IResourceManager {
     	LOG.info("unzip CSAR successful.", unzipObject.get("retCode"));
 
         resultObj.put(Constant.RETURN_CODE, Constant.HTTP_OK);
-        resultObj.put("csarFilePath", csarfilepath);
+        resultObj.put("csarFilePath", getImagesPath(csarfilepath));
 
         return resultObj;
+    }
+    private String getImagesPath(String csarfilepath){
+        File imageFile = new File(csarfilepath+"SoftwareImages");
+        if(imageFile.exists()){
+            File[] charmFiles = imageFile.listFiles();
+            for(File file : charmFiles){
+                if(!file.getName().endsWith(".zip")){
+                    return file.getAbsolutePath()+"/";
+                }
+            }
+        }
+        return csarfilepath;
+    }
+
+    public String fetchDownloadUrlFromCatalog(String csarId){
+        String downloadUri = null;
+        try {
+            Map paramsMap = new HashMap();
+
+            paramsMap.put("url", String.format(UrlConstant.REST_CSARINFO_GET, csarId));
+            paramsMap.put("methodType", Constant.GET);
+
+            RestfulResponse rsp = JujuVnfmRestfulUtil.getRemoteResponse(paramsMap,"");
+            if(null == rsp) {
+                LOG.error("function=getVnfdInfo,  RestfulResponse is null");
+               return null;
+            }
+            String resultCreate = rsp.getResponseContent();
+
+            if(rsp.getStatus() != Constant.HTTP_OK) {
+                LOG.error("function=getVnfdInfo, msg=catalog return fail,status={}, result={}.", rsp.getStatus(),
+                        resultCreate);
+               return null;
+            }
+            JSONObject csarObj = JSONObject.fromObject(resultCreate);
+            downloadUri = csarObj.getString("downloadUri");
+        } catch (Exception e) {
+           LOG.error("fetchDownloadUrlFromCatalog error",e);
+        }
+        return downloadUri;
     }
     
     /**

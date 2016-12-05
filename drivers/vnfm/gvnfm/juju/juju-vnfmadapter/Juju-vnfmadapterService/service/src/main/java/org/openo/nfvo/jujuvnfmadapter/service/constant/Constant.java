@@ -189,7 +189,6 @@ public class Constant {
 
     public static final int UNZIP_FAIL = -1;
 
-
     /**
      * Constructor<br/>
      * <p>

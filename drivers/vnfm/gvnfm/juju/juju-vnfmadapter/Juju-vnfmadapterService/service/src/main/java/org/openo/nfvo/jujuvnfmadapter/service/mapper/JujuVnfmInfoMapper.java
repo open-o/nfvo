@@ -18,6 +18,7 @@ package org.openo.nfvo.jujuvnfmadapter.service.mapper;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Param;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample;

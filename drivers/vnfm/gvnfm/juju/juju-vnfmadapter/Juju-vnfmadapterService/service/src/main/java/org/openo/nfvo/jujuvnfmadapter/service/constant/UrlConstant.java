@@ -35,11 +35,14 @@ public class UrlConstant {
 
     public static final String REST_MSB_UNREGISTER = "/openoapi/microservices/v1/services/%s/version/%s/nodes/%s/%s";
 
-    public static final String REST_JUJU_CLIENT_DEPLOY = "/openoapi/juju/v1/vnfms/deploy";
+    public static final String REST_JUJU_CLIENT_DEPLOY = "/openoapi/jujuvnfm/v1/vnfms/deploy";
 
-    public static final String REST_JUJU_CLIENT_DESTORY = "/openoapi/juju/v1/vnfms/destroy";
+    public static final String REST_JUJU_CLIENT_DESTORY = "/openoapi/jujuvnfm/v1/vnfms/destroy";
 
-    public static final String REST_JUJU_CLIENT_GET = "/openoapi/juju/v1/vnfms/%s/status";
+    public static final String REST_JUJU_CLIENT_GET = "/openoapi/jujuvnfm/v1/vnfms/status?modelName=%s";
+
+    public static final String RES_VNF = "/openoapi/nslcm/v1/ns/grantvnf";
+    public static final String REST_JUJU_VNFM_GRANT_URL = "/openoapi/jujuvnfm/v1/instances/%s/grant";
 
     public static final String REST_CSARINFO_GET = "/openoapi/catalog/v1/csars/%s";
 
