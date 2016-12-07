@@ -234,32 +234,8 @@ public class VnfRoa {
             @Context HttpServletResponse resp, @QueryParam("@responseId") String responseId) throws ServiceException {
         LOG.warn("function=getJob, msg=enter to get a job: jobId: {}", jobId);
         JSONObject restJson = new JSONObject();
-
-        if(StringUtils.isEmpty(jobId) || StringUtils.isEmpty(vnfmId)) {
-            resp.setStatus(Constant.HTTP_INNERERROR);
-            return restJson.toString();
-        }
-
         restJson = vnfMgr.getJob(jobId, vnfmId);
-        if(restJson.getInt(EntityUtils.RESULT_CODE_KEY) == Constant.REST_FAIL) {
-            LOG.error("function=getJob, msg=getJob fail");
-            resp.setStatus(Constant.HTTP_INNERERROR);
-            return restJson.toString();
-        }
 
-        return getJobBody(restJson);
-    }
-
-    private String getJobBody(JSONObject restJson) {
-        JSONObject responseJson = new JSONObject();
-        JSONObject jobInfoJson = new JSONObject();
-        JSONObject retJson = (JSONObject)restJson.get("data");
-        jobInfoJson.put("jobId", retJson.get("id"));
-        responseJson.put("progress", progressItem.get(retJson.get(EntityUtils.STATUS)));
-        responseJson.put("status", jobStatusitem.get(retJson.get(EntityUtils.STATUS)));
-        responseJson.put("errorCode", "null");
-        responseJson.put("responseId", "1");
-        jobInfoJson.put("responseDescription", responseJson);
-        return jobInfoJson.toString();
+        return restJson.toString();
     }
 }

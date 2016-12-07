@@ -174,7 +174,7 @@ public class DownloadCsarManager {
             int i=0;
             while(emu.hasMoreElements()){
                 ZipEntry entry = (ZipEntry)emu.nextElement();
-                //read directory as file first,so only need to create directory 
+                //read directory as file first,so only need to create directory
                 if (entry.isDirectory())
                 {
                     new File(filePath + entry.getName()).mkdirs();

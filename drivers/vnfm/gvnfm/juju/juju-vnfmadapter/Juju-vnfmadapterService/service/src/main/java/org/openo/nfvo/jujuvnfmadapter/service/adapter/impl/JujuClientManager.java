@@ -119,10 +119,7 @@ public class JujuClientManager implements IJujuClientManager {
         commands.add("juju");
         commands.add("add-model");
         commands.add(modelName);
-        String extraParam = getExtraParam();
-        if(extraParam != null){
-            commands.add(extraParam);
-        }
+        getExtraParam(commands);
         ExeRes exeRes = EntityUtils.execute(null,commands);
         if(exeRes.getCode() == ExeRes.SUCCESS){
             LOG.info("addModel success. command:"+EntityUtils.formatCommand(commands));
@@ -143,22 +140,23 @@ public class JujuClientManager implements IJujuClientManager {
         juju add-model <model-name> --config image-metadata-url=http://192.168.20.106/images --config network=demo-net --config use-floating-ip=True --config use-default-secgroup=True
      * @return
      */
-    private String getExtraParam(){
+    private void getExtraParam(List<String> commands){
         try {
             String configInfo = readJujuConfigInfo();
             if(configInfo != null){
                 JSONObject json = JSONObject.fromObject(configInfo);
-                StringBuilder builder = new StringBuilder();
-                builder.append(" --config "+json.getString("image-metadata-url"));
-                builder.append(" --config "+json.getString("network"));
-                builder.append(" --config "+json.getString("use-floating-ip"));
-                builder.append(" --config "+json.getString("use-default-secgroup"));
-                return builder.toString();
+                commands.add("--config");
+                commands.add("image-metadata-url="+json.getString("image-metadata-url"));
+                commands.add("--config");
+                commands.add("network="+json.getString("network"));
+                commands.add("--config");
+                commands.add("use-floating-ip="+json.getString("use-floating-ip"));
+                commands.add("--config");
+                commands.add("use-default-secgroup="+json.getString("use-default-secgroup"));
             }
         } catch (Exception e) {
             LOG.error("read juju command config error:",e);
         }
-        return null;
     }
 
     /**

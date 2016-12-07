@@ -17,12 +17,15 @@
 package org.openo.nfvo.jujuvnfmadapter.service.adapter.impl;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 import org.openo.nfvo.jujuvnfmadapter.common.DownloadCsarManager;
+import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.JujuVnfmRestfulUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IResourceManager;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
@@ -264,9 +267,11 @@ public class AdapterResourceManager implements IResourceManager {
 
         int status = DownloadCsarManager.unzipCSAR(fileName, filePath);
 
+
         if (Constant.UNZIP_SUCCESS == status) {
             resultObj.put("reason", "unzip csar file successfully.");
             resultObj.put("retCode", Constant.REST_SUCCESS);
+            chmodToFiles(filePath);
         } else {
             resultObj.put("reason", "unzip csar file failed.");
             resultObj.put("retCode", Constant.REST_FAIL);
@@ -274,4 +279,24 @@ public class AdapterResourceManager implements IResourceManager {
         return resultObj;
     }
 
+
+
+private void chmodToFiles(String filePath) {
+    try {
+        List<String> commands = new ArrayList<String>();
+        commands.add("chmod");
+        commands.add("-R");
+        commands.add("777");
+        commands.add(filePath);
+        EntityUtils.ExeRes exeRes = EntityUtils.execute(null, commands);
+        if (exeRes.getCode() == EntityUtils.ExeRes.SUCCESS) {
+            LOG.info("chmod success:" + EntityUtils.formatCommand(commands));
+        } else {
+            LOG.error("dchmod fail" + EntityUtils.formatCommand(commands) + "\n" + exeRes);
+        }
+    } catch (Exception e) {
+        LOG.error("chmod error:",e);
+    }
 }
+}
+

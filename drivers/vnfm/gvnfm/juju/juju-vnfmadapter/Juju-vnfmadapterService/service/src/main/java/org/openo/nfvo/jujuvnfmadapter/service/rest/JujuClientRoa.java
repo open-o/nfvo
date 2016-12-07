@@ -129,7 +129,8 @@ public class JujuClientRoa {
     @Path("/status")
     public String getVnfStatus(@QueryParam("modelName") String modelName, @Context HttpServletRequest context,
             @Context HttpServletResponse resp) throws ServiceException {
-        JSONObject result = jujuClientManager.getStatus(modelName);
+        String appName = processAppName(modelName);
+        JSONObject result = jujuClientManager.getStatus(appName);
         LOG.debug("status json str:"+result.toString());
         return result.toString();
 
@@ -168,6 +169,7 @@ public class JujuClientRoa {
             String csarId = (String)reqJsonObject.get("csarId");
           
             String appName = reqJsonObject.getString(Constant.APP_NAME);
+            appName = processAppName(appName);
             //1、download the catalog,unzip file and get the charmPath  
             String charmPath = vnfMgr.getCharmPath(csarId);
             if(StringUtils.isBlank(charmPath)) {
@@ -221,6 +223,7 @@ public class JujuClientRoa {
                 return result.toString();
             }
             String appName = reqJsonObject.getString(Constant.APP_NAME);
+            appName = processAppName(appName);
             String vnfId="";
             if(reqJsonObject.containsKey("vnfId")) {
                 vnfId = reqJsonObject.getString("vnfId");
@@ -237,6 +240,13 @@ public class JujuClientRoa {
         resp.setStatus(Constant.HTTP_INNERERROR); 
         result.put(EntityUtils.MSG_KEY, msg);
         return result.toString();
+    }
+
+    private static String processAppName(String appName){
+        if(appName != null && appName.indexOf(".yaml") > 0){//remove zte's attach
+            return appName.substring(0,appName.indexOf(".yaml"))+".yaml";
+        }
+        return appName;
     }
 
 }
