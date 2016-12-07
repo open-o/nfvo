@@ -174,7 +174,7 @@ public class VnfResourceMgr {
      * “vnfPackageId”:”1”,
      * “vnfDescriptorId”:”1”,
      * “vnfInstanceDescription”:”vFW_1”,
-     * “extVirtualLinkLink”:[
+     * “extVirtualLinks”:[
      * {
      * ”vlInstanceId”:”1”,
      * “resourceId”:”1246”,
@@ -210,7 +210,7 @@ public class VnfResourceMgr {
         try {
             if(vnfmInfo != null && StringUtils.isNotBlank(vnfmInfo.getExtend())){
                 JSONObject json =  JSONObject.fromObject(vnfmInfo.getExtend());
-                JSONObject extVirtualLinkLink = json.getJSONArray("extVirtualLinkLink").getJSONObject(0);
+                JSONObject extVirtualLinkLink = json.getJSONArray("extVirtualLinks").getJSONObject(0);
                 String vimId = extVirtualLinkLink.getJSONObject("vim").getString("vimid");
                 return vimId;
             }

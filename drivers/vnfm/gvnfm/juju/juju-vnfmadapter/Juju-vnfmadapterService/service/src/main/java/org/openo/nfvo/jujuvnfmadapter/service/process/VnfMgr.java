@@ -367,43 +367,16 @@ public class VnfMgr {
      * @since NFVO 0.5
      */
     public JSONObject getJob(String jobId, String vnfmId) {
-        LOG.warn("function=getJob ,msg=enter to get a job, vnfId:{}", jobId);
-        JSONObject restJson = new JSONObject();
-        restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_FAIL);
-        try {
-            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
-            if(vnfmObject==null || vnfmObject.isNullObject()) {
-                LOG.error("function=getJob, msg=vnfm not exists, vnfmId: {}", vnfmId);
-                return restJson;
-            }
-            String url = vnfmObject.getString("url");
-            Map<String, String> paramsMap = new HashMap<>(6);
-            paramsMap.put("url", url);
-            paramsMap.put(Constant.METHOD_TYPE, Constant.GET);
-            paramsMap.put("path", String.format(UrlConstant.REST_JUJU_CLIENT_GET,jobId));
-            paramsMap.put(Constant.AUTH_MODE, Constant.AuthenticationMode.ANONYMOUS);
-            RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(paramsMap, null, null);
-            if(rsp == null) {
-                LOG.error("function=getVnf, msg=send create vnf msg to csm get wrong results");
-                return restJson;
-            }
-            JSONObject queryResult = JSONObject.fromObject(rsp.getResponseContent());
-            int statusCode = rsp.getStatus();
-            if(statusCode == Constant.HTTP_OK || statusCode == Constant.HTTP_CREATED) {
-
-                if((queryResult.get("data")) == null) {
-                    LOG.warn("function=getJob, msg=query is null {}", queryResult.get("data"));
-                    return restJson;
-                }
-                restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_SUCCESS);
-                restJson.put("data", JSONObject.fromObject(queryResult.getString("data")));
-            } else {
-                LOG.error("function=getJob, msg=send get vnf msg to csm get wrong status: {}", statusCode);
-            }
-        } catch(JSONException e) {
-            LOG.error("function=getJob, msg=JSONException occurs, e={}.", e);
-            restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_FAIL);
-        }
-        return restJson;
+        LOG.info("getJob->jobId="+jobId+",vnfmId="+vnfmId);
+        JSONObject jobInfoJson = new JSONObject();
+        JSONObject responseJson = new JSONObject();
+        jobInfoJson.put("jobId",jobId);
+        responseJson.put("progress","100");
+        responseJson.put("status","finished");
+        responseJson.put("errorCode","null");
+        responseJson.put("responseId",(Math.random()*10+1));
+        jobInfoJson.put("responseDescriptor",responseJson);
+        LOG.info("get job response:"+jobInfoJson);
+        return jobInfoJson;
     }
 }
