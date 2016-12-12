@@ -16,12 +16,13 @@ import traceback
 import logging
 import json
 import threading
-from lcm.pub.utils.restcall import req_by_msb
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NSInstModel, VLInstModel, FPInstModel, NfInstModel
 from lcm.pub.database.models import DefPkgMappingModel, InputParamMappingModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
+from lcm.pub.msapi.nslcm import call_from_ns_cancel_resource
+
 JOB_ERROR = 255
 # [delete vnf try times]
 
@@ -146,15 +147,15 @@ class TerminateNsService(threading.Thread):
         return 'true'
 
     def delete_vnf(self, nf_instid):
-        ret = self.call_vnfm_to_cancel_resource('vnf', nf_instid)
+        ret = call_from_ns_cancel_resource('vnf', nf_instid)
         self.delete_resource(ret)
 
     def delete_sfc(self, sfc_instid):
-        ret = self.call_vnfm_to_cancel_resource('sfc', sfc_instid)
+        ret = call_from_ns_cancel_resource('sfc', sfc_instid)
         return ret
 
     def delete_vl(self, vl_instid):
-        ret = self.call_vnfm_to_cancel_resource('vl', vl_instid)
+        ret = call_from_ns_cancel_resource('vl', vl_instid)
         return ret
 
     def delete_resource(self, result):
@@ -183,21 +184,10 @@ class TerminateNsService(threading.Thread):
         NSInstModel.objects.filter(id=self.ns_inst_id).update(status='null')
         JobUtil.add_job_status(self.job_id, 100, "ns terminate ends.", '')
 
-    @staticmethod
-    def call_vnfm_to_cancel_resource(res_type, instid):
-        method = "DELETE"
-        if res_type == 'vl':
-            uri = '/openoapi/nslcm/v1/ns/vls/%s' % instid
-        elif res_type == 'sfc':
-            uri = '/openoapi/nslcm/v1/ns/sfcs/%s' % instid
-        else:
-            # vnf
-            method = "POST"
-            uri = '/openoapi/nslcm/v1/ns/vnfs/%s' % instid
-        req_param = {}
-        ret = req_by_msb(uri, method, json.dumps(req_param))
-        logger.info("[NS terminate] call vnfm [%s] result:%s" % (res_type, ret))
-        return ret
+    # @staticmethod
+    # def call_vnfm_to_cancel_resource(res_type, instid):
+    #     ret = call_from_ns_cancel_resource(res_type, instid)
+    #     return ret
 
     def add_progress(self, progress, status_decs, error_code=""):
         JobUtil.add_job_status(self.job_id, progress, status_decs, error_code)
