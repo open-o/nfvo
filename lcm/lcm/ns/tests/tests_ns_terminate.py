@@ -90,7 +90,7 @@ class TestTerminateNsViews(TestCase):
 
         mock_call_req.side_effect = side_effect
 
-        TerminateNsService(self.nf_inst_id, "forceful", "600", job_id).do_biz()
+        TerminateNsService(self.nf_inst_id, "forceful", "600", job_id).start()
         nsinst = NSInstModel.objects.get(id=self.ns_inst_id)
         if nsinst:
             self.assertTrue(1, 0)

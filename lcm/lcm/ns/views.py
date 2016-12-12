@@ -66,7 +66,7 @@ class TerminateNSView(APIView):
         graceful_termination_timeout = ignore_case_get(request.data, 'gracefulTerminationTimeout')
         job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, ns_instance_id)
         try:
-            TerminateNsService(ns_instance_id, termination_type, graceful_termination_timeout, job_id).do_biz()
+            TerminateNsService(ns_instance_id, termination_type, graceful_termination_timeout, job_id).start()
         except Exception as e:
             logger.error("Exception in CreateNS: %s", e.message)
             return Response(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

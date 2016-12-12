@@ -15,26 +15,36 @@ import math
 import traceback
 import logging
 import json
-
+import threading
 from lcm.pub.utils.restcall import req_by_msb
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NSInstModel, VLInstModel, FPInstModel, NfInstModel
 from lcm.pub.database.models import DefPkgMappingModel, InputParamMappingModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
-
+JOB_ERROR = 255
 # [delete vnf try times]
 
 logger = logging.getLogger(__name__)
 
 
-class TerminateNsService(object):
+class TerminateNsService(threading.Thread):
     def __init__(self, ns_inst_id, terminate_type, terminate_timeout, job_id):
+        threading.Thread.__init__(self)
         self.ns_inst_id = ns_inst_id
         self.terminate_type = terminate_type
         self.terminate_timeout = terminate_timeout
         self.job_id = job_id
         self.vnfm_inst_id = ''
+
+    def run(self):
+        try:
+            self.do_biz()
+        except NSLCMException as e:
+            JobUtil.add_job_status(self.job_id, JOB_ERROR, e.message)
+        except:
+            logger.error(traceback.format_exc())
+            JobUtil.add_job_status(self.job_id, JOB_ERROR,  "ns terminate fail.", '')
 
     def do_biz(self):
         self.check_data()
