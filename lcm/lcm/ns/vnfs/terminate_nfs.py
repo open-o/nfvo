@@ -15,7 +15,7 @@ import logging
 import traceback
 import json
 
-from threading import Thread
+import threading
 
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NfInstModel
@@ -31,8 +31,9 @@ from lcm.pub.msapi.vnfmdriver import send_nf_terminate_request
 logger = logging.getLogger(__name__)
 
 
-class TerminateVnfs(Thread):
+class TerminateVnfs(threading.Thread):
     def __init__(self, data, vnf_inst_id, job_id):
+        threading.Thread.__init__(self)
         self.vnf_inst_id = vnf_inst_id
         self.job_id = job_id
         self.vnfm_inst_id = ''

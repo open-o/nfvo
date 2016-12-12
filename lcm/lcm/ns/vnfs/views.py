@@ -64,7 +64,7 @@ class NfDetailView(APIView):
         data = {'terminationType': terminationType, 'gracefulTerminationTimeout': gracefulTerminationTimeout}
         logger.debug("data=%s", data)
         try:
-            TerminateVnfs(data, vnf_inst_id, job_id).run()
+            TerminateVnfs(data, vnf_inst_id, job_id).start()
         except Exception as e:
             return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
         rsp = {'jobId': job_id}
