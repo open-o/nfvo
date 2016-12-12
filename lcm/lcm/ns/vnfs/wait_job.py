@@ -11,16 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import json
 import time
 import datetime
 import logging
 
 import math
 
-from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil, JOB_MODEL_STATUS
-from lcm.pub.utils.restcall import req_by_msb
 from lcm.pub.msapi.vnfmdriver import query_vnfm_job
 from lcm.pub.utils.values import ignore_case_get
 
