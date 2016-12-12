@@ -20,13 +20,12 @@ import threading
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NfInstModel
 from lcm.ns.vnfs.const import VNF_STATUS, NFVO_VNF_INST_TIMEOUT_SECOND
-from lcm.pub.utils.restcall import req_by_msb
 from lcm.pub.utils.values import ignore_case_get
 
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.msapi.vnfmdriver import send_nf_terminate_request
-
+from lcm.pub.msapi import resmgr
 
 logger = logging.getLogger(__name__)
 
@@ -108,12 +107,7 @@ class TerminateVnfs(threading.Thread):
         self.vnfm_job_id = ignore_case_get(rsp, 'jobId')
 
     def send_terminate_vnf_to_resMgr(self):
-        uri = '/openoapi/resmgr/v1/vnf/%s' % self.vnf_inst_id
-        req_param = {}
-        ret = req_by_msb(uri, "DELETE", json.dumps(req_param))
-        if ret[0] > 0:
-            logger.error('Send terminate VNF request to resmgr failed.')
-            #raise NSLCMException('Send terminate VNF request to resmgr failed.')
+        resmgr.terminate_vnf(self.vnf_inst_id)
 
     def wait_vnfm_job_finish(self):
         ret = wait_job_finish(vnfm_id=self.vnfm_inst_id, vnfo_job_id=self.job_id, 

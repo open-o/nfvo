@@ -108,3 +108,12 @@ def create_vnf_creation_info(data):
     if ret[0] > 0:
         logger.error('Send write vnf creation information to resmgr failed.')
         #raise NSLCMException('Send write vnf creation information to resmgr failed.')
+
+
+def terminate_vnf(vnf_inst_id):
+    uri = '/openoapi/resmgr/v1/vnf/%s' % vnf_inst_id
+    req_param = {}
+    ret = req_by_msb(uri, "DELETE", json.dumps(req_param))
+    if ret[0] > 0:
+        logger.error('Send terminate VNF request to resmgr failed.')
+        #raise NSLCMException('Send terminate VNF request to resmgr failed.')
