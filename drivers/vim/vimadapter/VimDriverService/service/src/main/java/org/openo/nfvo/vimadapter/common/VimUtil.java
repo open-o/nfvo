@@ -50,6 +50,7 @@ public final class VimUtil {
 
     /**
      * Get VIMs.
+     *
      * @return
      */
     public static List<Vim> getVims() {
@@ -74,6 +75,7 @@ public final class VimUtil {
 
     /**
      * Get VIM.
+     *
      * @param vimId
      * @return
      */
@@ -109,6 +111,11 @@ public final class VimUtil {
         vim.setType(responseContent.getString("type"));
         vim.setVersion(responseContent.getString("version"));
         vim.setTenant(responseContent.getString("tenant"));
+        if("".equals(responseContent.getString("domain"))) {
+            vim.setDomain("Default");
+        } else {
+            vim.setDomain(responseContent.getString("domain"));
+        }
         LOG.warn("funtion=getVimFromResponseContent, vim={}.", vim);
         return vim;
     }

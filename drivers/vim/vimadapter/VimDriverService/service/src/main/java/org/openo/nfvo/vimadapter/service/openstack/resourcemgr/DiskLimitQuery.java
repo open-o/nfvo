@@ -76,6 +76,7 @@ public class DiskLimitQuery {
     public JSONObject getLimits() {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         OpenstackConnection con = ConnectionMgr.getConnectionMgr().getConnection(connect);
+        LOG.warn("function=getDiskLimits, rulMap:{}", con.getUrlMap());
         LOG.error("function=getDiskLimits: url->" + con.getServiceUrl(Constant.CINDERV2));
 
         String url = String.format("/v2/%s/os-quota-sets/%s", queryId, queryId);

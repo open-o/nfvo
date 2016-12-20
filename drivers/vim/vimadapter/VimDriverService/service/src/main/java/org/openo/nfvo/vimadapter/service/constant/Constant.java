@@ -86,6 +86,8 @@ public class Constant {
 
     public static final String WRAP_ACCESS = "access";
 
+    public static final String WRAP_DOMAIN = "domain";
+
     public static final String WRAP_TENANT = "tenant";
 
     public static final String WRAP_TENANTS = "tenants";
@@ -115,6 +117,8 @@ public class Constant {
     public static final String ID = "id";
 
     public static final String SERVICE_CATALOG = "serviceCatalog";
+
+    public static final String CATALOG = "catalog";
 
     public static final String REGION = "region";
 

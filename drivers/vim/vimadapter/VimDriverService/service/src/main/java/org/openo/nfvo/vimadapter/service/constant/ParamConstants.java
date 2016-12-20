@@ -27,6 +27,9 @@ public class ParamConstants {
     public static final String DOMAIN_TOKENS_V2 =
             "{\"auth\": {\"passwordCredentials\": {\"password\": \"%s\", \"username\": \"%s\"}, \"tenantName\": \"%s\"}}";
 
+    public static final String DOMAIN_TOKENS_V3 =
+            "{\"auth\": {\"identity\": {\"methods\": [\"password\"],\"password\": {\"user\": {\"domain\": {\"name\": \"%s\"},\"name\": \"%s\",\"password\": \"%s\"}}}}}";
+
     private ParamConstants() {
         // Constructor
     }

@@ -49,8 +49,7 @@ public class OpenstackConnection {
 
     private String projectId;
 
-    private Map<String, List<JSONObject>> urlMap =
-            new HashMap<>(Constant.DEFAULT_COLLECTION_SIZE);
+    private Map<String, List<JSONObject>> urlMap = new HashMap<>(Constant.DEFAULT_COLLECTION_SIZE);
 
     public OpenstackConnection() {
         // constructor
@@ -78,9 +77,9 @@ public class OpenstackConnection {
      */
     public int connect() {
         int retCode = Constant.INTERNAL_EXCEPTION_STATUS_CODE;
-        String reqParam = String.format(ParamConstants.DOMAIN_TOKENS_V2, connInfo.getUserPwd(), connInfo.getUserName(),
-                connInfo.getDomainName());
-        Map<String, String> paramsMap = VimRestfulUtil.generateParametesMap("/v2.0/tokens", Constant.POST,
+        String reqParam = String.format(ParamConstants.DOMAIN_TOKENS_V3, connInfo.getDomainName(),
+                connInfo.getUserName(), connInfo.getUserPwd());
+        Map<String, String> paramsMap = VimRestfulUtil.generateParametesMap("/v3/auth/tokens", Constant.POST,
                 connInfo.getUrl(), connInfo.getAuthenticateMode());
         LOG.warn("function=connect, paramsMap={}, reqParam={}", paramsMap, reqParam);
         RestfulResponse rsp = VimRestfulUtil.getRemoteResponse(paramsMap, reqParam, null);
@@ -92,17 +91,17 @@ public class OpenstackConnection {
         String result = rsp.getResponseContent();
         retCode = rsp.getStatus();
         if(retCode == Constant.HTTP_OK_STATUS_CODE || retCode == Constant.HTTP_CREATED_STATUS_CODE) {
-            JSONObject accessObj = JSONObject.fromObject(result).getJSONObject(Constant.WRAP_ACCESS);
-
+            JSONObject accessObj = JSONObject.fromObject(result);
+            LOG.warn("function=connect, accessObj={}", accessObj);
             if(!accessObj.containsKey(Constant.WRAP_TOKEN)) {
                 return Constant.ACCESS_OBJ_NULL_STATUS_CODE;
             }
 
             JSONObject token = accessObj.getJSONObject(Constant.WRAP_TOKEN);
-            this.domainTokens = token.getString(Constant.ID);
-            this.projectId = token.getJSONObject(Constant.WRAP_TENANT).getString(Constant.ID);
+            this.domainTokens = rsp.getRespHeaderStr("X-Subject-Token");
+            this.projectId = token.getJSONObject(Constant.WRAP_PROJECT).getString(Constant.ID);
 
-            if(!setServiceUrl(accessObj)) {
+            if(!setServiceUrl(token)) {
                 return Constant.SERVICE_URL_ERROR_STATUS_CODE;
             }
         }
@@ -111,8 +110,8 @@ public class OpenstackConnection {
     }
 
     private boolean setServiceUrl(JSONObject accessObj) {
-        if(accessObj.containsKey(Constant.SERVICE_CATALOG)) {
-            JSONArray serviceCatalog = accessObj.getJSONArray(Constant.SERVICE_CATALOG);
+        if(accessObj.containsKey(Constant.CATALOG)) {
+            JSONArray serviceCatalog = accessObj.getJSONArray(Constant.CATALOG);
             LOG.debug("function=setServiceUrl, msg=serviceCatalog:" + serviceCatalog);
             int scSize = serviceCatalog.size();
             JSONObject singleLog = null;
@@ -140,10 +139,17 @@ public class OpenstackConnection {
         String region = null;
 
         for(int i = 0; i < epSize; i++) {
-            url = handleEndpointUrl(endPoints.getJSONObject(i).getString(Constant.PUBLICURL));
-            region = endPoints.getJSONObject(i).getString(Constant.REGION);
-            regionUrlMap.put(region, url);
-            urlst.add(regionUrlMap);
+            if(!endPoints.getJSONObject(i).containsKey("interface")) {
+                continue;
+            }
+            String inter = endPoints.getJSONObject(i).getString("interface");
+            if(inter.equalsIgnoreCase("public")) {
+                url = handleEndpointUrl(endPoints.getJSONObject(i).getString("url"));
+                region = endPoints.getJSONObject(i).getString(Constant.REGION);
+                regionUrlMap.put(region, url);
+                urlst.add(regionUrlMap);
+            }
+
         }
         LOG.warn("function=getRegionUrlMap, msg=urlMap:{}", urlst);
         return urlst;

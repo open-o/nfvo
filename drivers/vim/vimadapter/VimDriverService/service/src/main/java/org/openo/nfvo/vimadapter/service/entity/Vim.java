@@ -28,10 +28,9 @@ import net.sf.json.JSONObject;
 
 /**
  * VIM entity.</br>
+ *
  * @author
- *
  * @version NFVO 0.5 Sep 10, 2016
- *
  */
 public class Vim {
 
@@ -50,6 +49,8 @@ public class Vim {
     private String url;
 
     private String tenant;
+
+    private String domain;
 
     public Vim() {
         // constructor
@@ -119,6 +120,14 @@ public class Vim {
         this.tenant = tenant;
     }
 
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
@@ -173,6 +182,7 @@ public class Vim {
         conMap.put("type", type);
         conMap.put("version", version);
         conMap.put("tenant", tenant);
+        conMap.put("domain", domain);
         conMap.put(Constants.VIM_ID, id);
         conMap.put(Constants.VIM_NAME, name);
         conMap.put("queryId", (null == paramJson || null == paramJson.get("id")) ? null : paramJson.getString("id"));

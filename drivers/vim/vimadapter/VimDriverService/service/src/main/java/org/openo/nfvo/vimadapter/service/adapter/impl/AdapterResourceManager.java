@@ -70,6 +70,7 @@ public class AdapterResourceManager implements InterfaceResourceManager {
 
     @Override
     public JSONObject getDiskLimits(JSONObject paramJson) {
+        LOG.warn("function=getDiskLimits, paramJson:{}", paramJson);
         Vim vimInfo = VimUtil.getVimById(paramJson.getString(Constant.VIMID));
         return null == vimInfo ? resultObj
                 : createResourceMgr(vimInfo.getType()).getDiskLimits(vimInfo.generateConMap(paramJson));

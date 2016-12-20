@@ -54,7 +54,7 @@ public class ConnectInfo {
         this.url = null == conMap.get("url") ? "" : conMap.get("url");
         this.userName = null == conMap.get("userName") ? "" : conMap.get("userName");
         this.userPwd = null == conMap.get("userPwd") ? "" : conMap.get("userPwd");
-        this.domainName = null == conMap.get("tenant") ? "" : conMap.get("tenant");
+        this.domainName = null == conMap.get("domain") ? "" : conMap.get("domain");
     }
 
     /**
@@ -69,7 +69,7 @@ public class ConnectInfo {
         this.url = null == vim.getUrl() ? "" : vim.getUrl();
         this.userName = null == vim.getUserName() ? "" : vim.getUserName();
         this.userPwd = null == vim.getPwd() ? "" : vim.getPwd();
-        this.domainName = null == vim.getTenant() ? "" : vim.getTenant();
+        this.domainName = null == vim.getDomain() ? "" : vim.getDomain();
     }
 
     @Override
