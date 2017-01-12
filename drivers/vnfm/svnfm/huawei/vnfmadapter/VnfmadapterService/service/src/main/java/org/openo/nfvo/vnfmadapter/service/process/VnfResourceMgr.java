@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.nfvo.vnfmadapter.common.servicetoken.VnfmRestfulUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
+import org.openo.nfvo.vnfmadapter.service.constant.ParamConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,52 +80,90 @@ public class VnfResourceMgr {
                 return resultJson;
             }
 
-            JSONObject resParam = new JSONObject();
-            JSONObject resInfo = new JSONObject();
-            resInfo.put("id", vnfId);
-            resInfo.put("name", vnfName);
+            JSONObject grantObj = new JSONObject();
+            grantObj.put("vimId", vnfObj.getString("vim_id"));
+            grantObj.put("vnfId", vnfId);
+            grantObj.put("vnfName", vnfName);
+            grantObj.put("vnfmId", vnfmId);
             String action = getGrantAction(type, requestType);
-            resInfo.put("action", action);
+            grantObj.put("action", action);
 
-            if("online".equals(action)) {
-                resInfo.put("version", vnfObj.getString("version"));
-                resInfo.put("templateId", vnfObj.getString("template_id"));
-                resInfo.put("templateName", vnfObj.getString("template_name"));
-                resInfo.put("planId", vnfObj.getString("plan_id"));
-                resInfo.put("planName", vnfObj.getString("plan_name"));
-                resInfo.put("projectId", vnfObj.getString("project_id"));
-                resInfo.put("projectName", vnfObj.getString("project_name"));
-                resInfo.put("creator", vnfObj.getString("creator"));
-                resInfo.put("status", vnfObj.getString("status"));
-                resInfo.put("tenant", vnfObj.getString("tenant"));
-                resInfo.put("parentTenant", vnfObj.getString("parent_tenant"));
-                resInfo.put("type", vnfObj.getString("vnfd_id"));
-                resInfo.put("location", vnfObj.getString("location"));
-                resInfo.put("drLocation", vnfObj.getString("dr_location"));
-                resInfo.put("soId", vnfObj.getString("nfvo_id"));
-                resInfo.put("vnfmId", vnfmId);
-            }
-
-            JSONObject usedRes = new JSONObject();
-            usedRes.put("vcpus", resMap.get("cpuNum").toString());
-            usedRes.put("memory", resMap.get("memNum").toString());
-            usedRes.put("disk", resMap.get("diskNum").toString());
-            resInfo.put("used", usedRes);
-            JSONObject drRes = new JSONObject();
-            drRes.put("vcpus", "0");
-            drRes.put("memory", "0");
-            drRes.put("disk", "0");
-            resInfo.put("drTotal", drRes);
-
-            resParam.put("vapp", resInfo);
-            resultJson.put("retCode", Constant.REST_SUCCESS);
-            // VnfmRestfulUtil.sendReqToApp(ParamConstants.RES_VNF, Constant.POST, resParam);
+            JSONObject grantParam = parseGrantParam(resMap, grantObj);
+            resultJson = sendGrantToResmgr(grantParam);
+            LOG.error("function=grantVnfResource, resultJson={}.", resultJson);
         } catch(JSONException e) {
             LOG.error("function=grantVnfResource, msg=parse params occoured JSONException e={}.", e);
             resultJson.put("errorMsg", "params parse exception");
         }
 
         return resultJson;
+    }
+
+    /**
+     * <br>
+     *
+     * @param grantParam
+     * @return
+     * @since NFVO 0.5
+     */
+    private JSONObject sendGrantToResmgr(JSONObject grantParam) {
+        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(ParamConstants.GRANT_RES_URL, VnfmRestfulUtil.TYPE_PUT,
+                grantParam.toString());
+        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
+            return null;
+        }
+        LOG.error("funtion=sendGrantToResmgr, status={}", rsp.getStatus());
+        return JSONObject.fromObject(rsp.getResponseContent());
+    }
+
+    /**
+     * <br>
+     *
+     * @param resMap
+     * @param grantParam
+     * @return
+     * @since NFVO 0.5
+     */
+    private JSONObject parseGrantParam(Map<String, Integer> resMap, JSONObject grantParam) {
+        JSONObject result = new JSONObject();
+        result.put("vnfInstanceId", grantParam.getString("vnfId"));
+        result.put("vimId", grantParam.getString("vimId"));
+
+        JSONArray resource = new JSONArray();
+        JSONObject resourceObj = new JSONObject();
+        resourceObj.put("type", "vdu");
+        JSONObject resourceTemplate = new JSONObject();
+        JSONObject storage = new JSONObject();
+        storage.put("sizeOfStorage", resMap.get("diskNum"));
+        storage.put("typeOfStorage", "");
+        storage.put("swImageDescriptor", "");
+        JSONObject compute = new JSONObject();
+        JSONObject virtualMemory = new JSONObject();
+        virtualMemory.put("virtualMemSize", resMap.get("memNum"));
+        JSONObject virtualCpu = new JSONObject();
+        virtualCpu.put("numVirtualCpu", resMap.get("cpuNum"));
+        compute.put("virtualMemory", virtualMemory);
+        compute.put("virtualCpu", virtualCpu);
+        resourceTemplate.put("virtualStorageDescriptor", storage);
+        resourceTemplate.put("virtualComputeDescriptor", compute);
+        resourceObj.put("resourceTemplate", resourceTemplate);
+        resourceObj.put("resourceDefinitionId", "");
+        resourceObj.put("vdu", grantParam.getString("vnfName"));
+        resource.add(resourceObj);
+
+        if("online".equals(grantParam.getString("action")) || "scaleOut".equals(grantParam.getString("action"))) {
+            result.put("addResource", resource);
+        } else {
+            result.put("removeResource", resource);
+        }
+
+        JSONObject additionalParam = new JSONObject();
+        additionalParam.put("vnfmId", grantParam.getString("vnfmId"));
+        additionalParam.put("vimId", grantParam.getString("vimId"));
+        additionalParam.put("tenant", "");
+        result.put("additionalParam", additionalParam);
+        LOG.info("funtion=parseGrantParam, result={}", result);
+        return result;
     }
 
     private Map<String, Integer> calculateGrantRes(JSONArray vmList) {

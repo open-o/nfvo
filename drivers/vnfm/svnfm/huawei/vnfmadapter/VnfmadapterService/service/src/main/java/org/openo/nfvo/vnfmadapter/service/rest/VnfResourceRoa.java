@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.sf.json.JSONObject;
-
 
 /**
  * Provide interfaces of resource for VNFM.
@@ -89,7 +88,6 @@ public class VnfResourceRoa {
         String vnfmId = grantObj.getString("project_id");
 
         JSONObject resultObj = vnfResourceMgr.grantVnfResource(grantObj, vnfId, vnfmId);
-        handleResult(resultObj, restJson);
 
         return resultObj.toString();
     }
@@ -102,21 +100,5 @@ public class VnfResourceRoa {
         restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
 
         return restJson.toString();
-    }
-
-    private void handleResult(JSONObject resultObj, JSONObject restJson) {
-        if(resultObj.getInt("retCode") == Constant.REST_SUCCESS) {
-            restJson.put("retCode", Constant.REST_SUCCESS);
-            restJson.put("data", resultObj.getJSONObject("data"));
-        } else {
-            if(resultObj.containsKey("data")) {
-                String errorMsg = resultObj.getString("data");
-                LOG.error("function=handleResult, msg={}", errorMsg);
-                restJson.put("data", errorMsg);
-            } else {
-                LOG.error("function=handleResult, msg=Vnf Resource dispose fail");
-                restJson.put("data", "Vnf Resource dispose fail");
-            }
-        }
     }
 }
