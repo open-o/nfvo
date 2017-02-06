@@ -82,8 +82,9 @@ class CreateVls(object):
         return vl_all_info[self.index - 1]
 
     def create_vl_to_vim(self):
-        #self.vim_id = self.vl_properties["location_info"]["vimid"]
-        self.vim_id = ignore_case_get(self.additionalParam, "location")
+        self.vim_id = self.vl_properties["location_info"]["vimid"]
+        if not self.vim_id:
+            self.vim_id = ignore_case_get(self.additionalParam, "location")
         self.tenant = self.vl_properties["location_info"]["tenant"]
         network_data = {
             "tenant": self.tenant,
