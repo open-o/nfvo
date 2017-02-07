@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2016 Huawei Technologies Co., Ltd.
+    Copyright 2016-2017 Huawei Technologies Co., Ltd.
    
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -38,4 +38,6 @@
     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     <bean class="org.openo.nfvo.vimadapter.service.activator.RoaVimServicePostProcessor"></bean>
     <bean class="org.openo.nfvo.vimadapter.service.api.internalsvc.impl.VimAdapterMgrService"></bean>
+    <bean class="org.openo.nfvo.vimadapter.service.activator.RoaVimService2DriverMgr"></bean>
+    <bean class="org.openo.nfvo.vimadapter.service.api.internalsvc.impl.VimAdapter2DriverMgrService"></bean>
 </beans>

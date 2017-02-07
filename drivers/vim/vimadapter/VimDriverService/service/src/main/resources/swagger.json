@@ -22,6 +22,15 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successfully get all Network details",
@@ -54,6 +63,13 @@
         ],
         "parameters": [
           {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
+          },
+          {
             "in": "body",
             "name": "network",
             "description": "Create Network Interface.",
@@ -64,7 +80,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully get Tenant Host Name details",
+            "description": "Successfully created network",
             "schema": {
               "$ref": "#/definitions/NetworkCreateResponse"
             }
@@ -73,10 +89,10 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Tenant Host Details Not Found"
+            "description": "Create Network Not Found"
           },
           "500": {
-            "description": "Tenant Host failed to process the request",
+            "description": "Create Network failed to process the request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -99,6 +115,13 @@
             "name": "networkId",
             "in": "path",
             "description": "network Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
             "required": true,
             "type": "string"
           }
@@ -125,8 +148,8 @@
         }
       },
       "delete": {
-        "summary": "Create Network",
-        "description": "Create Network",
+        "summary": "Delete Network",
+        "description": "Delete Network",
         "consumes": [
           "application/json"
         ],
@@ -138,6 +161,13 @@
             "name": "networkId",
             "in": "path",
             "description": "Network Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
             "required": true,
             "type": "string"
           }
@@ -170,6 +200,15 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
@@ -208,6 +247,13 @@
             "name": "id",
             "in": "path",
             "description": "Port Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
             "required": true,
             "type": "string"
           }
@@ -251,11 +297,18 @@
             "description": "tenant id",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successfully get all Network ports",
+            "description": "Successfully get limits CPU & Memory",
             "schema": {
               "$ref": "#/definitions/cpumemoryResponse"
             }
@@ -264,10 +317,10 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Network ports Not Found"
+            "description": "limits CPU & Memory Not Found"
           },
           "500": {
-            "description": "Networks failed to process the request",
+            "description": "limits CPU & Memory failed to process the request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -292,6 +345,13 @@
             "description": "tenant id",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -305,10 +365,10 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Network ports Not Found"
+            "description": "Disk limits Not Found"
           },
           "500": {
-            "description": "Networks failed to process the request",
+            "description": "Disk limits failed to process the request",
             "schema": {
               "$ref": "#/definitions/Error"
             }
@@ -325,6 +385,15 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
@@ -363,6 +432,13 @@
             "name": "id",
             "in": "path",
             "description": "Tenant Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
             "required": true,
             "type": "string"
           }
@@ -404,6 +480,13 @@
             "name": "tenantId",
             "in": "path",
             "description": "Tenant Id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
             "required": true,
             "type": "string"
           }
@@ -454,6 +537,13 @@
             "description": "Host Name",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "vimId",
+            "in": "query",
+            "description": "vim id",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -482,7 +572,7 @@
   "definitions": {
     "NetworkCreateResponse": {
       "type": "object",
-      "description": "Host Information.",
+      "description": "Network Response.",
       "required": [
         "status",
         "availability_zone_hints",
@@ -855,11 +945,11 @@
       "properties": {
         "vimId": {
           "type": "string",
-          "description": "Port Status."
+          "description": "Vim id."
         },
         "vimName": {
           "type": "string",
-          "description": "Port binding Id."
+          "description": "Vim name."
         },
         "limits": {
           "type": "array",
@@ -944,7 +1034,7 @@
     },
     "CpuMemorylimits": {
       "type": "object",
-      "description": "Port Information.",
+      "description": "CpuMemorylimits Information.",
       "required": [
         "rate",
         "absolute"
@@ -966,7 +1056,7 @@
     },
     "Absolute": {
       "type": "object",
-      "description": "Port Information.",
+      "description": "CpuMemorylimits Absolute Information.",
       "required": [
         "maxServerMeta",
         "maxPersonality",

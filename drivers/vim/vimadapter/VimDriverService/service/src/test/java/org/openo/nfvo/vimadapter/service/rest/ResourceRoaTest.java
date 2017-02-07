@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.vimadapter.service.rest;
 
 import static org.junit.Assert.assertTrue;
@@ -31,7 +32,6 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vimadapter.service.adapter.impl.AdapterResourceManager;
 import org.openo.nfvo.vimadapter.service.openstack.entry.ResourceMgrOpenstack;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -40,13 +40,14 @@ import net.sf.json.JSONObject;
 public class ResourceRoaTest {
 
     private ResourceRoa roa;
+
     HttpServletResponse resp;
 
     @Before
     public void setUp() throws Exception {
         roa = new ResourceRoa();
-        Constructor<AdapterResourceManager> constructor = AdapterResourceManager.class
-                .getDeclaredConstructor(new Class[0]);
+        Constructor<AdapterResourceManager> constructor =
+                AdapterResourceManager.class.getDeclaredConstructor(new Class[0]);
         constructor.setAccessible(true);
         AdapterResourceManager adapter = constructor.newInstance(new Object[0]);
         roa.setAdapter(adapter);
@@ -56,6 +57,7 @@ public class ResourceRoaTest {
     @Test
     public void getCpuLimitTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -64,6 +66,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -75,11 +78,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getCpuLimits(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -97,12 +102,13 @@ public class ResourceRoaTest {
     public void getDiskLimitTest() throws ServiceException {
         String result = roa.getDiskLimit(null, resp, "", "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getDiskLimitTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -111,6 +117,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -122,11 +129,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getDiskLimits(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -144,12 +153,13 @@ public class ResourceRoaTest {
     public void getNetworksTest() throws ServiceException {
         String result = roa.getNetworks(null, resp, "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getNetworksTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -158,6 +168,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -169,11 +180,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getNetworks(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -190,6 +203,7 @@ public class ResourceRoaTest {
     @Test
     public void getNetworkTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -198,6 +212,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -209,11 +224,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getNetworks(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -231,26 +248,27 @@ public class ResourceRoaTest {
     public void getNetworkTest() throws ServiceException {
         String result = roa.getNetwork(null, resp, "networkId", "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getHostsTest() throws ServiceException {
         String result = roa.getHosts(null, resp, "networkId", "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getHostTest() throws ServiceException {
         String result = roa.getHost(null, resp, "tenantId", "localhost", "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getHostTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -259,6 +277,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -270,11 +289,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getHosts(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -291,6 +312,7 @@ public class ResourceRoaTest {
     @Test
     public void getHostTestException() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -306,6 +328,7 @@ public class ResourceRoaTest {
     @Test
     public void getHostsTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -314,6 +337,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -325,11 +349,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getHosts(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -347,12 +373,13 @@ public class ResourceRoaTest {
     public void getPortsTest() throws ServiceException {
         String result = roa.getPorts(null, resp, "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getPortsTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -361,6 +388,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -372,11 +400,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getPorts(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -393,6 +423,7 @@ public class ResourceRoaTest {
     @Test
     public void getPortTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -401,6 +432,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -412,11 +444,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getPorts(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -434,19 +468,20 @@ public class ResourceRoaTest {
     public void getProjectsTest() throws ServiceException {
         String result = roa.getProjects(null, resp, "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getProjectTest() throws ServiceException {
         String result = roa.getProject(null, resp, "id", "vimId");
         String expectedRes = "{\"retCode\":-1}";
-        //assertTrue(expectedRes.equals(result));
+        // assertTrue(expectedRes.equals(result));
     }
 
     @Test
     public void getProjectsTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -455,6 +490,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -466,11 +502,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getProjects(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();
@@ -487,6 +525,7 @@ public class ResourceRoaTest {
     @Test
     public void getProjectTest1() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             RestfulResponse get(String paramString, RestfulParametes paramRestfulParametes) throws ServiceException {
                 RestfulResponse rsp = new RestfulResponse();
@@ -495,6 +534,7 @@ public class ResourceRoaTest {
             }
         };
         new MockUp<JSONObject>() {
+
             @Mock
             public JSONObject fromObject(Object object) {
                 JSONObject json = new JSONObject();
@@ -506,11 +546,13 @@ public class ResourceRoaTest {
                 json.put("name", "name");
                 json.put("version", "version");
                 json.put("tenant", "tenant");
+                json.put("domain", "default");
 
                 return json;
             }
         };
         new MockUp<ResourceMgrOpenstack>() {
+
             @Mock
             public JSONObject getProjects(Map<String, String> conMap) {
                 JSONObject rsp = new JSONObject();

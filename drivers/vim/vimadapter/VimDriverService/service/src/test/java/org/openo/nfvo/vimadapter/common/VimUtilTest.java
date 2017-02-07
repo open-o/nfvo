@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.vimadapter.common;
 
 import static org.junit.Assert.assertNull;
@@ -38,6 +39,7 @@ public class VimUtilTest {
     @Test
     public void getVimsTestInvalidStatus() {
         new MockUp<VimRestfulUtil>() {
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse response = new RestfulResponse();
@@ -52,13 +54,15 @@ public class VimUtilTest {
     @Test
     public void getVimsTest() {
         new MockUp<VimRestfulUtil>() {
+
             private String toJson(List list) {
                 try {
                     return JsonUtil.marshal(list);
-                } catch (IOException e) {
+                } catch(IOException e) {
                     return "";
                 }
             }
+
             @Mock
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
                 RestfulResponse response = new RestfulResponse();
@@ -73,6 +77,7 @@ public class VimUtilTest {
                 vim.put("type", "123");
                 vim.put("version", "123");
                 vim.put("tenant", "123");
+                vim.put("domain", "");
                 vims.add(vim);
                 String vimStr = this.toJson(vims);
                 response.setResponseJson(vimStr);
