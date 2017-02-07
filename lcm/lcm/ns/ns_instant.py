@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ from lcm.pub.msapi.extsys import select_vnfm
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils import toscautil
 from lcm.pub.utils.values import ignore_case_get
+from lcm.pub.exceptions import NSLCMException
 
 logger = logging.getLogger(__name__)
 
@@ -49,8 +50,13 @@ class InstantNSService(object):
             for key, val in self.req_data['additionalParamForNs'].items():
                 input_parameters.append({"key": key, "value": val})
 
-            vim_id = self.req_data['additionalParamForNs']['location']
-
+            vim_id = ''
+            if 'location' in self.req_data['additionalParamForNs']:
+                vim_id = self.req_data['additionalParamForNs']['location']
+            location_constraints = []
+            if 'LocationConstraints' in self.req_data:
+                location_constraints = self.req_data['LocationConstraints']
+            
             JobUtil.add_job_status(job_id, 5, 'Start query nsd(%s)' % ns_inst.nspackage_id)
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
             dst_plan = toscautil.convert_nsd_model(src_plan["rawData"])
@@ -62,10 +68,12 @@ class InstantNSService(object):
             params_vnf = []
             plan_dict = json.JSONDecoder().decode(dst_plan)
             for vnf in ignore_case_get(plan_dict, "vnfs"):
-                vnfd = NfPackageModel.objects.get(vnfdid=vnf['properties']['id'])
+                vnfd_id = vnf['properties']['id']
+                vnfd = NfPackageModel.objects.get(vnfdid=vnfd_id)
                 vnfd_model = json.JSONDecoder().decode(vnfd.vnfdmodel)
                 vnfm_type = vnfd_model["metadata"].get("vnfmType", "ztevmanagerdriver")
-                vnfm_info = select_vnfm(vnfm_type=vnfm_type, vim_id=vim_id)               
+                vimid = self.get_vnf_vim_id(vim_id, location_constraints, vnfd_id)
+                vnfm_info = select_vnfm(vnfm_type=vnfm_type, vim_id=vimid)
                 params_vnf.append({
                     "vnfProfileId": vnf["vnf_id"],
                     "additionalParam": {
@@ -75,6 +83,10 @@ class InstantNSService(object):
                     }
                 })
             # end
+            
+            self.set_vl_vim_id(vim_id, location_constraints, plan_dict)
+            dst_plan = json.JSONEncoder().encode(plan_dict)
+            
             vnf_params_json = json.JSONEncoder().encode(params_vnf)
             plan_input = {'jobId': job_id, 
                 'nsInstanceId': self.req_data["nsInstanceId"],
@@ -127,7 +139,35 @@ class InstantNSService(object):
             logger.error("ns-instant(%s) workflow error:%s" % (self.ns_inst_id, e.message))
             JobUtil.add_job_status(job_id, 255, 'NS instantiation failed: %s' % e.message)
             return dict(data={'error': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            
+    def get_vnf_vim_id(self, vim_id, location_constraints, vnfdid):
+        for location in location_constraints:
+            if vnfdid == location["vnfProfileId"]:
+                return location["locationConstraints"]["vimId"]
+        if vim_id:
+            return vim_id
+        raise NSLCMException("No Vim info is found for vnf(%s)." % vnfdid)
+        
+    def set_vl_vim_id(self, vim_id, location_constraints, plan_dict):
+        if "vls" not in plan_dict:
+            logger.debug("No vl is found in nsd.")
+            return
+        vl_vnf = {}
+        for vnf in ignore_case_get(plan_dict, "vnfs"):
+            if "dependencies" in vnf:
+                for depend in vnf["dependencies"]:
+                    vl_vnf["vl_id"] = vnf['properties']['id']
+        vnf_vim = {}
+        for location in location_constraints:
+            vnfd_id = location["vnfProfileId"]
+            vnf_vim[vnfd_id] = location["locationConstraints"]["vimId"]
+        for vl in plan_dict["vls"]:
+            vnfdid = ignore_case_get(vl_vnf, vl["vl_id"])
+            vimid = ignore_case_get(vnf_vim, vnfdid)
+            if not vimid:
+                vimid = vim_id
+            vl["properties"]["location_info"]["vimid"] = vimid
+       
     @staticmethod
     def get_model_count(context):
         data = json.JSONDecoder().decode(context)

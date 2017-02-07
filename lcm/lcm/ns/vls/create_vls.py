@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -82,8 +82,9 @@ class CreateVls(object):
         return vl_all_info[self.index - 1]
 
     def create_vl_to_vim(self):
-        #self.vim_id = self.vl_properties["location_info"]["vimid"]
-        self.vim_id = ignore_case_get(self.additionalParam, "location")
+        self.vim_id = self.vl_properties["location_info"]["vimid"]
+        if not self.vim_id:
+            self.vim_id = ignore_case_get(self.additionalParam, "location")
         self.tenant = self.vl_properties["location_info"]["tenant"]
         network_data = {
             "tenant": self.tenant,
