@@ -104,7 +104,7 @@ LOGGING = {
         'driver_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/driver.log'),
+            'filename': os.path.join(BASE_DIR, 'logs/runtime_driver.log'),
             'formatter': 'standard',
             'maxBytes': 1024 * 1024 * 50,
             'backupCount': 5, }, },
