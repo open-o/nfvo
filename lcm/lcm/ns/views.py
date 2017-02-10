@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import json
-import os
 import logging
+import os
 import traceback
 
 from rest_framework import status
@@ -24,9 +24,9 @@ from lcm.ns.ns_create import CreateNSService
 from lcm.ns.ns_get import GetNSInfoService
 from lcm.ns.ns_instant import InstantNSService
 from lcm.ns.ns_terminate import TerminateNsService, DeleteNsService
+from lcm.pub.database.models import NSInstModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.database.models import NSInstModel, ServiceBaseInfoModel
 
 logger = logging.getLogger(__name__)
 
@@ -115,3 +115,9 @@ class NSInstPostDealView(APIView):
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(data={'success': 'Update status of NS(%s) to %s' % (ns_instance_id, ns_status)},
                         status=status.HTTP_202_ACCEPTED)
+
+
+class NSManualScaleView(APIView):
+    def post(self, request, ns_instance_id):
+        logger.debug("Enter NSManualScaleView::post %s, %s", request.data, ns_instance_id)
+        return Response(status=status.HTTP_202_ACCEPTED)
