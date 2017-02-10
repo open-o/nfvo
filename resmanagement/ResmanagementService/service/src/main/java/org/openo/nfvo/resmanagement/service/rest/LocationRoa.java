@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,13 +53,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Location ROA Class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 @Path(UrlConstant.LOCATION_URL)
 @Produces(MediaType.APPLICATION_JSON)
@@ -73,13 +72,12 @@ public class LocationRoa {
     private Sites sites;
 
     /**
-     *
      * Get Locations Base.<br>
      *
      * @param context
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @GET
     public JSONObject getLocationsbase(@Context HttpServletRequest context) throws ServiceException {
@@ -92,14 +90,13 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Get Locations Base.<br>
      *
      * @param context
      * @param id
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @GET
     @Path("/{locationId}")
@@ -116,13 +113,12 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Get Country.<br>
      *
      * @param context
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @GET
     @Path("/country")
@@ -133,14 +129,13 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Get Location by Country.<br>
      *
      * @param context
      * @param country
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @GET
     @Path("/locationbycountry")
@@ -155,31 +150,13 @@ public class LocationRoa {
     }
 
     /**
-     *
-     * Get Cloud Service.<br>
-     *
-     * @param context
-     * @return
-     * @throws ServiceException
-     * @since  NFVO 0.5
-     */
-    @GET
-    @Path("/cloudservice")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public JSONObject getCloudservice(@Context HttpServletRequest context) throws ServiceException {
-        return RoaResponseUtil.get(location.getCloudservice());
-    }
-
-    /**
-     *
      * Get location details.<br>
      *
      * @param context
      * @param locations
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @GET
     @Path("/site")
@@ -197,13 +174,12 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Add Location.<br>
      *
      * @param context
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -222,14 +198,13 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Delete Location Base.<br>
      *
      * @param context
      * @param locations
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @DELETE
     @Path("/{location}")
@@ -248,13 +223,12 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Delete Location.<br>
      *
      * @param context
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
@@ -283,13 +257,12 @@ public class LocationRoa {
     }
 
     /**
-     *
      * Update Location.<br>
      *
      * @param context
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)

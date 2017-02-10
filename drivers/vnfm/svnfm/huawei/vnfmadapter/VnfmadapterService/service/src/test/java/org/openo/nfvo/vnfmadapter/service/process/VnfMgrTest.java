@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.vnfmadapter.common.ResultRequestUtil;
 import org.openo.nfvo.vnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.vnfmadapter.service.adapter.impl.AdapterResourceManager;
@@ -34,6 +35,7 @@ import org.openo.nfvo.vnfmadapter.service.entity.Vnfm;
 import mockit.Mock;
 import mockit.MockUp;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 public class VnfMgrTest {
@@ -217,6 +219,25 @@ public class VnfMgrTest {
     }
 
     @Test
+    public void testDeleteVnfByException() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                throw new JSONException();
+            }
+        };
+        VnfMgr vnfMgr = new VnfMgr();
+        JSONObject vnfObject = new JSONObject();
+        JSONObject result = vnfMgr.deleteVnf("vnfId", "vnfmId", vnfObject);
+
+        JSONObject restJson = new JSONObject();
+        restJson.put("retCode", Constant.REST_FAIL);
+        assertEquals(restJson, result);
+
+    }
+
+    @Test
     public void testGetVnf() {
         new MockUp<VnfmUtil>() {
 
@@ -270,6 +291,171 @@ public class VnfMgrTest {
         JSONObject restJson = new JSONObject();
         restJson.put("retCode", Constant.REST_SUCCESS);
         result.remove("vnfInfo");
+        assertEquals(restJson, result);
+    }
+
+    @Test
+    public void testGetVnfFail() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                JSONObject obj = new JSONObject(true);
+                return obj;
+            }
+        };
+
+        JSONObject result = vnfMgr.getVnf("vnfId", "vnfmId");
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        assertEquals(restJson, result);
+    }
+
+    @Test
+    public void testGetVnfFail1() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                throw new JSONException();
+            }
+        };
+
+        JSONObject result = vnfMgr.getVnf("vnfId", "vnfmId");
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        assertEquals(restJson, result);
+    }
+
+    @Test
+    public void testSaveVnfInfo() {
+        new MockUp<VnfmDaoImpl>() {
+
+            @Mock
+            public int insertVnfm(Vnfm vnfm) throws ServiceException {
+                return 1;
+            }
+        };
+
+        VnfMgr vnfMgr = new VnfMgr();
+        VnfmDao dao = new VnfmDaoImpl();
+        vnfMgr.setVnfmDao(dao);
+        JSONObject vnfObject = new JSONObject();
+        vnfObject.put("retCode", Constant.REST_SUCCESS);
+        vnfObject.put("vnfInstanceId", "vnfInstanceId");
+        vnfObject.put("vnfPackageId", "vnfPackageId");
+        JSONObject resObject = new JSONObject();
+        resObject.put("vnfdVersion", "vnfdVersion");
+        resObject.put("vnfdId", "vnfdId");
+        vnfMgr.saveVnfInfo(vnfObject, resObject);
+    }
+
+    @Test
+    public void testSaveVnfInfoFail() {
+        new MockUp<VnfmDaoImpl>() {
+
+            @Mock
+            public int insertVnfm(Vnfm vnfm) throws ServiceException {
+                return 1;
+            }
+        };
+
+        VnfMgr vnfMgr = new VnfMgr();
+        VnfmDao dao = new VnfmDaoImpl();
+        vnfMgr.setVnfmDao(dao);
+        JSONObject vnfObject = new JSONObject();
+        vnfObject.put("retCode", Constant.REST_FAIL);
+        vnfObject.put("vnfInstanceId", "vnfInstanceId");
+        vnfObject.put("vnfPackageId", "vnfPackageId");
+        JSONObject resObject = new JSONObject();
+        resObject.put("vnfdVersion", "vnfdVersion");
+        resObject.put("vnfdId", "vnfdId");
+        vnfMgr.saveVnfInfo(vnfObject, resObject);
+    }
+
+    @Test
+    public void testSaveVnfInfoServiceException() {
+        new MockUp<VnfmDaoImpl>() {
+
+            @Mock
+            public int insertVnfm(Vnfm vnfm) throws ServiceException {
+                throw new ServiceException();
+            }
+        };
+
+        VnfMgr vnfMgr = new VnfMgr();
+        VnfmDao dao = new VnfmDaoImpl();
+        vnfMgr.setVnfmDao(dao);
+        JSONObject vnfObject = new JSONObject();
+        vnfObject.put("retCode", Constant.REST_SUCCESS);
+        vnfObject.put("vnfInstanceId", "vnfInstanceId");
+        vnfObject.put("vnfPackageId", "vnfPackageId");
+        JSONObject resObject = new JSONObject();
+        resObject.put("vnfdVersion", "vnfdVersion");
+        resObject.put("vnfdId", "vnfdId");
+        vnfMgr.saveVnfInfo(vnfObject, resObject);
+    }
+
+    @Test
+    public void testGetJob() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                JSONObject obj = new JSONObject();
+                obj.put("test", "success");
+                return obj;
+            }
+        };
+
+        new MockUp<VnfMgrVnfm>() {
+
+            @Mock
+            public JSONObject getJob(JSONObject vnfmObject, String jobId) {
+                JSONObject res = new JSONObject();
+                res.put(Constant.RETCODE, Constant.REST_SUCCESS);
+                return res;
+            }
+        };
+        VnfMgr vnfMgr = new VnfMgr();
+        JSONObject result = vnfMgr.getJob("", "");
+
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
+        assertEquals(restJson, result);
+    }
+
+    @Test
+    public void testGetJobFail() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                return new JSONObject();
+            }
+        };
+        VnfMgr vnfMgr = new VnfMgr();
+        JSONObject result = vnfMgr.getJob("", "");
+
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        assertEquals(restJson, result);
+    }
+
+    @Test
+    public void testGetJobFail1() {
+        new MockUp<VnfmUtil>() {
+
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                return new JSONObject(true);
+            }
+        };
+        VnfMgr vnfMgr = new VnfMgr();
+        JSONObject result = vnfMgr.getJob("", "");
+
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         assertEquals(restJson, result);
     }
 

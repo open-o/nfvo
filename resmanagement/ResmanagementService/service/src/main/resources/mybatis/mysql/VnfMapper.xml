@@ -25,86 +25,11 @@
     <result column="max_net" property="maxNet" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
     id, vnf_instance_id, vnf_instance_name, ns_id, ns_name, vnfm_id, vnfm_name, vnf_package_name, 
     vnf_descriptor_name, vim_id, vim_name, vim_tenant, job_id, vnf_status, vnf_type, 
     max_vm, max_cpu, max_disk, max_ram, max_shd, max_net, name
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from vnf
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-    <if test="limitStart >= 0" >
-       limit ${limitStart} , ${limitEnd}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -124,12 +49,6 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from vnf
     where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfExample" >
-    delete from vnf
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   <insert id="insert" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfEntity" >
     insert into vnf (id, vnf_instance_id, vnf_instance_name, 
@@ -288,12 +207,6 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfExample" resultType="java.lang.Integer" >
-    select count(*) from vnf
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
   <update id="updateByExampleSelective" parameterType="map" >
     update vnf
     <set >

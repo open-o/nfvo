@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,15 @@ package org.openo.nfvo.vnfmadapter.service.constant;
 
 /**
  * URL constant
+ * 
  * @author
- *
  * @version NFVO 0.5 Sep 6, 2016
  */
 public class UrlConstant {
 
     public static final String REST_MSB_REGISTER = "/openoapi/microservices/v1/services";
+
+    public static final String REST_DRIVERMGR_REGISTER = "/openoapi/drivermgr/v1/drivers";
 
     public static final String REST_CSARINFO_GET = "/openoapi/catalog/v1/csars/%s";
 
@@ -47,4 +49,3 @@ public class UrlConstant {
     }
 
 }
-

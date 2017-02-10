@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ public class SitesBusinessImplTest {
     public void testGetSitesIdIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.getSite(null);
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             assertTrue(true);
         }
     }
@@ -101,32 +101,7 @@ public class SitesBusinessImplTest {
         sitesBusinessImpl.setSitesDao(new SitesDaoImpl());
         try {
             sitesBusinessImpl.deleteSite("");
-        } catch (ServiceException e) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testDeleteSiteExceptions1() throws ServiceException {
-        new MockUp<SitesDaoImpl>() {
-
-            @Mock
-            public SitesEntity getSite(String id) {
-                SitesEntity sitesEntity = new SitesEntity();
-                sitesEntity.setId("123");
-                return sitesEntity;
-            }
-        };
-        new MockUp<SitesEntity>() {
-
-            @Mock
-            public boolean checkResourceIsZero(SitesEntity siteEntity) {
-                return false;
-            }
-        };
-        try {
-            sitesBusinessImpl.deleteSite("xian");
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             assertTrue(true);
         }
     }
@@ -154,7 +129,7 @@ public class SitesBusinessImplTest {
     public void testAddSiteSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.addSite(null);
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             assertTrue(true);
         }
     }
@@ -186,7 +161,7 @@ public class SitesBusinessImplTest {
 
             @Mock
             public List<SitesEntity> getSites(Map<String, Object> condition) {
-                if (count1 == 0) {
+                if(count1 == 0) {
                     count1 += 1;
                     return null;
                 }
@@ -203,7 +178,7 @@ public class SitesBusinessImplTest {
         };
         try {
             sitesBusinessImpl.addSite(sitesEntity);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -249,7 +224,7 @@ public class SitesBusinessImplTest {
         };
         try {
             sitesBusinessImpl.addSite(sitesEntity);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -295,7 +270,7 @@ public class SitesBusinessImplTest {
         };
         try {
             sitesBusinessImpl.addSite(sitesEntity);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -324,7 +299,7 @@ public class SitesBusinessImplTest {
         };
         try {
             sitesBusinessImpl.addSite(sitesEntity);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -345,7 +320,7 @@ public class SitesBusinessImplTest {
         };
         try {
             sitesBusinessImpl.addSite(sitesEntity);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -354,7 +329,7 @@ public class SitesBusinessImplTest {
     public void testAddSiteSelectiveSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.addSiteSelective(null);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -363,7 +338,7 @@ public class SitesBusinessImplTest {
     public void testUpdateSiteSelectiveSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.updateSiteSelective(null);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -372,7 +347,7 @@ public class SitesBusinessImplTest {
     public void testUpdateSiteSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.updateSite(null);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -381,7 +356,7 @@ public class SitesBusinessImplTest {
     public void testUpdateSiteByVimIdSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.updateSiteByVimId(null);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }
@@ -408,7 +383,7 @@ public class SitesBusinessImplTest {
     public void testUpdateSiteResourceSitesEntityIsNull() throws ServiceException {
         try {
             sitesBusinessImpl.updateSiteResource(null);
-        } catch (ServiceException se) {
+        } catch(ServiceException se) {
             assertTrue(true);
         }
     }

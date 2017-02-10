@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2016, Huawei Technologies Co., Ltd.
+    Copyright 2016-2017, Huawei Technologies Co., Ltd.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -47,7 +47,11 @@
              <artifactId>mybatis</artifactId>
              <version>3.2.7</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.15</version>
+        </dependency>
         <dependency>
             <groupId>org.openo.common-services.common-utilities</groupId>
             <artifactId>commonlib-cbb</artifactId>
@@ -126,6 +130,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
             <version>3.1.0.RELEASE</version>
         </dependency>
 

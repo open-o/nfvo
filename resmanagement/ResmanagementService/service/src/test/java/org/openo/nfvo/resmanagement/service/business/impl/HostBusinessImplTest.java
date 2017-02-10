@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.resmanagement.service.business.impl;
 
 import static org.junit.Assert.assertTrue;
@@ -70,12 +71,6 @@ public class HostBusinessImplTest {
     public void testUpdateHostByVimId() throws ServiceException {
         HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
         hostBussinessImp.updateHostByVimId(null);
-    }
-
-    @Test(expected = ServiceException.class)
-    public void testUpdateHostSelective() throws ServiceException {
-        HostBusinessImpl hostBussinessImp = new HostBusinessImpl();
-        hostBussinessImp.updateHostSelective(null);
     }
 
     @Test(expected = ServiceException.class)

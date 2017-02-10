@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package org.openo.nfvo.vnfmadapter.service.rest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ import org.openo.nfvo.vnfmadapter.service.process.VnfMgr;
 
 import mockit.Mock;
 import mockit.MockUp;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 public class VnfRoaTest {
@@ -411,6 +413,63 @@ public class VnfRoaTest {
         basicInfoJson.put("vnfStatus", "active");
         retJson.put("vnfInfo", basicInfoJson);
         assertEquals(retJson.toString(), result);
+    }
+
+    @Test
+    public void testGetJobByJobIdNull() throws ServiceException {
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+
+        String result = vnfRoa.getJob(null, null, mockResInstance, "1111");
+        assertEquals("{}", result);
+    }
+
+    @Test
+    public void testGetJobByVnfmIdNull() throws ServiceException {
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+
+        String result = vnfRoa.getJob("123", null, mockResInstance, "1111");
+        assertEquals("{}", result);
+    }
+
+    @Test
+    public void testGetJobByVnfMgrFail() throws ServiceException {
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+        new MockUp<VnfMgr>() {
+
+            @Mock
+            public JSONObject getJob(String jobId, String vnfmId) {
+                JSONObject restJson = new JSONObject();
+                restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+                return restJson;
+            }
+        };
+        String result = vnfRoa.getJob("123", "1234", mockResInstance, "1111");
+        assertEquals("{\"retCode\":-1}", result);
+    }
+
+    @Test
+    public void testGetJob() throws ServiceException {
+        new MockUp<VnfMgr>() {
+
+            @Mock
+            public JSONObject getJob(String jobId, String vnfmId) {
+                JSONObject restJson = new JSONObject();
+                JSONArray data = new JSONArray();
+                JSONObject obj = new JSONObject();
+                obj.put("id", "11111");
+                obj.put("status", "Active");
+                data.add(obj);
+                restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
+                restJson.put("data", data);
+                return restJson;
+            }
+        };
+
+        String result = vnfRoa.getJob("123", "1234", null, "1111");
+        assertNotNull(result);
     }
 
 }

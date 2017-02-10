@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,13 +35,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Location Implementation Class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class LocationImpl implements Location {
 
@@ -84,15 +83,6 @@ public class LocationImpl implements Location {
     @Override
     public List<String> getCountry() throws ServiceException {
         return locationBusiness.getCountry();
-    }
-
-    @Override
-    public List<String> getCloudservice() throws ServiceException {
-        // get cloud service from external system
-        List<String> cloudService = new ArrayList<>();
-        cloudService.add("vim1");
-        cloudService.add("vim2");
-        return cloudService;
     }
 
     @Override
@@ -141,13 +131,12 @@ public class LocationImpl implements Location {
     }
 
     /**
-     *
      * Computing site.<br>
      *
      * @param total
      * @param used
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public JSONObject computingSite(JSONObject total, JSONObject used) {
         String vcpus = JsonUtil.getJsonFieldStr(total, ParamConstant.PARAM_VCPUS);

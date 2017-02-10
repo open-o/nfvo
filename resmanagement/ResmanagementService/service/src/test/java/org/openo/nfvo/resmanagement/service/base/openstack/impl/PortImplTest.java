@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.base.openstack.impl.PortImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.PortBusinessImpl;
 import org.openo.nfvo.resmanagement.service.dao.impl.PortDaoImpl;
 import org.openo.nfvo.resmanagement.service.entity.PortEntity;
@@ -30,31 +29,6 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class PortImplTest {
-
-    @Test(expected = ServiceException.class)
-    public void testAdd() throws ServiceException {
-        new MockUp<PortDaoImpl>() {
-
-            @Mock
-            public PortEntity getPort(String id) {
-                PortEntity portEntity = new PortEntity();
-                return portEntity;
-            }
-        };
-        PortImpl portImpl = new PortImpl();
-        PortBusinessImpl portBusiness = new PortBusinessImpl();
-        portBusiness.setPortDao(new PortDaoImpl());
-        portImpl.setPortBusiness(portBusiness);
-        JSONObject json = new JSONObject();
-        json.put("id", "id");
-        json.put("name", "name");
-        json.put("status", "status");
-        json.put("tenant_id", "tenant_id");
-        json.put("vimId", "vimId");
-        json.put("vimName", "vimName");
-        json.put("network_id", "network_id");
-        portImpl.add(json);
-    }
 
     @Test
     public void testAddBranch() throws ServiceException {

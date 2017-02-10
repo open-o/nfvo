@@ -39,7 +39,7 @@
           },
           {
             "in": "body",
-            "name": "vnfmid",
+            "name": "vnf",
             "description": "Provide required properties of VNF.",
             "required": true,
             "schema": {
@@ -71,8 +71,8 @@
     },
     "/{vnfmtype}/v1/{vnfmid}/vnfs/{vnfInstanceId}/terminate": {
       "post": {
-        "summary": "Instantiate VNF",
-        "description": "Add VNF",
+        "summary": "Terminate VNF",
+        "description": "Delete VNF",
         "consumes": [
           "application/json"
         ],
@@ -103,7 +103,7 @@
           },
           {
             "in": "body",
-            "name": "vnfmTerminate",
+            "name": "vnfTerminate",
             "description": "Provide required properties of VNF.",
             "required": true,
             "schema": {
@@ -188,7 +188,7 @@
         }
       }
     },
-    "/{vnfmtype}/v1/jobs/{jobid}&responseId={responseId}": {
+    "/{vnfmtype}/v1/jobs/{jobid}": {
       "get": {
         "summary": "Get VNF operational status",
         "description": "VNF operational status",
@@ -215,8 +215,8 @@
           },
           {
             "name": "responseId",
-            "in": "path",
-            "description": "vnfm instance id",
+            "in": "query",
+            "description": "vnfm response id",
             "required": true,
             "type": "string"
           }
@@ -447,7 +447,7 @@
         "gracefulTerminationTimeout": {
           "type": "integer",
           "format": "int32",
-          "description": "The time interval (second) to wait for the VNF to be taken out of service during graceful termination, before shutting down the VNF and releasing the resources.."
+          "description": "The time interval (second) to wait for the VNF to be taken out of service during graceful termination, before shutting down the VNF and releasing the resources."
         }
       }
     },
@@ -507,7 +507,7 @@
         },
         "networkId": {
           "type": "string",
-          "description": "The network UUID of VIM"
+          "description": "The network UUID of network"
         },
         "cpdId": {
           "type": "string",

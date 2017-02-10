@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +26,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.nfvo.resmanagement.service.base.openstack.impl.LocationImpl;
-import org.openo.nfvo.resmanagement.service.base.openstack.impl.SitesImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.LocationBusinessImpl;
 import org.openo.nfvo.resmanagement.service.business.impl.SitesBusinessImpl;
 import org.openo.nfvo.resmanagement.service.dao.impl.LocationDaoImpl;
@@ -51,7 +49,6 @@ public class LocationImplTest {
         sitesImpl.setSitesBusiness(new SitesBusinessImpl());
         locationImpl.setSites(sitesImpl);
         locationImpl.setLocationBusiness(locationBusinessImpl);
-        locationImpl.getCloudservice();
 
     }
 

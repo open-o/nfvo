@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import org.openo.nfvo.vnfmadapter.common.VnfmJsonUtil;
 import org.openo.nfvo.vnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
 import org.openo.nfvo.vnfmadapter.service.process.VnfResourceMgr;
-
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -115,7 +114,9 @@ public class VnfResourceRoaTest {
         };
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
         final JSONObject dataObject = new JSONObject();
-        dataObject.put("grant", null);
+        JSONObject grant = new JSONObject();
+        grant.put("project_id", "project_id");
+        dataObject.put("grant", grant);
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -165,7 +166,9 @@ public class VnfResourceRoaTest {
         };
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
         final JSONObject dataObject = new JSONObject();
-        dataObject.put("grant", null);
+        JSONObject grant = new JSONObject();
+        grant.put("project_id", "project_id");
+        dataObject.put("grant", grant);
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -211,7 +214,9 @@ public class VnfResourceRoaTest {
         };
         HttpServletRequest mockInstance = proxyStub.getMockInstance();
         final JSONObject dataObject = new JSONObject();
-        dataObject.put("grant", null);
+        JSONObject grant = new JSONObject();
+        grant.put("project_id", "project_id");
+        dataObject.put("grant", grant);
         new MockUp<VnfmJsonUtil>() {
 
             @SuppressWarnings("unchecked")
@@ -241,7 +246,23 @@ public class VnfResourceRoaTest {
 
         JSONObject restJson = new JSONObject();
         restJson.put("retCode", Constant.REST_FAIL);
-        restJson.put("data", "Vnf Resource dispose fail");
+        assertEquals(restJson.toString(), result);
+    }
+
+    @Test
+    public void testNotify() {
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {
+
+            @Mock
+            public String getHeader(String name) {
+                return "127.0.0.1";
+            }
+        };
+        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        String result = vnfResourceRoa.notify(mockInstance);
+
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
         assertEquals(restJson.toString(), result);
     }
 }
