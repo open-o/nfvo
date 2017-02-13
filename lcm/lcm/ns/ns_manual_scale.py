@@ -13,9 +13,14 @@
 # limitations under the License.
 import logging
 import threading
+import traceback
 
 from lcm.pub.exceptions import NSLCMException
+from lcm.pub.utils.jobutil import JobUtil
+from lcm.pub.utils.values import ignore_case_get
 
+JOB_ERROR = 255
+SCALE_TYPE = ("SCALE_NS", "SCALE_VNF")
 logger = logging.getLogger(__name__)
 
 
@@ -25,12 +30,31 @@ class NSManualScaleService(threading.Thread):
         self.ns_instance_id = ns_instance_id
         self.request_data = request_data
         self.job_id = job_id
+        self.scale_type = ''
+        self.scale_vnf_data = ''
 
     def run(self):
         try:
             self.do_biz()
         except NSLCMException as e:
-            pass
+            JobUtil.add_job_status(self.job_id, JOB_ERROR, e.message)
+        except:
+            logger.error(traceback.format_exc())
+            JobUtil.add_job_status(self.job_id, JOB_ERROR, 'ns terminate fail', '')
 
     def do_biz(self):
+        self.get_and_check_params()
+        self.send_scale_to_vnfs()
+
+    def get_and_check_params(self):
+        self.scale_type = ignore_case_get(self.request_data, 'scaleType')
+        if not self.scale_type or self.scale_type != SCALE_TYPE[1]:
+            logger.error('scaleType parameter does not exist or value incorrect')
+            raise NSLCMException('scaleType parameter does not exist or value incorrect')
+        self.scale_vnf_data = ignore_case_get(self.request_data, 'scaleVnfData')
+        if not self.scale_vnf_data:
+            logger.error('scaleVnfData parameter does not exist or value incorrect')
+            raise NSLCMException('scaleVnfData parameter does not exist or value incorrect')
+
+    def send_scale_to_vnfs(self):
         pass
