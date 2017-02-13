@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from lcm.ns.vnfs.views import NfView, NfDetailView, NfGrant, LcmNotify
+from lcm.ns.vnfs.views import NfView, NfDetailView, NfGrant, LcmNotify, NfScaleView
 
 urlpatterns = patterns('',
                        url(r'^openoapi/nslcm/v1/ns/vnfs$', NfView.as_view()),
@@ -23,6 +23,7 @@ urlpatterns = patterns('',
                        url(r'^openoapi/nslcm/v1/ns/(?P<vnfmid>[0-9a-zA-Z_-]+)'
                            r'/vnfs/(?P<vnfInstanceId>[0-9a-zA-Z_-]+)/Notify$',
                            LcmNotify.as_view()),
+                       url(r'^openoapi/nslcm/v1/ns/vnfs/(?P<vnfinstid>[0-9a-zA-Z_-]+)/scaling$', NfScaleView.as_view()),
                        )
 
 urlpatterns = format_suffix_patterns(urlpatterns)

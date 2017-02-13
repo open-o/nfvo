@@ -121,7 +121,7 @@ class NSInstPostDealView(APIView):
 class NSManualScaleView(APIView):
     def post(self, request, ns_instance_id):
         logger.debug("Enter NSManualScaleView::post %s, %s", request.data, ns_instance_id)
-        job_id = JobUtil.create_job("VNF", JOB_TYPE.MANUAL_SCALE_VNF, ns_instance_id)
+        job_id = JobUtil.create_job("NS", JOB_TYPE.MANUAL_SCALE_VNF, ns_instance_id)
         try:
             NSManualScaleService(ns_instance_id, request.data, job_id).start()
         except Exception as e:

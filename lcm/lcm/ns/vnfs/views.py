@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ from rest_framework.views import APIView
 from lcm.ns.vnfs import create_vnfs
 from lcm.ns.vnfs.create_vnfs import CreateVnfs
 from lcm.ns.vnfs.get_vnfs import GetVnf
+from lcm.ns.vnfs.scale_vnfs import NFManualScaleService
 from lcm.ns.vnfs.terminate_nfs import TerminateVnfs
 from lcm.ns.vnfs.grant_vnfs import GrantVnfs
 from lcm.ns.vnfs.notify_lcm import NotifyLcm
@@ -100,5 +101,15 @@ class LcmNotify(APIView):
         try:
             NotifyLcm(vnfmid, vnfInstanceId, request_paras.data).do_biz()
             return Response(data={}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
+
+
+class NfScaleView(APIView):
+    def post(self, request_paras, vnfinstid):
+        logger.debug("NfScaleView--post::> %s" % request_paras.data)
+        try:
+            NFManualScaleService(vnfinstid, request_paras.data).start()
+            return Response(data={}, status=status.HTTP_202_ACCEPTED)
         except Exception as e:
             return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)

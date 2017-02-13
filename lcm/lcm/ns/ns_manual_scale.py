@@ -15,6 +15,7 @@ import logging
 import threading
 import traceback
 
+from lcm.ns.vnfs.scale_vnfs import NFManualScaleService
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil
 from lcm.pub.utils.values import ignore_case_get
@@ -74,6 +75,6 @@ class NSManualScaleService(threading.Thread):
         return result
 
     def do_vnf_scale(self, vnf_scale_params):
-        # do_biz
-        print vnf_scale_params
-        return ""
+        nf_service = NFManualScaleService(vnf_scale_params.get('vnfInstanceId'), vnf_scale_params)
+        nf_service.start()
+        return nf_service.job_id
