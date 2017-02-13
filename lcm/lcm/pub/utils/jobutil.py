@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ def enum(**enums):
 JOB_STATUS = enum(PROCESSING=0, FINISH=1)
 JOB_MODEL_STATUS = enum(STARTED='started', PROCESSING='processing', FINISHED='finished', ERROR='error',
                         TIMEOUT='timeout')
-JOB_TYPE = enum(CREATE_VNF="create vnf", TERMINATE_VNF="terminate vnf", GRANT_VNF="grant vnf")
+JOB_TYPE = enum(CREATE_VNF="create vnf", TERMINATE_VNF="terminate vnf", GRANT_VNF="grant vnf", MANUAL_SCALE_VNF="manual scale vnf")
 
 
 class JobUtil(object):

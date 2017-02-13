@@ -23,6 +23,7 @@ from rest_framework.views import APIView
 from lcm.ns.ns_create import CreateNSService
 from lcm.ns.ns_get import GetNSInfoService
 from lcm.ns.ns_instant import InstantNSService
+from lcm.ns.ns_manual_scale import NSManualScaleService
 from lcm.ns.ns_terminate import TerminateNsService, DeleteNsService
 from lcm.pub.database.models import NSInstModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
@@ -120,4 +121,12 @@ class NSInstPostDealView(APIView):
 class NSManualScaleView(APIView):
     def post(self, request, ns_instance_id):
         logger.debug("Enter NSManualScaleView::post %s, %s", request.data, ns_instance_id)
-        return Response(status=status.HTTP_202_ACCEPTED)
+        job_id = JobUtil.create_job("VNF", JOB_TYPE.MANUAL_SCALE_VNF, ns_instance_id)
+        try:
+            NSManualScaleService(ns_instance_id, request.data, job_id).start()
+        except Exception as e:
+            logger.error(traceback.format_exc())
+            JobUtil.add_job_status(job_id, 255, 'NS scale failed: %s' % e.message)
+            return Response(data={'error': 'Failed to update vnfs of NS(%s)' % ns_instance_id},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(data={'jobId': job_id}, status=status.HTTP_202_ACCEPTED)
