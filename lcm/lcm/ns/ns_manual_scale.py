@@ -32,6 +32,7 @@ class NSManualScaleService(threading.Thread):
         self.job_id = job_id
         self.scale_type = ''
         self.scale_vnf_data = ''
+        self.vnf_scale_jobs = []
 
     def run(self):
         try:
@@ -40,11 +41,11 @@ class NSManualScaleService(threading.Thread):
             JobUtil.add_job_status(self.job_id, JOB_ERROR, e.message)
         except:
             logger.error(traceback.format_exc())
-            JobUtil.add_job_status(self.job_id, JOB_ERROR, 'ns terminate fail', '')
+            JobUtil.add_job_status(self.job_id, JOB_ERROR, 'ns scale fail')
 
     def do_biz(self):
         self.get_and_check_params()
-        self.send_scale_to_vnfs()
+        self.do_vnfs_scale()
 
     def get_and_check_params(self):
         self.scale_type = ignore_case_get(self.request_data, 'scaleType')
@@ -56,5 +57,23 @@ class NSManualScaleService(threading.Thread):
             logger.error('scaleVnfData parameter does not exist or value incorrect')
             raise NSLCMException('scaleVnfData parameter does not exist or value incorrect')
 
-    def send_scale_to_vnfs(self):
-        pass
+    def do_vnfs_scale(self):
+        for vnf_data in self.scale_vnf_data:
+            vnf_scale_params = self.prepare_vnf_scale_params(vnf_data)
+            vnf_scale_job_id = self.do_vnf_scale(vnf_scale_params)
+            self.vnf_scale_jobs.append(vnf_scale_job_id)
+
+    def prepare_vnf_scale_params(self, vnf_data):
+        vnf_instance_id = ignore_case_get(vnf_data, 'vnfInstanceId')
+        scale_by_step_data = ignore_case_get(vnf_data, 'scaleByStepData')
+        result = {
+            "vnfInstanceId": vnf_instance_id,
+            "scaleByStepData": scale_by_step_data,
+            "nsInstanceId": self.ns_instance_id
+        }
+        return result
+
+    def do_vnf_scale(self, vnf_scale_params):
+        # do_biz
+        print vnf_scale_params
+        return ""
