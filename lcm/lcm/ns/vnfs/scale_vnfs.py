@@ -16,6 +16,7 @@ import logging
 import threading
 import traceback
 
+from lcm.ns.vnfs.const import VNF_STATUS
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NfInstModel
 from lcm.pub.exceptions import NSLCMException
@@ -48,8 +49,11 @@ class NFManualScaleService(threading.Thread):
         except:
             logger.error(traceback.format_exc())
             JobUtil.add_job_status(self.job_id, JOB_ERROR, 'nf scale fail')
+        finally:
+            self.update_nf_status()
 
     def do_biz(self):
+        self.update_nf_status(VNF_STATUS.SCALING)
         self.get_and_check_params()
         self.send_nf_scaling_requests()
 
@@ -98,16 +102,19 @@ class NFManualScaleService(threading.Thread):
         return members
 
     def send_nf_scaling_requests(self):
-        for scale_param in self.nf_scale_params:
-            self.send_nf_scaling_request(scale_param)
+        for i in range(len(self.nf_scale_params)):
+            progress_range = [10 + 80 / len(self.nf_scale_params) * i, 10 + 80 / len(self.nf_scale_params) * (i + 1)]
+            self.send_nf_scaling_request(self.nf_scale_params[i], progress_range)
 
-    def send_nf_scaling_request(self, scale_param):
+    def send_nf_scaling_request(self, scale_param, progress_range):
         req_param = json.JSONEncoder().encode(scale_param)
         rsp = send_nf_scaling_request(self.vnfm_inst_id, self.m_nf_inst_id, req_param)
         vnfm_job_id = ignore_case_get(rsp, 'jobId')
-        ret = wait_job_finish(self.vnfm_inst_id, self.job_id, vnfm_job_id,
-                              progress_range=[10, 50],
-                              timeout=1200, mode='1')
+        ret = wait_job_finish(self.vnfm_inst_id, self.job_id, vnfm_job_id, progress_range=progress_range, timeout=1200,
+                              mode='1')
         if ret != JOB_MODEL_STATUS.FINISHED:
-            logger.error('[NS terminate] VNFM terminate ns failed')
-            raise NSLCMException("DELETE_NS_RESOURCE_FAILED")
+            logger.error('[NF scale] nf scale failed')
+            raise NSLCMException("nf scale failed")
+
+    def update_nf_status(self, status=VNF_STATUS.ACTIVE):
+        NfInstModel.objects.filter(nfinstid=self.vnf_instance_id).update(status=status)

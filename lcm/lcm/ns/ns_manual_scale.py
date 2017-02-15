@@ -17,7 +17,7 @@ import traceback
 
 from lcm.ns.vnfs.scale_vnfs import NFManualScaleService
 from lcm.pub.exceptions import NSLCMException
-from lcm.pub.utils.jobutil import JobUtil
+from lcm.pub.utils.jobutil import JobUtil, JOB_MODEL_STATUS
 from lcm.pub.utils.values import ignore_case_get
 
 JOB_ERROR = 255
@@ -77,4 +77,8 @@ class NSManualScaleService(threading.Thread):
     def do_vnf_scale(self, vnf_scale_params):
         nf_service = NFManualScaleService(vnf_scale_params.get('vnfInstanceId'), vnf_scale_params)
         nf_service.start()
-        return nf_service.job_id
+        # ret = wait_job_finish(self.vnfm_inst_id, self.job_id, nf_service.job_id, progress_range=progress_range,
+        #                       timeout=3600, mode='1')
+        # if ret != JOB_MODEL_STATUS.FINISHED:
+        #     logger.error('[NS scale] nf scale failed')
+        #     raise NSLCMException("nf scale failed")
