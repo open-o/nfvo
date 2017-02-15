@@ -11,13 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import json
 import logging
 import threading
 import traceback
 
+from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NfInstModel
 from lcm.pub.exceptions import NSLCMException
-from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
+from lcm.pub.msapi.vnfmdriver import send_nf_scaling_request
+from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE, JOB_MODEL_STATUS
 from lcm.pub.utils.values import ignore_case_get
 
 JOB_ERROR = 255
@@ -32,6 +35,10 @@ class NFManualScaleService(threading.Thread):
         self.data = data
         self.job_id = JobUtil.create_job("NF", JOB_TYPE.MANUAL_SCALE_VNF, vnf_instance_id)
         self.scale_vnf_data = ''
+        self.nf_model = {}
+        self.nf_scale_params = []
+        self.m_nf_inst_id = ''
+        self.vnfm_inst_id = ''
 
     def run(self):
         try:
@@ -43,15 +50,64 @@ class NFManualScaleService(threading.Thread):
             JobUtil.add_job_status(self.job_id, JOB_ERROR, 'nf scale fail')
 
     def do_biz(self):
-        pass
+        self.get_and_check_params()
+        self.send_nf_scaling_requests()
 
     def get_and_check_params(self):
         nf_info = NfInstModel.objects.filter(nfinstid=self.vnf_instance_id)
         if not nf_info:
             logger.error('NF instance[id=%s] does not exist' % self.vnf_instance_id)
             raise NSLCMException('NF instance[id=%s] does not exist' % self.vnf_instance_id)
+        self.nf_model = json.loads(nf_info[0].vnfd_model)
+        self.m_nf_inst_id = nf_info[0].mnfinstid
+        self.vnfm_inst_id = nf_info[0].vnfm_inst_id
         self.scale_vnf_data = ignore_case_get(self.data, 'scaleVnfData')
         if not self.scale_vnf_data:
             logger.error('scaleVnfData parameter does not exist or value incorrect')
             raise NSLCMException('scaleVnfData parameter does not exist or value incorrect')
-            # for vnf_data in self.scale_vnf_data:
+        for vnf_data in self.scale_vnf_data:
+            type = ignore_case_get(vnf_data, 'type')
+            aspect_id = ignore_case_get(vnf_data, 'aspectId')
+            number_of_steps = ignore_case_get(vnf_data, 'numberOfSteps')
+            self.nf_scale_params.append({
+                'type': type,
+                'aspectId': aspect_id,
+                'numberOfSteps': number_of_steps,
+                'additionalParam': {}
+            })
+
+    def get_vdus(self, aspect_id):
+        associated_group = ''
+        members = []
+        vnf_flavours = self.nf_model['vnf_flavours']
+        for _ in vnf_flavours:
+            scaling_aspects = self.nf_model['scaling_aspects']
+            for aspect in scaling_aspects:
+                if aspect_id == aspect['id']:
+                    associated_group = aspect['associated_group']
+                    break
+        if not associated_group:
+            logger.error('Cannot find the corresponding element group')
+            raise NSLCMException('Cannot find the corresponding element group')
+        for element_group in self.nf_model['element_groups']:
+            if element_group['group_id'] == associated_group:
+                members = element_group['members']
+        if not members:
+            logger.error('Cannot find the corresponding members')
+            raise NSLCMException('Cannot find the corresponding members')
+        return members
+
+    def send_nf_scaling_requests(self):
+        for scale_param in self.nf_scale_params:
+            self.send_nf_scaling_request(scale_param)
+
+    def send_nf_scaling_request(self, scale_param):
+        req_param = json.JSONEncoder().encode(scale_param)
+        rsp = send_nf_scaling_request(self.vnfm_inst_id, self.m_nf_inst_id, req_param)
+        vnfm_job_id = ignore_case_get(rsp, 'jobId')
+        ret = wait_job_finish(self.vnfm_inst_id, self.job_id, vnfm_job_id,
+                              progress_range=[10, 50],
+                              timeout=1200, mode='1')
+        if ret != JOB_MODEL_STATUS.FINISHED:
+            logger.error('[NS terminate] VNFM terminate ns failed')
+            raise NSLCMException("DELETE_NS_RESOURCE_FAILED")
