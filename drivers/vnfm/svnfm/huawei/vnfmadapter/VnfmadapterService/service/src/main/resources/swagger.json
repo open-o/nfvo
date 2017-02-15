@@ -265,7 +265,7 @@
         },
         "responseDescriptor": {
           "type": "string",
-          "description": "Including vnfStatus，statusDescription，errorCode，progress、responseHistoryList、responseId."
+          "description": "Including vnfStatus，statusDescription，errorCode，progress,responseHistoryList,responseId."
         },
         "status": {
           "type": "string",
