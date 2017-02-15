@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,61 @@ package org.openo.nfvo.jujuvnfmadapter.service.entity;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.junit.Test;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample.Criteria;
+import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample.Criterion;
 
 public class JujuVnfmInfoExampleTest {
-    
+
     JujuVnfmInfoExample jujuexample = new JujuVnfmInfoExample();
-    
+
     @Test
     public void createCriteriaTest(){
         Criteria criteria =  jujuexample.createCriteria();
+        String condition = "";
+        String value = "";
+        String property = "";
+        String value1 = "";
+        String value2 = "";
+        Date d1 =new Date();
+        Date d2 =new Date();
+        List<String> values = new ArrayList<String>();
+        criteria.addCriterion(condition);
+        criteria.addCriterion(condition, value, property);
+        criteria.addCriterion(condition, value1, value2, property);
+        criteria.andDeleteTimeBetween(d1, d2);
+        criteria.andAppNameBetween(value1, value2);
+        criteria.andAppNameEqualTo(value);
+        criteria.andAppNameGreaterThan(value);
+        criteria.andAppNameGreaterThanOrEqualTo(value);
+        criteria.andAppNameIn(values);
+        criteria.andAppNameLessThan(value);
+        criteria.andIdLessThanOrEqualTo(value);
+        criteria.andAppNameLike(value2);
+        criteria.andAppNameNotBetween(value1, value2);
+        criteria.andAppNameNotEqualTo(value2);
+        criteria.andAppNameNotIn(values);
+        criteria.andIdNotLike(value2);
+        criteria.andCreateTimeBetween(d1, d2);
+        criteria.andCreateTimeNotBetween(d1, d2);
+        criteria.andJobIdBetween(value1, value2);
+        criteria.andJobIdNotBetween(value1, value2);
+        criteria.andModifyTimeBetween(d1, d2);
+        criteria.andJobIdEqualTo(value2);
+        criteria.andJobIdGreaterThan(value2);
+        criteria.andJobIdGreaterThanOrEqualTo(value2);
+        criteria.andJobIdIn(values);
+        criteria.andJobIdLessThan(value2);
+        criteria.andJobIdLessThanOrEqualTo(value2);
+        criteria.andJobIdLike(value2);
+        criteria.andJobIdNotBetween(value1, value2);
+        criteria.andJobIdNotEqualTo(value2);
+        criteria.andJobIdNotIn(values);
+        criteria.andJobIdNotLike(value2);
         assertNotNull(criteria);
     }
     @Test
@@ -39,26 +84,45 @@ public class JujuVnfmInfoExampleTest {
         jujuexample.clear();
         assertTrue(true);
     }
-    @Test 
+    @Test
     public void CriteriaTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         boolean isValid = criteria.isValid();
         assertTrue(!isValid);
     }
-    @Test 
+
+    @Test
+    public void CriterionTest(){
+        String condition="";
+        String value="";
+        String secondValue="";
+        String typeHandler="";
+
+        Criterion c = new Criterion(condition, value, secondValue, typeHandler);
+        assertEquals(c.getCondition(), "");
+        assertEquals(c.getValue(), "");
+        assertEquals(c.getSecondValue(), "");
+        assertEquals(c.getTypeHandler(), "");
+        assertEquals(c.isSingleValue(), false);
+        assertEquals(c.isBetweenValue(), true);
+        assertEquals(c.isListValue(), false);
+
+    }
+
+    @Test
     public void generatedCriteriaTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         boolean isValid = criteria.isValid();
         assertTrue(!isValid);
     }
-    
-    @Test 
+
+    @Test
     public void andIdIsNullTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         Criteria c= criteria.andIdIsNull();
         assertNotNull(c);
     }
-    @Test 
+    @Test
     public void getConditionCroterionTest(){
         JujuVnfmInfoExample.Criterion criterion = new JujuVnfmInfoExample.Criterion("test",new Object(),"typeHandler");
        String condition = criterion.getCondition();

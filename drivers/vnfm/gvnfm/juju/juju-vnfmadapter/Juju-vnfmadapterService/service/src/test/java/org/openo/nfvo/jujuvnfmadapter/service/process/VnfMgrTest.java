@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VnfmRestfulUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
-import org.openo.nfvo.jujuvnfmadapter.service.mapper.JujuVnfmInfoMapper;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -73,6 +72,7 @@ public class VnfMgrTest {
         };
         JSONObject vnfObject = new JSONObject();
         vnfObject.put("vnfInstanceName", "test123");
+        vnfObject.put("vnfPackageId", "123");
         String vnfmId = "1234";
         JSONObject resp = mgr.addVnf(vnfObject, vnfmId);
         assertEquals(resp.get("retCode"), -1);
@@ -140,7 +140,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.deleteVnf("vnfId", "vnfmId", vnfObject);
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void deleteVnfTestValidJson() {
 
@@ -167,7 +167,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.deleteVnf("vnfId", "vnfmId", vnfObject);
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void deleteVnf2TestNormal() {
 
@@ -219,7 +219,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getVnf("vnfId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getVnfTestValidJson() {
         new MockUp<VnfmUtil>() {
@@ -257,7 +257,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getVnf("vnfId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getJobTestNullResp(){
         new MockUp<VnfmUtil>() {
@@ -269,7 +269,7 @@ public class VnfMgrTest {
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
         assertEquals(resp.get("retCode"), -1);
     }
-    
+
     @Test
     public void getJobTestNullHttpResp(){
         new MockUp<VnfmUtil>() {
@@ -298,7 +298,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(201);
-                
+
                 return res;
             }
         };
@@ -320,7 +320,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(200);
-                
+
                 return res;
             }
         };
@@ -342,7 +342,7 @@ public class VnfMgrTest {
             public RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params, String domainTokens) {
                 RestfulResponse res = new RestfulResponse();
                 res.setStatus(500);
-                
+
                 return res;
             }
         };

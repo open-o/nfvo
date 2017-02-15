@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,40 +29,39 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import mockit.Mock;
 import mockit.MockUp;
+import net.sf.json.JSONObject;
 
 public class JujuClientRoaTest {
-    
+
     JujuClientRoa roa;
-    
+
     @Before
     public void setUp(){
         roa = new JujuClientRoa();
-        roa.setJujuClientManager(new JujuClientManager());   
+        roa.setJujuClientManager(new JujuClientManager());
     }
 
     @Test
     public void setCharmUrlTest() throws ServiceException {
-       new MockUp<String>(){
-           
+       new MockUp<StringUtil>(){
+           @Mock
+           public <T> T getJsonFromContexts(HttpServletRequest context) {
+               String reqJsonObject = "{}";
+               return (T)JSONObject.fromObject(reqJsonObject);
+           }
        };
-//        HttpServletRequest context = null;
-//        HttpServletResponse resp = new MockHttpServletResponse();
-//        String res = roa.setCharmUrl(context, resp);
-//        assertNotNull(res);
+        HttpServletRequest context = null;
+        HttpServletResponse resp = new MockHttpServletResponse();
+        String res = roa.setCharmUrl(context, resp);
+        assertNotNull(res);
     }
-//    @Test
-//    public void getVnfStatusTest() throws ServiceException {
-//        new MockUp<StringUtil>(){
-//            @Mock
-//            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
-//                return null;
-//            }
-//        };
-//        HttpServletRequest context = null;
-//        HttpServletResponse resp = new MockHttpServletResponse();
-//        String res = roa.getVnfStatus("appName", context,resp);
-//        assertNotNull(res);
-//    }
+    @Test
+    public void getVnfStatusTest() throws ServiceException {
+        HttpServletRequest context = null;
+        HttpServletResponse resp = new MockHttpServletResponse();
+        String res = roa.getVnfStatus("appName", context,resp);
+        assertNotNull(res);
+    }
 //    @Test
 //    public void deploySerivceTestFail() throws ServiceException {
 //        new MockUp<StringUtil>(){
@@ -76,37 +75,41 @@ public class JujuClientRoaTest {
 //        String res = roa.deploySerivce(context,resp);
 //        assertNotNull(res);
 //    }
-//    @Test
-//    public void deploySerivceTest() throws ServiceException {
-//        new MockUp<StringUtil>(){
-//            @Mock
-//            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
-//                JSONObject reqJsonObject = new JSONObject();
-//                reqJsonObject.put("charmPath", "/abc/xyz");
-//                reqJsonObject.put("mem", "100");
-//                reqJsonObject.put("appName", "test");
-//                return (T)reqJsonObject;
-//            }
-//        };
-//        HttpServletRequest context = null;
-//        HttpServletResponse resp = new MockHttpServletResponse();
-//        String res = roa.deploySerivce(context,resp);
-//        assertNotNull(res);
-//    }
-//    
-//    @Test
-//    public void destroySerivceTestFail() throws ServiceException {
-//        new MockUp<StringUtil>(){
-//            @Mock
-//            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
-//                return null;
-//            }
-//        };
-//        HttpServletRequest context = null;
-//        HttpServletResponse resp = new MockHttpServletResponse();
-//        String res = roa.destroySerivce(context,resp);
-//        assertNotNull(res);
-//    }
+    @Test
+    public void deploySerivceTest() throws ServiceException {
+        new MockUp<StringUtil>(){
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
+                JSONObject reqJsonObject = new JSONObject();
+                reqJsonObject.put("charmPath", "/abc/xyz");
+                reqJsonObject.put("mem", "100");
+                reqJsonObject.put("appName", "test");
+                return (T)reqJsonObject;
+            }
+        };
+        HttpServletRequest context = null;
+        HttpServletResponse resp = new MockHttpServletResponse();
+        String res = roa.deploySerivce(context,resp);
+        assertNotNull(res);
+    }
+
+    @Test
+    public void destroySerivceTestFail() throws ServiceException {
+        new MockUp<StringUtil>(){
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
+                JSONObject reqJsonObject = new JSONObject();
+                reqJsonObject.put("charmPath", "/abc/xyz");
+                reqJsonObject.put("mem", "100");
+                reqJsonObject.put("appName", "test");
+                return (T)reqJsonObject;
+            }
+        };
+        HttpServletRequest context = null;
+        HttpServletResponse resp = new MockHttpServletResponse();
+        String res = roa.destroySerivce(context,resp);
+        assertNotNull(res);
+    }
 //    @Test
 //    public void destroySerivce2TestFail() throws ServiceException {
 //        new MockUp<StringUtil>(){
