@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,11 @@
 
 package org.openo.nfvo.resmanagement.service.base.openstack.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
@@ -30,6 +34,7 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class NetworkImplTest {
+
 
     @Test
     public void testAddBranch() throws ServiceException {
@@ -97,16 +102,27 @@ public class NetworkImplTest {
 
     @Test(expected = ServiceException.class)
     public void testAddBranch2() throws ServiceException {
+         new MockUp<NetworkDaoImpl>() {
+         @Mock
+         public NetworkEntity getNetwork(String id) {
+             return null;
+         }
 
+         @Mock
+         public int addNetwork(NetworkEntity networkEntity) {
+             return 1;
+         }
+     };
         NetworkImpl networkImpl = new NetworkImpl();
         NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
         NetworkDao networkDao = new NetworkDaoImpl();
         networkBusiness.setNetworkDao(networkDao);
         networkImpl.setNetworkBusiness(networkBusiness);
-        NetworkEntity networkEntity = null;
-        networkImpl.add(networkEntity);
+        NetworkEntity entity = null;
+        networkImpl.add(entity);
 
     }
+
 
     @Test
     public void testDelete() throws ServiceException {
@@ -144,7 +160,7 @@ public class NetworkImplTest {
         NetworkDao networkDao = new NetworkDaoImpl();
         networkBusiness.setNetworkDao(networkDao);
         networkImpl.setNetworkBusiness(networkBusiness);
-        networkImpl.deleteResByVimId("");
+    networkImpl.deleteResByVimId("");
     }
 
     @Test
@@ -163,4 +179,97 @@ public class NetworkImplTest {
         networkImpl.setNetworkBusiness(networkBusiness);
         assertTrue(networkImpl.deleteResByVimId("vimId") == 1);
     }
-}
+
+
+    @Test
+    public void testUpdate() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
+
+            @Mock
+            public int updateNetworkSelective(NetworkEntity networkEntity) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+
+        JSONObject json = new JSONObject();
+        json.put("id", "");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("provider:physical_network", "provider:physical_network");
+        json.put("provider:network_type", "provider:network_type");
+        json.put("provider:segmentation_id", "provider:segmentation_id");
+        assertTrue(networkImpl.update(json)==1);
+    }
+
+
+
+    @Test
+    public void testUpdateVimById() throws ServiceException {
+        new MockUp<NetworkDaoImpl>() {
+
+            @Mock
+            public int updateNetworkByVimId(NetworkEntity NetworkEntity) {
+                return 1;
+            }
+        };
+        NetworkImpl networkImpl = new NetworkImpl();
+        NetworkBusinessImpl networkBusiness = new NetworkBusinessImpl();
+        NetworkDao networkDao = new NetworkDaoImpl();
+        networkBusiness.setNetworkDao(networkDao);
+        networkImpl.setNetworkBusiness(networkBusiness);
+        JSONObject json = new JSONObject();
+        json.put("id", "");
+        json.put("name", "name");
+        json.put("status", "status");
+        json.put("tenant_id", "tenant_id");
+        json.put("vimId", "vimId");
+        json.put("vimName", "vimName");
+        json.put("provider:physical_network", "provider:physical_network");
+        json.put("provider:network_type", "provider:network_type");
+        json.put("provider:segmentation_id", "provider:segmentation_id");
+        assertTrue(networkImpl.updateStatusByVimId(json)==1);
+
+    }
+
+    @Test
+    public void testgetList() throws ServiceException {
+        Map<String, Object> condition = new HashMap<>();
+        NetworkImpl networkImpl = new NetworkImpl();
+        networkImpl.setNetworkBusiness(new NetworkBusinessImpl());
+        new MockUp<NetworkBusinessImpl>() {
+
+            @Mock
+            public List<NetworkEntity> getNetworks(Map<String, Object> condition) {
+                return null;
+            }
+        };
+        List<NetworkEntity> result = networkImpl.getList(condition);
+        List<NetworkEntity> exceptedResult = null;
+        assertEquals(exceptedResult, result);
+    }
+    @Test
+    public void testadd() throws ServiceException {
+        NetworkImpl networkImpl = new NetworkImpl();
+        networkImpl.setNetworkBusiness(new NetworkBusinessImpl());
+        NetworkEntity networkEntity =new NetworkEntity();
+        networkEntity.setId("1");
+        new MockUp<NetworkBusinessImpl>() {
+
+            @Mock
+            public int addNetwork(NetworkEntity networkEntity ) {
+                return 1;
+            }
+        };
+         int result = networkImpl.add(networkEntity);
+            int exceptedResult = 1;
+            assertEquals(exceptedResult, result);
+        }
+    }

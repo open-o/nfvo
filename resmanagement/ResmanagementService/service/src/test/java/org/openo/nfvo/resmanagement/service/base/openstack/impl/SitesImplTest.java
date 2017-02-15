@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,23 +34,25 @@ import net.sf.json.JSONObject;
 
 public class SitesImplTest {
 
-    @Test
-    public void testUpdate1() throws ServiceException {
-        SitesImpl sitesImpl = new SitesImpl();
-        sitesImpl.setSitesBusiness(new SitesBusinessImpl());
-        SitesEntity sitesEntity = new SitesEntity();
-        sitesEntity.setId("123");
-        new MockUp<SitesBusinessImpl>() {
 
-            @Mock
-            public int updateSiteSelective(SitesEntity sitesEntity) throws ServiceException {
-                return 1;
-            }
-        };
-        int result = sitesImpl.update(sitesEntity);
-        int exceptedResult = 1;
-        assertEquals(exceptedResult, result);
-    }
+
+        @Test
+        public void testUpdate1() throws ServiceException {
+            SitesImpl sitesImpl = new SitesImpl();
+            sitesImpl.setSitesBusiness(new SitesBusinessImpl());
+            SitesEntity sitesEntity = new SitesEntity();
+            sitesEntity.setId("123");
+            new MockUp<SitesBusinessImpl>() {
+
+                @Mock
+                public int updateSiteSelective(SitesEntity sitesEntity) throws ServiceException {
+                    return 1;
+                }
+            };
+            int result = sitesImpl.update(sitesEntity);
+            int exceptedResult = 1;
+            assertEquals(exceptedResult, result);
+        }
 
     @Test
     public void testUpdateResource() throws ServiceException {

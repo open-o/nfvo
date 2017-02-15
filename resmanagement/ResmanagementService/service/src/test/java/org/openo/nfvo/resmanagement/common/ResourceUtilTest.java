@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,35 @@
 package org.openo.nfvo.resmanagement.common;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+
 
 public class ResourceUtilTest {
 
+
     @Test
-    public void testGetMessage() {
+    public void testGetMessage() throws NoSuchMethodException, SecurityException {
+
+
         String key = "huawei";
         String result = ResourceUtil.getMessage(key);
         String expectedResult = "huawei";
         assertEquals(expectedResult, result);
+    }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = ResourceUtil.class.getDeclaredConstructor();
+        assertTrue("Constructor is not private", Modifier.isPrivate(constructor.getModifiers()));
+
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
 }

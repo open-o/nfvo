@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ package org.openo.nfvo.resmanagement.common.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 
@@ -206,7 +209,7 @@ public class JsonUtilTest {
 
             @Mock
             public JSONObject optJSONObject(String key) {
-                return null;
+               return null;
             }
 
             @SuppressWarnings("static-access")
@@ -220,10 +223,11 @@ public class JsonUtilTest {
             public JSONArray getJSONArray(String key) {
                 return new JSONArray().fromObject("[\"a\",\"1\"]");
             }
+
+
         };
+
         String result = JsonUtil.getStrValueByjson(jsonObj, key);
-        String expectedResult = "1";
-        assertEquals(expectedResult, result);
 
     }
 
@@ -419,5 +423,13 @@ public class JsonUtilTest {
         JSONObject result = JsonUtil.getResponseData(obj);
         String expectedResult = null;
         assertEquals(expectedResult, result);
+    }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = JsonUtil.class.getDeclaredConstructor();
+        assertTrue("Constructor is not private", Modifier.isPrivate(constructor.getModifiers()));
+
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 }

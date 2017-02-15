@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,10 @@
 
 package org.openo.nfvo.resmanagement.common.util.response;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,5 +79,12 @@ public class ResponseUtilTest {
         assertEquals(result.toString(), expectedResult.toString());
         ;
     }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = ResponseUtil.class.getDeclaredConstructor();
+        assertTrue("Constructor is not private", Modifier.isPrivate(constructor.getModifiers()));
 
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 }

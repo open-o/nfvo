@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 
 package org.openo.nfvo.resmanagement.common.util.request;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.cxf.jaxrs.impl.HttpServletRequestFilter;
 import org.junit.Test;
 
+import javassist.Modifier;
 import mockit.Mock;
 import mockit.MockUp;
 import mockit.Mocked;
@@ -237,6 +239,14 @@ public class RequestUtilTest {
         map.put("1", "1");
         expectedResult.put("header", map);
         assertEquals(expectedResult, result);
+    }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = RequestUtil.class.getDeclaredConstructor();
+        assertTrue("Constructor is  private", Modifier.isPrivate(constructor.getModifiers()));
+
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
 }

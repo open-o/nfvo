@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -156,7 +156,7 @@ public class LocationImplTest {
         };
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", null);
+        jsonObject.put("id", "2");
         jsonObject.put("country", "country");
         jsonObject.put("location", "location");
         jsonObject.put("latitude", "3");

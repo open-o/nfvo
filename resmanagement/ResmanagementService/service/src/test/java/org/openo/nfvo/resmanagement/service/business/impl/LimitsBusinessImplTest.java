@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-17 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,5 +53,19 @@ public class LimitsBusinessImplTest {
         paramJson.put("tenantId", "tenantId");
         assertTrue(limitsBusinessImpl.getCpuLimits(paramJson) != null);
         assertTrue(limitsBusinessImpl.getDiskLimits(paramJson) != null);
+    }
+
+    @Test
+    public void testgetLimits() throws ServiceException{
+         new MockUp<HttpRest>(){
+             @Mock
+             public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                     throws ServiceException {
+                 RestfulResponse rsp = new RestfulResponse();
+                 rsp.setStatus(200);
+                 return rsp;
+             }
+
+         };
     }
 }
