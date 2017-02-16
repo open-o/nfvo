@@ -22,84 +22,9 @@
     <result column="vm_status" property="vmStatus" jdbcType="VARCHAR" />
     <result column="vnf_instance_id" property="vnfInstanceId" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
     vm_id, vm_name, vm_status, vnf_instance_id
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from vm
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-    <if test="limitStart >= 0" >
-       limit ${limitStart} , ${limitEnd}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -126,12 +51,6 @@
   <delete id="deleteByVnfId" parameterType="java.lang.String" >
     delete from vm
     where vnf_instance_id = #{vnfInstanceId,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" >
-    delete from vm
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
   </delete>
   <insert id="insert" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
     insert into vm (vm_id, vm_name, vm_status, 
@@ -170,42 +89,6 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.openo.nfvo.resmanagement.service.entity.VmExample" resultType="java.lang.Integer" >
-    select count(*) from vm
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update vm
-    <set >
-      <if test="record.vmId != null" >
-        vm_id = #{record.vmId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vmName != null" >
-        vm_name = #{record.vmName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vmStatus != null" >
-        vm_status = #{record.vmStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.vnfInstanceId != null" >
-        vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update vm
-    set vm_id = #{record.vmId,jdbcType=VARCHAR},
-      vm_name = #{record.vmName,jdbcType=VARCHAR},
-      vm_status = #{record.vmStatus,jdbcType=VARCHAR},
-      vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VmEntity" >
     update vm
     <set >

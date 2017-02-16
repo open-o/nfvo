@@ -75,15 +75,6 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByExample" parameterType="map" >
-    update vnfinfo
-    set vnf_instance_id = #{record.vnfInstanceId,jdbcType=VARCHAR},
-      ns_id = #{record.nsId,jdbcType=VARCHAR},
-      vnfm_id = #{record.vnfmId,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="org.openo.nfvo.resmanagement.service.entity.VnfInfoEntity" >
     update vnfinfo
     <set >
