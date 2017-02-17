@@ -411,20 +411,6 @@ def notify(request, *args, **kwargs):
 
 
 nf_scaling_url = '/v1/vnfs/{vnfInstanceID}/scale'
-scale_param_map = {
-    "vnfmInstanceId": "VNFMID",
-    "nfvoInstanceId": "NFVOID",
-    "scaleMode": "",
-    "type": "ScaleType",
-    "aspect": "",
-    "numberOfSteps": "",
-    "additionalParam": "",
-    "instantiationLevelId": "",
-    "scaleInfo": "",
-    "newFlavourId": "",
-    "affectedVm": "",
-    "isAuto": "",
-}
 
 
 @api_view(http_method_names=['POST'])
@@ -433,25 +419,28 @@ def scale(request, *args, **kwargs):
     try:
         logger.info("request.data = %s", request.data)
         logger.info("requested_url = %s", request.get_full_path())
-        vnfm_id = ignorcase_get(kwargs, "vnfmInstanceId")
+        vnfm_id = ignorcase_get(kwargs, "vnfmid")
         nf_instance_id = ignorcase_get(kwargs, "nfInstanceId")
         ret = vnfm_get(vnfm_id)
         if ret[0] != 0:
             return Response(data={'error': ret[1]}, status=ret[2])
         vnfm_info = json.JSONDecoder().decode(ret[1])
-        data = mapping_conv(scale_param_map, request.data)
+        scale_type = ignorcase_get(request.data, "type")
         aspect_id = ignorcase_get(request.data, "aspectId")
         number_of_steps = ignorcase_get(request.data, "numberOfSteps")
         extension = ignorcase_get(request.data, "additionalParam")
         vnfd_model = ignorcase_get(extension, "vnfdModel")
-        vmlist = []
+        data = {
+            'VNFMID': vnfm_id,
+            'NFVOID': 1,
+            'ScaleType': scale_type,
+            'vmlist': []
+        }
         for vdu_id in get_vdus(vnfd_model, aspect_id):
-            vmlist.append({
+            data['vmlist'].append({
                 "VMFlavor": vdu_id,
                 "VMNumber": number_of_steps
             })
-
-        data["vmlist"] = vmlist
         logger.info("data = %s", data)
         ret = restcall.call_req(
             base_url=ignorcase_get(vnfm_info, "url"),
