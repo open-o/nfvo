@@ -127,6 +127,6 @@ class NSManualScaleView(APIView):
         except Exception as e:
             logger.error(traceback.format_exc())
             JobUtil.add_job_status(job_id, 255, 'NS scale failed: %s' % e.message)
-            return Response(data={'error': 'Failed to update vnfs of NS(%s)' % ns_instance_id},
+            return Response(data={'error': 'NS scale failed: %s' % ns_instance_id},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(data={'jobId': job_id}, status=status.HTTP_202_ACCEPTED)
