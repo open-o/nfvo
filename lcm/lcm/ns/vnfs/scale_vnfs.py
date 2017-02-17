@@ -77,29 +77,8 @@ class NFManualScaleService(threading.Thread):
                 'type': type,
                 'aspectId': aspect_id,
                 'numberOfSteps': number_of_steps,
-                'additionalParam': {}
+                'additionalParam': {'vnfdModel': self.nf_model}
             })
-
-    def get_vdus(self, aspect_id):
-        associated_group = ''
-        members = []
-        vnf_flavours = self.nf_model['vnf_flavours']
-        for _ in vnf_flavours:
-            scaling_aspects = self.nf_model['scaling_aspects']
-            for aspect in scaling_aspects:
-                if aspect_id == aspect['id']:
-                    associated_group = aspect['associated_group']
-                    break
-        if not associated_group:
-            logger.error('Cannot find the corresponding element group')
-            raise NSLCMException('Cannot find the corresponding element group')
-        for element_group in self.nf_model['element_groups']:
-            if element_group['group_id'] == associated_group:
-                members = element_group['members']
-        if not members:
-            logger.error('Cannot find the corresponding members')
-            raise NSLCMException('Cannot find the corresponding members')
-        return members
 
     def send_nf_scaling_requests(self):
         for i in range(len(self.nf_scale_params)):

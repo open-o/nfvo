@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import inspect
 import json
 import logging
-import inspect
-from rest_framework import status
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
 from driver.pub.utils import restcall
 from driver.pub.utils.restcall import req_by_msb
+
 logger = logging.getLogger(__name__)
 
 
@@ -46,6 +48,7 @@ def mapping_conv(keyword_map, rest_return):
         if keyword_map[param]:
             resp_data[keyword_map[param]] = ignorcase_get(rest_return, param)
     return resp_data
+
 
 query_vnfd_url = "openoapi/nslcm/v1/vnfpackage/%s"
 query_vnfm_url = "openoapi/extsys/v1/vnfms/%s"
@@ -83,7 +86,7 @@ create_vnf_param_mapping = {
     "additionalParam": ""}
 create_vnf_resp_mapping = {
     "VNFInstanceID": "vnfInstanceId",
-    "JobId": "jobid", }
+    "JobId": "jobid",}
 
 
 @api_view(http_method_names=['POST'])
@@ -119,7 +122,8 @@ def instantiate_vnf(request, *args, **kwargs):
         for name, value in ignorcase_get(ignorcase_get(request.data, "additionalParam"), "inputs").items():
             inputs.append({"name": name, "value": value})
 
-        logger.info("ignorcase_get(request.data, \"additionalParam\") = %s" % ignorcase_get(request.data, "additionalParam"))
+        logger.info(
+            "ignorcase_get(request.data, \"additionalParam\") = %s" % ignorcase_get(request.data, "additionalParam"))
         data["extension"]["inputs"] = json.dumps(inputs)
         data["extension"]["extVirtualLinks"] = ignorcase_get(
             ignorcase_get(request.data, "additionalParam"), "extVirtualLinks")
@@ -191,7 +195,7 @@ def terminate_vnf(request, *args, **kwargs):
 
 vnf_detail_url = "v1/vnfs/%s"
 vnf_detail_resp_mapping = {
-    "VNFInstanseStatus": "status", }
+    "VNFInstanseStatus": "status",}
 
 
 @api_view(http_method_names=['GET'])
@@ -235,7 +239,7 @@ operation_status_resp_map = {
     "ErrorCode": "errorCode",
     "ResponseId": "responseId",
     "ResponseHistoryList": "responseHistoryList",
-    "ResponseDescriptor": "responseDescriptor", }
+    "ResponseDescriptor": "responseDescriptor",}
 
 
 @api_view(http_method_names=['GET'])
@@ -343,7 +347,7 @@ notify_param_map = {
     "VMFlavor": "",
     "VMNumber": "",
     "VMIDlist": "",
-    "VMUUID": "", }
+    "VMUUID": "",}
 
 
 @api_view(http_method_names=['POST'])
@@ -404,6 +408,92 @@ def notify(request, *args, **kwargs):
         logger.error("Error occurred in LCM notification.")
         raise e
     return Response(data=None, status=ret[2])
+
+
+nf_scaling_url = '/v1/vnfs/{vnfInstanceID}/scale'
+scale_param_map = {
+    "vnfmInstanceId": "VNFMID",
+    "nfvoInstanceId": "NFVOID",
+    "scaleMode": "",
+    "type": "ScaleType",
+    "aspect": "",
+    "numberOfSteps": "",
+    "additionalParam": "",
+    "instantiationLevelId": "",
+    "scaleInfo": "",
+    "newFlavourId": "",
+    "affectedVm": "",
+    "isAuto": "",
+}
+
+
+@api_view(http_method_names=['POST'])
+def scale(request, *args, **kwargs):
+    logger.info("====scale_vnf===")
+    try:
+        logger.info("request.data = %s", request.data)
+        logger.info("requested_url = %s", request.get_full_path())
+        vnfm_id = ignorcase_get(kwargs, "vnfmInstanceId")
+        nf_instance_id = ignorcase_get(kwargs, "nfInstanceId")
+        ret = vnfm_get(vnfm_id)
+        if ret[0] != 0:
+            return Response(data={'error': ret[1]}, status=ret[2])
+        vnfm_info = json.JSONDecoder().decode(ret[1])
+        data = mapping_conv(scale_param_map, request.data)
+        aspect_id = ignorcase_get(request.data, "aspectId")
+        number_of_steps = ignorcase_get(request.data, "numberOfSteps")
+        extension = ignorcase_get(request.data, "additionalParam")
+        vnfd_model = ignorcase_get(extension, "vnfdModel")
+        vmlist = []
+        for vdu_id in get_vdus(vnfd_model, aspect_id):
+            vmlist.append({
+                "VMFlavor": vdu_id,
+                "VMNumber": number_of_steps
+            })
+
+        data["vmlist"] = vmlist
+        logger.info("data = %s", data)
+        ret = restcall.call_req(
+            base_url=ignorcase_get(vnfm_info, "url"),
+            user=ignorcase_get(vnfm_info, "userName"),
+            passwd=ignorcase_get(vnfm_info, "password"),
+            auth_type=restcall.rest_no_auth,
+            resource=nf_scaling_url.format(vnfInstanceID=nf_instance_id),
+            method='put',  # POST
+            content=json.JSONEncoder().encode(data))
+        logger.info("ret=%s", ret)
+        resp_data = json.JSONDecoder().decode(ret[1])
+        if ret[0] != 0:
+            return Response(data=resp_data, status=ret[2])
+        resp_data["nfInstanceId"] = nf_instance_id
+        logger.info("resp_data=%s", resp_data)
+    except Exception as e:
+        logger.error("Error occurred when scaling VNF")
+        raise e
+    return Response(data=resp_data, status=ret[2])
+
+
+@staticmethod
+def get_vdus(nf_model, aspect_id):
+    associated_group = ''
+    members = []
+    vnf_flavours = nf_model['vnf_flavours']
+    for _ in vnf_flavours:
+        scaling_aspects = nf_model['scaling_aspects']
+        for aspect in scaling_aspects:
+            if aspect_id == aspect['id']:
+                associated_group = aspect['associated_group']
+                break
+    if not associated_group:
+        logger.error('Cannot find the corresponding element group')
+        raise Exception('Cannot find the corresponding element group')
+    for element_group in nf_model['element_groups']:
+        if element_group['group_id'] == associated_group:
+            members = element_group['members']
+    if not members:
+        logger.error('Cannot find the corresponding members')
+        raise Exception('Cannot find the corresponding members')
+    return members
 
 
 @api_view(http_method_names=['GET'])

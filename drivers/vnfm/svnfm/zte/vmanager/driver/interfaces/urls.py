@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from django.conf.urls import url
+
 from driver.interfaces import views
 
 urlpatterns = [
@@ -31,4 +32,6 @@ urlpatterns = [
         views.operation_status, name='operation_status'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/resource/grant$', views.grantvnf, name='grantvnf'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<vnfInstanceId>/scale$',
+        views.scale, name='scale'),
     url(r'^samples/$', views.samples, name='samples'), ]
