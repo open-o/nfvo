@@ -53,9 +53,11 @@ class NFManualScaleService(threading.Thread):
             self.update_nf_status()
 
     def do_biz(self):
+        self.update_job(1, desc='nf scale start')
         self.update_nf_status(VNF_STATUS.SCALING)
         self.get_and_check_params()
         self.send_nf_scaling_requests()
+        self.update_job(100, desc='nf scale success')
 
     def get_and_check_params(self):
         nf_info = NfInstModel.objects.filter(nfinstid=self.vnf_instance_id)
@@ -97,3 +99,6 @@ class NFManualScaleService(threading.Thread):
 
     def update_nf_status(self, status=VNF_STATUS.ACTIVE):
         NfInstModel.objects.filter(nfinstid=self.vnf_instance_id).update(status=status)
+
+    def update_job(self, progress, desc=''):
+        JobUtil.add_job_status(self.job_id, progress, desc)

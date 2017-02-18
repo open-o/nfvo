@@ -50,9 +50,11 @@ class NSManualScaleService(threading.Thread):
             self.update_ns_status(NS_INST_STATUS.ACTIVE)
 
     def do_biz(self):
+        self.update_job(1, desc='ns scale start')
         self.get_and_check_params()
         self.update_ns_status(NS_INST_STATUS.SCALING)
         self.do_vnfs_scale()
+        self.update_job(100, desc='ns scale success')
 
     def get_and_check_params(self):
         self.scale_type = ignore_case_get(self.request_data, 'scaleType')
@@ -113,8 +115,7 @@ class NSManualScaleService(threading.Thread):
         return JOB_MODEL_STATUS.TIMEOUT
 
     def update_job(self, progress, desc=''):
-        JobModel.objects.filter(jobid=self.job_id).update(progress=progress)
-        JobUtil.add_job_status(self.job_id, JOB_ERROR, desc)
+        JobUtil.add_job_status(self.job_id, progress, desc)
 
     def update_ns_status(self, status):
         NSInstModel.objects.filter(id=self.ns_instance_id).update(status=status)
