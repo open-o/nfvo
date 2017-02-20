@@ -18,53 +18,38 @@ package org.openo.nfvo.jujuvnfmadapter.common;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
-
-import net.sf.json.JSONObject;
 
 public class FileUtilsTest {
 
     FileUtils fileUtils;
-
-
-
     @Before
     public void setUp(){
-        //fileUtils = new FileUtils();
         fileUtils.getAppAbsoluteUrl();
     }
 
     @Test
     public void testWriteFile() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("Test.txt").getFile());
         String filePath = "D:\\test.txt";
         byte[] bytes =  new byte[] {40,50};
         int b = fileUtils.writeFile(bytes, filePath);
         assertNotNull(b);
-
     }
-
     @Test
     public void testReadFile() throws Exception {
-        String file = "D:\\test.txt";
-        File f = new File(file);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File f = new File(classLoader.getResource("Test.txt").getFile());
         System.out.println(f.isAbsolute());
-        String charsetName = "";
+        String charsetName = "UTF-8";
         byte[] b = fileUtils.readFile(f, charsetName);
         assertNotNull(b);
     }
-
-
     @Test
     public void testListFiles() throws Exception {
         String file = ".";
@@ -73,39 +58,35 @@ public class FileUtilsTest {
         assertNotNull(files);
 
     }
-
     @Test
     public void testMkDirs() throws Exception {
-        String path ="D:\\temp\\Test";
+        File resourcesDirectory = new File("src/test/resources");
+        String path = resourcesDirectory.getAbsolutePath()+"/TestDir";
+        resourcesDirectory.getAbsolutePath();
         fileUtils.mkDirs(path);
     }
-
     @Test
     public void testDelFiles() throws Exception {
-        String path ="D:\\Test\\test.txt";
-        assertTrue(fileUtils.delFiles(path));
+        File resourcesDirectory = new File("src/test/resources/TestDir/Test.txt");
+        assertTrue(fileUtils.delFiles(resourcesDirectory.getAbsolutePath()));
     }
-
     @Test
     public void testgetFiles() throws Exception {
-        String path ="D:\\temp";
-        List<File> files = fileUtils.getFiles(path);
+        File resourcesDirectory = new File("src/test/resources");
+        List<File> files = fileUtils.getFiles(resourcesDirectory.getAbsolutePath());
         assertNotNull(files);
     }
-
     @Test
     public void testCopy() throws Exception {
-        String oldfile ="C:\\temp\\test.txt";
-        String newfile ="D:\\temp\\test.txt";
-        fileUtils.copy(oldfile, newfile, true);
-
+        File oldfile = new File("src/test/resources/Test.txt");
+        File newfile = new File("src/test/resources/TestDir/Test.txt");
+        fileUtils.copy(oldfile.getAbsolutePath(), newfile.getAbsolutePath(), true);
     }
-
-
-
-
-
-
-
-
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = FileUtils.class.getDeclaredConstructor();
+        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 }

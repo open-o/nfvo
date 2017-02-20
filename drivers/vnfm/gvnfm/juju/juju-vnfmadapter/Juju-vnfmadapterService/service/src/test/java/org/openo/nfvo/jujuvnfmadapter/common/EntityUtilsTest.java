@@ -17,6 +17,8 @@ package org.openo.nfvo.jujuvnfmadapter.common;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
 import net.sf.json.JSONObject;
 
 public class EntityUtilsTest {
-    
+
     @Test
     public void formatCommandTest(){
         List<String> command = new ArrayList<>();
@@ -52,5 +54,12 @@ public class EntityUtilsTest {
         JSONObject jsonObject = new JSONObject();
         HashMap map = EntityUtils.toEntity(jsonObject, HashMap.class);
     }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = EntityUtils.class.getDeclaredConstructor();
+        assertTrue("Constructor private", Modifier.isPrivate(constructor.getModifiers()));
 
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 }

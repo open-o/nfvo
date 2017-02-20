@@ -16,29 +16,52 @@
 package org.openo.nfvo.jujuvnfmadapter.service.process;
 
 import static org.junit.Assert.assertNotNull;
-
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
+import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample;
+import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample.Criteria;
 import org.openo.nfvo.jujuvnfmadapter.service.mapper.JujuVnfmInfoMapper;
 
+import mockit.Expectations;
+import mockit.integration.junit4.JMockit;
 import net.sf.json.JSONObject;
+import static mockit.Deencapsulation.*;
+
+
+@RunWith(JMockit.class)
 
 public class VnfResourceMgrTest {
-
     VnfResourceMgr vnfMgr;
     JujuVnfmInfoMapper jujuVnfmInfoMapper;
+    JujuVnfmInfoExample jujuexample = new JujuVnfmInfoExample();
+    Criteria criteria = jujuexample.createCriteria();
 
     @Before
     public void setUp() {
         vnfMgr = new VnfResourceMgr();
         vnfMgr.setJujuVnfmInfoMapper(jujuVnfmInfoMapper);
+        vnfMgr.getJujuVnfmInfoMapper();
     }
 
     @Test
     public void grantVnfResourceTest() throws ServiceException {
+        String vnfId = "1";
+        new Expectations(vnfMgr) {
+            {
+                invoke(vnfMgr, "findByVnfId", "1");
+                JujuVnfmInfo info = new JujuVnfmInfo();
+                criteria.andVnfIdEqualTo(vnfId);
+                info.setId("1");
+                info.setAppName("Test");
+                info.setJobId("1");
+                info.setVnfId(vnfId);
+                returns(info);
+            }
+        };
         JSONObject resultJson = new JSONObject();
-        String vnfId = "123";
         JSONObject res = vnfMgr.grantVnfResource(resultJson, vnfId);
         assertNotNull(res);
     }

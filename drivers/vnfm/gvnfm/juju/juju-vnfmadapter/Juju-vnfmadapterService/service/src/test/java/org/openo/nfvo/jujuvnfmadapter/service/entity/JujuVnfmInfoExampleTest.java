@@ -128,5 +128,21 @@ public class JujuVnfmInfoExampleTest {
        String condition = criterion.getCondition();
         assertEquals(condition,"test");
     }
+    @Test
+       public void testLimitStart() {
+           JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
+           jujuVnfmInfoExample.setLimitStart(1);
+
+           int result = jujuVnfmInfoExample.getLimitStart();
+           assertEquals(1, result);
+       }
+       @Test
+          public void testLimitEnd() {
+              JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
+              jujuVnfmInfoExample.setLimitEnd(1);
+
+              int result = jujuVnfmInfoExample.getLimitEnd();
+              assertEquals(1, result);
+          }
 
 }
