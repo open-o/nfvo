@@ -45,11 +45,17 @@ class InterfacesTest(TestCase):
         }
         job_info = {
             "vnfInstanceId":"8",
-            "jobid":"NF-CREATE-8-b384535c-9f45-11e6-8749-fa163e91c2f9"
+            "jobId":"NF-CREATE-8-b384535c-9f45-11e6-8749-fa163e91c2f9"
         }
+        vnflcm_info = {
+            "vnfInstanceId":"8",
+            "vnfLcOpId":"NF-CREATE-8-b384535c-9f45-11e6-8749-fa163e91c2f9"
+        }
+
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]
         ret = [0, json.JSONEncoder().encode(job_info), '200']
-        mock_call_req.side_effect = [r1, ret]
+        ret2 = [0, json.JSONEncoder().encode(vnflcm_info), '200']
+        mock_call_req.side_effect = [r1, ret, r1, ret2]
         req_data = {
             'vnfInstanceName': 'VFW_f88c0cb7-512a-44c4-bd09-891663f19367',
             'vnfPackageId': 'd852e1be-0aac-48f1-b1a4-cd825f6cdf9a',
@@ -68,7 +74,9 @@ class InterfacesTest(TestCase):
         }
         response = self.client.post("/openoapi/ztevnfm/v1/1/vnfs",
                                     data=json.dumps(req_data), content_type="application/json")
-        self.assertEqual(str(status.HTTP_200_OK), response.status_code)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print job_info
+        print response.data
         self.assertEqual(job_info, response.data)
 
 
@@ -91,9 +99,9 @@ class InterfacesTest(TestCase):
         job_info = {"vnfInstanceId": "1", "JobId": "1"}
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]
         r2 = [0, json.JSONEncoder().encode(job_info), "200"]
-        mock_call_req.side_effect = [r1, r2]
+        mock_call_req.side_effect = [r1, r2, r1, r2]
         response = self.client.post("/openoapi/ztevnfm/v1/ztevnfmid/vnfs/2/terminate")
-        self.assertEqual(str(status.HTTP_200_OK), response.status_code)
+        self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
         self.assertEqual(job_info, response.data)
 
 
@@ -113,13 +121,13 @@ class InterfacesTest(TestCase):
             "password": "admin",
             "createTime": "2016-07-06 15:33:18"
         }
-        job_info = {"vnfinstancestatus": "1"}
+        job_info = {"vnfInfo": {"vnfInstanceId":"88","instantiationState":"INSTANTIATED","vnfSoftwareVersion":"v1.2.3"}}
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]
         r2 = [0, json.JSONEncoder().encode(job_info), "200"]
         mock_call_req.side_effect = [r1, r2]
-        response = self.client.get("/openoapi/ztevnfm/v1/ztevnfmid/vnfs/vbras_innstance_id")
-        self.assertEqual(str(status.HTTP_200_OK), response.status_code)
-        expect_resp_data = {"vnfInfo": {"vnfStatus": "1"}}
+        response = self.client.get("/openoapi/ztevnfm/v1/19ecbb3a-3242-4fa3-9926-8dfb7ddc29ee/vnfs/88")
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        expect_resp_data = {"vnfInfo": {"nfInstanceId": "88", "vnfStatus": "ACTIVE","version":"v1.2.3"}}
         self.assertEqual(expect_resp_data, response.data)
         
         
@@ -160,7 +168,7 @@ class InterfacesTest(TestCase):
         response = self.client.get("/openoapi/ztevmanagerdriver/v1/{vnfmid}/jobs/{jobid}?responseId={responseId}".
             format(vnfmid=vnfm_info["vnfmId"],jobid=resp_body["jobid"],
                    responseId=resp_body["responsedescriptor"]["responseid"]))
-        self.assertEqual(str(status.HTTP_200_OK), response.status_code)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
         self.assertDictEqual(resp_body, response.data)
 
 
