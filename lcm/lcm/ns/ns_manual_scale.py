@@ -51,8 +51,8 @@ class NSManualScaleService(threading.Thread):
 
     def do_biz(self):
         self.update_job(1, desc='ns scale start')
-        self.get_and_check_params()
         self.update_ns_status(NS_INST_STATUS.SCALING)
+        self.get_and_check_params()
         self.do_vnfs_scale()
         self.update_job(100, desc='ns scale success')
 
