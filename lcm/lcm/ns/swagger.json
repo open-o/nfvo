@@ -383,6 +383,58 @@
                 }
             }
         },
+        "/ns/{nsInstanceId}/scale": {
+            "post": {
+                "tags": [
+                    "ns scale"
+                ],
+                "summary": "ns scale",
+                "description": "ns scale",
+                "operationId": "ns_scale",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "required": true,
+                        "type": "string",
+                        "description": "",
+                        "name": "nsInstanceId",
+                        "in": "path"
+                    },
+					{
+                        "required": true,
+                        "type": "Enum",
+                        "description": "",
+                        "name": "scaleType",
+                        "in": "body"
+                    },
+                    {
+                        "in": "body",
+                        "name": "scaleNsData",
+                        "description": "scaleNsData",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ScaleNsData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/NsScaleResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Invalid Request"
+                    }
+                }
+            }
+        },
         "/jobs/{jobId}":{
           "post": {
                 "tags": [
@@ -735,6 +787,36 @@
                 },
                 "detail": {
                     "type": "string"
+                }
+            }
+        },
+        "ScaleNsData": {
+            "type": "object",
+            "properties": {
+                "scaleNsByStepsData": {
+                    "$ref": "#/definitions/ScaleNsByStepsData"
+                }
+            }
+        },
+        "ScaleNsByStepsData": {
+            "type": "object",
+            "properties": {
+                "scalingDirection": {
+                    "type": "Enum"
+                },
+                "aspectId": {
+                    "type": "string"
+                },
+                "numberOfSteps": {
+                    "type": "integer"
+                }
+            }
+        },
+        "NsScaleResponse": {
+            "type": "object",
+            "properties": {
+                "jobID": {
+                    "type": "integer"
                 }
             }
         }
