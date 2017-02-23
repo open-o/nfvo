@@ -27,11 +27,10 @@ urlpatterns = [
         r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<vnfInstanceId>'
         r'[0-9a-zA-Z\-\_]+)$',
         views.query_vnf, name='query_vnf'),
-    url(
-        r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/jobs/(?P<jobid>[0-9a-zA-Z\-\_]+)$',
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/jobs/(?P<jobid>[0-9a-zA-Z\-\_]+)$',
         views.operation_status, name='operation_status'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/resource/grant$', views.grantvnf, name='grantvnf'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),
-    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<nfInstanceId>/scale$',
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/vnfs/(?P<nfInstanceId>[0-9a-zA-Z\-\_]+)/scale$',
         views.scale, name='scale'),
     url(r'^samples/$', views.samples, name='samples'), ]

@@ -454,7 +454,7 @@ def scale(request, *args, **kwargs):
         resp_data = json.JSONDecoder().decode(ret[1])
         if ret[0] != 0:
             return Response(data=resp_data, status=ret[2])
-        resp_data["nfInstanceId"] = nf_instance_id
+        jobId = resp_data["jobid"]
         logger.info("resp_data=%s", resp_data)
     except Exception as e:
         logger.error("Error occurred when scaling VNF")
@@ -462,13 +462,13 @@ def scale(request, *args, **kwargs):
     return Response(data=resp_data, status=ret[2])
 
 
-@staticmethod
+#@staticmethod
 def get_vdus(nf_model, aspect_id):
     associated_group = ''
     members = []
     vnf_flavours = nf_model['vnf_flavours']
-    for _ in vnf_flavours:
-        scaling_aspects = nf_model['scaling_aspects']
+    for vnf_flaour in vnf_flavours:
+        scaling_aspects = vnf_flaour['scaling_aspects']
         for aspect in scaling_aspects:
             if aspect_id == aspect['id']:
                 associated_group = aspect['associated_group']
