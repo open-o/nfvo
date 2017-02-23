@@ -116,6 +116,7 @@ public class VnfmOpResultTest {
 
     @Test
     public void testTaskStatus() {
+        VnfmOpResult result=new VnfmOpResult();
         assertEquals(TaskStatus.INIT, TaskStatus.valueOf("INIT"));
         assertEquals(TaskStatus.SUCCESS, TaskStatus.valueOf("SUCCESS"));
         assertEquals(TaskStatus.PART_SUCCESS, TaskStatus.valueOf("PART_SUCCESS"));

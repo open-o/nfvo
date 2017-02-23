@@ -28,7 +28,7 @@ import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfoExample.Criteri
 public class JujuVnfmInfoExampleTest {
 
     JujuVnfmInfoExample jujuexample = new JujuVnfmInfoExample();
-
+    protected List<Criterion> criteria;
     @Test
     public void createCriteriaTest(){
         Criteria criteria =  jujuexample.createCriteria();
@@ -113,6 +113,7 @@ public class JujuVnfmInfoExampleTest {
     public void generatedCriteriaTest(){
         JujuVnfmInfoExample.Criteria criteria = new JujuVnfmInfoExample.Criteria();
         boolean isValid = criteria.isValid();
+
         assertTrue(!isValid);
     }
 
@@ -131,18 +132,34 @@ public class JujuVnfmInfoExampleTest {
     @Test
        public void testLimitStart() {
            JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
-           jujuVnfmInfoExample.setLimitStart(1);
+           jujuVnfmInfoExample.setLimitStart(-1);
 
            int result = jujuVnfmInfoExample.getLimitStart();
-           assertEquals(1, result);
+           assertEquals(-1, result);
        }
        @Test
           public void testLimitEnd() {
               JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
-              jujuVnfmInfoExample.setLimitEnd(1);
+              jujuVnfmInfoExample.setLimitEnd(-1);
 
               int result = jujuVnfmInfoExample.getLimitEnd();
-              assertEquals(1, result);
+              assertEquals(-1, result);
           }
+       @Test
+         public void testOrderByClause() {
+             JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
+             jujuVnfmInfoExample.setOrderByClause("order");
+
+             String result = jujuVnfmInfoExample.getOrderByClause();
+             assertEquals("order", result);
+         }
+       @Test
+        public void testsetDistinct() {
+            JujuVnfmInfoExample jujuVnfmInfoExample=new JujuVnfmInfoExample();
+            jujuVnfmInfoExample.setDistinct(true);
+
+            boolean result=jujuVnfmInfoExample.isDistinct();
+            assertEquals(true,result);
+        }
 
 }

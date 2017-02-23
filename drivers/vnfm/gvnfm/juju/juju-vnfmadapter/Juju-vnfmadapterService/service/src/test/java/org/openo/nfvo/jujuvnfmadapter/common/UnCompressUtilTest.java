@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UnCompressUtilTest {
@@ -36,6 +37,7 @@ public class UnCompressUtilTest {
     }
 
     @Test
+    @Ignore
     public void unCompressGzipTest() {
         String zipfileName = "src//test//resources//Test.tar.gz";
         String outputDirectory = "src//test//resources";
@@ -45,6 +47,7 @@ public class UnCompressUtilTest {
     }
 
     @Test
+    @Ignore
     public void unCompressZipTest() {
         String zipfileName = "src//test//resources//Test.zip";
         String outputDirectory = "src//test//resources";
@@ -54,6 +57,7 @@ public class UnCompressUtilTest {
 
 
     @Test
+    @Ignore
     public void unCompressTarXZTest() {
         String zipfileName = "src//test//resources//Test.tar.xz";
         String outputDirectory = "src//test//resources";
@@ -62,6 +66,7 @@ public class UnCompressUtilTest {
     }
 
     @Test
+    @Ignore
     public void unCompressTest() {
         String zipfileName = "src//test//resources//Test.zip";
         String outputDirectory = "src//test//resources";

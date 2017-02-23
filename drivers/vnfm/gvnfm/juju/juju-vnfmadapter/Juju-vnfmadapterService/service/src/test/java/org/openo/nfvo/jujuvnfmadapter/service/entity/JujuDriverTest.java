@@ -21,6 +21,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.openo.nfvo.jujuvnfmadapter.common.CryptUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuDriver;
@@ -289,5 +292,18 @@ public class JujuDriverTest {
         JujuDriver driver = new JujuDriver(jujuJsonObject);
         assertTrue("test123".equals(driver.getServiceName()));
     }
-
+    @Test
+    public void testsetNodes() {
+        JujuDriver jujudriver = new JujuDriver();
+        List<String> nodes = new ArrayList<String>();
+        nodes.add("nodes");
+        jujudriver.setNodes(nodes);
+    }
+    @Test
+    public void testgetNodes() {
+        JujuDriver jujudriver = new JujuDriver();
+        List<String> nodes = new ArrayList<String>();
+        nodes.add("nodes");
+        jujudriver.getNodes();
+    }
 }
