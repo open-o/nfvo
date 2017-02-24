@@ -86,6 +86,8 @@ class InstantNSService(object):
             
             self.set_vl_vim_id(vim_id, location_constraints, plan_dict)
             dst_plan = json.JSONEncoder().encode(plan_dict)
+            logger.debug('tosca plan dest add vimid:%s' % dst_plan)
+            NSInstModel.objects.filter(id=self.ns_inst_id).update(nsd_model=dst_plan)
             
             vnf_params_json = json.JSONEncoder().encode(params_vnf)
             plan_input = {'jobId': job_id, 
