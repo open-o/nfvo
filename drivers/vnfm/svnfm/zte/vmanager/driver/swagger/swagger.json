@@ -1,0 +1,15 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "ZTE VNFM Driver Service rest API"
+    },
+    "basePath": "/openoapi/ztevmanagerdriver/v1",
+    "tags": [
+        {
+            "name": "ztevmanagerdriver"
+        }
+    ],
+    "paths": {
+    }
+}
