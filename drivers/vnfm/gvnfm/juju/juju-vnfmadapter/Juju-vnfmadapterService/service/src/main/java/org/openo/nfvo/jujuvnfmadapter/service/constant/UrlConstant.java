@@ -26,6 +26,8 @@ package org.openo.nfvo.jujuvnfmadapter.service.constant;
  */
 public class UrlConstant {
 
+    public static final String REST_DRIVERMGR_REGISTER = "/openoapi/drivermgr/v1/drivers";
+
     public static final String REST_MSB_REGISTER = "/api/microservices/v1/services";
 
     public static final String REST_ESRINFO_GET = "/openoapi/extsys/v1/vnfms/%s";
