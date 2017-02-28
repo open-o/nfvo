@@ -74,7 +74,7 @@ class InterfacesTest(TestCase):
         }
         response = self.client.post("/openoapi/ztevnfm/v1/1/vnfs",
                                     data=json.dumps(req_data), content_type="application/json")
-        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
         print job_info
         print response.data
         self.assertEqual(job_info, response.data)
@@ -96,10 +96,12 @@ class InterfacesTest(TestCase):
             "password": "admin",
             "createTime": "2016-07-06 15:33:18"
         }
-        job_info = {"vnfInstanceId": "1", "JobId": "1"}
+        job_info = {"vnfInstanceId": "1", "vnfLcOpId": "1"}
+        job_status_info = {"VnfLcOpResponseDescriptor":{"progress":"100"}}
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]
         r2 = [0, json.JSONEncoder().encode(job_info), "200"]
-        mock_call_req.side_effect = [r1, r2, r1, r2]
+        job_ret = [0,  json.JSONEncoder().encode(job_status_info), "200"]
+        mock_call_req.side_effect = [r1, r2, r1, job_ret, r1, r2]
         response = self.client.post("/openoapi/ztevnfm/v1/ztevnfmid/vnfs/2/terminate")
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
         self.assertEqual(job_info, response.data)
@@ -121,13 +123,13 @@ class InterfacesTest(TestCase):
             "password": "admin",
             "createTime": "2016-07-06 15:33:18"
         }
-        job_info = {"vnfInfo": {"vnfInstanceId":"88","instantiationState":"INSTANTIATED","vnfSoftwareVersion":"v1.2.3"}}
+        job_info = {"ResponseInfo": {"vnfInstanceId":"88","instantiationState":"INSTANTIATED","vnfSoftwareVersion":"v1.2.3"}}
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]
         r2 = [0, json.JSONEncoder().encode(job_info), "200"]
         mock_call_req.side_effect = [r1, r2]
         response = self.client.get("/openoapi/ztevnfm/v1/19ecbb3a-3242-4fa3-9926-8dfb7ddc29ee/vnfs/88")
         self.assertEqual(status.HTTP_200_OK, response.status_code)
-        expect_resp_data = {"vnfInfo": {"nfInstanceId": "88", "vnfStatus": "ACTIVE","version":"v1.2.3"}}
+        expect_resp_data = {"vnfInfo": {"vnfInstanceId": "88", "vnfStatus": "ACTIVE","version":"v1.2.3"}}
         self.assertEqual(expect_resp_data, response.data)
         
         
@@ -147,29 +149,53 @@ class InterfacesTest(TestCase):
              'createTime': '2016-10-31 11:08:39',
              'description': ''
         }
-        resp_body = {
-            "responsedescriptor":{
-                "status": "processing",
-                "responsehistorylist": [
-                         {"status": "error",
+        expected_body = {
+            "jobId": "NF-CREATE-11-ec6c2f2a-9f48-11e6-9405-fa163e91c2f9",
+            "responseDescriptor":{
+                "responseId": 3,
+                "progress": 40,
+                "status": "PROCESSING",
+                "statusDescription": "OMC VMs are decommissioned in VIM",
+                "errorCode": "null",
+                "responseHistoryList": [
+                     {
+                         "status": "error",
                           "progress": 255,
                           "errorcode": "",
                           "responseid": 20,
-                          "statusdescription": "'JsonParser' object has no attribute 'parser_info'"}],
-                "responseid": 21,
-                "errorcode": "",
-                "progress": 40,
-                "statusdescription": "Create nf apply resource failed"},
-            "jobid": "NF-CREATE-11-ec6c2f2a-9f48-11e6-9405-fa163e91c2f9"
+                          "statusdescription": "'JsonParser' object has no attribute 'parser_info'"
+                     }
+                ]
+            }
+        }
+        resp_body = {
+            "ResponseInfo": {
+                "vnfLcOpId":"NF-CREATE-11-ec6c2f2a-9f48-11e6-9405-fa163e91c2f9",
+                "responseDescriptor":{
+                    "responseId": 3,
+                    "progress": 40,
+                    "lcmOperationStatus": "PROCESSING",
+                    "statusDescription": "OMC VMs are decommissioned in VIM",
+                    "errorCode": "null",
+                    "responseHistoryList": [
+                             {"status": "error",
+                              "progress": 255,
+                              "errorcode": "",
+                              "responseid": 20,
+                              "statusdescription": "'JsonParser' object has no attribute 'parser_info'"}]
+                }
+            }
         }
         r1 = [0, json.JSONEncoder().encode(vnfm_info), '200']
         r2 = [0, json.JSONEncoder().encode(resp_body), '200']
         mock_call_req.side_effect = [r1, r2]
-        response = self.client.get("/openoapi/ztevmanagerdriver/v1/{vnfmid}/jobs/{jobid}?responseId={responseId}".
-            format(vnfmid=vnfm_info["vnfmId"],jobid=resp_body["jobid"],
-                   responseId=resp_body["responsedescriptor"]["responseid"]))
+        response = self.client.get("/openoapi/gvnfmadapter/v1/{vnfmid}/jobs/{jobid}?responseId={responseId}".
+            format(vnfmid=vnfm_info["vnfmId"],jobid=resp_body["ResponseInfo"]["vnfLcOpId"],
+                   responseId=resp_body["ResponseInfo"]["responseDescriptor"]["responseId"]))
         self.assertEqual(status.HTTP_200_OK, response.status_code)
-        self.assertDictEqual(resp_body, response.data)
+        print "========"
+        print response.data
+        self.assertDictEqual(expected_body, response.data)
 
 
     @mock.patch.object(restcall, 'call_req')
