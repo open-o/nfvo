@@ -13,30 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.jujuvnfmadapter.common;
+package org.openo.nfvo.jujuvnfmadapter.service.exception;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-
+import org.junit.Before;
 import org.junit.Test;
 
-public class CryptUtilTest {
+public class UnsupportedOperationExceptionTest {
+    UnsupportedOperationException mess;
 
-    @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
-        constructor.setAccessible(true);
-        constructor.newInstance();
+    @Before
+    public void setUp(){
+        mess = new UnsupportedOperationException();
     }
+
     @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
+    public void test() {
+
     }
 
 }

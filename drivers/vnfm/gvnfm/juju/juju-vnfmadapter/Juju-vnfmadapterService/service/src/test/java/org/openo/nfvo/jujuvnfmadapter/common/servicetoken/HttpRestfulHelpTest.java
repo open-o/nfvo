@@ -17,6 +17,10 @@
 package org.openo.nfvo.jujuvnfmadapter.common.servicetoken;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 import org.openo.baseservice.roa.util.restclient.Restful;
@@ -26,7 +30,7 @@ import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.HttpRestfulHelp;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version NFVO 0.5 Aug 10, 2016
  */
@@ -43,5 +47,12 @@ public class HttpRestfulHelpTest {
         HttpRestfulHelp.getRestInstance(null, null);
         Restful rest = HttpRestfulHelp.getRestInstance(null, null);
         assertNotNull(rest);
+    }
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = HttpRestfulHelp.class.getDeclaredConstructor();
+        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 }

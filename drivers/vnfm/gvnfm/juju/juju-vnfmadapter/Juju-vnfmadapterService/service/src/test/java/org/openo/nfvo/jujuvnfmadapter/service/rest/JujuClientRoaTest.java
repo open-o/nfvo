@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.jujuvnfmadapter.common.StringUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.impl.JujuClientManager;
+import org.openo.nfvo.jujuvnfmadapter.service.process.VnfMgr;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import mockit.Mock;
@@ -35,10 +36,13 @@ public class JujuClientRoaTest {
 
     JujuClientRoa roa;
 
+
     @Before
     public void setUp(){
         roa = new JujuClientRoa();
         roa.setJujuClientManager(new JujuClientManager());
+        roa.getJujuClientManager();
+
     }
 
     @Test
@@ -62,19 +66,19 @@ public class JujuClientRoaTest {
         String res = roa.getVnfStatus("appName", context,resp);
         assertNotNull(res);
     }
-//    @Test
-//    public void deploySerivceTestFail() throws ServiceException {
-//        new MockUp<StringUtil>(){
-//            @Mock
-//            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
-//                return null;
-//            }
-//        };
-//        HttpServletRequest context = null;
-//        HttpServletResponse resp = new MockHttpServletResponse();
-//        String res = roa.deploySerivce(context,resp);
-//        assertNotNull(res);
-//    }
+    @Test
+    public void deploySerivceTestFail() throws ServiceException {
+        new MockUp<StringUtil>(){
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest vnfReq) {
+                return null;
+            }
+        };
+        HttpServletRequest context = null;
+        HttpServletResponse resp = new MockHttpServletResponse();
+        String res = roa.deploySerivce(context,resp);
+        assertNotNull(res);
+    }
     @Test
     public void deploySerivceTest() throws ServiceException {
         new MockUp<StringUtil>(){

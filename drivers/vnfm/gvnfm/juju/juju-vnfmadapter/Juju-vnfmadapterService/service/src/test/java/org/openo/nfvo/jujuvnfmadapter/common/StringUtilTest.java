@@ -19,6 +19,10 @@ package org.openo.nfvo.jujuvnfmadapter.common;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
+
 import net.sf.json.JSONArray;
 
 import org.junit.Test;
@@ -108,5 +112,11 @@ public class StringUtilTest {
         siteArray.add("Shanghai");
         assertEquals(siteArray, result);
     }
-
+    @Test
+    public void testPrivateConstructor() throws Exception {
+        Constructor constructor = StringUtil.class.getDeclaredConstructor();
+        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
 }

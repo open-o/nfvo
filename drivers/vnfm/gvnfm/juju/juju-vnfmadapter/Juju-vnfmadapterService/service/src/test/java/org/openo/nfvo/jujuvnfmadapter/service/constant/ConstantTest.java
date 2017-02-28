@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.jujuvnfmadapter.common;
+package org.openo.nfvo.jujuvnfmadapter.service.constant;
 
 import static org.junit.Assert.*;
 
@@ -21,22 +21,22 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 
 import org.junit.Test;
+import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant.AuthenticationMode;
 
-public class CryptUtilTest {
+public class ConstantTest {
 
     @Test
     public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
+        Constructor constructor = Constant.class.getDeclaredConstructor();
         assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
         constructor.setAccessible(true);
         constructor.newInstance();
     }
     @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
+    public void testPrivateConstructor1() throws Exception {
+        Constructor constructor = Constant.AuthenticationMode.class.getDeclaredConstructor();
+        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
-
 }

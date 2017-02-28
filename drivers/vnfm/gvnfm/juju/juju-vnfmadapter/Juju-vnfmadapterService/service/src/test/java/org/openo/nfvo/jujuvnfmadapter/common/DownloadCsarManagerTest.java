@@ -1,11 +1,11 @@
 /*
- * Copyright 2017 Huawei Technologies Co., Ltd.
+ * Copyright (c) 2017, Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,21 +22,21 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 
-public class CryptUtilTest {
-
+public class DownloadCsarManagerTest {
+    DownloadCsarManager mgr;
+    @Test
+    public void test() {
+        String url="";
+        String filepath="";
+        mgr.download(url);
+        mgr.download(url, filepath);
+        mgr.getRandomFileName();
+    }
     @Test
     public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
+        Constructor constructor = DownloadCsarManager.class.getDeclaredConstructor();
         assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
         constructor.setAccessible(true);
         constructor.newInstance();
     }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
-    }
-
 }

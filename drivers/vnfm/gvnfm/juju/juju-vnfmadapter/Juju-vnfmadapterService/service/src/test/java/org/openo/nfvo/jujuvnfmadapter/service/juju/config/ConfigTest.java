@@ -13,30 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.jujuvnfmadapter.common;
+
+package org.openo.nfvo.jujuvnfmadapter.service.juju.config;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
-public class CryptUtilTest {
-
+public class ConfigTest {
     @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+    public void testsetDefaults() {
 
-        constructor.setAccessible(true);
-        constructor.newInstance();
-    }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
+        Map<String,ConfigItem> options=new HashMap<String,ConfigItem> ();
+        ConfigItem configItem=new ConfigItem();
+        configItem.setDescription("");
+        options.put("", configItem);
+        Config config=new Config(options);
+        config.setOptions(options);
+        Map map=config.getOptions();
+         assertEquals(options, map);
     }
 
 }

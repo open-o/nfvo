@@ -13,30 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.jujuvnfmadapter.common;
+package org.openo.nfvo.jujuvnfmadapter.service.activator;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-
 import org.junit.Test;
 
-public class CryptUtilTest {
+public class ROAJujuServicePostProcessorTest {
+    ROAJujuServicePostProcessor postprocessor=new ROAJujuServicePostProcessor();
 
     @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
-        constructor.setAccessible(true);
-        constructor.newInstance();
-    }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
+    public void test() {
+        Object bean ="IJujuAdapterMgrService";
+        String name="";
+        postprocessor.postProcessAfterInitialization(bean, name);
+        postprocessor.postProcessBeforeDestruction(bean, name);
+        postprocessor.postProcessBeforeInitialization(bean, name);
     }
 
 }

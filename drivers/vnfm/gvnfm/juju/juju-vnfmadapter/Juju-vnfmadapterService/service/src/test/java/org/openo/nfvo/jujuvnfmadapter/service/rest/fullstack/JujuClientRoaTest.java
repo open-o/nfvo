@@ -45,7 +45,7 @@ import net.sf.json.JSONObject;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author quanzhong@huawei.com
  * @version NFVO 0.5 Nov 3, 2016
  */
@@ -59,11 +59,11 @@ public class JujuClientRoaTest {
     private JujuClientRoa jujuClientRoa;
     @Resource
     private IResourceManager resourceManager;
-    
+
 
     /**
      * <br/>
-     * 
+     *
      * @throws java.lang.Exception
      * @since NFVO 0.5
      */
@@ -76,7 +76,7 @@ public class JujuClientRoaTest {
         Assert.assertNotNull(jujuClientRoa);
     }
 
-//    @Test
+    @Test
     public void testSetCharmUrl() {
         HttpServletResponse resp = new MockHttpServletResponse();
         HttpServletRequest request;
@@ -84,17 +84,17 @@ public class JujuClientRoaTest {
         try {
             request = TestHelper.buildDefaultRequest("setCharmUrl.json");
             result = jujuClientRoa.setCharmUrl(request, resp);
-            
+
         } catch(Exception e) {
             logger.error("error:",e);
 
         }
         Assert.assertNotNull(result);
     }
-    
-//    @Test
+
+    @Test
     public void testGetVnfStatus() {
-        
+
         //mock method  EntityUtils#execute
         new MockUp<EntityUtils>(){
             @Mock
@@ -105,7 +105,7 @@ public class JujuClientRoaTest {
                 return res;
             }
         };
-        
+
         HttpServletResponse resp = new MockHttpServletResponse();
         MockHttpServletRequest request;
         String result = null;
@@ -123,8 +123,8 @@ public class JujuClientRoaTest {
         Assert.assertNotNull(result);
         Assert.assertEquals(0, jr.getInt("retCode"));
     }
-    
-    @Test
+
+  //  @Test
     public void testDeploySerivce() {
         HttpServletResponse resp = new MockHttpServletResponse();
         HttpServletRequest request;
@@ -136,14 +136,14 @@ public class JujuClientRoaTest {
             JSONObject json = JSONObject.fromObject(result);
             logger.info(json);
             Assert.assertEquals(json.getInt(EntityUtils.RESULT_CODE_KEY),EntityUtils.ExeRes.SUCCESS);
-            
+
         } catch(Exception e) {
             logger.error("error:",e);
 
         }
-        
+
     }
-    
+
 //    @Test
     public void testDestroySerivce() {
         HttpServletResponse resp = new MockHttpServletResponse();
@@ -152,7 +152,7 @@ public class JujuClientRoaTest {
         try {
             request = TestHelper.buildDefaultRequest("destroySerivce.json");
             result = jujuClientRoa.setCharmUrl(request, resp);
-            
+
         } catch(Exception e) {
             logger.error("error:",e);
 
