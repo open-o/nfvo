@@ -19,24 +19,39 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
+import org.openo.nfvo.jujuvnfmadapter.common.LocalComandUtils.ExeRes;
 
-public class CryptUtilTest {
+import mockit.Mock;
+import mockit.MockUp;
+
+public class LocalComandUtilsTest {
+
+    @Test
+    public void testformatCommand(){
+        new MockUp<LocalComandUtils>(){
+            @Mock
+            public  String formatCommand(List<String> command){
+                return  null;
+            }
+        };
+        List<String> command =new ArrayList<String> ();
+        command.add("test1");
+        command.add("test2");
+        String s=LocalComandUtils.formatCommand(command);
+
+
+    }
 
     @Test
     public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
+        Constructor constructor = LocalComandUtils.class.getDeclaredConstructor();
         assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
         constructor.setAccessible(true);
         constructor.newInstance();
-    }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
     }
 
 }

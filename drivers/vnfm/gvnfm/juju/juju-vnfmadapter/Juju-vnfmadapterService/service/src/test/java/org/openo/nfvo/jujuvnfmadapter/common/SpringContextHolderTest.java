@@ -13,30 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.nfvo.jujuvnfmadapter.common;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-
+import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
-public class CryptUtilTest {
 
+public class SpringContextHolderTest {
+
+    SpringContextHolder contextholder;
+        @Before
+        public void setUp() {
+            contextholder = new SpringContextHolder();
+        }
+    @Autowired
+    ApplicationContext context;
     @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+    public void test() {
+        SpringContextHolder ctx=new SpringContextHolder();
+        ctx.setApplicationContext(context);
+        contextholder.cleanApplicationContext();
 
-        constructor.setAccessible(true);
-        constructor.newInstance();
-    }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
     }
 
 }

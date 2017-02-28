@@ -22,21 +22,19 @@ import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 
-public class CryptUtilTest {
+
+public class ResourceUtilTest {
 
     @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
-
-        constructor.setAccessible(true);
-        constructor.newInstance();
+    public void testformatCommand(){
+        String key="key";
+    String r=ResourceUtil.getMessage(key);
     }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
-    }
-
+     @Test
+        public void testPrivateConstructor() throws Exception {
+            Constructor constructor = ResourceUtil.class.getDeclaredConstructor();
+            assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+            constructor.setAccessible(true);
+            constructor.newInstance();
+        }
 }

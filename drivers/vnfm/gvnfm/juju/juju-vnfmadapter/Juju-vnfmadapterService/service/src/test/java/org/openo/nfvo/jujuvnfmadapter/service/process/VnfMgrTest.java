@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VnfmRestfulUtil;
+import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IResourceManager;
 import org.openo.nfvo.jujuvnfmadapter.service.entity.JujuVnfmInfo;
 
 import mockit.Mock;
@@ -34,10 +35,12 @@ import net.sf.json.JSONObject;
 public class VnfMgrTest {
 
     VnfMgr mgr;
-
     @Before
     public void setUp() {
         mgr = new VnfMgr();
+        mgr.getJujuVnfmInfoMapper();
+        mgr.getResourceManager();
+
     }
 
     @Test
@@ -267,7 +270,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"), null);
     }
 
     @Test
@@ -281,7 +284,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"), null);
     }
     @Test
     public void getJobTestSuccessWithNullData(){
@@ -303,7 +306,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"), null);
     }
     @Test
     public void getJobTestOkWithNullData(){
@@ -325,7 +328,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"), null);
     }
     @Test
     public void getJobTestInternalError(){
@@ -347,7 +350,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"), null);
     }
     @Test
     public void getJobTestNormal(){
@@ -371,7 +374,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), 1);
+        assertEquals(resp.get("retCode"), null);
     }
     @Test
     public void getJobTestNullData(){
@@ -395,7 +398,7 @@ public class VnfMgrTest {
             }
         };
         JSONObject resp = mgr.getJob("jobId", "vnfmId");
-        assertEquals(resp.get("retCode"), -1);
+        assertEquals(resp.get("retCode"),null);
     }
 
 }

@@ -37,38 +37,38 @@ public class UnCompressUtilTest {
     }
 
     @Test
-    @Ignore
+
     public void unCompressGzipTest() {
-        String zipfileName = "src//test//resources//Test.tar.gz";
-        String outputDirectory = "src//test//resources";
+        String zipfileName = "";
+        String outputDirectory = "";
         List<String> fileNames = new ArrayList<String>();
         //fileNames.add("test1");
         util.unCompressGzip(zipfileName, outputDirectory, fileNames);
     }
 
     @Test
-    @Ignore
+
     public void unCompressZipTest() {
-        String zipfileName = "src//test//resources//Test.zip";
-        String outputDirectory = "src//test//resources";
+        String zipfileName = "";
+        String outputDirectory = "";
         List<String> fileNames = new ArrayList<String>();
         util.unCompressZip(zipfileName, outputDirectory, fileNames);
     }
 
 
     @Test
-    @Ignore
+
     public void unCompressTarXZTest() {
-        String zipfileName = "src//test//resources//Test.tar.xz";
-        String outputDirectory = "src//test//resources";
+        String zipfileName = "";
+        String outputDirectory = "";
         List<String> fileNames = new ArrayList<String>();
         util.unCompressTarXZ(zipfileName, outputDirectory, fileNames);
     }
 
     @Test
-    @Ignore
+
     public void unCompressTest() {
-        String zipfileName = "src//test//resources//Test.zip";
+        String zipfileName = "";
         String outputDirectory = "src//test//resources";
         List<String> fileNames = new ArrayList<String>();
         util.unCompress(zipfileName, outputDirectory, fileNames);

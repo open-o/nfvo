@@ -17,26 +17,30 @@ package org.openo.nfvo.jujuvnfmadapter.common;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
-
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.nfvo.jujuvnfmadapter.service.rest.fullstack.JujuClientRoaTest;
 
-public class CryptUtilTest {
+public class AsyncCallbackTest {
+    Logger logger = Logger.getLogger(JujuClientRoaTest.class);
 
-    @Test
-    public void testPrivateConstructor() throws Exception {
-        Constructor constructor = CryptUtil.class.getDeclaredConstructor();
-        assertTrue("Constructor  private", Modifier.isPrivate(constructor.getModifiers()));
+    AsyncCallback Async;
+    RestfulResponse response = new RestfulResponse();
 
-        constructor.setAccessible(true);
-        constructor.newInstance();
-    }
-    @Test
-    public void testdeCryptenCrypt(){
-        String pwd ="admin";
-        String c=CryptUtil.deCrypt(pwd);
-        String c1=CryptUtil.enCrypt(pwd);
+    @Before
+    public void setUp() {
+        Async = new AsyncCallback();
+
     }
 
+    @Test
+    public void testhandleExcepion() {
+
+        logger.warn("function=callback, msg=status={}, content={}.");
+        Async.callback(response);
+        Async.handleExcepion(null);
+
+    }
 }

@@ -29,21 +29,21 @@ import mockit.MockUp;
  * <br/>
  * <p>
  * </p>
- * 
- * @author		quanzhong@huawei.com
+ *
+ * @author        quanzhong@huawei.com
  * @version     NFVO 0.5  Nov 2, 2016
  */
 public class TestMockUp {
     ConfigRoa roa;
     /**
      * <br/>
-     * 
+     *
      * @throws java.lang.Exception
      * @since  NFVO 0.5
      */
     @Before
     public void setUp() throws Exception {
-        roa = new ConfigRoa();       
+        roa = new ConfigRoa();
     }
 
     @Test
@@ -53,10 +53,7 @@ public class TestMockUp {
             public boolean isValidUrl(String url) {
                 return true;
             }
-            @Mock
-            public boolean is2ValidUrl(String url) {
-                return true;
-            }
+
         };
         Assert.assertTrue(StringUtil.isValidUrl("abc"));
     }
