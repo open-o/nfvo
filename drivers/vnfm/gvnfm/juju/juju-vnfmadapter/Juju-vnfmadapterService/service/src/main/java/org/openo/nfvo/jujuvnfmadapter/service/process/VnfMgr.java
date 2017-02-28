@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
@@ -92,23 +93,31 @@ public class VnfMgr {
             if(vnfObject.isNullObject() || vnfObject.isEmpty()) {
                 return restJson;
             }
-
-            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
-
-            if(vnfmObject == null || vnfmObject.isNullObject()) {
-                LOG.error("function=addVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
-                return restJson;
-            }
             String vnfInstanceName = vnfObject.getString("vnfInstanceName");
             String csarId = vnfObject.getString("vnfPackageId");
-            
+            String url = null;
+            try {
+                url = vnfObject.getString("vnfmServiceUrl");
+            } catch (Exception e) {
+                LOG.warn("the value 'vnfmServiceUrl' not exist."+e.getMessage());
+            }
+
+            if (StringUtils.isBlank(url)) {
+                JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+
+                if(vnfmObject == null || vnfmObject.isNullObject()) {
+                    LOG.error("function=addVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
+                    return restJson;
+                }
+                url = vnfmObject.getString("url");
+            }
             //call juju-cliento deploy
             JSONObject params = new JSONObject();
             params.put(Constant.VNFM_ID, vnfmId);
             params.put("appName", vnfInstanceName);
             params.put("csarId", csarId);
 
-            String url = vnfmObject.getString("url");
+
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
             paramsMap.put(Constant.METHOD_TYPE, Constant.POST);
