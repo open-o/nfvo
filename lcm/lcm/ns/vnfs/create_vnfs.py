@@ -53,6 +53,7 @@ class CreateVnfs(Thread):
         self.vnfd_id = ''
         self.ns_inst_name = ''
         self.nsd_model = ''
+        self.vnfd_model = ''
         self.vnf_inst_name = ''
         self.vnfm_inst_id = ''
         self.inputs = ''
@@ -112,18 +113,42 @@ class CreateVnfs(Thread):
             logger.info('NF package not exist.')
             raise NSLCMException('NF package not exist.')
         self.nf_package_info = nf_package_info[0]
+        self.vnfd_model = json.loads(self.nf_package_info.vnfdmodel)
 
     def get_virtual_link_info(self, vnf_id):
-        virtual_link_list = []
+        virtual_link_list, ext_virtual_link = [], []
         for vnf_info in self.nsd_model['vnfs']:
-            if vnf_info['vnf_id'] == vnf_id:
-                for network_info in vnf_info['dependencies']:
-                    vl_instance_id = VLInstModel.objects.get(vldid=network_info['vl_id'], ownertype=OWNER_TYPE.NS,
-                                                             ownerid=self.ns_inst_id).vlinstanceid
-                    network_name, subnetwork_name = self.get_network_info_of_vl(network_info['vl_id'])
-                    virtual_link_list.append({'network_name': network_name, 'key_name': network_info['key_name'],
-                                              'subnetwork_name': subnetwork_name, 'vl_instance_id': vl_instance_id})
-        return virtual_link_list
+            if vnf_info['vnf_id'] != vnf_id:
+                continue
+            for network_info in vnf_info['networks']:
+                vl_instance = VLInstModel.objects.get(
+                    vldid=network_info['vl_id'], 
+                    ownertype=OWNER_TYPE.NS,
+                    ownerid=self.ns_inst_id)
+                vl_instance_id = vl_instance.vlinstanceid
+                network_name, subnet_name = self.get_network_info_of_vl(network_info['vl_id'])
+                virtual_link_list.append({
+                    'network_name': network_name, 
+                    'key_name': network_info['key_name'],
+                    'subnetwork_name': subnet_name, 
+                    'vl_instance_id': vl_instance_id
+                })
+                ext_virtual_link.append({
+                    "vlInstanceId": vl_instance_id,
+                    "resourceId": vl_instance.relatednetworkid,
+                    "resourceSubnetId": vl_instance.relatedsubnetworkid,
+                    "cpdId": self.get_cpd_id_of_vl(network_info['key_name']),
+                    "vim": {
+                        "vimid": vl_instance.vimid
+                    }
+                })
+        return virtual_link_list, ext_virtual_link
+
+    def get_cpd_id_of_vl(self, vl_key):
+        for cpd in self.vnfd_model["vnf_exposed"]["external_cps"]:
+            if vl_key == cpd["key_name"]:
+                return cpd["cpd_id"]
+        return ""
 
     def get_network_info_of_vl(self, vl_id):
         for vnf_info in self.nsd_model['vls']:
@@ -132,11 +157,13 @@ class CreateVnfs(Thread):
         return '', ''
 
     def send_nf_init_request_to_vnfm(self):
+        virtual_link_list, ext_virtual_link = self.get_virtual_link_info(self.vnf_id)
         req_param = json.JSONEncoder().encode({
             'vnfInstanceName': self.vnf_inst_name, 
             'vnfPackageId': self.nf_package_info.nfpackageid, 
             'vnfDescriptorId': self.vnfd_id,
-            'additionalParam': {"inputs": self.inputs, "extVirtualLinks": self.get_virtual_link_info(self.vnf_id)}})
+            'extVirtualLink': ext_virtual_link,
+            'additionalParam': {"inputs": self.inputs, "extVirtualLinks": virtual_link_list}})
         rsp = send_nf_init_request(self.vnfm_inst_id, req_param)
         self.vnfm_job_id = ignore_case_get(rsp, 'jobId')
         self.vnfm_nf_inst_id = ignore_case_get(rsp, 'vnfInstanceId')
