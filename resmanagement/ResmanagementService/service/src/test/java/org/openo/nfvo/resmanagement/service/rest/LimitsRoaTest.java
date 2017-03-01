@@ -53,34 +53,6 @@ public class LimitsRoaTest {
     }
 
     @Test
-    public void testGetCpuLimits() throws ServiceException {
-        new MockUp<LimitsBusinessImpl>() {
-
-            @Mock
-            public JSONObject getCpuLimits(JSONObject paramJson) throws ServiceException {
-                return new JSONObject();
-            }
-        };
-        HttpServletRequest context = new MockHttpServletRequest();
-        JSONObject result = roa.getCpuLimits(context, "id", "vimId");
-        assertNotNull(result);
-    }
-
-    @Test
-    public void testGetDiskLimits() throws ServiceException {
-        new MockUp<LimitsBusinessImpl>() {
-
-            @Mock
-            public JSONObject getDiskLimits(JSONObject paramJson) throws ServiceException {
-                return new JSONObject();
-            }
-        };
-        HttpServletRequest context = new MockHttpServletRequest();
-        JSONObject result = roa.getDiskLimits(context, "id", "vimId");
-        assertNotNull(result);
-    }
-
-    @Test
     public void testGetLimitsResource() throws ServiceException {
         new MockUp<LimitsBusinessImpl>() {
 
@@ -90,7 +62,7 @@ public class LimitsRoaTest {
             }
         };
         HttpServletRequest context = new MockHttpServletRequest();
-        JSONObject result = roa.getLimitsResource(context, "vimId");
+        JSONObject result = roa.getLimits(context, "vimId");
         assertNotNull(result);
     }
 }

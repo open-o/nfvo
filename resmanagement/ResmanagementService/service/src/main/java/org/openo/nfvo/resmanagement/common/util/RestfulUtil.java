@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,13 +42,12 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Restful Utility Class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class RestfulUtil {
 
@@ -72,58 +71,54 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * Get response object.<br>
      *
      * @param url
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static JSONObject getResponseObj(String url, String type) {
         return getResponseObj(url, new RestfulParametes(), type);
     }
 
     /**
-     *
      * Get response object.<br>
      *
      * @param url
      * @param parametes
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static JSONObject getResponseObj(String url, RestfulParametes parametes, String type) {
         try {
             String content = RestfulUtil.getResponseContent(url, parametes, null, type);
-
+            LOGGER.error("function=getResponseObj, content : {}", content);
             if(StringUtils.isEmpty(content)) {
                 return null;
             }
             return JSONObject.fromObject(content);
         } catch(JSONException e) {
-            LOGGER.error("function=restResult, exception : {}", e);
+            LOGGER.error("function=getResponseObj, exception : {}", e);
             return null;
         }
     }
 
     /**
-     *
      * Get response content.<br>
      *
      * @param url
      * @param restParametes
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static String getResponseContent(String url, RestfulParametes restParametes, String type) {
         return getResponseContent(url, restParametes, null, type);
     }
 
     /**
-     *
      * Get response map.<br>
      *
      * @param url
@@ -131,7 +126,7 @@ public class RestfulUtil {
      * @param opt
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static Map<String, Object> getResponseMap(String url, RestfulParametes restParametes, RestfulOptions opt,
             String type) {
@@ -140,13 +135,12 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * Get response content map.<br>
      *
      * @param url
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static Map<String, Object> getResponseContentMap(String url, String type) {
         RestfulResponse response = restfulResponse(url, new RestfulParametes(), null, type);
@@ -163,7 +157,6 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * Get response content.<br>
      *
      * @param url
@@ -171,7 +164,7 @@ public class RestfulUtil {
      * @param opt
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static String getResponseContent(String url, RestfulParametes restParametes, RestfulOptions opt,
             String type) {
@@ -190,14 +183,13 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * Get restful response.<br>
      *
      * @param url
      * @param restParametes
      * @param type
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static RestfulResponse getRestfulResponse(String url, RestfulParametes restParametes, String type) {
         return restfulResponse(url, restParametes, null, type);
@@ -227,13 +219,12 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * encapsulate the java reflect exception.<br>
      *
      * @param methodName, Restful's method.
      * @param objects, method param array.
      * @return
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static RestfulResponse getRestRes(String methodName, Object... objects) {
         try {
@@ -261,7 +252,7 @@ public class RestfulUtil {
             return null;
         } catch(ReflectiveOperationException e) {
             LOGGER.error("function=getRestRes, msg=error occurs, e={}.", e);
-        } catch(Throwable e) {//NOSONAR
+        } catch(Throwable e) {// NOSONAR
             LOGGER.error("function=getRestRes, msg=Throwable, e={}.", e);
             try {
                 throw (ServiceException)new ServiceException().initCause(e.getCause());
@@ -273,14 +264,13 @@ public class RestfulUtil {
     }
 
     /**
-     *
      * Get response.<br>
      *
      * @param restParametes
      * @param url
      * @return
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     public static JSONArray getResponseRes(RestfulParametes restParametes, String url) throws ServiceException {
         String result = getResponseContent(url, restParametes, RestfulUtil.TYPE_GET);

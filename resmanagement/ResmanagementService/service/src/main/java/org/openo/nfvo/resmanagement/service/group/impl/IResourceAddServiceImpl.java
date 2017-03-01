@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
-import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.InterfaceResManagement;
 import org.slf4j.Logger;
@@ -34,26 +33,24 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- *
  * iResource add service implementation.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class IResourceAddServiceImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IResourceAddServiceImpl.class);
 
     /**
-     *
      * Add iResource.<br>
      *
      * @param restParametes
      * @param iResMap
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @Transactional(rollbackFor = ServiceException.class)
     public void addIRes(RestfulParametes restParametes, Map<String, InterfaceResManagement> iResMap)
@@ -65,10 +62,13 @@ public class IResourceAddServiceImpl {
             RestfulParametes restParametes) throws ServiceException {
         for(String iResName : iResMap.keySet()) {
             if(ParamConstant.PARAM_HOST.equals(iResName)) {
-                addHostResource(iResMap, restParametes,
-                        String.format(urlMap.get(iResName), restParametes.get("tenantId")), iResName);
+                addHostResource(iResMap, restParametes, String.format(urlMap.get(iResName),
+                        restParametes.get(ParamConstant.PARAM_VIMID), restParametes.get(ParamConstant.PARAM_TENANTID)),
+                        iResName);
             } else {
-                JSONArray iResArray = RestfulUtil.getResponseRes(restParametes, urlMap.get(iResName), iResName);
+                String url = String.format(urlMap.get(iResName), restParametes.get(ParamConstant.PARAM_VIMID),
+                        restParametes.get(ParamConstant.PARAM_TENANTID));
+                JSONArray iResArray = RestfulUtil.getResponseRes(new RestfulParametes(), url, iResName);
                 LOGGER.warn("function=addIResources; iResArray={}", iResArray);
                 for(Object object : iResArray) {
                     JSONObject iRes = JSONObject.fromObject(object);
@@ -91,21 +91,20 @@ public class IResourceAddServiceImpl {
      */
     public static void addHostResource(Map<String, InterfaceResManagement> iResMap, RestfulParametes restParametes,
             String url, String iResName) throws ServiceException {
-        JSONArray hostResArray = RestfulUtil.getResponseRes(restParametes, url, iResName);
+        JSONArray hostResArray = RestfulUtil.getResponseRes(new RestfulParametes(), url, iResName);
         LOGGER.warn("function=addHostResource; hostResArray={}", hostResArray);
         for(Object object : hostResArray) {
             JSONObject hostRes = JSONObject.fromObject(object);
-            String hostName = hostRes.getString("host_name");
+            String hostName = hostRes.getString("name");
             String hostZone = hostRes.getString("zone");
             if("internal".equals(hostZone)) {
                 continue;
             }
-            String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get("tenantId"), hostName);
+            String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get(ParamConstant.PARAM_VIMID),
+                    restParametes.get(ParamConstant.PARAM_TENANTID), hostName);
 
-
-            String result = RestfulUtil.getResponseContent(hostUrl, restParametes, ParamConstant.PARAM_GET);
-            JSONObject hostObj = JSONObject.fromObject(result);
-            JSONObject host = hostDataParse(hostObj, hostName);
+            String result = RestfulUtil.getResponseContent(hostUrl, new RestfulParametes(), ParamConstant.PARAM_GET);
+            JSONObject host = hostDataParse(JSONObject.fromObject(result));
             int res = iResMap.get(iResName).add(host);
             LOGGER.warn("function=addHostResource; result={}, res={}", result, res);
             if(res < 0) {
@@ -123,24 +122,16 @@ public class IResourceAddServiceImpl {
      * @return
      * @since NFVO 0.5
      */
-    public static JSONObject hostDataParse(JSONObject hostObj, String hostName) {
-        LOGGER.warn("function=hostDataParse; hostObj={}, hostName={}", hostObj, hostName);
-        JSONArray hostArray = hostObj.getJSONArray("hosts");
-        for(Object object : hostArray) {
-            JSONObject hostObject = JSONObject.fromObject(object);
-            JSONObject resource = JSONObject.fromObject(hostObject.get("resource"));
-            if(resource.getString("project").contains("total")) {
-                JSONObject host = new JSONObject();
-                host.put("name", hostName);
-                host.put("cpu", JsonUtil.getJsonFieldStr(resource, "cpu"));
-                host.put("memory", JsonUtil.getJsonFieldStr(resource, "memory_mb"));
-                host.put("disk", JsonUtil.getJsonFieldStr(resource, "disk_gb"));
-                host.put("vimId", JsonUtil.getJsonFieldStr(hostObject, "vimId"));
-                host.put("vimName", JsonUtil.getJsonFieldStr(hostObject, "vimName"));
-                return host;
-            }
-        }
-        return new JSONObject();
+    public static JSONObject hostDataParse(JSONObject hostObj) {
+        JSONObject host = new JSONObject();
+        host.put("name", hostObj.getString("name"));
+        host.put("cpu", hostObj.getString("cpu"));
+        host.put("memory", hostObj.getString("memory_mb"));
+        host.put("disk", hostObj.getString("disk_gb"));
+        host.put("vimId", hostObj.getString("vimId"));
+        host.put("vimName", hostObj.getString("vimName"));
+        return host;
+
     }
 
     private HashMap<String, String> createResUrlMap() {

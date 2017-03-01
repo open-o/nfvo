@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
+import org.openo.nfvo.resmanagement.common.constant.Constant;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
@@ -87,7 +88,8 @@ public class ResOperateServiceImpl implements ResOperateService {
         HashMap<String, InterfaceResManagement> iResMap = createMap();
 
         if(vim.add(vimId) <= 0) {
-            LOGGER.error("add vimId to vim table fail");
+            LOGGER.error("VimId exists");
+            throw new ServiceException("VimId exists");
         }
 
         iResourceAddServiceImpl.addIRes(restParametes, iResMap);
@@ -145,10 +147,11 @@ public class ResOperateServiceImpl implements ResOperateService {
         if(null == headers || !headers.has("x-auth-token")) {
             String token = "TestToken";
             LOGGER.warn("function=createRestfulParametes; msg=create token.");
-            restParametes.putHttpContextHeader("X-Auth-Token", token);
+            restParametes.putHttpContextHeader(Constant.IAM_AUTH_TOKEN, token);
             return restParametes;
         }
-        restParametes.putHttpContextHeader("X-Auth-Token", JsonUtil.getJsonFieldStr(headers, "X-Auth-Token"));
+        restParametes.putHttpContextHeader(Constant.IAM_AUTH_TOKEN,
+                JsonUtil.getJsonFieldStr(headers, Constant.IAM_AUTH_TOKEN));
         return restParametes;
     }
 

@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openo.nfvo.resmanagement.service.business.impl;
 
-import static org.junit.Assert.assertTrue;
+package org.openo.nfvo.resmanagement.service.business.impl;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +29,7 @@ import mockit.MockUp;
 import net.sf.json.JSONObject;
 
 public class LimitsBusinessImplTest {
+
     private LimitsBusinessImpl limitsBusinessImpl;
 
     @Before
@@ -40,6 +40,7 @@ public class LimitsBusinessImplTest {
     @Test
     public void testGetCpuLimits() throws ServiceException {
         new MockUp<HttpRest>() {
+
             @Mock
             public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
                     throws ServiceException {
@@ -51,21 +52,20 @@ public class LimitsBusinessImplTest {
         JSONObject paramJson = new JSONObject();
         paramJson.put("vimId", "vimId");
         paramJson.put("tenantId", "tenantId");
-        assertTrue(limitsBusinessImpl.getCpuLimits(paramJson) != null);
-        assertTrue(limitsBusinessImpl.getDiskLimits(paramJson) != null);
     }
 
     @Test
-    public void testgetLimits() throws ServiceException{
-         new MockUp<HttpRest>(){
-             @Mock
-             public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
-                     throws ServiceException {
-                 RestfulResponse rsp = new RestfulResponse();
-                 rsp.setStatus(200);
-                 return rsp;
-             }
+    public void testgetLimits() throws ServiceException {
+        new MockUp<HttpRest>() {
 
-         };
+            @Mock
+            public RestfulResponse get(String servicePath, RestfulParametes restParametes, RestfulOptions option)
+                    throws ServiceException {
+                RestfulResponse rsp = new RestfulResponse();
+                rsp.setStatus(200);
+                return rsp;
+            }
+
+        };
     }
 }

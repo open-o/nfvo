@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -53,53 +52,18 @@ public class LimitsRoa {
     private LimitsBusiness limitsBusiness;
 
     /**
-     * get Cpu and Memory Limits.<br>
+     * <br>
      *
      * @param context
-     * @param tenantId
      * @param vimId
      * @return
      * @throws ServiceException
      * @since NFVO 0.5
      */
     @GET
-    @Path("/{tenantId}/cpu")
-    public JSONObject getCpuLimits(@Context HttpServletRequest context,
-            @PathParam(ParamConstant.PARAM_TENANTID) String tenantId,
+    public JSONObject getLimits(@Context HttpServletRequest context,
             @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
-        LOGGER.warn("function=getCpuLimits, tenantId={}, vimId={}", tenantId, vimId);
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(ParamConstant.PARAM_VIMID, vimId);
-        paramJson.put(ParamConstant.PARAM_TENANTID, tenantId);
-        return limitsBusiness.getCpuLimits(paramJson);
-    }
-
-    /**
-     * get Disk Limits.<br>
-     *
-     * @param context
-     * @param tenantId
-     * @param vimId
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    @GET
-    @Path("/{tenantId}/disk")
-    public JSONObject getDiskLimits(@Context HttpServletRequest context,
-            @PathParam(ParamConstant.PARAM_TENANTID) String tenantId,
-            @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
-        LOGGER.warn("function=getCpuLimits, tenantId={}, vimId={}", tenantId, vimId);
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(ParamConstant.PARAM_VIMID, vimId);
-        paramJson.put(ParamConstant.PARAM_TENANTID, tenantId);
-        return limitsBusiness.getDiskLimits(paramJson);
-    }
-
-    @GET
-    public JSONObject getLimitsResource(@Context HttpServletRequest context,
-            @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
-        LOGGER.warn("function=getLimitsResource, vimId={}", vimId);
+        LOGGER.warn("function=getLimits, vimId={}", vimId);
         return limitsBusiness.getLimits(vimId);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,20 +33,18 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- *
  * iResource update service implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class IResourceUpdateServiceImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IResourceUpdateServiceImpl.class);
 
     /**
-     *
      * Update iResource.<br>
      *
      * @param vimId
@@ -54,7 +52,7 @@ public class IResourceUpdateServiceImpl {
      * @param iResMap
      * @param sites
      * @throws ServiceException
-     * @since  NFVO 0.5
+     * @since NFVO 0.5
      */
     @Transactional(rollbackFor = ServiceException.class)
     public void updateIRes(String vimId, RestfulParametes restParametes, Map<String, InterfaceResManagement> iResMap)
@@ -67,10 +65,13 @@ public class IResourceUpdateServiceImpl {
             RestfulParametes restParametes, String vimId) throws ServiceException {
         for(String resName : updateUrlMap.keySet()) {
             if(ParamConstant.PARAM_HOST.equals(resName)) {
-                updateHostResource(iResMap, restParametes,
-                        String.format(updateUrlMap.get(resName), restParametes.get("tenantId")), resName);
+                updateHostResource(iResMap, restParametes, String.format(updateUrlMap.get(resName),
+                        restParametes.get(ParamConstant.PARAM_VIMID), restParametes.get(ParamConstant.PARAM_TENANTID)),
+                        resName);
             } else if(iResMap.get(resName).deleteResByVimId(vimId) >= 0) {
-                JSONArray iResArray = RestfulUtil.getResponseRes(restParametes, updateUrlMap.get(resName), resName);
+                String url = String.format(updateUrlMap.get(resName), restParametes.get(ParamConstant.PARAM_VIMID),
+                        restParametes.get(ParamConstant.PARAM_TENANTID));
+                JSONArray iResArray = RestfulUtil.getResponseRes(new RestfulParametes(), url, resName);
                 LOGGER.warn("function=addIResources; iResArray={}", iResArray);
                 for(Object object : iResArray) {
                     JSONObject iRes = JSONObject.fromObject(object);
@@ -85,20 +86,21 @@ public class IResourceUpdateServiceImpl {
     private void updateHostResource(Map<String, InterfaceResManagement> iResMap, RestfulParametes restParametes,
             String url, String iResName) throws ServiceException {
 
-        JSONArray hostResArray = RestfulUtil.getResponseRes(restParametes, url, iResName);
+        JSONArray hostResArray = RestfulUtil.getResponseRes(new RestfulParametes(), url, iResName);
         LOGGER.warn("function=updateHostResource; hostResArray={}", hostResArray);
         for(Object object : hostResArray) {
             JSONObject hostRes = JSONObject.fromObject(object);
-            String hostName = hostRes.getString("host_name");
+            String hostName = hostRes.getString("name");
             String hostZone = hostRes.getString("zone");
             if("internal".equals(hostZone)) {
                 continue;
             }
-            String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get("tenantId"), hostName);
+            String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get(ParamConstant.PARAM_VIMID),
+                    restParametes.get(ParamConstant.PARAM_TENANTID), hostName);
 
-            String result = RestfulUtil.getResponseContent(hostUrl, restParametes, ParamConstant.PARAM_GET);
+            String result = RestfulUtil.getResponseContent(hostUrl, new RestfulParametes(), ParamConstant.PARAM_GET);
             JSONObject hostObj = JSONObject.fromObject(result);
-            JSONObject host = IResourceAddServiceImpl.hostDataParse(hostObj, hostName);
+            JSONObject host = IResourceAddServiceImpl.hostDataParse(hostObj);
             int res = iResMap.get(ParamConstant.PARAM_HOST).update(host);
             LOGGER.warn("function=updateHostResource; result={}, res={}", result, res);
             if(res < 0) {

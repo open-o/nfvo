@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -142,54 +142,34 @@ public class UrlConstant {
     public static final String UPDATE_BY_VAPP = "updatebyvapp";
 
     /**
-     * getVenderURL.
-     */
-    public static final String GET_VENDOR_URL = "/rest/vimadapter/v1/res/tenants";
-
-    /**
-     * getVMSURL.
-     */
-    public static final String GET_VMS_URL = "/rest/vimadapter/v1/res/vms";
-
-    /**
-     * getSitesURL.
-     */
-    public static final String GET_SITES_URL = "/rest/vimadapter/v1/res/sites";
-
-    /**
      * getNetworkURL.
      */
-    public static final String GET_NETWORK_URL = "/openoapi/vimdriver/v1/networks";
+    public static final String GET_NETWORK_URL = "/openoapi/multivim/v1/%s/%s/networks";
 
     /**
      * getTenantURL.
      */
-    public static final String GET_TENANT_URL = "/openoapi/vimdriver/v1/tenants";
+    public static final String GET_TENANT_URL = "/openoapi/multivim/v1/%s/tenants";
 
     /**
      * getHostURL.
      */
-    public static final String GET_HOST_URL = "/openoapi/vimdriver/v1/%s/hosts";
+    public static final String GET_HOST_URL = "/openoapi/multivim/v1/%s/%s/hosts";
 
     /**
      * getHostDetailURL.
      */
-    public static final String GET_HOSTDETAIL_URL = "/openoapi/vimdriver/v1/%s/hosts/%s";
+    public static final String GET_HOSTDETAIL_URL = "/openoapi/multivim/v1/%s/%s/hosts/%s";
 
     /**
      * getNetworkURL.
      */
-    public static final String GET_PORT_URL = "/openoapi/vimdriver/v1/ports";
+    public static final String GET_PORT_URL = "/openoapi/multivim/v1/%s/%s/ports";
 
     /**
-     * getLimitsDiskURL.
+     * getLimitsURL.
      */
-    public static final String GET_LIMITSDISK_URL = "/openoapi/vimdriver/v1/limits/%s/disk";
-
-    /**
-     * getLimitsCpuURL.
-     */
-    public static final String GET_LIMITSCPU_URL = "/openoapi/vimdriver/v1/limits/%s/cpumemory";
+    public static final String GET_LIMITS_URL = "/openoapi/multivim/v1/%s/%s/limits";
 
     /**
      * template notify M url.
@@ -205,16 +185,6 @@ public class UrlConstant {
      * tenantsite allot target.
      */
     public static final String TENANTSITE_ALLOT_TARGET = "tenantsite/allot";
-
-    /**
-     * SO driver request URL.
-     */
-    public static final String SO_DRIVER_REQ_URL = "/rest/sodriver/v1/req";
-
-    /**
-     * All SO driver request URL.
-     */
-    public static final String ALL_SO_DRIVER_REQ_URL = "/rest/sodriver/v1/req/broadcast";
 
     /**
      * tenant url.

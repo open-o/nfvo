@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 package org.openo.nfvo.resmanagement.service.business.impl;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
@@ -43,61 +42,24 @@ public class LimitsBusinessImpl implements LimitsBusiness {
     /**
      * <br>
      *
-     * @param paramJson
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    @Override
-    public JSONObject getCpuLimits(JSONObject paramJson) throws ServiceException {
-        return getResponse(paramJson, UrlConstant.GET_LIMITSCPU_URL);
-    }
-
-    /**
-     * <br>
-     *
-     * @param paramJson
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    @Override
-    public JSONObject getDiskLimits(JSONObject paramJson) throws ServiceException {
-        return getResponse(paramJson, UrlConstant.GET_LIMITSDISK_URL);
-    }
-
-    /**
-     * <br>
-     *
-     * @param paramJson
-     * @param getLimitscpuUrl
+     * @param vimId
+     * @param tenantId
      * @return
      * @since NFVO 0.5
      */
-    private JSONObject getResponse(JSONObject paramJson, String getLimitscpuUrl) {
-        String vimId = paramJson.getString(ParamConstant.PARAM_VIMID);
-        String tenantId = paramJson.getString(ParamConstant.PARAM_TENANTID);
-        String url = String.format(getLimitscpuUrl, tenantId);
-        RestfulParametes restParametes = new RestfulParametes();
-        restParametes.put("vimId", vimId);
-        String result = RestfulUtil.getResponseContent(url, restParametes, ParamConstant.PARAM_GET);
-        LOGGER.warn("function=getLimits; result={}", result);
+    private JSONObject getResponse(String vimId, String tenantId) {
+        LOGGER.info("function=getResponse; vimId={}, tenantId={}", vimId, tenantId);
+        String url = String.format(UrlConstant.GET_LIMITS_URL, vimId, tenantId);
+        JSONObject result = RestfulUtil.getResponseObj(url, ParamConstant.PARAM_GET);
+        LOGGER.warn("function=getResponse; result={}", result);
         if(null == result) {
             JSONObject obj = new JSONObject();
             obj.put("msg", "getLimits fail!");
             return obj;
         }
-        return JSONObject.fromObject(result);
+        return result;
     }
 
-    /**
-     * <br>
-     * 
-     * @param paramJson
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
     @Override
     public JSONObject getLimits(String vimId) throws ServiceException {
         JSONObject vimInfo = VimUtil.getVimById(vimId);
@@ -105,19 +67,15 @@ public class LimitsBusinessImpl implements LimitsBusiness {
         String vimName = vimInfo.getString("name");
         String tenant = vimInfo.getString("tenant");
         String tenantId = VimUtil.getTenantIdByName(tenant, vimId);
-        JSONObject paramJson = new JSONObject();
-        paramJson.put(ParamConstant.PARAM_VIMID, vimId);
-        paramJson.put(ParamConstant.PARAM_TENANTID, tenantId);
-        JSONObject cpuObj = getCpuLimits(paramJson);
-        JSONObject diskObj = getDiskLimits(paramJson);
 
-        JSONObject cpuMem = cpuObj.getJSONObject("limits").getJSONObject("absolute");
-        String totalCPU = String.valueOf(cpuMem.get("maxTotalCores"));
-        String totalMemory = String.valueOf(cpuMem.get("maxTotalRAMSize"));
-        String usedCPU = String.valueOf(cpuMem.get("totalCoresUsed"));
-        String usedMemory = String.valueOf(cpuMem.get("totalRAMUsed"));
-        JSONObject disk = diskObj.getJSONObject("limits");
-        String totalDisk = String.valueOf(disk.get("gigabytes"));
+        JSONObject limits = getResponse(vimId, tenantId);
+
+        String totalCPU = String.valueOf(limits.get("maxTotalCores"));
+        String totalMemory = String.valueOf(limits.get("maxTotalRAMSize"));
+        String totalDisk = String.valueOf(limits.get("maxTotalVolumes"));
+        String usedCPU = String.valueOf(limits.get("totalCoresUsed"));
+        String usedMemory = String.valueOf(limits.get("totalRAMUsed"));
+        String usedDisk = String.valueOf(limits.get("totalVolumesUsed"));
 
         JSONObject result = new JSONObject();
         result.put("vimId", vimId);
@@ -127,6 +85,7 @@ public class LimitsBusinessImpl implements LimitsBusiness {
         result.put("totalDisk", totalDisk);
         result.put("usedCPU", usedCPU);
         result.put("usedMemory", usedMemory);
+        result.put("usedDisk", usedDisk);
         LOGGER.info("getLimits result:{}", result);
         return result;
     }

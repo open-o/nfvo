@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,10 +74,6 @@ public class ResOperateRoa {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject updateIResPool(@Context HttpServletRequest context,
             @QueryParam(ParamConstant.PARAM_VIMID) String vimId) throws ServiceException {
-        if(null == vimId || vimId.isEmpty()) {
-            LOGGER.warn("ResPoolRoa::start to update all IResource");
-            return updateIResPool(context);
-        }
         JSONObject json = RequestUtil.getAllJsonRequestBody(context);
         LOGGER.warn("ResPoolRoa::modVimId :{}", vimId);
         JSONObject vimInfo = VimUtil.getVimById(vimId);
@@ -86,16 +82,6 @@ public class ResOperateRoa {
         try {
             resOperateService.updateIRes(tenantId, vimId, json);
             resOperateService.sendMsgMonitor("update", vimId);
-            return RoaResponseUtil.update(HttpConstant.OK_CODE);
-        } catch(ServiceException se) {
-            LOGGER.error("ResOperateRoa::updateIResPool error:{}" + se);
-            return ResponseUtil.genHttpResponse(HttpConstant.ERROR_CODE, se.getMessage());
-        }
-    }
-
-    private JSONObject updateIResPool(@Context HttpServletRequest context) throws ServiceException {
-        try {
-            resOperateService.updateAllIRes();
             return RoaResponseUtil.update(HttpConstant.OK_CODE);
         } catch(ServiceException se) {
             LOGGER.error("ResOperateRoa::updateIResPool error:{}" + se);

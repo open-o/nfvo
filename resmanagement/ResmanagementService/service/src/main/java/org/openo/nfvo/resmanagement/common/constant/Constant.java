@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,8 @@ public class Constant {
 
     public static final String IAM_TOKEN = "x-auth-token";
 
+    public static final String IAM_AUTH_TOKEN = "X-Auth-Token";
+
     public static final String IAM_USER_ID = "X-User-Id";
 
     public static final String IAM_USER_NAME = "X-User-Name";
@@ -86,6 +88,6 @@ public class Constant {
     public static final int REPEAT_REG_TIME = 60 * 1000;
 
     private Constant() {
-        //private constants
+        // private constants
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,20 +84,18 @@ public class VimUtil {
      * @return
      */
     public static JSONArray getTenants(String vimId) {
-        String url = UrlConstant.GET_TENANT_URL;
-        RestfulParametes restParametes = new RestfulParametes();
-        restParametes.put("vimId", vimId);
-        String result = RestfulUtil.getResponseContent(url, restParametes, ParamConstant.PARAM_GET);
-        JSONObject resultObj = JSONObject.fromObject(result);
-        JSONArray tenants = resultObj.getJSONArray("projects");
-        LOG.info("Get tenants from vimdriver! tenants:{}", tenants);
+        String url = String.format(UrlConstant.GET_TENANT_URL, vimId);
+        JSONObject resultObj = RestfulUtil.getResponseObj(url, ParamConstant.PARAM_GET);
+        JSONArray tenants = resultObj.getJSONArray("tenants");
+        LOG.info("Get tenants from multivim! tenants:{}", tenants);
         return tenants;
     }
 
     /**
      * <br>
-     * 
+     *
      * @param tenant
+     * @param vimId
      * @return
      * @since NFVO 0.5
      */
@@ -111,6 +109,7 @@ public class VimUtil {
                 tenantId = obj.getString("id");
             }
         }
+        LOG.info("GetTenantIdByName tenantId:{}", tenantId);
         return tenantId;
     }
 }

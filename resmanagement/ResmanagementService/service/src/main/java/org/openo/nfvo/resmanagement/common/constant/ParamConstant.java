@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 
 package org.openo.nfvo.resmanagement.common.constant;
 
@@ -29,19 +28,36 @@ package org.openo.nfvo.resmanagement.common.constant;
 public class ParamConstant {
 
     /**
+     * param key: vimId.
+     */
+    public static final String PARAM_VIMID = "vimId";
+
+    /**
+     * param key: vimName
+     */
+    public static final String PARAM_VIMNAME = "vimName";
+
+    /**
+     * param key: tenantId.
+     */
+    public static final String PARAM_TENANTID = "tenantId";
+
+    public static final String TOTAL_CPU = "totalCPU";
+
+    public static final String USED_CPU = "usedCPU";
+
+    public static final String TOTAL_MEMORY = "totalMemory";
+
+    public static final String USED_MEMORY = "usedMemory";
+
+    public static final String TOTAL_DISK = "totalDisk";
+
+    public static final String USED_DISK = "usedDisk";
+
+    /**
      * param key: data.
      */
     public static final String PARAM_DATA = "data";
-
-    /**
-     * param key: so.
-     */
-    public static final String PARAM_SO = "so";
-
-    /**
-     * param key: do.
-     */
-    public static final String PARAM_DO = "do";
 
     /**
      * param key: id.
@@ -54,19 +70,9 @@ public class ParamConstant {
     public static final String PARAM_IP = "ip";
 
     /**
-     * param key: doId.
-     */
-    public static final String PARAM_DOID = "doId";
-
-    /**
      * param key: role.
      */
     public static final String PARAM_ROLE = "role";
-
-    /**
-     * param key: doName.
-     */
-    public static final String PARAM_DONAME = "doName";
 
     /**
      * param key: roleId.
@@ -82,16 +88,6 @@ public class ParamConstant {
      * param key: used.
      */
     public static final String PARAM_USED = "used";
-
-    /**
-     * param key: drTotal.
-     */
-    public static final String PARAM_DRTOTAL = "drTotal";
-
-    /**
-     * param key: drUsed.
-     */
-    public static final String PARAM_DRUSED = "drUsed";
 
     /**
      * param key: vcpus.
@@ -112,11 +108,6 @@ public class ParamConstant {
      * param key: countyr
      */
     public static final String PARAM_COUNTRY = "country";
-
-    /**
-     * param key: vimName
-     */
-    public static final String PARAM_VIMNAME = "vimName";
 
     /**
      * param key: vendorId
@@ -149,16 +140,6 @@ public class ParamConstant {
     public static final String PARAM_PARENT = "parent";
 
     /**
-     * param key: vimId.
-     */
-    public static final String PARAM_VIMID = "vimId";
-
-    /**
-     * param key: rpId.
-     */
-    public static final String PARAM_RPID = "rpId";
-
-    /**
      * param key: location.
      */
     public static final String PARAM_LOCATION = "location";
@@ -167,11 +148,6 @@ public class ParamConstant {
      * param key: siteName.
      */
     public static final String PARAM_SITENAME = "siteName";
-
-    /**
-     * param key: drLocation.
-     */
-    public static final String PARAM_DRLOCATION = "drLocation";
 
     /**
      * param key: vendor.
@@ -187,16 +163,6 @@ public class ParamConstant {
      * param key: tenantSites.
      */
     public static final String PARAM_TENANTSITES = "tenantSites";
-
-    /**
-     * param key: tenantId.
-     */
-    public static final String PARAM_TENANTID = "tenantId";
-
-    /**
-     * param key: rpname.
-     */
-    public static final String PARAM_RPNAME = "resPoolName";
 
     /**
      * param key: siteId.
@@ -309,11 +275,6 @@ public class ParamConstant {
     public static final String PARAM_SITES = "sites";
 
     /**
-     * param key: resPool.
-     */
-    public static final String PARAM_RESPOOL = "resPool";
-
-    /**
      * param key: vduId.
      */
     public static final String PARAM_VDUID = "vduId";
@@ -327,11 +288,6 @@ public class ParamConstant {
      * param key: hostId.
      */
     public static final String PARAM_HOSTID = "hostId";
-
-    /**
-     * param key: soId.
-     */
-    public static final String PARAM_SOID = "soId";
 
     /**
      * param key: projectId.
@@ -408,12 +364,7 @@ public class ParamConstant {
      */
     public static final String PARAM_INFO = "info";
 
-    /**
-     * param key: drInfo
-     */
-    public static final String PARAM_DRINFO = "drInfo";
-
     private ParamConstant() {
-        //private constructor
+        // private constructor
     }
 }

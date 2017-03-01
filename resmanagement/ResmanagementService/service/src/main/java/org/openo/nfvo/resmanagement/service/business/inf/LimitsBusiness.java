@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,25 +29,6 @@ import net.sf.json.JSONObject;
  * @version NFVO 0.5 Sep 10, 2016
  */
 public interface LimitsBusiness {
-
-    /**
-     * <br>
-     *
-     * @param paramJson
-     * @return
-     * @throws ServiceException
-     * @since NFVO 0.5
-     */
-    JSONObject getCpuLimits(JSONObject paramJson) throws ServiceException;
-
-    /**
-     * <br>
-     *
-     * @param paramJson
-     * @return
-     * @since NFVO 0.5
-     */
-    JSONObject getDiskLimits(JSONObject paramJson) throws ServiceException;
 
     /**
      * <br>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,16 +59,17 @@ public class SitesImpl implements Sites {
     public int add(JSONObject jsonObject) throws ServiceException {
         LOGGER.info("Add datacenter jsonObject: {}", jsonObject);
         SitesEntity sitesEntity = SitesEntity.toEntity(jsonObject);
-        sitesEntity.setStatus("active");
-        String vimId = jsonObject.getString("vimName");
+        sitesEntity.setStatus(ParamConstant.PARAM_ACTIVE);
+        String vimId = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
         sitesEntity.setVimId(vimId);
         JSONObject resource = limitsBusiness.getLimits(vimId);
-        sitesEntity.setVimName(resource.getString("vimName"));
-        sitesEntity.setTotalCPU(resource.getString("totalCPU"));
-        sitesEntity.setUsedCPU(resource.getString("usedCPU"));
-        sitesEntity.setTotalMemory(resource.getString("totalMemory"));
-        sitesEntity.setUsedMemory(resource.getString("usedMemory"));
-        sitesEntity.setTotalDisk(resource.getString("totalDisk"));
+        sitesEntity.setVimName(resource.getString(ParamConstant.PARAM_VIMNAME));
+        sitesEntity.setTotalCPU(resource.getString(ParamConstant.TOTAL_CPU));
+        sitesEntity.setUsedCPU(resource.getString(ParamConstant.USED_CPU));
+        sitesEntity.setTotalMemory(resource.getString(ParamConstant.TOTAL_MEMORY));
+        sitesEntity.setUsedMemory(resource.getString(ParamConstant.USED_MEMORY));
+        sitesEntity.setTotalDisk(resource.getString(ParamConstant.TOTAL_DISK));
+        sitesEntity.setUsedDisk(resource.getString(ParamConstant.USED_DISK));
         if(StringUtils.isEmpty(sitesEntity.getId())) {
             sitesEntity.setId(UUID.randomUUID().toString());
             jsonObject.put(ParamConstant.PARAM_ID, sitesEntity.getId());
@@ -87,7 +88,7 @@ public class SitesImpl implements Sites {
     @Override
     public void sendToMonitor(JSONObject jsonObject) throws ServiceException {
         LOGGER.info("SitesImpl sendToMonitor jsonObject: {}", jsonObject);
-        String vimId = jsonObject.getString("vimName");
+        String vimId = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
         JSONObject vimInfo = VimUtil.getVimById(vimId);
         LOGGER.info("SitesImpl sendToMonitor vimInfo: {}", vimInfo);
         String tenant = vimInfo.getString("tenant");
@@ -112,7 +113,7 @@ public class SitesImpl implements Sites {
     }
 
     private JSONObject dataParse(JSONObject jsonObject) throws ServiceException {
-        String vimId = jsonObject.getString("vimId");
+        String vimId = jsonObject.getString(ParamConstant.PARAM_VIMID);
         Map<String, Object> condition = new HashMap<>();
         condition.put("vimId", vimId);
         SitesEntity sitesEntity = get(condition);
@@ -125,9 +126,9 @@ public class SitesImpl implements Sites {
 
     private JSONObject computeSiteUsed(JSONObject jsonObject, SitesEntity sitesEntity) throws ServiceException {
         String action = JsonUtil.getJsonFieldStr(jsonObject, "action");
-        String usedCpu = JsonUtil.getJsonFieldStr(jsonObject, "usedCPU");
-        String usedMemory = JsonUtil.getJsonFieldStr(jsonObject, "usedMemory");
-        String usedDisk = JsonUtil.getJsonFieldStr(jsonObject, "usedDisk");
+        String usedCpu = JsonUtil.getJsonFieldStr(jsonObject, ParamConstant.USED_CPU);
+        String usedMemory = JsonUtil.getJsonFieldStr(jsonObject, ParamConstant.USED_MEMORY);
+        String usedDisk = JsonUtil.getJsonFieldStr(jsonObject, ParamConstant.USED_DISK);
         String oldCpu = sitesEntity.getUsedCPU();
         String oldMemory = sitesEntity.getUsedMemory();
         String oldDisk = sitesEntity.getUsedDisk();
@@ -136,19 +137,19 @@ public class SitesImpl implements Sites {
         String newDisk = accumOrFreeRes(usedDisk, oldDisk, action, sitesEntity.getTotalDisk(), "disk");
 
         JSONObject resUsed = new JSONObject();
-        resUsed.put("usedCPU", newCpu);
-        resUsed.put("usedMemory", newMemory);
-        resUsed.put("usedDisk", newDisk);
+        resUsed.put(ParamConstant.USED_CPU, newCpu);
+        resUsed.put(ParamConstant.USED_MEMORY, newMemory);
+        resUsed.put(ParamConstant.USED_DISK, newDisk);
         resUsed.put("id", sitesEntity.getId());
         resUsed.put("name", sitesEntity.getName());
         resUsed.put("status", sitesEntity.getStatus());
         resUsed.put("location", sitesEntity.getLocation());
         resUsed.put("country", sitesEntity.getCountry());
-        resUsed.put("vimId", sitesEntity.getVimId());
-        resUsed.put("vimName", sitesEntity.getVimName());
-        resUsed.put("totalCPU", sitesEntity.getTotalCPU());
-        resUsed.put("totalMemory", sitesEntity.getTotalMemory());
-        resUsed.put("totalDisk", sitesEntity.getTotalDisk());
+        resUsed.put(ParamConstant.PARAM_VIMID, sitesEntity.getVimId());
+        resUsed.put(ParamConstant.PARAM_VIMNAME, sitesEntity.getVimName());
+        resUsed.put(ParamConstant.TOTAL_CPU, sitesEntity.getTotalCPU());
+        resUsed.put(ParamConstant.TOTAL_MEMORY, sitesEntity.getTotalMemory());
+        resUsed.put(ParamConstant.TOTAL_DISK, sitesEntity.getTotalDisk());
         return resUsed;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,11 +36,13 @@ public class ResponseConstant {
 
     public static final String DEL_FAIL_MSG = ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.del.error");
 
-    public static final String MOD_SUCESS_MSG = ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.update.success");
+    public static final String MOD_SUCESS_MSG =
+            ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.update.success");
 
     public static final String MOD_FAIL_MSG = ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.update.error");
 
-    public static final String QUERY_SUCESS_MSG = ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.query.success");
+    public static final String QUERY_SUCESS_MSG =
+            ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.query.success");
 
     public static final String QUERY_FAIL_MSG = ResourceUtil.getMessage("org.openo.nfvo.resmanage.common.query.error");
 
@@ -53,6 +55,6 @@ public class ResponseConstant {
     public static final String RES_VERIFY_FAIL_MSG = "res verify failed";
 
     private ResponseConstant() {
-        //private constructor
+        // private constructor
     }
 }
