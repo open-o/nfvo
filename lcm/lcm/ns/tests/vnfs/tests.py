@@ -27,6 +27,7 @@ from lcm.pub.utils.jobutil import JOB_MODEL_STATUS
 from lcm.pub.utils.timeutil import now_time
 from lcm.pub.utils.values import ignore_case_get
 from lcm.ns.vnfs.terminate_nfs import TerminateVnfs
+from lcm.ns.vnfs.scale_vnfs import NFManualScaleService
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 
 
@@ -197,6 +198,106 @@ class TestTerminateVnfViews(TestCase):
         else:
             self.failUnlessEqual(1, 1)
 
+class TestScaleVnfViews(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.ns_inst_id = str(uuid.uuid4())
+        self.nf_inst_id = str(uuid.uuid4())
+        self.vnffg_id = str(uuid.uuid4())
+        self.vim_id = str(uuid.uuid4())
+        self.job_id = str(uuid.uuid4())
+        self.nf_uuid = '111'
+        self.tenant = "tenantname"
+        NSInstModel(id=self.ns_inst_id, name="ns_name").save()
+        NfInstModel.objects.create(nfinstid=self.nf_inst_id, nf_name='name_1', vnf_id='1',
+                                   vnfm_inst_id='1', ns_inst_id='111,2-2-2',
+                                   max_cpu='14', max_ram='12296', max_hd='101', max_shd="20", max_net=10,
+                                   status='active', mnfinstid=self.nf_uuid, package_id='pkg1',
+                                   vnfd_model='{"metadata": {"vnfdId": "1","vnfdName": "PGW001",'
+                                              '"vnfProvider": "zte","vnfdVersion": "V00001","vnfVersion": "V5.10.20",'
+                                              '"productType": "CN","vnfType": "PGW",'
+                                              '"description": "PGW VNFD description",'
+                                              '"isShared":true,"vnfExtendType":"driver"}}')
+
+    def tearDown(self):
+        NSInstModel.objects.all().delete()
+        NfInstModel.objects.all().delete()
+
+    @mock.patch.object(restcall, "call_req")
+    def test_scale_vnf(self, mock_call_req):
+        job_id = JobUtil.create_job("VNF", JOB_TYPE.TERMINATE_VNF, self.nf_inst_id)
+
+        vnfd_info = {
+            "vnf_flavours":[
+                {
+                    "flavour_id":"flavour1",
+                    "description":"",
+                    "vdu_profiles":[
+                        {
+                            "vdu_id":"vdu1Id",
+                            "instances_minimum_number": 1,
+                            "instances_maximum_number": 4,
+                            "local_affinity_antiaffinity_rule":[
+                                {
+                                    "affinity_antiaffinity":"affinity",
+                                    "scope":"node",
+                                }
+                            ]
+                        }
+                    ],
+                    "scaling_aspects":[
+                        {
+                            "id": "demo_aspect",
+                            "name": "demo_aspect",
+                            "description": "demo_aspect",
+                            "associated_group": "elementGroup1",
+                            "max_scale_level": 5
+                        }
+                    ]
+                }
+            ],
+            "element_groups": [
+                  {
+                      "group_id": "elementGroup1",
+                      "description": "",
+                      "properties":{
+                          "name": "elementGroup1",
+                      },
+                      "members": ["gsu_vm","pfu_vm"],
+                  }
+            ]
+        }
+
+        req_data = {
+            "scaleVnfData": [
+                {
+                    "type":"SCALE_OUT",
+                    "aspectId":"demo_aspect1",
+                    "numberOfSteps":1,
+                    "additionalParam":vnfd_info
+                },
+                {
+                    "type":"SCALE_OUT",
+                    "aspectId":"demo_aspect2",
+                    "numberOfSteps":1,
+                    "additionalParam":vnfd_info
+                }
+            ]
+        }
+
+
+        mock_vals = {
+            "/openoapi/ztevmanagerdriver/v1/1/vnfs/111/terminate":
+                [0, json.JSONEncoder().encode({"jobId": job_id}), '200'],
+            "/openoapi/ztevmanagerdriver/v1/1/vnfs/111/terminate":
+                [0, json.JSONEncoder().encode({"jobId": job_id}), '200']
+        }
+        NFManualScaleService(self.nf_inst_id, req_data).run()
+        nsIns = NfInstModel.objects.filter(nfinstid=self.nf_inst_id)
+        if nsIns:
+            self.failUnlessEqual(1, 1)
+        else:
+            self.failUnlessEqual(1, 0)
 
 vnfd_model_dict = {
     'local_storages': [],
