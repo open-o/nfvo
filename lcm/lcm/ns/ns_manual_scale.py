@@ -23,6 +23,7 @@ from lcm.pub.database.models import JobModel, NSInstModel
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.utils.jobutil import JobUtil, JOB_MODEL_STATUS
 from lcm.pub.utils.values import ignore_case_get
+from lcm.pub.utils.scaleaspect import get_scale_vnf_data
 
 JOB_ERROR = 255
 SCALE_TYPE = ("SCALE_NS", "SCALE_VNF")
@@ -37,6 +38,7 @@ class NSManualScaleService(threading.Thread):
         self.job_id = job_id
         self.scale_type = ''
         self.scale_vnf_data = ''
+        self.scale_ns_data = ''
 
     def run(self):
         try:
@@ -58,10 +60,16 @@ class NSManualScaleService(threading.Thread):
 
     def get_and_check_params(self):
         self.scale_type = ignore_case_get(self.request_data, 'scaleType')
-        if not self.scale_type or self.scale_type != SCALE_TYPE[1]:
-            logger.error('scaleType parameter does not exist or value incorrect')
-            raise NSLCMException('scaleType parameter does not exist or value incorrect')
-        self.scale_vnf_data = ignore_case_get(self.request_data, 'scaleVnfData')
+        if not self.scale_type or self.scale_type != SCALE_TYPE[0]:
+            logger.error('scaleType parameter does not exist or value is incorrect. It must be SCALE_NS.')
+            raise NSLCMException('scaleType parameter does not exist or value incorrect. It must be SCALE_NS.')
+
+        # Get data if SCALE_NS
+        self.scale_ns_data = ignore_case_get(self.request_data, 'scaleNsData')
+        self.scale_vnf_data = get_scale_vnf_data(self.scale_ns_data,self.ns_instance_id)
+
+        # Get data if SCALE_VNF
+        #self.scale_vnf_data = ignore_case_get(self.request_data, 'scaleVnfData')
         if not self.scale_vnf_data:
             logger.error('scaleVnfData parameter does not exist or value incorrect')
             raise NSLCMException('scaleVnfData parameter does not exist or value incorrect')
