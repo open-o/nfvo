@@ -22,8 +22,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.junit.Test;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils.ExeRes;
 
