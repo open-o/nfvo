@@ -26,6 +26,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
+import org.openo.nfvo.jujuvnfmadapter.common.SwitchController;
 import org.openo.nfvo.jujuvnfmadapter.common.VnfmUtil;
 import org.openo.nfvo.jujuvnfmadapter.common.servicetoken.VnfmRestfulUtil;
 import org.openo.nfvo.jujuvnfmadapter.service.adapter.inf.IResourceManager;
@@ -101,7 +102,9 @@ public class VnfMgr {
             } catch (Exception e) {
                 LOG.warn("the value 'vnfmServiceUrl' not exist."+e.getMessage());
             }
-
+            if (StringUtils.isBlank(url)) {
+                url = SwitchController.vnfmServiceUrl;
+            }
             if (StringUtils.isBlank(url)) {
                 JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
 
@@ -239,10 +242,15 @@ public class VnfMgr {
         JSONObject restJson = new JSONObject();
         restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_FAIL);
         try {
-            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
-            if(vnfmObject==null || vnfmObject.isNullObject()) {
-                LOG.error("function=deleteVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
-                return restJson;
+            String url = SwitchController.vnfmServiceUrl;
+
+            if (StringUtils.isBlank(url)) {
+                JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+                if(vnfmObject==null || vnfmObject.isNullObject()) {
+                    LOG.error("function=deleteVnf, msg=Unable to get the jujuvnfm info from the 'ESR', vnfmId: {}", vnfmId);
+                    return restJson;
+                }
+                url = vnfmObject.getString("url");
             }
 
             String vnfInstanceName = "";
@@ -255,7 +263,6 @@ public class VnfMgr {
             params.put("appName", vnfInstanceName);
             params.put("vnfId", vnfId);
 
-            String url = vnfmObject.getString("url");
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
             paramsMap.put(Constant.METHOD_TYPE, Constant.POST);
@@ -298,13 +305,18 @@ public class VnfMgr {
         JSONObject restJson = new JSONObject();
         restJson.put(EntityUtils.RESULT_CODE_KEY, Constant.REST_FAIL);
         try {
-            // call the ESR to get jujuvnfm server url
-            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
-            if(vnfmObject==null || vnfmObject.isNullObject()) {
-                LOG.error("Unable to get jujuvnfm url info from the 'ESR', vnfmId: {}", vnfmId);
-                return restJson;
+            String url = SwitchController.vnfmServiceUrl;
+            JSONObject vnfmObject = null;
+            if (StringUtils.isBlank(url)) {
+                // call the ESR to get jujuvnfm server url
+                vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+                if(vnfmObject==null || vnfmObject.isNullObject()) {
+                    LOG.error("Unable to get jujuvnfm url info from the 'ESR', vnfmId: {}", vnfmId);
+                    return restJson;
+                }
+                url = vnfmObject.getString("url");
             }
-            
+
             String appName = "";
             JujuVnfmInfo jujuInfo = findByVnfId(vnfId);
             if(jujuInfo != null){
@@ -314,7 +326,7 @@ public class VnfMgr {
             params.put(Constant.VNFM_ID, vnfmId);
             params.put("vnfId", vnfId);
 
-            String url = vnfmObject.getString("url");
+
             Map<String, String> paramsMap = new HashMap<>(6);
             paramsMap.put("url", url);
             paramsMap.put(Constant.METHOD_TYPE, Constant.GET);

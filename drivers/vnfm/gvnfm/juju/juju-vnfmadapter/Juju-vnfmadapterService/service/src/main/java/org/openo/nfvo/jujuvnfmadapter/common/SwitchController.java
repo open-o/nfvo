@@ -31,6 +31,7 @@ public class SwitchController {
      * turn debug model
      */
     private static boolean debugModel = false;
+    public static String vnfmServiceUrl = null;
 
     public SwitchController() { //NOSONAR
         //Constructor

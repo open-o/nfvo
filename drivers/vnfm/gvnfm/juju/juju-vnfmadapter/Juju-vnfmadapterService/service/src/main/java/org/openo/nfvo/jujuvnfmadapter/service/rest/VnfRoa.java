@@ -37,6 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.jujuvnfmadapter.common.EntityUtils;
 import org.openo.nfvo.jujuvnfmadapter.common.StringUtil;
+import org.openo.nfvo.jujuvnfmadapter.common.SwitchController;
 import org.openo.nfvo.jujuvnfmadapter.service.constant.Constant;
 import org.openo.nfvo.jujuvnfmadapter.service.process.VnfMgr;
 import org.slf4j.Logger;
@@ -83,6 +84,20 @@ public class VnfRoa {
 
     public void setVnfMgr(VnfMgr vnfMgr) {
         this.vnfMgr = vnfMgr;
+    }
+
+
+    @POST
+    @Path("/vnfminfo")
+    public String setVNFMInfo(@Context HttpServletRequest context, @Context HttpServletResponse resp)
+            throws ServiceException {
+        JSONObject result = new JSONObject();
+        result.put("retCode", Constant.REST_SUCCESS);
+        JSONObject reqJsonObject = StringUtil.getJsonFromContexts(context);
+        String vnfmServiceUrl = reqJsonObject.getString("url");
+        SwitchController.vnfmServiceUrl = vnfmServiceUrl;
+        LOG.info(reqJsonObject + ":setVNFMInfo success!");
+        return result.toString();
     }
 
     /**
