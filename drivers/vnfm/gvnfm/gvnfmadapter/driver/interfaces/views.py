@@ -441,3 +441,12 @@ def notify(request, *args, **kwargs):
         logger.error("Error occurred in LCM notification.")
         raise e
     return Response(data=None, status=ret[2])
+    
+@api_view(http_method_names=['GET'])
+def get_vnfpkgs(request, *args, **kwargs):
+    logger.info("Enter %s", fun_name())
+    ret = req_by_msb("openoapi/nslcm/v1/vnfpackage", "GET")
+    if ret[0] != 0:
+        return Response(data={'error': ret[1]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    resp = json.JSONDecoder().decode(ret[1])
+    return Response(data=resp, status=status.HTTP_200_OK)

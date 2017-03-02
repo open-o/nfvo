@@ -24,5 +24,6 @@ urlpatterns = [
         r'[0-9a-zA-Z\-\_]+)$',views.query_vnf, name='query_vnf'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/(?P<vnfmid>[0-9a-zA-Z\-\_]+)/jobs/(?P<jobid>[0-9a-zA-Z\-\_]+)$',
         views.operation_status, name='operation_status'),
+    url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/vnfpackages$', views.get_vnfpkgs, name='get_vnfpkgs'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/resource/grant$', views.grantvnf, name='grantvnf'),
     url(r'^openoapi/(?P<vnfmtype>[0-9a-zA-Z\-\_]+)/v1/vnfs/lifecyclechangesnotification$', views.notify, name='notify'),]

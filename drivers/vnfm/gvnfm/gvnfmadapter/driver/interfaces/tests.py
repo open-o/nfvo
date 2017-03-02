@@ -284,3 +284,17 @@ class InterfacesTest(TestCase):
         self.assertEqual(str(status.HTTP_200_OK), response.status_code)
         expect_resp_data = None
         self.assertEqual(expect_resp_data, response.data)
+        
+    @mock.patch.object(restcall, 'call_req')
+    def test_get_vnfpkgs(self, mock_call_req):
+        mock_call_req.return_value = [0, json.JSONEncoder().encode({
+            "csars": [{
+                "csarId": "1",
+                "vnfdId": "2"
+            }]
+        }), '200']
+        resp = self.client.get("/openoapi/ztevmanagerdriver/v1/vnfpackages")
+        self.assertEqual(status.HTTP_200_OK, resp.status_code)
+        self.assertEqual(1, len(resp.data["csars"]))
+        self.assertEqual("1", resp.data["csars"][0]["csarId"])
+        self.assertEqual("2", resp.data["csars"][0]["vnfdId"])
