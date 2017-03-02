@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -453,3 +453,14 @@ class TestNfPackage(TestCase):
         mock_call_req.return_value = [0, json.JSONEncoder().encode({"processState": "deleting"}), '200']
         NfPkgDeleteThread(csar_id="1", job_id="2").run()
         self.assert_job_result("2", 100, "CSAR(1) is deleting now.")
+        
+    
+    def test_get_nf_csars_normal(self):
+        NfPackageModel(uuid="01", nfpackageid="1", vnfdid="2").save()
+        resp = self.client.get("/openoapi/nslcm/v1/vnfpackage")
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        self.assertEqual(1, len(resp.data["csars"]))
+        self.assertEqual("1", resp.data["csars"][0]["csarId"])
+        self.assertEqual("2", resp.data["csars"][0]["vnfdId"])
+        
+        

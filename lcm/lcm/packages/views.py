@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,9 +77,13 @@ def ns_set_state_csar(request, *args, **kwargs):
     return Response(data=ret[1], status=status.HTTP_202_ACCEPTED)
 
 #################################################################################################################
-@api_view(http_method_names=['POST'])
+@api_view(http_method_names=['POST', 'GET'])
 def nf_on_boarding(request, *args, **kwargs):
     logger.info("Enter %s%s, method is %s", fun_name(), request.data, request.method)
+    if request.method == 'GET':
+        ret = nf_package.NfPackage().get_csars()
+        logger.debug("csars=%s", str(ret))
+        return Response(data=ret, status=status.HTTP_200_OK)
     csar_id = ignore_case_get(request.data, "csarId")
     vim_ids = ignore_case_get(request.data, "vimIds")
     lab_vim_id = ignore_case_get(request.data, "labVimId")
