@@ -1,4 +1,4 @@
-# Copyright 2016 ZTE Corporation.
+# Copyright 2016-2017 ZTE Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -298,6 +298,9 @@ def convert_nsd_model(src_json):
 def convert_vnfd_model(src_json):
     target_json = {'image_files': [], 'local_storages': [], 'vdus': []}
     src_json_inst, src_json_model = convert_common(src_json, target_json)
+    if "vnfdVersion" in src_json_inst.get("metadata", {}):
+        from . import toscautil_new
+        return toscautil_new.convert_vnfd_model(src_json)
 
     src_nodes = src_json_inst['nodes']
     for node in src_nodes:
