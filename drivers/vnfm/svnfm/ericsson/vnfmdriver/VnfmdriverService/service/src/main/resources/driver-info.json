@@ -1,0 +1,15 @@
+{
+  "serviceName": "ericsson-vnfm",
+  "version": "v1",
+  "url": "/openoapi/ericsson-vnfm/v1",
+  "protocol": "REST",
+  "visualRange": "1",
+  "nodes": [
+    {
+      "ip": "127.0.0.1",
+      "port": "8485",
+      "ttl": 0
+    }
+  ]
+}
+ 
