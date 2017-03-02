@@ -25,14 +25,14 @@ from driver.pub.utils.restcall import req_by_msb
 from rest_framework import status
 
 # ==================================================
-vnf_create_url = "openoapi/lcm/v1/vnf_instances"
-vnf_inst_url = "openoapi/lcm/v1/vnf_instances/%s/instantiate"
-vnf_delete_url = "openoapi/lcm/v1/vnf_instances/%s"
-vnf_terminate_url = "openoapi/lcm/v1/vnf_instances/%s/terminate"
-operation_status_url = "openoapi/lcm/v1/vnf_lc_ops/%s?responseId=%s"
-vnf_detail_url = "openoapi/lcm/v1/vnf_instances/%s"
+vnf_create_url = "openoapi/vnflcm/v1/vnf_instances"
+vnf_inst_url = "openoapi/vnflcm/v1/vnf_instances/%s/instantiate"
+vnf_delete_url = "openoapi/vnflcm/v1/vnf_instances/%s"
+vnf_terminate_url = "openoapi/vnflcm/v1/vnf_instances/%s/terminate"
+operation_status_url = "openoapi/vnflcm/v1/vnf_lc_ops/%s?responseId=%s"
+vnf_detail_url = "openoapi/vnflcm/v1/vnf_instances/%s"
 EXTSYS_GET_VNFM = "openoapi/extsys/v1/vnfms/%s"
-vnf_query_url = "openoapi/lcm/v1/vnf_instances/%s"
+vnf_query_url = "openoapi/vnflcm/v1/vnf_instances/%s"
 notify_url = 'openoapi/nslcm/v1/vnfs/{vnfInstanceId}/Notify'
 
 query_vnf_resp_mapping = {
@@ -87,19 +87,8 @@ def set_createvnf_params(data):
 def set_instantvnf_params(data):
     input_data = {}
     input_data["flavourId"] = ignorcase_get(data, "flavourId")
-    input_data["extVirtualLinks"] = []
-    request_extVirtualLinks = ignorcase_get(data, "extVirtualLink")
-    if request_extVirtualLinks:
-        for request_extVirtualLink in request_extVirtualLinks:
-            extVirutualLink = {}
-            extVirutualLink["vlInstanceId"] = ignorcase_get(request_extVirtualLink, "vlInstanceId")
-            extVirutualLink["vim"] = ignorcase_get(request_extVirtualLink, "vim")
-            extVirutualLink["resourceId"] = ignorcase_get(request_extVirtualLink, "networkId")
-            extVirutualLink["extCps"][0]["cpdId"] = ignorcase_get(request_extVirtualLink, "cpdId")
-            input_data["extVirtualLinks"].append(extVirutualLink)
-
+    input_data["extVirtualLinks"] = ignorcase_get(data, "extVirtualLink")
     input_data["additionalParams"] = ignorcase_get(data,"additionalParams")
-    #TODO
     input_data["flavourId"] = ignorcase_get(data,"flavourId")
 
     return input_data

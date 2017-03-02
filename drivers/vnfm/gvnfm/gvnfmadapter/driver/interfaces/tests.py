@@ -219,7 +219,7 @@ class InterfacesTest(TestCase):
             ]
         }
         mock_call_req.return_value = [0, json.JSONEncoder().encode(vim_info), '201']
-        response = self.client.put("/openoapi/ztevmanagerdriver/v1/resource/grant",
+        response = self.client.put("/openoapi/gvnfmadapter/v1/resource/grant",
                                    data=json.dumps(req_data), content_type='application/json')
         self.assertEqual(str(status.HTTP_201_CREATED), response.status_code)
         expect_resp_data = {"vimid": "516cee95-e8ca-4d26-9268-38e343c2e31e", "tenant": "admin"}
@@ -279,7 +279,7 @@ class InterfacesTest(TestCase):
                         "vmidlist ": ["vmuuid"]}
                 ]
         }
-        response = self.client.post("/openoapi/ztevmanagerdriver/v1/vnfs/lifecyclechangesnotification",
+        response = self.client.post("/openoapi/gvnfmadapter/v1/vnfs/lifecyclechangesnotification",
                                     data=json.dumps(req_data), content_type='application/json')
         self.assertEqual(str(status.HTTP_200_OK), response.status_code)
         expect_resp_data = None
@@ -293,7 +293,7 @@ class InterfacesTest(TestCase):
                 "vnfdId": "2"
             }]
         }), '200']
-        resp = self.client.get("/openoapi/ztevmanagerdriver/v1/vnfpackages")
+        resp = self.client.get("/openoapi/gvnfmadapter/v1/vnfpackages")
         self.assertEqual(status.HTTP_200_OK, resp.status_code)
         self.assertEqual(1, len(resp.data["csars"]))
         self.assertEqual("1", resp.data["csars"][0]["csarId"])
