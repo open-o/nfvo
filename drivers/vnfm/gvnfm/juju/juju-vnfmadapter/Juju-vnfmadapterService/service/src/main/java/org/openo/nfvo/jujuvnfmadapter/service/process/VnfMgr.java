@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,7 +133,7 @@ public class VnfMgr {
             }
 
             int statusCode = rsp.getStatus();
-            if(statusCode == Constant.HTTP_CREATED) {
+            if(statusCode == Constant.HTTP_CREATED || statusCode == Constant.HTTP_OK) {
                 JSONObject res = JSONObject.fromObject(rsp.getResponseContent());
                 String vnfId = res.getString("vnfId");
                 saveJujuVnfmInfo(vnfInstanceName,vnfId,vnfId,vnfmId,vnfObject);
