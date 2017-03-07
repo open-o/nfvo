@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,15 +50,13 @@ public final class VnfmUtil {
      * @since  NFVO 0.5
      */
     public static JSONObject getVnfmById(String vnfmId) {
-        //TODO:remove this comment
-//        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(ParamConstants.ESR_GET_VNFM_URL, vnfmId),
-//                VnfmRestfulUtil.TYPE_GET, null);
-//        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
-//            return null;
-//        }
-//        LOGGER.error("funtion=getVnfmById, status={}", rsp.getStatus());
-//        return JSONObject.fromObject(rsp.getResponseContent());
-        return mockForTest(vnfmId);
+        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(ParamConstants.ESR_GET_VNFM_URL, vnfmId),
+                VnfmRestfulUtil.TYPE_GET, null);
+        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
+            LOGGER.error("funtion=getVnfmById, status={}", rsp.getStatus());
+            return null;
+        }
+        return JSONObject.fromObject(rsp.getResponseContent());
     }
 
     public static JSONObject mockForTest(String vnfmId){
