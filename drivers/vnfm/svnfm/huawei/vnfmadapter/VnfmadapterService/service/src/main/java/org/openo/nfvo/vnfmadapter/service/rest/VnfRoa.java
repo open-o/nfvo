@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,51 @@ public class VnfRoa {
 
     public void setVnfMgr(VnfMgr vnfMgr) {
         this.vnfMgr = vnfMgr;
+    }
+
+
+    /**
+     * Scale VNF
+     * @param context
+     * * {
+     *     "vnfInstanceId":"5",
+     *     "type":"SCALE_OUT",
+     *     "aspectId":"101",
+     *     "numberOfSteps":"1",
+     *     "additionalParam":{}
+     * }
+     * @param resp
+     * @param vnfmId
+     * @return
+     * {
+     *      "jobId":"1"
+     * }
+     * @throws ServiceException
+     */
+    @POST
+    @Path("/{vnfmId}/vnfs/{vnfInstanceId}/scale")
+    public String scaleVnf(@Context HttpServletRequest context, @Context HttpServletResponse resp,
+                         @PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId) throws ServiceException {
+        JSONObject jsonObject = VnfmJsonUtil.getJsonFromContexts(context);
+        LOG.info("function=scaleVNF, msg=enter to scale a vnf. request body:"+jsonObject);
+        JSONObject result = new JSONObject();
+        String msg = "";
+        if(null == jsonObject) {
+            msg = "the parameters do not meet the requirements,please check it!";
+            LOG.error("function=scalVnf,"+msg);
+            resp.setStatus(Constant.HTTP_NOT_ACCEPTABLE);
+            result.put("msg",msg);
+            return result.toString();
+        }
+
+        result = vnfMgr.scaleVNF(jsonObject, vnfmId, vnfInstanceId);
+        LOG.info("function=scaleVNF,result="+result.toString());
+        if(result.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("function=scaleVNF, msg=scaleVnf fail");
+            resp.setStatus(Constant.HTTP_INNERERROR);
+            return result.toString();
+        }
+        return JSONObject.fromObject(result.getJSONObject("data")).toString();
     }
 
     /**

@@ -70,6 +70,10 @@ public class SslProtocolSocketFactory {
                 SslAnonymousSocket anonymous = new SslAnonymousSocket();
                 anonymous.init();
                 SOCKMAP.put(Constant.ANONYMOUS, anonymous);
+            }else if (Constant.CERTIFICATE.equals(authenticateMode)){
+                SslCertificateSocket certificateSocket = new SslCertificateSocket();
+                certificateSocket.init();
+                SOCKMAP.put(Constant.CERTIFICATE, certificateSocket);
             } else {
                 LOG.error("funtion=get, msg=ProtocolSocketFactory Unknown AuthenticateMode={}", authenticateMode);
                 throw new VnfmException(String.format("Illegal Auth mode", authenticateMode));

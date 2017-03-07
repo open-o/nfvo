@@ -65,7 +65,6 @@ public class ParamConstants {
 
     public static final String VNFMGR_INSTANCE = "/vnfmgr/v1/instances";
 
-    public static final String VNF_SCALE = "/vnfmgr/v1/instances/%s/scale";
 
     public static final String VNFD_FLAVOR = "/vnfdmgr/v1/flavor";
 
@@ -102,6 +101,9 @@ public class ParamConstants {
     public static final String VNF_INSTANCE_DEL = "/v2/vapps/instances/%s";
 
     public static final String VNF_INSTANCE_GET = "/v2/vapps/instances/%s";
+
+    public static final String VNF_SCALE = "/v2/vapps/instances/%s/scale";
+
 
     public static final String MSB_REGISTER_URL = "/openoapi/microservices/v1/services";
 

@@ -62,6 +62,58 @@ public class ConnectMgrVnfm {
         this.roaRand = roaRand;
     }
 
+
+    /**
+     * Make connection
+     * <br>
+     *
+     * @param vnfmObj
+     * @return
+     * @since  NFVO 0.5
+     */
+    public int connect(JSONObject vnfmObj,String authModel) {
+        LOG.info("function=connect, msg=enter connect function.");
+
+        ConnectInfo info = new ConnectInfo(vnfmObj.getString("url"), vnfmObj.getString("userName"),
+                vnfmObj.getString("password"), authModel);
+        HttpMethod httpMethod = null;
+        int statusCode = Constant.INTERNAL_EXCEPTION;
+
+        try {
+            httpMethod = new HttpRequests.Builder(info.getAuthenticateMode())
+                    .setUrl(info.getUrl(), ParamConstants.CSM_AUTH_CONNECT)
+                    .setParams(String.format(ParamConstants.GET_TOKENS_V2, info.getUserName(), info.getUserPwd()))
+                    .post().execute();
+            statusCode = httpMethod.getStatusCode();
+
+            String result = httpMethod.getResponseBodyAsString();
+            LOG.info("connect result:"+result);
+            if(statusCode == HttpStatus.SC_CREATED) {
+                JSONObject accessObj = JSONObject.fromObject(result);
+                JSONObject tokenObj = accessObj.getJSONObject("token");
+                Header header = httpMethod.getResponseHeader("accessSession");
+                setAccessSession(header.getValue());
+                setRoaRand(tokenObj.getString("roa_rand"));
+                statusCode = HttpStatus.SC_OK;
+            } else {
+                LOG.error("connect fail, code:" + statusCode + " re:" + result);
+            }
+
+        } catch(JSONException e) {
+            LOG.error("function=connect, msg=connect JSONException e={}.", e);
+        } catch(VnfmException e) {
+            LOG.error("function=connect, msg=connect VnfmException e={}.", e);
+        } catch(IOException e) {
+            LOG.error("function=connect, msg=connect IOException e={}.", e);
+        } finally {
+            clearCSMPwd(info);
+            if(httpMethod != null) {
+                httpMethod.releaseConnection();
+            }
+        }
+        return statusCode;
+
+    }
     /**
      * Make connection
      * <br>

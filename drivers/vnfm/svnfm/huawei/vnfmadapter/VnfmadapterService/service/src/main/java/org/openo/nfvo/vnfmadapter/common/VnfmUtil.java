@@ -50,13 +50,22 @@ public final class VnfmUtil {
      * @since  NFVO 0.5
      */
     public static JSONObject getVnfmById(String vnfmId) {
-        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(ParamConstants.ESR_GET_VNFM_URL, vnfmId),
-                VnfmRestfulUtil.TYPE_GET, null);
-        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
-            return null;
-        }
-        LOGGER.error("funtion=getVnfmById, status={}", rsp.getStatus());
-        return JSONObject.fromObject(rsp.getResponseContent());
+        //TODO:remove this comment
+//        RestfulResponse rsp = VnfmRestfulUtil.getRemoteResponse(String.format(ParamConstants.ESR_GET_VNFM_URL, vnfmId),
+//                VnfmRestfulUtil.TYPE_GET, null);
+//        if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
+//            return null;
+//        }
+//        LOGGER.error("funtion=getVnfmById, status={}", rsp.getStatus());
+//        return JSONObject.fromObject(rsp.getResponseContent());
+        return mockForTest(vnfmId);
+    }
+
+    public static JSONObject mockForTest(String vnfmId){
+        String vInfo = "{\"vnfmId\":\"1234\", \"name\":\"vnfm\", \"type\":\"Tacker\", \"vimId\":\"\", \"vendor\":\"huawei\", \"version\":\"v1.0\", \"description\":\"vnfm\", \"certificateUrl\":\"\", \"url\":\"https://192.168.44.126:30001\", \"userName\":\"manoadmin\", \"password\":\"User@12345\", \"createTime\":\"2016-07-06 15:33:18\"}";
+        JSONObject json = JSONObject.fromObject(vInfo);
+        json.put("vnfmId",vnfmId);
+        return json;
     }
 
     /**

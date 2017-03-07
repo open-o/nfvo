@@ -49,6 +49,44 @@ public class VnfMgr {
         this.vnfmDao = vnfmDao;
     }
 
+
+    /**
+     * Scale vnf
+     * @param vnfObject
+     * {
+     *     "vnfInstanceId":"5",
+     *     "type":"SCALE_OUT",
+     *     "aspectId":"101",
+     *     "numberOfSteps":"1",
+     *     "additionalParam":{}
+     * }
+     * @param vnfmId
+     * @param vnfInstanceId
+     * @return
+     */
+    public JSONObject scaleVNF(JSONObject vnfObject, String vnfmId, String vnfInstanceId) {
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        try {
+
+            if(vnfObject.isNullObject() || vnfObject.isEmpty()) {
+                return restJson;
+            }
+
+            JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
+            LOG.info("vnfm info:"+vnfmObjcet);
+            if(vnfmObjcet.isNullObject()) {
+                LOG.error("function=scaleVNF,can't find vnfm from db by vnfmId="+vnfmId);
+                return restJson;
+            }
+            restJson = (new VnfMgrVnfm()).scaleVnf(vnfObject, vnfmObjcet, vnfmId, vnfInstanceId);
+        } catch(JSONException e) {
+            LOG.error("function=scaleVNF, msg=JSONException occurs, e={}.", e);
+        }
+
+        return restJson;
+    }
+
     /**
      * Provide function for instantiate VNF
      * <br/>

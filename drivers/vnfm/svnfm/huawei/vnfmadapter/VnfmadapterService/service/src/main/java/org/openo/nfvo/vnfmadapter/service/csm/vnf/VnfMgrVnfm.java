@@ -16,6 +16,7 @@
 
 package org.openo.nfvo.vnfmadapter.service.csm.vnf;
 
+import net.sf.json.JSONArray;
 import org.openo.nfvo.vnfmadapter.common.ResultRequestUtil;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
 import org.openo.nfvo.vnfmadapter.service.constant.ParamConstants;
@@ -36,6 +37,48 @@ import net.sf.json.JSONObject;
 public class VnfMgrVnfm implements InterfaceVnfMgr {
 
     private static final Logger LOG = LoggerFactory.getLogger(VnfMgrVnfm.class);
+
+    @Override
+    public JSONObject scaleVnf(JSONObject vnfObject, JSONObject vnfmObject, String vnfmId, String vnfInstanceId) {
+        LOG.warn("function=scaleVnf, msg=enter to scale a vnf");
+        JSONObject restJson = new JSONObject();
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        String path = String.format(ParamConstants.VNF_SCALE, vnfInstanceId);
+
+        //build request json object
+        JSONObject paramJson = new JSONObject();
+        JSONObject scaleInfo = new JSONObject();
+        JSONArray vduList = new JSONArray();
+        JSONObject vdu = new JSONObject();
+        vdu.put("vdu_type","");//TODO:set vdu_type
+        vdu.put("h_step",vnfObject.get("numberOfSteps"));
+        vduList.add(vdu);
+        scaleInfo.put("vnf_id",vnfInstanceId);
+        scaleInfo.put("scale_type",0);
+        scaleInfo.put("scale_action",vnfObject.get("type"));
+        scaleInfo.put("vdu_list",vduList);
+        paramJson.put("scale_info",scaleInfo);
+        JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.PUT, paramJson.toString(),Constant.CERTIFICATE);
+        LOG.info("SCALE execute result:"+queryResult.toString());
+        try {
+            int statusCode = queryResult.getInt(Constant.RETCODE);
+
+            if(statusCode == Constant.HTTP_CREATED || statusCode == Constant.HTTP_OK) {
+                restJson.put(Constant.RETCODE, Constant.REST_SUCCESS);
+                JSONObject resultObj = new JSONObject();
+                resultObj.put("jobId", vnfInstanceId + "_" + Constant.PUT);
+                restJson.put("data", resultObj);
+            } else {
+                LOG.error("function=scaleVnf, msg=send create vnf msg to csm get wrong status: " + statusCode);
+            }
+
+        } catch(JSONException e) {
+            LOG.error("function=scaleVnf, msg=parse scale vnf return data occoured JSONException, e={}.", e);
+        }
+
+        return restJson;
+    }
+
 
     @Override
     public JSONObject createVnf(JSONObject subJsonObject, JSONObject vnfmObject) {

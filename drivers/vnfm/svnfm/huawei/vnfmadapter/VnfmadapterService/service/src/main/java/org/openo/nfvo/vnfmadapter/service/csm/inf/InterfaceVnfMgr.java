@@ -28,6 +28,15 @@ import net.sf.json.JSONObject;
 public interface InterfaceVnfMgr {
 
     /**
+     * Provide interface for scale VNF.
+     * @param vnfObject
+     * @param vnfmObject
+     * @param vnfmId
+     * @param vnfInstanceId
+     * @return
+     */
+    public JSONObject scaleVnf(JSONObject vnfObject, JSONObject vnfmObject, String vnfmId, String vnfInstanceId);
+    /**
      * Provide interface for instantiate VNF.
      * <br/>
      *
