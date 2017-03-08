@@ -28,6 +28,8 @@ from lcm.ns.ns_terminate import TerminateNsService, DeleteNsService
 from lcm.pub.database.models import NSInstModel, ServiceBaseInfoModel
 from lcm.pub.utils.jobutil import JobUtil, JOB_TYPE
 from lcm.pub.utils.values import ignore_case_get
+from lcm.pub.utils.restcall import req_by_msb
+from lcm.pub.exceptions import NSLCMException
 
 logger = logging.getLogger(__name__)
 
@@ -101,6 +103,8 @@ class SwaggerJsonView(APIView):
 
 
 class NSInstPostDealView(APIView):
+
+
     def post(self, request, ns_instance_id):
         logger.debug("Enter NSInstPostDealView::post %s, %s", request.data, ns_instance_id)
         ns_post_status = ignore_case_get(request.data, 'status')
@@ -110,12 +114,31 @@ class NSInstPostDealView(APIView):
             NSInstModel.objects.filter(id=ns_instance_id).update(status=ns_status)
             ServiceBaseInfoModel.objects.filter(service_id=ns_instance_id).update(
                 active_status=ns_status, status=ns_opr_status)
+            nsd_info = NSInstModel.objects.filter(id=ns_instance_id)
+            nsd_id = nsd_info[0].nsd_id
+            nsd_model = json.loads(nsd_info[0].nsd_model)
+            policy = ignore_case_get(nsd_model, "policies")[0]
+            file_url = ignore_case_get(ignore_case_get(policy,"properties")[0], "drl_file_url")
+            self.send_policy_request(ns_instance_id, nsd_id, file_url)
         except:
             logger.error(traceback.format_exc())
             return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(data={'success': 'Update status of NS(%s) to %s' % (ns_instance_id, ns_status)},
                         status=status.HTTP_202_ACCEPTED)
+
+    def send_policy_request(self,ns_instance_id, nsd_id, file_url):
+        input_data = {
+            "nsid": ns_instance_id,
+            "nsdid": nsd_id,
+            "fileUri":file_url
+        }
+        req_param = json.JSONEncoder().encode(input_data)
+        policy_engine_url = 'openoapi/polengine/v1/policyinfo'
+        ret = req_by_msb(policy_engine_url, "POST", req_param)
+        if ret[0] != 0:
+            logger.error("Failed to send ns policy req")
+            raise NSLCMException('Failed to send ns policy req)')
 
 
 class NSManualScaleView(APIView):
