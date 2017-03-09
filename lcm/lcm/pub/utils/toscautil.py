@@ -266,9 +266,13 @@ def convert_common(src_json, target_json):
 
     return src_json_inst, src_json_model
 
+def convert_policy_node(src_json):
+    target_json = {'name': src_json['template_name'],'file_url': src_json['properties']['drl_file_url']['value']}
+
+    return target_json
 
 def convert_nsd_model(src_json):
-    target_json = {'vnfs': [], 'pnfs': [], 'fps': []}
+    target_json = {'vnfs': [], 'pnfs': [], 'fps': [], 'policies': []}
     src_json_inst, src_json_model = convert_common(src_json, target_json)
    
     src_nodes = src_json_inst['nodes']
@@ -287,6 +291,8 @@ def convert_nsd_model(src_json):
             target_json['fps'].append(convert_fp_node(node, src_nodes, src_json_model))
         elif type_name.endswith('.Router'):
             target_json['routers'].append(convert_router_node(node, src_nodes))
+        elif type_name.endswith('tosca.policies.Drools'):
+            target_json['policies'].append(convert_policy_node(node))
 
     target_json['vnffgs'] = convert_vnffgs(src_json_inst, src_nodes)
 
@@ -338,7 +344,28 @@ if __name__ == '__main__':
                     "id":"VCPE_NS",
                     "description":"vcpe_ns"
                 },
+                "policies:":[
+                    {
+                        "aaa:" : {
+                            "type": "tosca.policies.Drools",
+                            "properties": {
+                                "drl_file_url":"policies/abc.drl"
+                            }
+                        }
+                    }
+                ],
                 "nodes":[
+                    {
+                        "id":"policies",
+                        "type_name":"tosca.policies.Drools",
+                        "template_name":"aaa",
+                        "properties":{
+                            "drl_file_url":{
+                                "type_name":"string",
+                                "value":"policies/abc.drl"
+                            }
+                        }
+                    },
                     {
                         "id":"path2_kgmfqr5ldqs9lj3oscrgxqefc",
                         "type_name":"tosca.nodes.nfv.ext.FP",
@@ -2603,7 +2630,3 @@ if __name__ == '__main__':
         }
     )
     print convert_nsd_model(src_json)
-
-
-
-
