@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
+
 /**
  * <br>
  * <p>
@@ -59,7 +61,8 @@ public class ServiceControllerImpl implements InfServiceController {
         // get vnfm driver info and registration it
         try {
 	        LOG.info("Ericsson VNFM Driver Get Driver Info!");
-            String driverInfo = FileUtil.read(getDriverInfoFilePath() + Constant.VNFM_DRIVER_INFO);
+
+            String driverInfo = FileUtil.read(getDriverInfoFilePath());
             LOG.debug("The Vnfm Driver info:" + driverInfo);
 
             if(driverInfo.equals("")) {
@@ -84,8 +87,11 @@ public class ServiceControllerImpl implements InfServiceController {
     public void stop() {
     }
 
-    private String getDriverInfoFilePath() {
-        String filePath = ServiceControllerImpl.class.getClassLoader().getResource("").getPath();
+    public static String getDriverInfoFilePath() {
+
+       String filePath = SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
+                + "etc" + System.getProperty("file.separator") + "driverInfo" + System.getProperty("file.separator")
+                + Constant.VNFM_DRIVER_INFO;
 
         LOG.debug("The Path of Vnfm Driver info File Path:" + filePath);
         return filePath;

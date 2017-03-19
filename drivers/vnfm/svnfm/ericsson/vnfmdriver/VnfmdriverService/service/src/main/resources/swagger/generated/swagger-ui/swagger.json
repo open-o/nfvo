@@ -9,7 +9,7 @@
   "tags" : [ {
     "name" : "v1"
   } ],
-  "schemes" : [ "https", "http" ],
+  "schemes" : [ "http" ],
   "paths" : {
     "/openoapi/ericsson-vnfm/v1/{vnfmId}/jobs/{jobid}&responseId={responseId}" : {
       "get" : {
@@ -223,7 +223,7 @@
         }
       }
     },
-    "/openoapi/nslcm/v1/grantvnf" : {
+    "/openoapi/nslcm/v1/ns/grantvnf" : {
       "post" : {
         "tags" : [ "v1" ],
         "summary" : "Grant VNF lifecycle operation",

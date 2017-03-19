@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright Ericsson AB. 2017
+    Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -226,7 +226,7 @@
           	<apiSource>
             	<springmvc>false</springmvc>
             	<locations>org.openo.nfvo.vnfmdriver.common.swagger</locations>
-            	<schemes>https,http</schemes>
+            	<schemes>http</schemes>
             	<host>ericsson-vnfm</host>
             	<info>
               	<title>Ericsson Vnfm Driver API</title>

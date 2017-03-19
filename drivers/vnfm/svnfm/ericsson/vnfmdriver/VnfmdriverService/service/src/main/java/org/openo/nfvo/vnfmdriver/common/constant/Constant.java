@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,10 @@ public class Constant {
 
     public static final int REST_FAIL = -1;
 
+    public static final String DATA = "data";
+
+    public static final String REMOTE_RESP_STATUS = "remoteRespStatus";
+
     public static final String RETCODE = "retCode";
 
     public static final String STATUS = "status";
@@ -93,7 +97,7 @@ public class Constant {
 
     public static final String GET_VNF_STATUS_URL = "/%s/jobs/%s/&responseId=%s";
 
-    public static final String NSLCM_URL_BASE = "/openoapi/nslcm/v1";
+    public static final String NSLCM_URL_BASE = "/openoapi/nslcm/v1/ns";
 
     public static final String VNF_URL_BASE = "/openoapi/ericsson-vnfm/v1";
 

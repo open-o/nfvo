@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,11 +42,11 @@ public class FileUtilTest {
     public void read() throws Exception {
         String path = Constant.VNFM_DRIVER_INFO;
         String result = FileUtil.read(ServiceControllerImpl.class
-                                .getClassLoader()
-                                .getResource("")
-                                .getPath()
-                                .replace("test-classes", "classes")
-                                + path);
+                .getClassLoader()
+                .getResource("")
+                .getPath()
+                .replace("test-classes", "classes")
+                + path);
         assertNotNull(result);
     }
 
