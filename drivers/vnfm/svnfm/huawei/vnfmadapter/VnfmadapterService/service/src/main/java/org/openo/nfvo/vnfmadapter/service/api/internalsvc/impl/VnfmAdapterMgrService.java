@@ -79,7 +79,7 @@ public class VnfmAdapterMgrService implements IVnfmAdapterMgrService {
      * @return
      * @throws IOException
      */
-    public static String readVnfmAdapterInfoFromJson() throws IOException {
+    public  String readVnfmAdapterInfoFromJson() throws IOException {
         InputStream ins = null;
         BufferedInputStream bins = null;
         String fileContent = "";

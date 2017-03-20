@@ -55,7 +55,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         vduList.add(vdu);
         scaleInfo.put("vnf_id",vnfInstanceId);
         scaleInfo.put("scale_type",0);
-        scaleInfo.put("scale_action",vnfObject.get("type"));
+        scaleInfo.put("scale_action",getScaleType(vnfObject.getString("type")));
         scaleInfo.put("vdu_list",vduList);
         paramJson.put("scale_info",scaleInfo);
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.PUT, paramJson.toString(),Constant.CERTIFICATE);
@@ -79,7 +79,14 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         return restJson;
     }
 
-
+    private int getScaleType(String type){
+        if("SCALE_OUT".equalsIgnoreCase(type)){
+            return 0;
+        }else if("SCALE_IN".equalsIgnoreCase(type)){
+            return 1;
+        }
+        return -1;
+    }
     @Override
     public JSONObject createVnf(JSONObject subJsonObject, JSONObject vnfmObject) {
         LOG.warn("function=createVnf, msg=enter to create a vnf");

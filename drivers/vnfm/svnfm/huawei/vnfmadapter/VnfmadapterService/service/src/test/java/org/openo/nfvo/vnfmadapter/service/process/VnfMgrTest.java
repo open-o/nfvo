@@ -458,5 +458,40 @@ public class VnfMgrTest {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         assertEquals(restJson, result);
     }
+    @Test
+    public void testScaleVnf() {
+        new MockUp<VnfmUtil>() {
 
+            @Mock
+            public JSONObject getVnfmById(String vnfmId) {
+                JSONObject obj = new JSONObject();
+                obj.put("type", "hw");
+                obj.put("vnfmId", "123");
+                obj.put("userName", "admin");
+                obj.put("password", "admin");
+                obj.put("url", "https://10.2.31.2:30001");
+                return obj;
+            }
+        };
+
+        new MockUp<VnfMgrVnfm>() {
+
+            @Mock
+            public JSONObject scaleVnf(JSONObject vnfObject, JSONObject vnfmObject, String vnfmId, String vnfInstanceId) {
+                JSONObject restJson = new JSONObject();
+                restJson.put("retCode", Constant.REST_SUCCESS);
+                return restJson;
+            }
+        };
+
+        String data =
+                "{\"vnfPackageId\": \"vnfPackageId\",\"vnfId\": \"vnfId\",\"additionalParam\":{\"parameters\":{\"input\":\"input\"}}}";
+        JSONObject subJsonObject = JSONObject.fromObject(data);
+        VnfMgr vnfMgr = new VnfMgr();
+        JSONObject result = vnfMgr.scaleVNF(subJsonObject,"testId","testId");
+
+        JSONObject restJson = new JSONObject();
+        restJson.put("retCode", Constant.REST_SUCCESS);
+        assertEquals(restJson, result);
+    }
 }

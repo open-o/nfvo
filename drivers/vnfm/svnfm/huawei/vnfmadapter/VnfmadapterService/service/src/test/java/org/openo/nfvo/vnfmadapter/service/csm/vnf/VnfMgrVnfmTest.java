@@ -277,4 +277,31 @@ public class VnfMgrVnfmTest {
         JSONObject resp = vnfMgrVnfm.getJob(vnfmObject, jobId);
         assertEquals(resp.get("retCode"),-1);
     }
+
+
+    @Test
+    public void testScaleVnf() {
+        new MockUp<ResultRequestUtil>() {
+
+            @Mock
+            public JSONObject call(JSONObject vnfmObjcet, String path, String methodName, String paramsJson) {
+                JSONObject resultJson = new JSONObject();
+                resultJson.put("retCode", Constant.HTTP_CREATED);
+                JSONObject appInfo = new JSONObject();
+                appInfo.put("vnfinstanceid", "id");
+                appInfo.put("project_id", "project_id");
+                JSONObject data = new JSONObject();
+                data.put("app_info", appInfo);
+                resultJson.put("data", data);
+                return resultJson;
+            }
+        };
+        String data = "{\"vnfmInfo\":{\"url\":\"url\"}}";
+        JSONObject subJsonObject = JSONObject.fromObject(data);
+        JSONObject vnfmObjcet = new JSONObject();
+        VnfMgrVnfm vnfMgrVnfm = new VnfMgrVnfm();
+        JSONObject result = vnfMgrVnfm.scaleVnf(subJsonObject,vnfmObjcet,"test123","test123");
+
+        assertEquals(Constant.REST_SUCCESS, result.get("retCode"));
+    }
 }

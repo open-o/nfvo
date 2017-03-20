@@ -26,6 +26,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.nfvo.vnfmadapter.common.DownloadCsarManager;
 import org.openo.nfvo.vnfmadapter.common.servicetoken.VNFRestfulUtil;
 import org.openo.nfvo.vnfmadapter.testutils.JsonUtil;
 
@@ -257,4 +258,54 @@ public class AdapterResourceManagerTest {
             return "";
         }
     }
+
+    @Test
+    public void testGetAllCloud(){
+        String url = null;
+        manager.getAllCloud(url);
+    }
+
+    @Test
+    public void testGetAllCloud2(){
+        String url = "http://127.0.0.1:31943";
+        manager.getAllCloud(url);
+    }
+    @Test
+    public void testUnzipCSAR(){
+        manager.unzipCSAR(null,null);
+    }
+    @Test
+    public void testUnzipCSAR2(){
+        manager.unzipCSAR("vCpe.zip",null);
+    }
+    @Test
+    public void testUnzipCSAR3(){
+        manager.unzipCSAR("vCpe.zip","/opt");
+    }
+    @Test
+    public void testUnzipCSAR4(){
+        new MockUp<DownloadCsarManager>(){
+            @Mock
+            public  int unzipCSAR(String fileName,String filePath){
+                return 0;
+            }
+        };
+        manager.unzipCSAR("vCpe.zip","/opt");
+    }
+    @Test
+    public void testUnzipCSAR5(){
+        new MockUp<DownloadCsarManager>(){
+            @Mock
+            public  int unzipCSAR(String fileName,String filePath){
+                return -1;
+            }
+        };
+        manager.unzipCSAR("vCpe.zip","/opt");
+    }
+
+    @Test
+    public void testGetVnfdVersion(){
+        manager.getVnfdVersion("http://","127.0.0.1","token");
+    }
+
 }
