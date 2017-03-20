@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ public class VNFServiceRestAPI {
     @POST
     @Path("/{vnfmId}/vnfs")
     public String instantiateVNF(@PathParam("vnfmId") String vnfmId, @Context HttpServletRequest req,
-                                 @Context HttpServletResponse resp) {
+                                 @Context HttpServletResponse resp) throws IOException {
         LOG.info("class=[VNFServiceRestAPI], fuc=[instantiateVNF], start!");
 
         JSONObject jsonInstantiateOfReq = HttpContextUitl.extractJsonObject(req);
@@ -92,8 +92,12 @@ public class VNFServiceRestAPI {
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
             LOG.error("fuc=[instantiateVNF], instantiateVNF fail!");
             resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
             return restJson.toString();
         }
+
+        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.flushBuffer();
 
         LOG.info("class=[VNFServiceRestAPI], fuc=[instantiateVNF], end!");
         return JSONObject.fromObject(restJson.getJSONObject("data")).toString();
@@ -113,7 +117,7 @@ public class VNFServiceRestAPI {
     @Path("/{vnfmId}/vnfs/{vnfInstanceId}/terminate")
     public String terminateVNF(@Context HttpServletRequest req, @Context HttpServletResponse resp,
                                @PathParam("vnfmId") String vnfmId,
-                               @PathParam("vnfInstanceId") String vnfInstanceId) {
+                               @PathParam("vnfInstanceId") String vnfInstanceId) throws IOException {
         LOG.info("class=[VNFServiceRestAPI], fuc=[terminateVNF], start!");
 
         JSONObject jsonTerminateOfReq = HttpContextUitl.extractJsonObject(req);
@@ -134,8 +138,12 @@ public class VNFServiceRestAPI {
             LOG.error("fuc=[terminateVNF], terminateVNF fail!");
 
             resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
             return restJson.toString();
         }
+
+        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.flushBuffer();
 
         LOG.info("class=[VNFServiceRestAPI], fuc=[terminateVNF], end!");
 
@@ -154,7 +162,7 @@ public class VNFServiceRestAPI {
     @GET
     @Path("/{vnfmId}/vnfs/{vnfInstanceId}")
     public String queryVNF(@PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId,
-                           @Context HttpServletResponse resp) {
+                           @Context HttpServletResponse resp) throws IOException {
         LOG.info("class=[VNFServiceRestAPI], fuc=[terminateVNF], start!");
 
         JSONObject restJson = new JSONObject();
@@ -168,20 +176,18 @@ public class VNFServiceRestAPI {
 
         restJson = vnfServiceProcessor.getVnf(vnfmId, vnfInstanceId);
 
-        try {
-            if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-                LOG.error("fuc=[queryVNF], queryVNF fail!");
-                resp.setStatus(Constant.HTTP_INNERERROR);
-                return restJson.toString();
-            }
-
-            restJson.remove(Constant.RETCODE);
-        } catch(JSONException e) {
-            LOG.error("fuc=[queryVNF], JSONException!");
+        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("fuc=[queryVNF], queryVNF fail!");
+            resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
+            return restJson.toString();
         }
 
+        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.flushBuffer();
+
         LOG.info("class=[VNFServiceRestAPI], fuc=[terminateVNF], end!");
-        return restJson.toString();
+        return JSONObject.fromObject(restJson.getJSONObject("data")).toString();
     }
 
     /**
@@ -197,7 +203,7 @@ public class VNFServiceRestAPI {
     @Path("/{vnfmId}/jobs/{jobid}")
     public String getOperationStatus(@PathParam("vnfmId") String vnfmId, @PathParam("jobid") String jobid,
                                      @QueryParam("responseId") String responseId,
-                                     @Context HttpServletResponse resp) {
+                                     @Context HttpServletResponse resp) throws IOException {
         LOG.info("class=[VNFServiceRestAPI], fuc=[getOperationStatus], start!");
 
         JSONObject restJson = new JSONObject();
@@ -211,20 +217,18 @@ public class VNFServiceRestAPI {
 
         restJson = vnfServiceProcessor.getStatus(vnfmId, jobid, responseId);
 
-        try {
-            if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-                LOG.error("fuc=[getOperationStatus], getOperationStatus fail!");
-                resp.setStatus(Constant.HTTP_INNERERROR);
-                return restJson.toString();
-            }
-
-            restJson.remove(Constant.RETCODE);
-        } catch(JSONException e) {
-            LOG.error("fuc=[getOperationStatus], JSONException!");
+        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("fuc=[getOperationStatus], getOperationStatus fail!");
+            resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
+            return restJson.toString();
         }
 
+        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.flushBuffer();
+
         LOG.info("class=[VNFServiceRestAPI], fuc=[getOperationStatus], end!");
-        return restJson.toString();
+        return JSONObject.fromObject(restJson.getJSONObject("data")).toString();
     }
 
     /**
@@ -236,7 +240,7 @@ public class VNFServiceRestAPI {
      */
     @GET
     @Path("/swagger.json")
-    public String getApiDoc() throws IOException {
+    public String getApiDoc(@Context HttpServletResponse resp) throws IOException {
         LOG.info("class=[VNFServiceRestAPI], fuc=[getApiDoc], start!");
 
         String ret = "";
@@ -244,6 +248,8 @@ public class VNFServiceRestAPI {
             ClassLoader classLoader = getClass().getClassLoader();
             ret = IOUtils.toString(classLoader.getResourceAsStream("swagger/generated/swagger-ui/swagger.json"));
         } catch (IOException e) {
+            resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
             LOG.error("fuc=[getApiDoc], IOException!");
         }
 

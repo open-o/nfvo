@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,6 @@ import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Resource;
 
 /**
  * <br>
@@ -79,7 +77,7 @@ public class NsclmServiceProcessorTest {
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.HTTP_OK);
 
-        //assertEquals(restJson.get(Constant.RETCODE), result.get(Constant.RETCODE));
+        assertEquals(restJson.get(Constant.RETCODE), result.get(Constant.RETCODE));
     }
 
     /**
@@ -116,7 +114,7 @@ public class NsclmServiceProcessorTest {
      * @since NFVO 0.5
      */
     @Test
-    public void testGrantVnfFail() {
+    public void testGrantVnfException() {
 
         new MockUp<HttpRestfulAPIUtil>() {
 

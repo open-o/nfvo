@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,7 +170,7 @@ public class SwaggerUtil {
      * @since NFVO 0.5
      */
     @POST
-    @Path("/openoapi/nslcm/v1/grantvnf")
+    @Path("/openoapi/nslcm/v1/ns/grantvnf")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Grant VNF lifecycle operation", response = NSLCMServiceRestAPI.class, responseContainer = "List")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully."),

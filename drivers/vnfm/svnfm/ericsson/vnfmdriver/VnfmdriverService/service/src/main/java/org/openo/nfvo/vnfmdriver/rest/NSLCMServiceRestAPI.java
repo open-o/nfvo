@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,10 @@ import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.NSLCMServiceProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+
 /**
  * <br>
  * <p>
@@ -41,7 +45,8 @@ import org.slf4j.LoggerFactory;
  * @author
  * @version NFVO 0.5 Feb 28, 2017
  */
-@Path("/openoapi/nslcm/v1")
+@Component
+@Path("/openoapi/nslcm/v1/ns")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NSLCMServiceRestAPI {
@@ -61,7 +66,7 @@ public class NSLCMServiceRestAPI {
      */
     @POST
     @Path("/grantvnf")
-    public String grantVnf(@Context HttpServletRequest req, @Context HttpServletResponse resp) {
+    public String grantVnf(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException {
         LOG.info("class=[NSLCMServiceRestAPI], fuc=[grantVnf], start!");
 
         JSONObject jsonInstantiateOfReq = HttpContextUitl.extractJsonObject(req);
@@ -79,8 +84,12 @@ public class NSLCMServiceRestAPI {
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
             LOG.error("fuc=[grantVnf], grantVnf fail!");
             resp.setStatus(Constant.HTTP_INNERERROR);
+            resp.flushBuffer();
             return restJson.toString();
         }
+
+        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.flushBuffer();
 
         LOG.info("class=[NSLCMServiceRestAPI], fuc=[grantVnf], end!");
         return JSONObject.fromObject(restJson.getJSONObject("data")).toString();

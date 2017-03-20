@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,8 +61,11 @@ public class NSLCMServiceProcessor {
             if(null == rsp) {
                 LOG.error("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], invalid Response!");
                 return restJson;
+            } else {
+                restJson.put(Constant.RETCODE, Constant.HTTP_OK);
+                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
+                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
             }
-            restJson = JSONObject.fromObject(rsp.getResponseContent());
         } catch(JSONException e) {
             LOG.error("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], JSONException!");
         }

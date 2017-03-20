@@ -1,5 +1,5 @@
 /*
- * Copyright Ericsson AB. 2017
+ * Copyright (c) 2017 Ericsson (China) Communication Co. Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ public class VNFServiceProcessor {
 
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (vnfmObjcet.isNullObject()) {
+            if (null == vnfmObjcet) {
                 LOG.error("func=[addVnf], get Vnfmd info fail!");
                 return restJson;
             }
@@ -71,9 +71,11 @@ public class VNFServiceProcessor {
             if(null == rsp) {
                 LOG.error("class=[VNFServiceProcessor], fuc=[addVnf], invalid Response!");
                 return restJson;
+            } else {
+                restJson.put(Constant.RETCODE, Constant.HTTP_OK);
+                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
+                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
             }
-
-            restJson = JSONObject.fromObject(rsp.getResponseContent());
         } catch(JSONException e) {
             LOG.error("class=[VNFServiceProcessor], fuc=[addVnf], JSONException!");
         }
@@ -100,7 +102,7 @@ public class VNFServiceProcessor {
 
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (vnfmObjcet.isNullObject()) {
+            if (null == vnfmObjcet) {
                 LOG.error("func=[deleteVnf], get Vnfmd info fail!");
                 return restJson;
             }
@@ -113,9 +115,11 @@ public class VNFServiceProcessor {
             if(null == rsp) {
                 LOG.error("class=[VNFServiceProcessor], fuc=[deleteVnf], invalid Response!");
                 return restJson;
+            } else {
+                restJson.put(Constant.RETCODE, Constant.HTTP_OK);
+                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
+                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
             }
-
-            restJson = JSONObject.fromObject(rsp.getResponseContent());
         } catch(JSONException e) {
             LOG.error("class=[VNFServiceProcessor], fuc=[deleteVnf], JSONException!");
         }
@@ -141,7 +145,7 @@ public class VNFServiceProcessor {
 
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (vnfmObjcet.isNullObject()) {
+            if (null == vnfmObjcet) {
                 LOG.error("func=[getVnf], get Vnfmd info fail!");
                 return restJson;
             }
@@ -154,8 +158,11 @@ public class VNFServiceProcessor {
             if(null == rsp) {
                 LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], invalid Response!");
                 return restJson;
+            } else {
+                restJson.put(Constant.RETCODE, Constant.HTTP_OK);
+                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
+                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
             }
-            restJson = JSONObject.fromObject(rsp.getResponseContent());
         } catch(JSONException e) {
             LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], JSONException!");
         }
@@ -181,7 +188,7 @@ public class VNFServiceProcessor {
 
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (vnfmObjcet.isNullObject()) {
+            if (null == vnfmObjcet) {
                 LOG.error("func=[getStatus], get Vnfmd info fail!");
                 return restJson;
             }
@@ -194,8 +201,11 @@ public class VNFServiceProcessor {
             if(null == rsp) {
                 LOG.error("class=[VNFServiceProcessor], fuc=[getStatus], invalid Response!");
                 return restJson;
+            } else {
+                restJson.put(Constant.RETCODE, Constant.HTTP_OK);
+                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
+                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
             }
-            restJson = JSONObject.fromObject(rsp.getResponseContent());
         } catch(JSONException e) {
             LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], JSONException!");
         }
