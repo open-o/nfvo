@@ -29,16 +29,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
 from functest.pub.config.config import REG_TO_MSB_WHEN_START, REG_TO_MSB_REG_URL, REG_TO_MSB_REG_PARAM
-# from functest import views
 
 urlpatterns = [
     url(r'^', include('functest.taskmgr.urls')),
 ]
 
 # REGISTER to MSB when startup
-
 if REG_TO_MSB_WHEN_START:
     import json
     from functest.pub.utils.restcall import req_by_msb
