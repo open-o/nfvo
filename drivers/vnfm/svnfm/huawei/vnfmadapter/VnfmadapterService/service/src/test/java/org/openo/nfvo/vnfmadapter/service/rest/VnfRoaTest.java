@@ -472,4 +472,108 @@ public class VnfRoaTest {
         assertNotNull(result);
     }
 
+    @Test
+    public void testScaleVnf() throws ServiceException {
+        final JSONObject restJson = new JSONObject();
+        restJson.put("retCode", Constant.REST_SUCCESS);
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+
+        new MockUp<VnfMgr>() {
+
+            @Mock
+            public JSONObject scaleVNF(JSONObject vnfObject, String vnfmId, String vnfInstanceId) {
+                JSONObject retJson = new JSONObject();
+                retJson.put("id", "123");
+                restJson.put("data", retJson);
+                return restJson;
+            }
+        };
+        new MockUp<VnfmJsonUtil>() {
+
+            @SuppressWarnings("unchecked")
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest VNFreq) {
+                return (T)restJson;
+            }
+        };
+
+        String result = vnfRoa.scaleVnf(mockInstance,mockResInstance,"id","id");
+
+        JSONObject retJson = new JSONObject();
+        retJson.put("id", "123");
+        assertEquals(retJson.toString(), result);
+
+    }
+    @Test
+    public void testScaleVnfFail() throws ServiceException {
+        final JSONObject restJson = new JSONObject();
+        restJson.put("retCode", Constant.REST_FAIL);
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+
+        new MockUp<VnfMgr>() {
+
+            @Mock
+            public JSONObject scaleVNF(JSONObject vnfObject, String vnfmId, String vnfInstanceId) {
+                JSONObject retJson = new JSONObject();
+                retJson.put("id", "123");
+                restJson.put("data", retJson);
+                return restJson;
+            }
+        };
+        new MockUp<VnfmJsonUtil>() {
+
+            @SuppressWarnings("unchecked")
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest VNFreq) {
+                return (T)restJson;
+            }
+        };
+        String result = vnfRoa.scaleVnf(mockInstance,mockResInstance,"id","id");
+
+        assertEquals(restJson.toString(), result);
+
+    }
+
+    @Test
+    public void testScaleVnfFail2() throws ServiceException {
+        final JSONObject restJson = new JSONObject();
+        restJson.put("retCode", Constant.REST_FAIL);
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+
+        MockUp<HttpServletResponse> proxyResStub = new MockUp<HttpServletResponse>() {};
+        HttpServletResponse mockResInstance = proxyResStub.getMockInstance();
+
+        new MockUp<VnfMgr>() {
+
+            @Mock
+            public JSONObject scaleVNF(JSONObject vnfObject, String vnfmId, String vnfInstanceId) {
+                JSONObject retJson = new JSONObject();
+                retJson.put("id", "123");
+                restJson.put("data", retJson);
+                return restJson;
+            }
+        };
+        new MockUp<VnfmJsonUtil>() {
+
+            @SuppressWarnings("unchecked")
+            @Mock
+            public <T> T getJsonFromContexts(HttpServletRequest VNFreq) {
+                return null;
+            }
+        };
+        String result = vnfRoa.scaleVnf(mockInstance,mockResInstance,"id","id");
+
+        assertEquals(restJson.toString(), result);
+
+    }
+
 }
