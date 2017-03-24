@@ -45,18 +45,29 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         String path = String.format(ParamConstants.VNF_SCALE, vnfInstanceId);
 
+        int scaleType = getScaleType(vnfObject.getString("type"));
         //build request json object
         JSONObject paramJson = new JSONObject();
         JSONObject scaleInfo = new JSONObject();
         JSONArray vduList = new JSONArray();
         JSONObject vdu = new JSONObject();
         vdu.put("vdu_type","");//TODO:set vdu_type
-        vdu.put("h_step",vnfObject.get("numberOfSteps"));
+        vdu.put("h_steps",vnfObject.get("numberOfSteps"));
         vduList.add(vdu);
         scaleInfo.put("vnf_id",vnfInstanceId);
         scaleInfo.put("scale_type",0);
-        scaleInfo.put("scale_action",getScaleType(vnfObject.getString("type")));
+        scaleInfo.put("scale_action",scaleType);
         scaleInfo.put("vdu_list",vduList);
+        if(scaleType == 0){//scale_in
+            JSONArray vmList = new JSONArray();
+            try {
+                JSONObject additionalParam = vnfObject.getJSONObject("additionalParam");
+                vmList = additionalParam.getJSONArray("vm_list");
+            }catch (JSONException e) {
+              LOG.error("the param 'additionalParam' or 'vm_list' not found,please check it",e);
+            }
+            scaleInfo.put("vm_list",vmList);
+        }
         paramJson.put("scale_info",scaleInfo);
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.PUT, paramJson.toString(),Constant.CERTIFICATE);
         LOG.info("SCALE execute result:"+queryResult.toString());
@@ -81,9 +92,9 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
 
     private int getScaleType(String type){
         if("SCALE_OUT".equalsIgnoreCase(type)){
-            return 0;
-        }else if("SCALE_IN".equalsIgnoreCase(type)){
             return 1;
+        }else if("SCALE_IN".equalsIgnoreCase(type)){
+            return 0;
         }
         return -1;
     }
