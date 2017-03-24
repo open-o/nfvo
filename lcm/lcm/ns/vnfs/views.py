@@ -13,6 +13,7 @@
 # limitations under the License.
 import logging
 import traceback
+import uuid
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -20,6 +21,7 @@ from rest_framework.views import APIView
 
 from lcm.ns.vnfs import create_vnfs
 from lcm.ns.vnfs.create_vnfs import CreateVnfs
+from lcm.ns.vnfs.verify_vnfs import VerifyVnfs
 from lcm.ns.vnfs.get_vnfs import GetVnf
 from lcm.ns.vnfs.scale_vnfs import NFManualScaleService
 from lcm.ns.vnfs.terminate_nfs import TerminateVnfs
@@ -113,3 +115,10 @@ class NfScaleView(APIView):
             return Response(data={}, status=status.HTTP_202_ACCEPTED)
         except Exception as e:
             return Response(data={'error': '%s' % e.message}, status=status.HTTP_409_CONFLICT)
+
+class NfVerifyView(APIView):
+    def post(self, request):
+        job_id = str(uuid.uuid4())
+        logger.debug("NfVerifyView--post::%s> %s", job_id, request.data)
+        VerifyVnfs(request.data, job_id).start()
+        return Response(data={"jobId": job_id}, status=status.HTTP_202_ACCEPTED)

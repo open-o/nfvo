@@ -14,7 +14,7 @@
 from django.conf.urls import patterns, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
-from lcm.ns.vnfs.views import NfView, NfDetailView, NfGrant, LcmNotify, NfScaleView
+from lcm.ns.vnfs.views import NfView, NfDetailView, NfGrant, LcmNotify, NfScaleView, NfVerifyView
 
 urlpatterns = patterns('',
                        url(r'^openoapi/nslcm/v1/ns/vnfs$', NfView.as_view()),
@@ -24,6 +24,7 @@ urlpatterns = patterns('',
                            r'/vnfs/(?P<vnfInstanceId>[0-9a-zA-Z_-]+)/Notify$',
                            LcmNotify.as_view()),
                        url(r'^openoapi/nslcm/v1/ns/vnfs/(?P<vnfinstid>[0-9a-zA-Z_-]+)/scaling$', NfScaleView.as_view()),
+                       url(r'^openoapi/nslcm/v1/vnfonboarding$', NfVerifyView.as_view()),
                        )
 
 urlpatterns = format_suffix_patterns(urlpatterns)
