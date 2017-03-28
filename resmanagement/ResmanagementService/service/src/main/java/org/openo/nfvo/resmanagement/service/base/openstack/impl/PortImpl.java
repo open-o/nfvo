@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,13 +30,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Port implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class PortImpl implements Port {
 
@@ -55,7 +54,7 @@ public class PortImpl implements Port {
         JSONObject portObj = new JSONObject();
         portObj.put("id", JsonUtil.getJsonFieldStr(jsonObject, "id"));
         portObj.put("name", JsonUtil.getJsonFieldStr(jsonObject, "name"));
-        portObj.put("networkId", JsonUtil.getJsonFieldStr(jsonObject, "network_id"));
+        portObj.put("networkId", JsonUtil.getJsonFieldStr(jsonObject, "networkId"));
         portObj.put("status", JsonUtil.getJsonFieldStr(jsonObject, "status"));
         portObj.put("tenantId", JsonUtil.getJsonFieldStr(jsonObject, "tenant_id"));
         portObj.put("vimId", JsonUtil.getJsonFieldStr(jsonObject, "vimId"));

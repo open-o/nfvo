@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Huawei Technologies Co., Ltd.
+ * Copyright 2016-2017 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,13 +30,12 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONObject;
 
 /**
- *
  * Network implementation class.<br>
  * <p>
  * </p>
  *
  * @author
- * @version     NFVO 0.5  Sep 10, 2016
+ * @version NFVO 0.5 Sep 10, 2016
  */
 public class NetworkImpl implements Network {
 
@@ -59,9 +58,9 @@ public class NetworkImpl implements Network {
         portObj.put("tenantId", JsonUtil.getJsonFieldStr(jsonObject, "tenant_id"));
         portObj.put("vimId", JsonUtil.getJsonFieldStr(jsonObject, "vimId"));
         portObj.put("vimName", JsonUtil.getJsonFieldStr(jsonObject, "vimName"));
-        portObj.put("physicalNetwork", JsonUtil.getJsonFieldStr(jsonObject, "provider:physical_network"));
-        portObj.put("networkType", JsonUtil.getJsonFieldStr(jsonObject, "provider:network_type"));
-        portObj.put("segmentationId", JsonUtil.getJsonFieldStr(jsonObject, "provider:segmentation_id"));
+        portObj.put("physicalNetwork", JsonUtil.getJsonFieldStr(jsonObject, "physicalNetwork"));
+        portObj.put("networkType", JsonUtil.getJsonFieldStr(jsonObject, "networkType"));
+        portObj.put("segmentationId", JsonUtil.getJsonFieldStr(jsonObject, "segmentationId"));
         return portObj;
     }
 

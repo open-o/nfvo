@@ -90,17 +90,17 @@ public class IResourceUpdateServiceImpl {
         LOGGER.warn("function=updateHostResource; hostResArray={}", hostResArray);
         for(Object object : hostResArray) {
             JSONObject hostRes = JSONObject.fromObject(object);
-            String hostName = hostRes.getString("name");
             String hostZone = hostRes.getString("zone");
             if("internal".equals(hostZone)) {
                 continue;
             }
+            String hostName = hostRes.getString("name");
             String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get(ParamConstant.PARAM_VIMID),
                     restParametes.get(ParamConstant.PARAM_TENANTID), hostName);
 
             String result = RestfulUtil.getResponseContent(hostUrl, new RestfulParametes(), ParamConstant.PARAM_GET);
             JSONObject hostObj = JSONObject.fromObject(result);
-            JSONObject host = IResourceAddServiceImpl.hostDataParse(hostObj);
+            JSONObject host = IResourceAddServiceImpl.hostDataParse(hostObj, hostName);
             int res = iResMap.get(ParamConstant.PARAM_HOST).update(host);
             LOGGER.warn("function=updateHostResource; result={}, res={}", result, res);
             if(res < 0) {

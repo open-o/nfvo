@@ -72,10 +72,10 @@ public class LimitsBusinessImpl implements LimitsBusiness {
 
         String totalCPU = String.valueOf(limits.get("maxTotalCores"));
         String totalMemory = String.valueOf(limits.get("maxTotalRAMSize"));
-        String totalDisk = String.valueOf(limits.get("maxTotalVolumes"));
+        String totalDisk = String.valueOf(limits.get("maxTotalVolumeGigabytes"));
         String usedCPU = String.valueOf(limits.get("totalCoresUsed"));
         String usedMemory = String.valueOf(limits.get("totalRAMUsed"));
-        String usedDisk = String.valueOf(limits.get("totalVolumesUsed"));
+        String usedDisk = String.valueOf(limits.get("totalGigabytesUsed"));
 
         JSONObject result = new JSONObject();
         result.put("vimId", vimId);

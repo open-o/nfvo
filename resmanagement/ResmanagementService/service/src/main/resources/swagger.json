@@ -12,8 +12,49 @@
     ],
     "basePath": "/openoapi/resmgr/v1",
     "paths": {
-        "/grantVNFLifeCycleOperation": {
-            "post": {
+        "/limits": {
+            "get": {
+                "summary": "Query limits information",
+                "description": "Query limits information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "vimId",
+                        "in": "query",
+                        "description": "vim Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Query limits information",
+                        "schema": {
+                            "$ref": "#/definitions/QueryLimts"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Limits Not Found"
+                    },
+                    "500": {
+                        "description": "Limits failed to process the request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/resource/grant": {
+            "put": {
                 "summary": "Grant VNF Life Cycle Operation",
                 "description": "Grant Resource",
                 "consumes": [
@@ -29,15 +70,15 @@
                         "description": "OPEN-O Interface.",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/VnfResource"
+                            "$ref": "#/definitions/GrantResource"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "VNF Resource Response",
                         "schema": {
-                            "$ref": "#/definitions/VnfResourceResponse"
+                            "$ref": "#/definitions/GrantResourceResponse"
                         }
                     },
                     "401": {
@@ -261,6 +302,48 @@
         }
     },
     "definitions": {
+        "QueryLimts": {
+            "type": "object",
+            "description": "Query Limits Response.",
+            "required": [
+                "vimId",
+                "vimName",
+                "totalCPU",
+                "totalMemory",
+                "totalDisk",
+                "usedCPU",
+                "usedMemory",
+                "usedDisk"
+            ],
+            "properties": {
+                "vimId": {
+                    "type": "string",
+                    "description": "Identifier of vimId."
+                },
+                "vimName": {
+                    "type": "string",
+                    "description": "Name."
+                },
+                "totalCPU": {
+                    "type": "string"
+                },
+                "totalMemory": {
+                    "type": "string"
+                },
+                "totalDisk": {
+                    "type": "string"
+                },
+                "usedCPU": {
+                    "type": "string"
+                },
+                "usedMemory": {
+                    "type": "string"
+                },
+                "usedDisk": {
+                    "type": "string"
+                }
+            }
+        },
         "VirtualLinkResponse": {
             "type": "object",
             "description": "Virtual Link Response.",
@@ -703,34 +786,29 @@
                 }
             }
         },
-        "VnfResourceResponse": {
+        "GrantResourceResponse": {
             "type": "object",
             "description": "Resource Response.",
             "required": [
                 "vim",
-                "reservationIdCompute",
-                "reservationIdNetwork",
-                "reservationIdStorage",
+                "zone",
+                "zoneGroup",
                 "addResource",
                 "tempResource",
                 "removeResource",
-                "updateResource"
+                "updateResource",
+                "vimAssets",
+                "additionalParam"
             ],
             "properties": {
                 "vim": {
                     "$ref": "#/definitions/VimInfo"
                 },
-                "reservationIdCompute": {
-                    "type": "string",
-                    "description": "Information that identifies a reservation applicable to the compute resource requirements of the corresponding Grant request"
+                "zone": {
+                    "type": "string"
                 },
-                "reservationIdNetwork": {
-                    "type": "string",
-                    "description": "Information that identifies a reservation applicable to the network resource requirements of the corresponding Grant request"
-                },
-                "reservationIdStorage": {
-                    "type": "string",
-                    "description": "Information that identifies a reservation applicable to the storage resource requirements of the corresponding Grant request"
+                "zoneGroup": {
+                    "type": "string"
                 },
                 "addResource": {
                     "$ref": "#/definitions/GrantInfo"
@@ -743,6 +821,12 @@
                 },
                 "updateResource": {
                     "$ref": "#/definitions/GrantInfo"
+                },
+                "vimAssets": {
+                    "type": "string"
+                },
+                "additionalParam": {
+                    "type": "string"
                 }
             }
         },
@@ -856,29 +940,23 @@
                 }
             }
         },
-        "VnfResource": {
+        "GrantResource": {
             "type": "object",
-            "description": "Grant VNFLifeCycleOperation to VNF Resource.",
+            "description": "Grant Resource Request Body.",
             "required": [
                 "vnfInstanceId",
-                "exvimids",
                 "addResource",
-                "removeResource",
-                "instantiationLevel",
-                "tempResource",
-                "updateResource",
-                "placementConstraint"
+                "vimId",
+                "additionalParam"
             ],
             "properties": {
                 "vnfInstanceId": {
                     "type": "string",
                     "description": "Identifier Instance."
                 },
-                "exvimids": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "vimId": {
+                    "type": "string",
+                    "description": "Identifier vim."
                 },
                 "addResource": {
                     "type": "array",
@@ -893,24 +971,23 @@
                         "$ref": "#/definitions/ResourceDefinition"
                     }
                 },
-                "instantiationLevel": {
-                    "type": "string",
-                    "description": "VNF instantiation level(This parameter is optional that can get it from instantiation parameter list or scaling interface, if fail, it’s useless )."
-                },
-                "tempResource": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ResourceDefinition"
+                "additionalParam": {
+                    "type": "object",
+                    "description": "additionalParam.",
+                    "required": [
+                        "vnfmid"
+                    ],
+                    "properties": {
+                        "vnfmid": {
+                            "type": "string"
+                        },
+                        "vimid": {
+                            "type": "string"
+                        },
+                        "tenant": {
+                            "type": "string"
+                        }
                     }
-                },
-                "updateResource": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ResourceDefinition"
-                    }
-                },
-                "placementConstraint": {
-                    "$ref": "#/definitions/placementConstraint"
                 }
             }
         },
@@ -960,36 +1037,6 @@
                 },
                 "VirtualStorageDescriptor": {
                     "$ref": "#/definitions/VirtualStorageDescriptor"
-                }
-            }
-        },
-        "placementConstraint": {
-            "type": "object",
-            "description": "The restriction of deployment.",
-            "required": [
-                "type",
-                "scope",
-                "resource"
-            ],
-            "properties": {
-                "type": {
-                    "default": "anfinity",
-                    "enum": [
-                        "anfinity",
-                        "anti-anfinity"
-                    ],
-                    "description": "Currently only support tosca.nodes.nfv.VDU."
-                },
-                "scope": {
-                    "type": "string",
-                    "description": "Location of deployment Host/zone."
-                },
-                "resource": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "The list of resource，According scope to choose the proper id resourceDefinitionId."
                 }
             }
         },
