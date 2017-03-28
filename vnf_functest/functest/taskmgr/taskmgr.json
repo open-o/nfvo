@@ -1,0 +1,133 @@
+{
+  "taskmgr": "1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "functest test framework driver rest API"
+  },
+  "basePath": "/openoapi/vnf-functest/v1",
+  "paths": {
+    "/execute": {
+      "post": {
+        "summary": "Execute the Test case Script",
+        "description": "",
+        "method": "POST",
+        "resource": "/functest",
+        "operationId": "execute_scripts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": {
+          "upload_id": "upload_id",
+          "functest_env_id": "functest_env_id",
+          "frameworktype": "frameworktype"
+        },
+        "response": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/executeTest"
+            }
+          },
+          "500": {
+            "description": "the url is invalid"
+          }
+        }
+      }
+    },
+    "/status/": {
+      "get": {
+        "summary": "query the test result",
+        "description": "",
+        "method": "GET",
+        "resource": "/status/",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": {
+            "operType": "upload/funcTest"
+          },
+        "response": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/queryTestStatus"
+            }
+          },
+          "500": {
+            "description": "the url is invalid"
+          }
+        }
+      }
+    },
+    "/download/": {
+      "get": {
+        "summary": "download the test result",
+        "description": "",
+        "method": "GET",
+        "resource": "/download/",
+        "operationId": "download_operation_for_result",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": {
+            "operType": "upload/funcTestd"
+          },
+        "response": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/downloadResult"
+            }
+          },
+          "500": {
+            "description": "the url is invalid"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "executeTest": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "queryTestStatus": {
+      "type": "object",
+      "properties": {
+        "operFinished": {
+          "type": "string",
+          "value": "value"
+        },
+        "operResult": {
+          "type": "string",
+          "value": "value"
+        },
+        "operResultMessage": {
+          "type": "string",
+          "value": "value"
+        }
+      }
+    },
+    "downloadResult": {
+      "type": "object",
+      "properties": {
+        "testId": {
+          "type": "string",
+          "value": "value"
+        },
+        "testResult": {
+          "type": "string",
+          "value": "value"
+        },
+        "testDescription": {
+          "type": "string",
+          "value": "value"
+        }
+      }
+    }
+  }
+}
