@@ -54,7 +54,6 @@ public class VnfmAdapter2DriverManager implements IVnfmAdapter2DriverManager {
 
         if(rsp.getStatus() == Constant.HTTP_CREATED) {
             LOG.warn("function=registerDriver, msg= status={}, result={}.", rsp.getStatus(), resultCreate);
-            resultObj = JSONObject.fromObject(resultCreate);
             resultObj.put("retCode", Constant.HTTP_CREATED);
             return resultObj;
         } else if(rsp.getStatus() == Constant.HTTP_INVALID_PARAMETERS) {

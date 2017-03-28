@@ -23,6 +23,7 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.constant.UrlConstant;
+import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import org.openo.nfvo.resmanagement.common.util.RestfulUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.InterfaceResManagement;
 import org.slf4j.Logger;
@@ -95,16 +96,17 @@ public class IResourceAddServiceImpl {
         LOGGER.warn("function=addHostResource; hostResArray={}", hostResArray);
         for(Object object : hostResArray) {
             JSONObject hostRes = JSONObject.fromObject(object);
-            String hostName = hostRes.getString("name");
             String hostZone = hostRes.getString("zone");
             if("internal".equals(hostZone)) {
                 continue;
             }
+            String hostName = hostRes.getString("name");
             String hostUrl = String.format(UrlConstant.GET_HOSTDETAIL_URL, restParametes.get(ParamConstant.PARAM_VIMID),
                     restParametes.get(ParamConstant.PARAM_TENANTID), hostName);
 
             String result = RestfulUtil.getResponseContent(hostUrl, new RestfulParametes(), ParamConstant.PARAM_GET);
-            JSONObject host = hostDataParse(JSONObject.fromObject(result));
+            JSONObject hostObj = JSONObject.fromObject(result);
+            JSONObject host = hostDataParse(hostObj, hostName);
             int res = iResMap.get(iResName).add(host);
             LOGGER.warn("function=addHostResource; result={}, res={}", result, res);
             if(res < 0) {
@@ -122,16 +124,26 @@ public class IResourceAddServiceImpl {
      * @return
      * @since NFVO 0.5
      */
-    public static JSONObject hostDataParse(JSONObject hostObj) {
-        JSONObject host = new JSONObject();
-        host.put("name", hostObj.getString("name"));
-        host.put("cpu", hostObj.getString("cpu"));
-        host.put("memory", hostObj.getString("memory_mb"));
-        host.put("disk", hostObj.getString("disk_gb"));
-        host.put("vimId", hostObj.getString("vimId"));
-        host.put("vimName", hostObj.getString("vimName"));
-        return host;
-
+    public static JSONObject hostDataParse(JSONObject hostObj, String hostName) {
+        LOGGER.warn("function=hostDataParse; hostObj={}, hostName={}", hostObj, hostName);
+        JSONArray hostArray = hostObj.getJSONArray("host");
+        for(Object object : hostArray) {
+            JSONObject hostObject = JSONObject.fromObject(object);
+            if(hostObject.getString("project").contains("total")) {
+                String vimId = JsonUtil.getJsonFieldStr(hostObj, "vimId");
+                String hostId = vimId + hostName;
+                JSONObject host = new JSONObject();
+                host.put("id", hostId);
+                host.put("name", hostName);
+                host.put("cpu", JsonUtil.getJsonFieldStr(hostObject, "cpu"));
+                host.put("memory", JsonUtil.getJsonFieldStr(hostObject, "memory_mb"));
+                host.put("disk", JsonUtil.getJsonFieldStr(hostObject, "disk_gb"));
+                host.put("vimId", JsonUtil.getJsonFieldStr(hostObj, "vimId"));
+                host.put("vimName", JsonUtil.getJsonFieldStr(hostObj, "vimName"));
+                return host;
+            }
+        }
+        return new JSONObject();
     }
 
     private HashMap<String, String> createResUrlMap() {

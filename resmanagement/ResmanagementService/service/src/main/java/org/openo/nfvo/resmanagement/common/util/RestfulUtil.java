@@ -315,6 +315,13 @@ public class RestfulUtil {
         try {
             JSONObject rsJson = JSONObject.fromObject(result);
             rsArray = rsJson.getJSONArray(iResName);
+            String vimId = rsJson.getString(ParamConstant.PARAM_VIMID);
+            String vimName = rsJson.getString(ParamConstant.PARAM_VIMNAME);
+            for(int i = 0; i < rsArray.size(); i++) {
+                JSONObject jsonObj = rsArray.getJSONObject(i);
+                jsonObj.put(ParamConstant.PARAM_VIMID, vimId);
+                jsonObj.put(ParamConstant.PARAM_VIMNAME, vimName);
+            }
         } catch(JSONException e) {
             LOGGER.error("getResources error:" + e);
             throw new ServiceException(
