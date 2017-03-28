@@ -14,7 +14,7 @@
 from django.db import models
 
 
-class TaskMgrModel(models.Model):
+class TaskMgrTaskTbl(models.Model):
     class Meta:
         db_table = 'TASK_RECORD'
 
@@ -22,8 +22,19 @@ class TaskMgrModel(models.Model):
     taskid = models.CharField(db_column='TASKID', max_length=200)
     envid = models.CharField(db_column='ENVID', max_length=200)
     uploadid = models.CharField(db_column='UPLOADID', max_length=200)
+    operationid = models.CharField(db_column='OPERID', max_length=200)
+    functionid = models.CharField(db_column='FUNCID', max_length=200)
     status = models.CharField(db_column='STATUS', max_length=200)
 
+
+class TaskMgrCaseTbl(models.Model):
+    class Meta:
+        db_table = 'CASE_RECORD'
+
+    taskid = models.CharField(db_column='TASKID', max_length=200)
+    testid = models.CharField(db_column='CASEID', primary_key=True, max_length=200)
+    testresult = models.CharField(db_column='CASERET', max_length=200)
+    testdes = models.CharField(db_column='CASEDES', max_length=200)
 
 
 class ScriptUploadingStatus (models.Model):

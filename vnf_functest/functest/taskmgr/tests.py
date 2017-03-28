@@ -17,18 +17,23 @@ import json
 import mock
 from django.test import Client
 from rest_framework import status
-from functest.pub.database.models import TaskMgrModel
+from functest.pub.database.models import TaskMgrTaskTbl, TaskMgrCaseTbl
 
 
 expect_ret = {
     'ret_start_onboarding_test': {
-        "PackageID": u'1',
+        "packageID": u'1',
         "taskid": u'1',
         "envid": u'1',
         "uploadid": u'1',
         "status": "CREATED",
-    }
+    },
 
+    'ret_query_test_status': {
+        "operFinished": u'True',
+	    "operResult":   u'SUCCESS',
+	    "operResultMessage": u'Query Operation'
+    },
 }
 
 
@@ -36,9 +41,12 @@ class TaskMgrTest(unittest.TestCase):
 
     def setUp(self):
         self.client = Client()
-        TaskMgrModel.objects.filter().delete()
+        TaskMgrTaskTbl.objects.filter().delete()
         self.startTaskInst1 = {
             "PackageID": u'1',
+        }
+        self.queryStatusInst1 = {
+            "TaskID": u'1',
         }
 
     def tearDown(self):
@@ -53,10 +61,10 @@ class TaskMgrTest(unittest.TestCase):
         mock_generate_taskid.return_value = "1"
         response = self.client.post("/openoapi/vnf-functest/v1/taskmanager/testtasks", self.startTaskInst1, format='json')
         self.assertEqual(status.HTTP_201_CREATED, response.status_code, response.content)
-        record = TaskMgrModel.objects.filter(packageid=self.startTaskInst1["PackageID"])
+        record = TaskMgrTaskTbl.objects.filter(packageid=self.startTaskInst1["PackageID"])
         self.assertEqual(1, len(record))
         taskInstActual = {
-            "PackageID": record[0].packageid,
+            "packageID": record[0].packageid,
             "taskid": record[0].taskid,
             "envid": record[0].envid,
             "uploadid": record[0].uploadid,
