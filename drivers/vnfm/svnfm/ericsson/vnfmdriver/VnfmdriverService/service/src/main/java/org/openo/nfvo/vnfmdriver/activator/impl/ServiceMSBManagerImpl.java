@@ -24,8 +24,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceMSBManager;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * <br>
@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ServiceMSBManagerImpl implements InfServiceMSBManager {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceMSBManagerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ServiceMSBManagerImpl.class.getName());
 
     /**
      * <br>
@@ -47,7 +47,6 @@ public class ServiceMSBManagerImpl implements InfServiceMSBManager {
      * @return
      * @since NFVO 0.5
      */
-    @Override
     public int register(Map<String, String> paramsMap, JSONObject driverInfo) {
 
         LOG.info("Ericsson VNFM Driver Register...", ServiceMSBManagerImpl.class);
@@ -84,7 +83,6 @@ public class ServiceMSBManagerImpl implements InfServiceMSBManager {
      * @return
      * @since NFVO 0.5
      */
-    @Override
     public int unRegister(Map<String, String> paramsMap, JSONObject driverInfo) {
         LOG.info("Ericsson VNFM Driver Unregister...", ServiceMSBManagerImpl.class);
 

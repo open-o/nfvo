@@ -27,8 +27,8 @@ import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceController;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceMSBManager;
 import org.openo.nfvo.vnfmdriver.common.FileUtil;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
@@ -44,16 +44,14 @@ import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 @Component
 public class ServiceControllerImpl implements InfServiceController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceControllerImpl.class);
+    private static final Logger LOG = LogManager.getLogger(ServiceControllerImpl.class);
 
     /**
      * <br>
      *
      * @since NFVO 0.5
      */
-    @Override
     public void start() {
-
         Map<String, String> paramsMap = new HashMap<String, String>();
         paramsMap.put("url", Constant.DRIVER_REGISTER_MSB_URL);
         paramsMap.put("methodType", Constant.POST);
@@ -83,7 +81,6 @@ public class ServiceControllerImpl implements InfServiceController {
      *
      * @since NFVO 0.5
      */
-    @Override
     public void stop() {
     }
 
@@ -121,7 +118,6 @@ public class ServiceControllerImpl implements InfServiceController {
          *
          * @since NFVO 0.5
          */
-        @Override
         public void run() {
 
             if(null == paramsMap || null == driverInfo) {

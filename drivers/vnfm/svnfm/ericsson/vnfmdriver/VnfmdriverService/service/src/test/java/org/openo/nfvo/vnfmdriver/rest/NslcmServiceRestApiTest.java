@@ -18,11 +18,6 @@ package org.openo.nfvo.vnfmdriver.rest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Field;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import mockit.Mock;
 import mockit.MockUp;
 
@@ -35,6 +30,11 @@ import org.junit.Test;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.NSLCMServiceProcessor;
+
+import java.lang.reflect.Field;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <br>
@@ -109,15 +109,16 @@ public class NslcmServiceRestApiTest {
             public JSONObject grantVnf(JSONObject jsonInstantiateOfReq) {
                 JSONObject obj = new JSONObject();
                 obj.put(Constant.RETCODE, Constant.REST_FAIL);
+                obj.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
+                obj.put(Constant.DATA, "");
                 return obj;
             }
         };
 
         String result = nslcmServiceRestApi.grantVnf(mockInstance, rep);
         nslcmServiceProcessor.tearDown();
-        JSONObject restJson = new JSONObject();
-        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
-        assertEquals(restJson.toString(), result);
+
+        assertEquals("", result);
     }
 
     /**
@@ -184,7 +185,7 @@ public class NslcmServiceRestApiTest {
                 ret.put(Constant.RETCODE, Constant.HTTP_OK);
                 data.put("test_key", "test_value");
                 ret.put(Constant.DATA, data);
-                ret.put(Constant.REMOTE_RESP_STATUS, "200");
+                ret.put(Constant.RESP_STATUS, "200");
                 return ret;
             }
         };

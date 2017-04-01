@@ -19,9 +19,8 @@ package org.openo.nfvo.vnfmdriver.activator;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceController;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * <br>
@@ -31,10 +30,9 @@ import org.springframework.stereotype.Component;
  * @author
  * @version NFVO 0.5 Feb 28, 2017
  */
-@Component
 public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ServiceRunningEntry.class);
+    private static final Logger LOG = LogManager.getLogger(ServiceRunningEntry.class.getName());
 
     /**
      * <br>
@@ -45,7 +43,6 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
      * @throws BeansException
      * @since NFVO 0.5
      */
-    @Override
     public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
         LOG.info(String.format("bean:[%s] Initialization finished", name));
         if(bean instanceof InfServiceController) {
@@ -67,7 +64,6 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
      * @throws BeansException
      * @since NFVO 0.5
      */
-    @Override
     public Object postProcessBeforeInitialization(Object bean, String name) throws BeansException {
         return bean;
     }
@@ -80,7 +76,6 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
      * @throws BeansException
      * @since NFVO 0.5
      */
-    @Override
     public void postProcessBeforeDestruction(Object bean, String name) throws BeansException {
         if(bean instanceof InfServiceController) {
             LOG.info("Ericsson VNFM Driver Module Stop!");

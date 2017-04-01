@@ -29,8 +29,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.openo.nfvo.vnfmdriver.rest.NSLCMServiceRestAPI;
 import org.openo.nfvo.vnfmdriver.rest.VNFServiceRestAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,7 +50,7 @@ import io.swagger.annotations.ApiResponses;
 @Produces(MediaType.APPLICATION_JSON)
 public class SwaggerUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(SwaggerUtil.class);
+    private static final Logger LOG = LogManager.getLogger(SwaggerUtil.class);
 
     /**
      * <br>
@@ -74,7 +74,7 @@ public class SwaggerUtil {
             @ApiParam(value = "response", required=true) @QueryParam("resp") HttpServletResponse resp,
             @ApiParam(value = "URLParam", required=true) @PathParam("vnfmId") String vnfmId,
             @HeaderParam("language-option") String language) {
-        logger.info("Instantiate VNF.");
+        LOG.info("Instantiate VNF.");
         return "description";
     }
 
@@ -102,7 +102,7 @@ public class SwaggerUtil {
             @ApiParam(value = "URLParam", required=true) @PathParam("vnfmId") String vnfmId,
             @ApiParam(value = "URLParam", required=true) @PathParam("vnfInstanceId") String vnfInstanceId,
             @HeaderParam("language-option") String language) {
-        logger.info("Terminate VNF.");
+        LOG.info("Terminate VNF.");
         return "description";
     }
 
@@ -128,7 +128,7 @@ public class SwaggerUtil {
             @ApiParam(value = "URLParam", required=true) @PathParam("vnfmId") String vnfmId,
             @ApiParam(value = "URLParam", required=true) @PathParam("vnfInstanceId") String vnfInstanceId,
             @HeaderParam("language-option") String language) {
-        logger.info("Query VNF.");
+        LOG.info("Query VNF.");
         return "description";
     }
 
@@ -156,7 +156,7 @@ public class SwaggerUtil {
             @ApiParam(value = "URLParam", required=true) @PathParam("jobid") String jobid,
             @ApiParam(value = "URLParam", required=true) @PathParam("responseId") String responseId,
             @HeaderParam("language-option") String language) {
-        logger.info("Get operation status.");
+        LOG.info("Get operation status.");
         return "description";
     }
 
@@ -180,7 +180,7 @@ public class SwaggerUtil {
             @ApiParam(value = "request", required=true) @QueryParam("req") HttpServletRequest req,
             @ApiParam(value = "response", required=true) @QueryParam("resp") HttpServletResponse resp,
             @HeaderParam("language-option") String language) {
-        logger.info("Grant VNF lifecycle operation.");
+        LOG.info("Grant VNF lifecycle operation.");
         return "description";
     }
 }

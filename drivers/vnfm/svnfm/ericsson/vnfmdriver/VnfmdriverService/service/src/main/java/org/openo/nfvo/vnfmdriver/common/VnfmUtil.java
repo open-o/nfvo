@@ -18,10 +18,8 @@ package org.openo.nfvo.vnfmdriver.common;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.sf.json.JSONArray;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import net.sf.json.JSONObject;
 
 /**
@@ -34,7 +32,7 @@ import net.sf.json.JSONObject;
  */
 public final class VnfmUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VnfmUtil.class);
+    private static final Logger LOG = LogManager.getLogger(VnfmUtil.class);
 
     private VnfmUtil() {
     }

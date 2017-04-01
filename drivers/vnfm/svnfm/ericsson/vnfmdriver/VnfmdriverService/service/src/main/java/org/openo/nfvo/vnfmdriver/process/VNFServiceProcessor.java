@@ -23,8 +23,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.VnfmUtil;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Service("vnfServiceProcessor")
 public class VNFServiceProcessor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(VNFServiceProcessor.class);
+    private static final Logger LOG = LogManager.getLogger(VNFServiceProcessor.class);
 
     /**
      * <br>
@@ -50,7 +50,7 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject addVnf(String vnfmId, JSONObject jsonInstantiateOfReq) {
-        LOG.info("class=[VNFServiceProcessor], fuc=[addVnf], start!");
+        LOG.info("fuc=[addVnf] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
@@ -59,7 +59,8 @@ public class VNFServiceProcessor {
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
             if (null == vnfmObjcet) {
-                LOG.error("func=[addVnf], get Vnfmd info fail!");
+                LOG.error("func=[addVnf] get Vnfmd info fail!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
@@ -69,18 +70,20 @@ public class VNFServiceProcessor {
             rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.POST,
                                                         jsonInstantiateOfReq.toString());
             if(null == rsp) {
-                LOG.error("class=[VNFServiceProcessor], fuc=[addVnf], invalid Response!");
+                LOG.error("fuc=[addVnf] invalid Response!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             } else {
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
-                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
-                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
+                restJson.put(Constant.RESP_STATUS, rsp.getStatus());
+                restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
-            LOG.error("class=[VNFServiceProcessor], fuc=[addVnf], JSONException!");
+            restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
+            LOG.error("fuc=[addVnf] JSONException!");
         }
 
-        LOG.info("class=[VNFServiceProcessor], fuc=[addVnf], end!");
+        LOG.info("fuc=[addVnf] end!");
         return restJson;
     }
 
@@ -94,7 +97,7 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject deleteVnf(String vnfmId, String vnfInstanceId, JSONObject jsonTerminateOfReq) {
-        LOG.info("class=[VNFServiceProcessor], fuc=[deleteVnf], start!");
+        LOG.info("fuc=[deleteVnf] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
@@ -103,7 +106,8 @@ public class VNFServiceProcessor {
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
             if (null == vnfmObjcet) {
-                LOG.error("func=[deleteVnf], get Vnfmd info fail!");
+                LOG.error("func=[deleteVnf] get Vnfmd info fail!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
@@ -113,18 +117,20 @@ public class VNFServiceProcessor {
             rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.POST,
                                                         jsonTerminateOfReq.toString());
             if(null == rsp) {
-                LOG.error("class=[VNFServiceProcessor], fuc=[deleteVnf], invalid Response!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
+                LOG.error("fuc=[deleteVnf] invalid Response!");
                 return restJson;
             } else {
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
-                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
-                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
+                restJson.put(Constant.RESP_STATUS, rsp.getStatus());
+                restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
-            LOG.error("class=[VNFServiceProcessor], fuc=[deleteVnf], JSONException!");
+            restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
+            LOG.error("fuc=[deleteVnf] JSONException!");
         }
 
-        LOG.info("class=[VNFServiceProcessor], fuc=[deleteVnf], end!");
+        LOG.info("fuc=[deleteVnf] end!");
         return restJson;
     }
 
@@ -137,7 +143,7 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject getVnf(String vnfmId, String vnfInstanceId) {
-        LOG.info("class=[VNFServiceProcessor], fuc=[getVnf], start!");
+        LOG.info("fuc=[getVnf] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
@@ -146,7 +152,8 @@ public class VNFServiceProcessor {
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
             if (null == vnfmObjcet) {
-                LOG.error("func=[getVnf], get Vnfmd info fail!");
+                LOG.error("func=[getVnf] get Vnfmd info fail!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
@@ -156,18 +163,20 @@ public class VNFServiceProcessor {
             rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.GET, null);
 
             if(null == rsp) {
-                LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], invalid Response!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
+                LOG.error("fuc=[getVnf] invalid Response!");
                 return restJson;
             } else {
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
-                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
-                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
+                restJson.put(Constant.RESP_STATUS, rsp.getStatus());
+                restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
-            LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], JSONException!");
+            restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
+            LOG.error("fuc=[getVnf] JSONException!");
         }
 
-        LOG.info("class=[VNFServiceProcessor], fuc=[getVnf], end!");
+        LOG.info("fuc=[getVnf] end!");
         return restJson;
     }
 
@@ -180,7 +189,7 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject getStatus(String vnfmId, String jobid, String responseId) {
-        LOG.info("class=[VNFServiceProcessor], fuc=[getStatus], start!");
+        LOG.info("fuc=[getStatus] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
@@ -189,7 +198,8 @@ public class VNFServiceProcessor {
         try {
             JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
             if (null == vnfmObjcet) {
-                LOG.error("func=[getStatus], get Vnfmd info fail!");
+                LOG.error("func=[getStatus] get Vnfmd info fail!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
@@ -199,18 +209,20 @@ public class VNFServiceProcessor {
             rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.GET, null);
 
             if(null == rsp) {
-                LOG.error("class=[VNFServiceProcessor], fuc=[getStatus], invalid Response!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
+                LOG.error("fuc=[getStatus] invalid Response!");
                 return restJson;
             } else {
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
-                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
-                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
+                restJson.put(Constant.RESP_STATUS, rsp.getStatus());
+                restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
-            LOG.error("class=[VNFServiceProcessor], fuc=[getVnf], JSONException!");
+            restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
+            LOG.error("fuc=[getVnf] JSONException!");
         }
 
-        LOG.info("class=[VNFServiceProcessor], fuc=[getStatus], end!");
+        LOG.info("fuc=[getStatus] end!");
         return restJson;
     }
 }

@@ -62,6 +62,7 @@ public class VnfServiceProcessorTest {
 
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
 
         assertEquals(restJson.get(Constant.RETCODE), result.get(Constant.RETCODE));
     }
@@ -79,7 +80,8 @@ public class VnfServiceProcessorTest {
         JSONObject result = vnfServiceProcessor.addVnf("vnfmId", subJsonObject);
 
         JSONObject restJson = new JSONObject();
-        restJson.put("retCode", Constant.REST_FAIL);
+        restJson.put(Constant.RETCODE, Constant.REST_FAIL);
+        restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
         assertEquals(restJson, result);
     }
 

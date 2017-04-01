@@ -26,8 +26,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulOptions;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * <br>
@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class HttpRestfulAPIUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HttpRestfulAPIUtil.class);
+    private static final Logger LOG = LogManager.getLogger(HttpRestfulAPIUtil.class.getName());
 
     private HttpRestfulAPIUtil() {
 
@@ -108,7 +108,7 @@ public final class HttpRestfulAPIUtil {
      */
     public static RestfulResponse getRemoteResponse(String url, String methodType, String params) {
 
-        LOG.info("fuc=[getRemoteResponse], start!");
+        LOG.info("type={}, url={}, params={}", methodType, url, params);
 
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -147,15 +147,11 @@ public final class HttpRestfulAPIUtil {
      * @since NFVO 0.5
      */
     public static RestfulResponse getRemoteResponse(Map<String, String> paramsMap, String params) {
-
-        LOG.info("fuc=[getRemoteResponse], start!");
-
         String url = paramsMap.get("url");
         String methodType = paramsMap.get("methodType");
 
         RestfulResponse rsp = getRemoteResponse(url, methodType, params);
 
-        LOG.info("fuc=[getRemoteResponse], end!");
         return rsp;
     }
 }
