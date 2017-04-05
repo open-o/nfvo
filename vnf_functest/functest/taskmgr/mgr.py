@@ -32,8 +32,9 @@ json_file = os.path.join(os.path.dirname(__file__), 'taskmgr.json')
 with open(json_file) as f:
     json_data = json.JSONDecoder().decode(f.read())
 
+
 @api_view(http_method_names=['POST'])
-def start_onboarding_tes(request, *args, **kwargs):
+def start_onboarding_test(request, *args, **kwargs):
     logger.info("Enter %s, data is %s", fun_name(), request.data)
     packageID = ignore_case_get(request.data, 'PackageID')
     try:
@@ -45,29 +46,37 @@ def start_onboarding_tes(request, *args, **kwargs):
         uploadID = upload_script(packageID, envID)
         TaskMgrTaskTbl(
             packageid=packageID,
-            taskid=generate_taskid(),
+            taskid=taskID,
             envid=envID,
             uploadid=uploadID,
+            #TODO: No interactions' response take 'operationid' from HUAWEI API
+            #TODO: So, taskmgr temporarily takes the 'uploadid' value to set the 'operationid' value..
             operationid=uploadID,
-            status='CREATED'
+            functionid=u'',
+            status='CREATED',
+            operfinished='False',
+            operresult='FALIURE',
+            operresultmessage=u''
             ).save()
+        task_exe_ret = execute_test_script(taskID)
+        if not task_exe_ret:
+            raise ValueError , 'TaskID [{0}] failure..!!'.format(taskID)
     except Exception as e:
         return Response(data={'errorCode': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    # execute_test_script(taskID)
     return Response(data={"taskID": taskID}, status=status.HTTP_201_CREATED)
 
 
 @api_view(http_method_names=['GET'])
 def query_test_status(request, *args, **kwargs):
-    logger.info("Enter %s, data is %s", fun_name(), request.data)
-    taskID = ignore_case_get(request.data, 'taskID')
+    logger.info("Enter %s, data is %s", fun_name(), kwargs)
+    taskID = ignore_case_get(kwargs, "taskID")
     try:
         record = TaskMgrTaskTbl.objects.filter(taskid=taskID)
         if not record:
             err_msg = "the Task(%s) does not exist..!" % taskID
             return Response(data={'error': err_msg}, status=status.HTTP_404_NOT_FOUND)
         else:
-            query_status_data = json_data['/status/']['get']
+            query_status_data = json_data['paths']['/status/']['get']
             operID = record[0].operationid
         ret = restcall.call_req(
             base_url=json_data['basePath'],
@@ -80,12 +89,15 @@ def query_test_status(request, *args, **kwargs):
         )
         if ret[0] != 0:
             raise Exception("Failed to query status for Task(%s), %s" % (taskID, ret[1]))
-        #TODO assume ret[1] that is dic.
-        resp_status = ignore_case_get(ret[1], 'operResult')
-        TaskMgrTaskTbl(
-            status=resp_status
-        ).save()
-        data={"taskID": taskID, "status": resp_status}
+        #TODO: Assume ret[1] that is dic.
+        operfinished = ignore_case_get(ret[1], 'operFinished')
+        operresult = ignore_case_get(ret[1], 'operResult')
+        operresultmessage = ignore_case_get(ret[1], 'operResultMessage')
+        record[0].operfinished = operfinished
+        record[0].operresult = operresult
+        record[0].operresultmessage = operresultmessage
+        record[0].save()
+        data={"taskID": taskID, "status": operresult}
     except Exception as e:
         return Response(data={'errorCode': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response(data, status=status.HTTP_202_ACCEPTED)
@@ -93,15 +105,15 @@ def query_test_status(request, *args, **kwargs):
 
 @api_view(http_method_names=['GET'])
 def collect_task_result(request, *args, **kwargs):
-    logger.info("Enter %s, data is %s", fun_name(), request.data)
-    taskID = ignore_case_get(request.data, 'taskID')
+    logger.info("Enter %s, data is %s", fun_name(), kwargs)
+    taskID = ignore_case_get(kwargs, 'taskID')
     try:
         record = TaskMgrTaskTbl.objects.filter(taskid=taskID)
         if not record:
             err_msg = "the Task(%s) does not exist..!" % taskID
             return Response(data={'error': err_msg}, status=status.HTTP_404_NOT_FOUND)
         else:
-            download_ret_data = json_data['/download/']['get']
+            download_ret_data = json_data['paths']['/download/']['get']
             funcID = record[0].functionid
         ret = restcall.call_req(
             base_url=json_data['basePath'],
@@ -114,17 +126,19 @@ def collect_task_result(request, *args, **kwargs):
         )
         if ret[0] != 0:
             raise Exception("Failed to download results for Task(%s), %s" % (taskID, ret[1]))
-        # TODO assume ret[1] that is dic.
-        testid = ignore_case_get(ret[1], 'test_id')
-        testresult = ignore_case_get(ret[1], 'testresult')
-        testdes = ignore_case_get(ret[1], 'testdes')
-        TaskMgrCaseTbl(
-            taskid=record[0].taskid,
-            testid=testid,
-            testresult=testresult,
-            testdes=testdes,
-        ).save()
-        resp_data = {"taskID": taskID, "testid": testid, "testresult": testresult, "testdes": testdes}
+        # TODO: according to definition of api ret[1] shall be list.
+        for case_ret in ret[1]:
+            testid = ignore_case_get(case_ret, 'test_id')
+            testresult = ignore_case_get(case_ret, 'test_description')
+            testdes = ignore_case_get(case_ret, 'test_result')
+            TaskMgrCaseTbl(
+                taskid=taskID,
+                functionid=funcID,
+                testid=testid,
+                testresult=testresult,
+                testdes=testdes,
+            ).save()
+        resp_data = {"taskID": taskID, "funcTestResults": ret[1]}
     except Exception as e:
         return Response(data={'errorCode': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response(resp_data, status=status.HTTP_202_ACCEPTED)
@@ -136,7 +150,7 @@ def execute_test_script(taskID):
     if not record:
         raise Exception("the Task(%s) does not exist..!" % taskID)
     else:
-        execute_data = json_data['/execute']['post']
+        execute_data = json_data['paths']['/execute']['post']
         execute_data['parameters']['upload_id']=record[0].uploadid
         execute_data['parameters']['functest_env_id']=record[0].envid
         execute_data['parameters']['frameworktype']='ROBOT'
@@ -150,10 +164,11 @@ def execute_test_script(taskID):
         content=json.dumps(execute_data['parameters'])
     )
     if ret[0] != 0:
-        raise Exception("Failed to download results for Task(%s), %s" % (taskID, ret[1]))
-    # TODO assume ret[1] that is dic.
+        logger.info("The Task(%s) failure, %s" % (taskID, ret[1]))
+        return False
+    # TODO: Assume ret[1] that is dic.
     funcid = ignore_case_get(ret[1], 'functest_id')
-    TaskMgrCaseTbl(
-        functionid=funcid,
-        status='RUNNING'
-    ).save()
+    record[0].functionid = funcid
+    record[0].status = 'RUNNING'
+    record[0].save()
+    return True

@@ -25,6 +25,9 @@ class TaskMgrTaskTbl(models.Model):
     operationid = models.CharField(db_column='OPERID', max_length=200)
     functionid = models.CharField(db_column='FUNCID', max_length=200)
     status = models.CharField(db_column='STATUS', max_length=200)
+    operfinished = models.CharField(db_column='OPERFINISHED', max_length=200)
+    operresult = models.CharField(db_column='OPERRESULT', max_length=200)
+    operresultmessage = models.CharField(db_column='OPERRESULTMESSAGE', max_length=200)
 
 
 class TaskMgrCaseTbl(models.Model):
@@ -32,9 +35,10 @@ class TaskMgrCaseTbl(models.Model):
         db_table = 'CASE_RECORD'
 
     taskid = models.CharField(db_column='TASKID', max_length=200)
-    testid = models.CharField(db_column='CASEID', primary_key=True, max_length=200)
-    testresult = models.CharField(db_column='CASERET', max_length=200)
-    testdes = models.CharField(db_column='CASEDES', max_length=200)
+    functionid = models.CharField(db_column='FUNCID', max_length=200)
+    testid = models.CharField(db_column='TESTID', primary_key=True, max_length=200)
+    testresult = models.CharField(db_column='TESTRET', max_length=200)
+    testdes = models.CharField(db_column='TESTDES', max_length=200)
 
 
 class ScriptUploadingStatus (models.Model):
