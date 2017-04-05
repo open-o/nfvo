@@ -105,7 +105,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         String path = ParamConstants.VNF_INSTANCE + Constant.ROARAND;
 
-        JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.POST, subJsonObject.toString());
+        JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.POST, subJsonObject.toString(),Constant.CERTIFICATE);
 
         try {
             int statusCode = queryResult.getInt(Constant.RETCODE);
@@ -135,7 +135,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject,
-                String.format(ParamConstants.VNF_INSTANCE_DEL, vnfId) + Constant.ROARAND, Constant.DELETE, null);
+                String.format(ParamConstants.VNF_INSTANCE_DEL, vnfId) + Constant.ROARAND, Constant.DELETE, null,Constant.CERTIFICATE);
 
         int statusCode = queryResult.getInt(Constant.RETCODE);
 
@@ -159,7 +159,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
 
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject,
                 String.format(ParamConstants.VNF_INSTANCE_GET, vnfId) + Constant.ROARAND + "&type=status", Constant.GET,
-                null);
+                null,Constant.CERTIFICATE);
 
         int statusCode = queryResult.getInt("retCode");
 
@@ -186,7 +186,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         String vnfId = jobId.split("_")[0];
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject,
                 String.format(ParamConstants.VNF_INSTANCE_GET, vnfId) + Constant.ROARAND + "&type=status", Constant.GET,
-                null);
+                null,Constant.CERTIFICATE);
 
         int statusCode = queryResult.getInt("retCode");
 
