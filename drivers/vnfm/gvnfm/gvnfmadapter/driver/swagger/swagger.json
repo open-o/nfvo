@@ -374,7 +374,7 @@
               "type": "string"
             },
             "responsehistorylist": {
-              "type": "array"
+              "type": "string"
             },
             "responseid": {
               "type": "integer"
@@ -408,7 +408,7 @@
           "type": "string"
         },
         "exvimidlist": {
-          "type": "array"
+          "type": "string"
         },
         "tenant": {
           "type": "string"
@@ -420,7 +420,7 @@
           "type": "string"
         },
         "vmlist": {
-          "type": "array"
+          "type": "string"
         }
       }
     },
@@ -457,7 +457,7 @@
           "type": "string"
         },
         "vmlist": {
-          "type": "array"
+          "type": "string"
         }
       }
     },
