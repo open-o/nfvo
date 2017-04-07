@@ -27,8 +27,8 @@ import net.sf.json.JSONObject;
 import net.sf.json.util.JSONTokener;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * <br>
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class HttpContextUitl {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HttpContextUitl.class);
+    private static final Logger LOG = LogManager.getLogger(HttpContextUitl.class);
 
     private HttpContextUitl() {
     }

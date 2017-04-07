@@ -31,8 +31,8 @@ import net.sf.json.JSONObject;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.NSLCMServiceProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public class NSLCMServiceRestAPI {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NSLCMServiceRestAPI.class);
+    private static final Logger LOG = LogManager.getLogger(NSLCMServiceRestAPI.class);
 
     @Resource
     private NSLCMServiceProcessor nslcmServiceProcessor;
@@ -67,31 +67,30 @@ public class NSLCMServiceRestAPI {
     @POST
     @Path("/grantvnf")
     public String grantVnf(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException {
-        LOG.info("class=[NSLCMServiceRestAPI], fuc=[grantVnf], start!");
+        LOG.info("fuc=[grantVnf] start!");
 
         JSONObject jsonInstantiateOfReq = HttpContextUitl.extractJsonObject(req);
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         if(null == jsonInstantiateOfReq) {
-            LOG.error("fuc=[grantVnf], Invalid Request!");
+            LOG.error("fuc=[grantVnf] Invalid Request!");
             resp.setStatus(Constant.HTTP_INNERERROR);
             return restJson.toString();
         }
 
         restJson = nslcmServiceProcessor.grantVnf(jsonInstantiateOfReq);
 
-        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[grantVnf], grantVnf fail!");
-            resp.setStatus(Constant.HTTP_INNERERROR);
-            resp.flushBuffer();
-            return restJson.toString();
-        }
 
-        resp.setStatus(restJson.getInt(Constant.REMOTE_RESP_STATUS));
+        resp.setStatus(restJson.getInt(Constant.RESP_STATUS));
         resp.flushBuffer();
 
-        LOG.info("class=[NSLCMServiceRestAPI], fuc=[grantVnf], end!");
-        return JSONObject.fromObject(restJson.getJSONObject("data")).toString();
+        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("fuc=[grantVnf] fail!");
+            return "";
+        }
+
+        LOG.info("fuc=[grantVnf] end!");
+        return restJson.getString(Constant.DATA);
     }
 }

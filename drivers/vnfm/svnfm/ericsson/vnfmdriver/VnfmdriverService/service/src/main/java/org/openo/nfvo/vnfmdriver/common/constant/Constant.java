@@ -83,7 +83,7 @@ public class Constant {
 
     public static final String DATA = "data";
 
-    public static final String REMOTE_RESP_STATUS = "remoteRespStatus";
+    public static final String RESP_STATUS = "respStatus";
 
     public static final String RETCODE = "retCode";
 
@@ -95,7 +95,7 @@ public class Constant {
 
     public static final String QEURY_VNF_URL = "/%s/vnfs/%s";
 
-    public static final String GET_VNF_STATUS_URL = "/%s/jobs/%s/&responseId=%s";
+    public static final String GET_VNF_STATUS_URL = "/%s/jobs/%s?responseId=%s";
 
     public static final String NSLCM_URL_BASE = "/openoapi/nslcm/v1/ns";
 

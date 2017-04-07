@@ -22,8 +22,8 @@ import net.sf.json.JSONObject;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 @Service("nslcmServiceProcessor")
 public class NSLCMServiceProcessor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(NSLCMServiceProcessor.class);
+    private static final Logger LOG = LogManager.getLogger(NSLCMServiceProcessor.class);
 
     /**
      * <br>
@@ -48,7 +48,7 @@ public class NSLCMServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject grantVnf(JSONObject jsonInstantiateOfReq) {
-        LOG.info("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], start!");
+        LOG.info("fuc=[grantVnfLifecycle], start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
@@ -59,18 +59,20 @@ public class NSLCMServiceProcessor {
             rsp = HttpRestfulAPIUtil.getRemoteResponse(url, Constant.POST, jsonInstantiateOfReq.toString());
 
             if(null == rsp) {
-                LOG.error("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], invalid Response!");
+                restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
+                LOG.error("fuc=[grantVnfLifecycle], invalid Response!");
                 return restJson;
             } else {
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
-                restJson.put(Constant.REMOTE_RESP_STATUS, rsp.getStatus());
-                restJson.put("data", JSONObject.fromObject(rsp.getResponseContent()));
+                restJson.put(Constant.RESP_STATUS, rsp.getStatus());
+                restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
-            LOG.error("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], JSONException!");
+            restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
+            LOG.error("fuc=[grantVnfLifecycle], JSONException!");
         }
 
-        LOG.info("class=[NSLCMServiceProcessor], fuc=[grantVnfLifecycle], end!");
+        LOG.info("fuc=[grantVnfLifecycle], end!");
         return restJson;
     }
 }

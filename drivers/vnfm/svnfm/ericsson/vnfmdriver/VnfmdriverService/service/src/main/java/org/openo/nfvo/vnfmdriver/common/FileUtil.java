@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 /**
  * <br>
  * <p>
@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 public class FileUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
+    private static final Logger LOG = LogManager.getLogger(FileUtil.class);
 
     /**
      * <br>
@@ -45,7 +45,7 @@ public class FileUtil {
      * @since NFVO 0.5
      */
     public static String read(String path) throws IOException {
-        LOG.info("fuc=[read], step=[start], path=[%s]", path);
+        LOG.info("fuc=[read], step=[start], path={}", path);
 
         BufferedReader reader = null;
         String restString = "";
