@@ -53,6 +53,8 @@ def convert_metadata(src_json):
     return src_json['metadata'] if 'metadata' in src_json else {}
 
 def convert_factor_unit(value):
+    if isinstance(value, (str, unicode)):
+        return value
     return "%s %s" % (value["factor"], value["unit"])
 
 def convert_inputs(src_json):
