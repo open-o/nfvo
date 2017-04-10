@@ -115,8 +115,24 @@ def instantiate_vnf(request, *args, **kwargs):
         data = {}
         data["NFVOID"] = 1
         data["VNFMID"] = vnfm_id
-        data["VNFD"] = ignorcase_get(packageInfo, "downloadUri")
-        data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
+        # data["VNFD"] = ignorcase_get(packageInfo, "downloadUri")
+        # data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
+        vnfdId = ignorcase_get(packageInfo, "vnfdId")
+        from urlparse import urlparse
+        vnfm_ip = urlparse(ignorcase_get(vnfm_info, "url")).netloc.split(':')[0]
+        if "CSCF" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/CSCF"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/CSCF"
+        elif "SBC" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SBC"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SBC"
+        elif "SSS" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SSS"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SSS"
+        else:
+            data["VNFD"] = ignorcase_get(packageInfo, "downloadUri")
+            data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
+
         data["extension"] = {}
         inputs = []
         for name, value in ignorcase_get(ignorcase_get(request.data, "additionalParam"), "inputs").items():
