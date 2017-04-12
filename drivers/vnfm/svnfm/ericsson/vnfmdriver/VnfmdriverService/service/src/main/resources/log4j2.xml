@@ -19,10 +19,10 @@
     <Properties>
     </Properties>
     <appenders>
-        <Console name="Console" target="SYSTEM_OUT">
-            <ThresholdFilter level="debug" />
-            <PatternLayout pattern="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} %-5level %logger{1} - %msg%n"/>
-        </Console>
+        <!--<Console name="Console" target="SYSTEM_OUT">-->
+            <!--<ThresholdFilter level="debug" />-->
+            <!--<PatternLayout pattern="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} %-5level %logger{1} - %msg%n"/>-->
+        <!--</Console>-->
 
         <RollingFile name="RollingFile" fileName="${sys:catalina.base}/logs/vnfmdriver.log"
                      filePattern="${sys:catalina.base}/logs/vnfmdriver.%d{yyyy-MM-dd}.log">
@@ -34,7 +34,7 @@
     </appenders>
     <Loggers>
         <Root level="debug">
-            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="Console"/>-->
             <AppenderRef ref="RollingFile"/>
         </Root>
     </Loggers>

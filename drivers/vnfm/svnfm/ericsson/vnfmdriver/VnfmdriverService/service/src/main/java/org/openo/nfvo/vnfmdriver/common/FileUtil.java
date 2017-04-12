@@ -21,8 +21,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.processing.FilerException;
+
 /**
  * <br>
  * <p>
@@ -34,7 +37,7 @@ import org.apache.logging.log4j.LogManager;
 
 public class FileUtil {
 
-    private static final Logger LOG = LogManager.getLogger(FileUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * <br>

@@ -26,8 +26,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulOptions;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <br>
@@ -39,7 +39,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public final class HttpRestfulAPIUtil {
 
-    private static final Logger LOG = LogManager.getLogger(HttpRestfulAPIUtil.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(HttpRestfulAPIUtil.class.getName());
 
     private HttpRestfulAPIUtil() {
 
@@ -108,7 +108,7 @@ public final class HttpRestfulAPIUtil {
      */
     public static RestfulResponse getRemoteResponse(String url, String methodType, String params) {
 
-        LOG.info("type={}, url={}, params={}", methodType, url, params);
+        LOG.info("type={}, url={}, param={}", methodType, url, params);
 
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -127,14 +127,14 @@ public final class HttpRestfulAPIUtil {
                 } else if(Constant.POST.equalsIgnoreCase(methodType)) {
                     rsp = rest.post(url, restfulParametes);
                 } else {
-                    LOG.warn("fuc=[getRemoteResponse], unsupport http request type!");
+                    LOG.warn("fuc=[getRemoteResponse], un support http request type!");
                 }
             }
         } catch(ServiceException e) {
             LOG.warn("fuc=[getRemoteResponse], ServiceException!");
         }
 
-        LOG.info("fuc=[getRemoteResponse], end!");
+        LOG.info("get remote response successfully");
         return rsp;
     }
 

@@ -19,8 +19,8 @@ package org.openo.nfvo.vnfmdriver.activator;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceController;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <br>
@@ -32,7 +32,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
 
-    private static final Logger LOG = LogManager.getLogger(ServiceRunningEntry.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceRunningEntry.class.getName());
 
     /**
      * <br>
@@ -49,7 +49,6 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
             LOG.info("Ericsson VNFMDriver module regist start!");
             InfServiceController serviceCtrl = (InfServiceController)bean;
             serviceCtrl.start();
-            LOG.info("Ericsson VNFMDriver module regist end!");
         }
 
         return bean;
@@ -84,6 +83,10 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
         }
 
         return;
+    }
+
+    public boolean requiresDestruction(Object o) {
+        return false;
     }
 
 }

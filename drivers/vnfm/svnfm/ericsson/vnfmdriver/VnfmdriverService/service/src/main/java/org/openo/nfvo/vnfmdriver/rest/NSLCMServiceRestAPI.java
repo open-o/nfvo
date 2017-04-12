@@ -31,8 +31,8 @@ import net.sf.json.JSONObject;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.NSLCMServiceProcessor;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ import java.io.IOException;
 @Produces(MediaType.APPLICATION_JSON)
 public class NSLCMServiceRestAPI {
 
-    private static final Logger LOG = LogManager.getLogger(NSLCMServiceRestAPI.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NSLCMServiceRestAPI.class);
 
     @Resource
     private NSLCMServiceProcessor nslcmServiceProcessor;
@@ -80,7 +80,6 @@ public class NSLCMServiceRestAPI {
         }
 
         restJson = nslcmServiceProcessor.grantVnf(jsonInstantiateOfReq);
-
 
         resp.setStatus(restJson.getInt(Constant.RESP_STATUS));
         resp.flushBuffer();

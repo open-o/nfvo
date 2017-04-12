@@ -29,7 +29,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<package.name>ericsson-vnfm-driver-service</package.name>
+        <package.name>ericsson-vnfm-driver-service</package.name>
     </properties>
 
     <modules>

@@ -24,8 +24,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceMSBManager;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <br>
@@ -37,7 +37,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class ServiceMSBManagerImpl implements InfServiceMSBManager {
 
-    private static final Logger LOG = LogManager.getLogger(ServiceMSBManagerImpl.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceMSBManagerImpl.class.getName());
 
     /**
      * <br>
@@ -51,7 +51,7 @@ public class ServiceMSBManagerImpl implements InfServiceMSBManager {
 
         LOG.info("Ericsson VNFM Driver Register...", ServiceMSBManagerImpl.class);
 
-	    int ret = Constant.DRIVER_REGISTER_NG;
+        int ret = Constant.DRIVER_REGISTER_NG;
         RestfulResponse rsp = HttpRestfulAPIUtil.getRemoteResponse(paramsMap, driverInfo.toString());
 
         if(null == rsp) {
@@ -61,16 +61,16 @@ public class ServiceMSBManagerImpl implements InfServiceMSBManager {
 
         if(rsp.getStatus() == Constant.HTTP_INNERERROR) {
             LOG.info("MSB Internal Error, Wait and Repeat to Register", ServiceMSBManagerImpl.class);
-	        ret = Constant.DRIVER_REGISTER_REPEAT;
+            ret = Constant.DRIVER_REGISTER_REPEAT;
         } else if(rsp.getStatus() == Constant.HTTP_INVALID_PARAMETERS) {
             LOG.info("Register Param is Invalid", ServiceMSBManagerImpl.class);
-	        ret = Constant.DRIVER_REGISTER_NG;
+            ret = Constant.DRIVER_REGISTER_NG;
         } else if(rsp.getStatus() == Constant.HTTP_CREATED) {
             LOG.info("Register Successfully", ServiceMSBManagerImpl.class);
-	        ret = Constant.DRIVER_REGISTER_OK;
-        } else  {
+            ret = Constant.DRIVER_REGISTER_OK;
+        } else {
             LOG.error("Unkonw Result, Please Check it", ServiceMSBManagerImpl.class);
-	        ret = Constant.DRIVER_REGISTER_NG;
+            ret = Constant.DRIVER_REGISTER_NG;
         }
         return ret;
     }

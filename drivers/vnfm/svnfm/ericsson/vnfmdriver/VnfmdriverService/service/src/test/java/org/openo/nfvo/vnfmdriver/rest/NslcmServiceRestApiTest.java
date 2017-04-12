@@ -18,23 +18,18 @@ package org.openo.nfvo.vnfmdriver.rest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Field;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import mockit.Mock;
 import mockit.MockUp;
-
 import net.sf.json.JSONObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.NSLCMServiceProcessor;
-
-import java.lang.reflect.Field;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * <br>

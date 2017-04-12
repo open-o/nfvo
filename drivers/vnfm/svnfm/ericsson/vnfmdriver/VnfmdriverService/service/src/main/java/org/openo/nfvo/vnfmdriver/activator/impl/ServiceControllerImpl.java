@@ -27,9 +27,9 @@ import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceController;
 import org.openo.nfvo.vnfmdriver.activator.inf.InfServiceMSBManager;
 import org.openo.nfvo.vnfmdriver.common.FileUtil;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 
@@ -44,7 +44,7 @@ import org.openo.baseservice.util.impl.SystemEnvVariablesFactory;
 @Component
 public class ServiceControllerImpl implements InfServiceController {
 
-    private static final Logger LOG = LogManager.getLogger(ServiceControllerImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ServiceControllerImpl.class);
 
     /**
      * <br>
@@ -58,13 +58,13 @@ public class ServiceControllerImpl implements InfServiceController {
 
         // get vnfm driver info and registration it
         try {
-	        LOG.info("Ericsson VNFM Driver Get Driver Info!");
+            LOG.info("Ericsson VNFM Driver Get Driver Info!");
 
             String driverInfo = FileUtil.read(getDriverInfoFilePath());
             LOG.debug("The Vnfm Driver info:" + driverInfo);
 
             if(driverInfo.equals("")) {
-                LOG.error("please check Vnfm Driver info");
+                LOG.error("DriverInfo file is empty or not found");
             } else {
                 JSONObject driverObject = JSONObject.fromObject(driverInfo);
                 VnfmDriverRegisterThread vnfmDriverThread = new VnfmDriverRegisterThread(paramsMap, driverObject);
@@ -86,7 +86,7 @@ public class ServiceControllerImpl implements InfServiceController {
 
     public static String getDriverInfoFilePath() {
 
-       String filePath = SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
+        String filePath = SystemEnvVariablesFactory.getInstance().getAppRoot() + System.getProperty("file.separator")
                 + "etc" + System.getProperty("file.separator") + "driverInfo" + System.getProperty("file.separator")
                 + Constant.VNFM_DRIVER_INFO;
 
@@ -130,7 +130,9 @@ public class ServiceControllerImpl implements InfServiceController {
                 while(driverRegisterResult == Constant.DRIVER_REGISTER_REPEAT) {
                     driverRegisterResult = msbManager.register(paramsMap, driverInfo);
 
-		            if(driverRegisterResult != Constant.DRIVER_REGISTER_REPEAT) { break; }
+                    if(driverRegisterResult != Constant.DRIVER_REGISTER_REPEAT) {
+                        break;
+                    }
 
                     synchronized(lockObject) {
                         lockObject.wait(Constant.DRIVER_REGISTER_TIMEER);

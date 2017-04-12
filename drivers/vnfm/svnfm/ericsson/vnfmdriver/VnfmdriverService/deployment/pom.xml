@@ -75,7 +75,9 @@
                                 ant.copy(todir:
                                 "${deployUnzip}/webapps/ROOT") {
                                 fileset(dir:
-                                "${project.build.directory}/../../service/target/${package.name}-${project.version}")
+                                "${project.build.directory}/../../service/target/${package.name}-${project.version}"){
+                                exclude(name: "**/driver-info.json")
+                                }
                                 }
 
                                 ant.zip(destfile:

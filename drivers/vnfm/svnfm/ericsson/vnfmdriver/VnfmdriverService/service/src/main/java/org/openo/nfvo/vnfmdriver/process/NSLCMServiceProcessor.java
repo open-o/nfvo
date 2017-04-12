@@ -22,8 +22,8 @@ import net.sf.json.JSONObject;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 @Service("nslcmServiceProcessor")
 public class NSLCMServiceProcessor {
 
-    private static final Logger LOG = LogManager.getLogger(NSLCMServiceProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NSLCMServiceProcessor.class);
 
     /**
      * <br>

@@ -23,8 +23,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.nfvo.vnfmdriver.common.VnfmUtil;
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpRestfulAPIUtil;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 @Service("vnfServiceProcessor")
 public class VNFServiceProcessor {
 
-    private static final Logger LOG = LogManager.getLogger(VNFServiceProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(VNFServiceProcessor.class);
 
     /**
      * <br>

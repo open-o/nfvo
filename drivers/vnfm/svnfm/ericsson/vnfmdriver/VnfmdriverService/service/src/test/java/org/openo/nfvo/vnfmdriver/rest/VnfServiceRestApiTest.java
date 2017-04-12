@@ -19,23 +19,18 @@ package org.openo.nfvo.vnfmdriver.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.Field;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import mockit.Mock;
 import mockit.MockUp;
-
 import net.sf.json.JSONObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.openo.nfvo.vnfmdriver.common.constant.Constant;
 import org.openo.nfvo.vnfmdriver.common.restfulutil.HttpContextUitl;
 import org.openo.nfvo.vnfmdriver.process.VNFServiceProcessor;
-
-import java.lang.reflect.Field;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * <br>
@@ -177,8 +172,8 @@ public class VnfServiceRestApiTest {
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
 
-
         MockUp<VNFServiceProcessor> vnfServiceProcessor = new MockUp<VNFServiceProcessor>() {
+
             @Mock
             public JSONObject addVnf(String vnfmId, JSONObject jsonInstantiateOfReq) {
 
@@ -214,6 +209,7 @@ public class VnfServiceRestApiTest {
 
         assertEquals(restJson.toString(), result);
     }
+
     /**
      * <br>
      *
@@ -319,6 +315,7 @@ public class VnfServiceRestApiTest {
         };
 
         MockUp<VNFServiceProcessor> vnfServiceProcessor = new MockUp<VNFServiceProcessor>() {
+
             @Mock
             public JSONObject deleteVnf(String vnfmId, String vnfInstanceId, JSONObject jsonTerminateOfReq) {
 
@@ -378,7 +375,6 @@ public class VnfServiceRestApiTest {
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
-
 
         MockUp<VNFServiceProcessor> vnfServiceProcessor = new MockUp<VNFServiceProcessor>() {
 
@@ -467,8 +463,7 @@ public class VnfServiceRestApiTest {
         HttpServletResponse rep = proxy.getMockInstance();
 
         String vnfmId = null;
-        String result = vnfServiceRestApi.getOperationStatus(vnfmId, "jobId",
-                                                          "responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus(vnfmId, "jobId", "responseId", rep);
 
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
@@ -506,10 +501,8 @@ public class VnfServiceRestApiTest {
         };
 
         vnfServiceProcessor.tearDown();
-        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid",
-                                                          "responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", rep);
         assertEquals("", result);
-        
 
     }
 
@@ -546,7 +539,7 @@ public class VnfServiceRestApiTest {
         JSONObject restJson = new JSONObject();
         restJson.put("test_key", "test_value");
 
-        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid","responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", rep);
         vnfServiceProcessor.tearDown();
         assertEquals(restJson.toString(), result);
 
@@ -570,4 +563,3 @@ public class VnfServiceRestApiTest {
     }
 
 }
-
