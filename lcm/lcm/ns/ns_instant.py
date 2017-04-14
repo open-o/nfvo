@@ -54,8 +54,8 @@ class InstantNSService(object):
             if 'location' in self.req_data['additionalParamForNs']:
                 vim_id = self.req_data['additionalParamForNs']['location']
             location_constraints = []
-            if 'LocationConstraints' in self.req_data:
-                location_constraints = self.req_data['LocationConstraints']
+            if 'locationConstraints' in self.req_data:
+                location_constraints = self.req_data['locationConstraints']
             
             JobUtil.add_job_status(job_id, 5, 'Start query nsd(%s)' % ns_inst.nspackage_id)
             src_plan = query_rawdata_from_catalog(ns_inst.nspackage_id, input_parameters)
@@ -144,7 +144,7 @@ class InstantNSService(object):
             
     def get_vnf_vim_id(self, vim_id, location_constraints, vnfdid):
         for location in location_constraints:
-            if vnfdid == location["vnfProfileId"]:
+            if "vnfProfileId" in location and vnfdid == location["vnfProfileId"]:
                 return location["locationConstraints"]["vimId"]
         if vim_id:
             return vim_id
@@ -158,16 +158,21 @@ class InstantNSService(object):
         for vnf in ignore_case_get(plan_dict, "vnfs"):
             if "dependencies" in vnf:
                 for depend in vnf["dependencies"]:
-                    vl_vnf["vl_id"] = vnf['properties']['id']
+                    vl_vnf[depend["vl_id"]] = vnf['properties']['id']
         vnf_vim = {}
         for location in location_constraints:
-            vnfd_id = location["vnfProfileId"]
-            vnf_vim[vnfd_id] = location["locationConstraints"]["vimId"]
+            if "vnfProfileId" in location:
+                vnfd_id = location["vnfProfileId"]
+                vnf_vim[vnfd_id] = location["locationConstraints"]["vimId"]
         for vl in plan_dict["vls"]:
             vnfdid = ignore_case_get(vl_vnf, vl["vl_id"])
             vimid = ignore_case_get(vnf_vim, vnfdid)
             if not vimid:
                 vimid = vim_id
+            if not vimid:
+                raise NSLCMException("No Vim info for vl(%s) of vnf(%s)." % (vl["vl_id"], vnfdid))
+            if "location_info" not in vl["properties"]:
+                vl["properties"]["location_info"] = {}
             vl["properties"]["location_info"]["vimid"] = vimid
        
     @staticmethod

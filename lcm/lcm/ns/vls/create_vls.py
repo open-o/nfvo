@@ -85,7 +85,7 @@ class CreateVls(object):
         self.vim_id = self.vl_properties["location_info"]["vimid"]
         if not self.vim_id:
             self.vim_id = ignore_case_get(self.additionalParam, "location")
-        self.tenant = self.vl_properties["location_info"]["tenant"]
+        self.tenant = ignore_case_get(self.vl_properties["location_info"], "tenant")
         network_data = {
             "tenant": self.tenant,
             "network_name": self.vl_properties.get("network_name", ""),
@@ -121,6 +121,8 @@ class CreateVls(object):
             "passwd": vim_resp_body["password"],
             "tenant": vim_resp_body["tenant"]}
         vim_api = vimadaptor.VimAdaptor(data)
+        if not network_data["tenant"]:
+            network_data["tenant"] = vim_resp_body["tenant"]
         vl_ret = vim_api.create_network(network_data)
         if vl_ret[0] != 0:
             logger.error("Send post vl request to vim failed, detail is %s" % vl_ret[1])
