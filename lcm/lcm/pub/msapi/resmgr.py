@@ -57,6 +57,9 @@ def grant_vnf(req_param):
         try:
             from lcm.pub.msapi import extsys
             vim = extsys.get_vim_by_id(vim_id)
+            if isinstance(vim, list):
+                vim = vim[0]
+                vim_id = vim["vimId"]
             grant_rsp = {
                 "vim": {
                     "vimid": vim_id,
