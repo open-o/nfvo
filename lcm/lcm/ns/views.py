@@ -128,6 +128,7 @@ class NSInstPostDealView(APIView):
             logger.error(traceback.format_exc())
             return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        logger.debug("*****NS INST success******")
         return Response(data={'success': 'Update status of NS(%s) to %s' % (ns_instance_id, ns_status)},
                         status=status.HTTP_202_ACCEPTED)
 
