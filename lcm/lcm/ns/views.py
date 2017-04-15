@@ -117,9 +117,10 @@ class NSInstPostDealView(APIView):
             nsd_info = NSInstModel.objects.filter(id=ns_instance_id)
             nsd_id = nsd_info[0].nsd_id
             nsd_model = json.loads(nsd_info[0].nsd_model)
-            policy = ignore_case_get(nsd_model, "policies")[0]
-            file_url = ignore_case_get(ignore_case_get(policy,"properties")[0], "drl_file_url")
-            self.send_policy_request(ns_instance_id, nsd_id, file_url)
+            if "policies" in nsd_model and nsd_model["policies"]:
+                policy = ignore_case_get(nsd_model, "policies")[0]
+                file_url = ignore_case_get(ignore_case_get(policy,"properties")[0], "drl_file_url")
+                self.send_policy_request(ns_instance_id, nsd_id, file_url)
         except:
             logger.error(traceback.format_exc())
             return Response(data={'error': 'Failed to update status of NS(%s)' % ns_instance_id},
@@ -138,7 +139,7 @@ class NSInstPostDealView(APIView):
         ret = req_by_msb(policy_engine_url, "POST", req_param)
         if ret[0] != 0:
             logger.error("Failed to send ns policy req")
-            raise NSLCMException('Failed to send ns policy req)')
+            #raise NSLCMException('Failed to send ns policy req)')
 
 
 class NSManualScaleView(APIView):
