@@ -298,6 +298,8 @@ def create_network(auth_info, data):
             create_params['network']['provider:network_type'] = data['network_type']
         if "segmentation_id" in data and data['segmentation_id']:
             create_params['network']['provider:segmentation_id'] = int(data['segmentation_id'])
+        if "physical_network" in data and data['physical_network']:
+            create_params['network']['provider:physical_network'] = data['physical_network']
 
         logger.info("[%s]call neutron.create_network(%s)" % (fun_name(), str(create_params)))
         network_created = neutron.create_network(create_params)
