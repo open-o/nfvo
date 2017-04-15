@@ -91,6 +91,7 @@ class CreateVls(object):
             "network_name": self.vl_properties.get("network_name", ""),
             "shared": const.SHARED_NET,
             "network_type": self.vl_properties.get("network_type", ""),
+            "segmentation_id": self.vl_properties.get("segmentation_id", ""),
             "mtu": self.vl_properties.get("mtu", const.DEFAULT_MTU),
             "vlan_transparent": self.vl_properties.get("vlan_transparent", False),
             "subnet_list": [{
