@@ -1,0 +1,207 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Ericsson Vnfm Driver API",
+    "version" : "1.0.0",
+    "title" : "Ericsson Vnfm Driver API"
+  },
+  "host" : "ericsson-vnfm",
+  "tags" : [ {
+    "name" : "v1"
+  } ],
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/openoapi/ericsson-vnfm/v1/{vnfmId}/jobs/{jobid}" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Get operation status",
+        "description" : "",
+        "operationId" : "getOperationStatusJson",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "resp",
+          "in" : "query",
+          "description" : "response",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfmId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "jobid",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "responseId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "language-option",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully."
+          },
+          "404" : {
+            "description" : "VnfmDriver Resource Not Found."
+          },
+          "500" : {
+            "description" : "VnfmDriver resource failed to process the request."
+          }
+        }
+      }
+    },
+    "/openoapi/ericsson-vnfm/v1/{vnfmId}/vnfs" : {
+      "post" : {
+        "tags" : [ "v1" ],
+        "summary" : "Instantiate VNF",
+        "description" : "",
+        "operationId" : "instantiateVNFJson",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "req",
+          "in" : "query",
+          "description" : "request",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "resp",
+          "in" : "query",
+          "description" : "response",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfmId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "language-option",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully."
+          },
+          "404" : {
+            "description" : "VnfmDriver Resource Not Found."
+          },
+          "500" : {
+            "description" : "VnfmDriver resource failed to process the request."
+          }
+        }
+      }
+    },
+    "/openoapi/ericsson-vnfm/v1/{vnfmId}/vnfs/{vnfInstanceId}" : {
+      "get" : {
+        "tags" : [ "v1" ],
+        "summary" : "Query VNF",
+        "description" : "",
+        "operationId" : "queryVNFJson",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "resp",
+          "in" : "query",
+          "description" : "response",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfmId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfInstanceId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "language-option",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully."
+          },
+          "404" : {
+            "description" : "VnfmDriver Resource Not Found."
+          },
+          "500" : {
+            "description" : "VnfmDriver resource failed to process the request."
+          }
+        }
+      }
+    },
+    "/openoapi/ericsson-vnfm/v1/{vnfmId}/vnfs/{vnfInstanceId}/terminate" : {
+      "post" : {
+        "tags" : [ "v1" ],
+        "summary" : "Terminate VNF",
+        "description" : "",
+        "operationId" : "terminateVNFJson",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "req",
+          "in" : "query",
+          "description" : "request",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "resp",
+          "in" : "query",
+          "description" : "response",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfmId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "vnfInstanceId",
+          "in" : "path",
+          "description" : "URLParam",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "language-option",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully."
+          },
+          "404" : {
+            "description" : "VnfmDriver Resource Not Found."
+          },
+          "500" : {
+            "description" : "VnfmDriver resource failed to process the request."
+          }
+        }
+      }
+    }
+  }
+}
