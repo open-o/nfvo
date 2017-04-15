@@ -118,8 +118,11 @@ class NSInstPostDealView(APIView):
             nsd_id = nsd_info[0].nsd_id
             nsd_model = json.loads(nsd_info[0].nsd_model)
             if "policies" in nsd_model and nsd_model["policies"]:
-                policy = ignore_case_get(nsd_model, "policies")[0]
-                file_url = ignore_case_get(ignore_case_get(policy,"properties")[0], "drl_file_url")
+                policy = nsd_model["policies"][0]
+                if "properties" in policy and policy["properties"]:
+                    file_url = ignore_case_get(policy["properties"][0], "drl_file_url")
+                else:
+                    file_url = ""
                 self.send_policy_request(ns_instance_id, nsd_id, file_url)
         except:
             logger.error(traceback.format_exc())
