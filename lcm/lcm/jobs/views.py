@@ -36,7 +36,7 @@ class JobView(APIView):
                 return Response(data={'result': 'ok'})
             progress = request.data.get('progress')
             desc = request.data.get('desc', '%s' % progress)
-            errcode = '0' if request.data.get('errcode') == 'active' else '255'
+            errcode = '0' if request.data.get('errcode') in ('true', 'active') else '255'
             JobUtil.add_job_status(job_id, progress, desc, error_code=errcode)
             return Response(data={'result': 'ok'})
         except Exception as e:
