@@ -80,7 +80,7 @@ class TerminateNsService(threading.Thread):
                 if ret[0] == 0:
                     cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
-                    if result == '0':
+                    if str(result) == '0':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete vlinst:[%s] success." % tmp_msg, '')
                     else:
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete vlinst:[%s] failed." % tmp_msg, '')
@@ -110,7 +110,7 @@ class TerminateNsService(threading.Thread):
                 if ret[0] == 0:
                     cur_progress += step_progress
                     result = json.JSONDecoder().decode(ret[1]).get("result", "")
-                    if result == '0':
+                    if str(result) == '0':
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete sfcinst:[%s] success." % tmp_msg, '')
                     else:
                         JobUtil.add_job_status(self.job_id, cur_progress, "Delete sfcinst:[%s] failed." % tmp_msg, '')
