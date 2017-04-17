@@ -16,4 +16,5 @@ from django.conf.urls import url
 from lcm.samples import views
 
 urlpatterns = [
+    url(r'^openoapi/nslcm/v1/mandb/(?P<modelName>[a-zA-Z\-]+)$', views.TablesList.as_view()),
     url(r'^samples/$', views.SampleList.as_view()), ]
