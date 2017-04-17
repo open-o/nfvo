@@ -16,6 +16,7 @@ import traceback
 import logging
 import json
 import threading
+import time
 from lcm.ns.vnfs.wait_job import wait_job_finish
 from lcm.pub.database.models import NSInstModel, VLInstModel, FPInstModel, NfInstModel
 from lcm.pub.database.models import DefPkgMappingModel, InputParamMappingModel, ServiceBaseInfoModel
@@ -52,6 +53,7 @@ class TerminateNsService(threading.Thread):
 
         self.cancel_sfc_list()
         self.cancel_vnf_list()
+        time.sleep(40)
         self.cancel_vl_list()
 
         self.finaldata()
