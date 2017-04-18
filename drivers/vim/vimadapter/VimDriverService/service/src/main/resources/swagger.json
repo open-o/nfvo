@@ -5,11 +5,11 @@
     "description": "OPEN-O Interface provider.",
     "version": "1.0.0"
   },
-  "host": "nfvo.openo.org",
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "tags": [
+        {
+            "name": "VIM driver services"
+        }
+    ],
   "basePath": "/openoapi/vimdriver/v1",
   "paths": {
     "/networks": {

@@ -5,10 +5,10 @@
         "description": "Resource Management API",
         "version": "1.0.0"
     },
-    "host": "nfvo.openo.org",
-    "schemes": [
-        "https",
-        "http"
+    "tags": [
+        {
+            "name": "Resource Management services"
+        }
     ],
     "basePath": "/openoapi/resmgr/v1",
     "paths": {

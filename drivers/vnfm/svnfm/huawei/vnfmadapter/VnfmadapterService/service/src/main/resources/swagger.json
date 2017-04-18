@@ -5,11 +5,11 @@
     "description": "VNF service provider.",
     "version": "1.0.0"
   },
-  "host": "nfvo.openo.org",
-  "schemes": [
-    "https",
-    "http"
-  ],
+  "tags": [
+        {
+            "name": "Huawei VNFM Driver services"
+        }
+    ],
   "basePath": "/openoapi",
   "paths": {
     "/{vnfmtype}/v1/{vnfmid}/vnfs": {
