@@ -48,3 +48,6 @@ REG_TO_MSB_REG_PARAM = {
         "ttl": 0
     }]
 }
+
+# delete image from vim option when delete csar
+IGNORE_DEL_IMG_WEHN_DEL_CSAR = True

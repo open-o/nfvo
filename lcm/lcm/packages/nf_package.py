@@ -32,7 +32,7 @@ from lcm.pub.msapi.catalog import query_rawdata_from_catalog, delete_csar_from_c
 from lcm.pub.msapi.catalog import get_download_url_from_catalog
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.msapi.extsys import get_vims
-from lcm.pub.config.config import IMAGE_ROOT_PATH
+from lcm.pub.config.config import IMAGE_ROOT_PATH, IGNORE_DEL_IMG_WEHN_DEL_CSAR
 from lcm.pub.nfvi.vim.vimadaptor import VimAdaptor
 from lcm.pub.nfvi.vim import const
 from lcm.pub.utils.jobutil import JobUtil
@@ -394,6 +394,9 @@ class NfPackage(object):
         vims = get_vims()
 
         for pkg_file in nf_pkg_files:
+            if IGNORE_DEL_IMG_WEHN_DEL_CSAR:
+                logger.warn("ignore delete image(%s)" % pkg_file.filename)
+                continue
             JobUtil.add_job_status(job_id, 50, "Delete image(%s) of CSAR(%s)." %
                                    (pkg_file.filename, csar_id))
             if self.is_image_refed_by_other_nf_pkg(all_nf_pkg_files, pkg_file.imageid, csar_id, pkg_file.vimid):
