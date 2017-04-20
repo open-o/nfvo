@@ -150,6 +150,22 @@ public class LocationRoa {
     }
 
     /**
+     * Get Cloud Service.<br>
+     *
+     * @param context
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    @GET
+    @Path("/cloudservice")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONObject getCloudservice(@Context HttpServletRequest context) throws ServiceException {
+        return RoaResponseUtil.get(location.getCloudservice());
+    }
+
+    /**
      * Get location details.<br>
      *
      * @param context
@@ -187,7 +203,7 @@ public class LocationRoa {
     public JSONObject addLocation(@Context HttpServletRequest context) throws ServiceException {
         JSONObject object = RequestUtil.getJsonRequestBody(context);
 
-        LOGGER.error("LocationRoa::addLocation : " + object.toString());
+        LOGGER.info("LocationRoa::addLocation : " + object.toString());
         try {
             int result = location.add(object);
             return RoaResponseUtil.add(result);
