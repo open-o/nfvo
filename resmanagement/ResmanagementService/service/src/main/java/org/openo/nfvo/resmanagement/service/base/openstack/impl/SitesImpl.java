@@ -60,9 +60,11 @@ public class SitesImpl implements Sites {
         LOGGER.info("Add datacenter jsonObject: {}", jsonObject);
         SitesEntity sitesEntity = SitesEntity.toEntity(jsonObject);
         sitesEntity.setStatus(ParamConstant.PARAM_ACTIVE);
-        String vimId = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
+        String vimName = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
+        String vimId = VimUtil.getVimIdByName(vimName);
         sitesEntity.setVimId(vimId);
         JSONObject resource = limitsBusiness.getLimits(vimId);
+        sitesEntity.setVimId(vimId);
         sitesEntity.setVimName(resource.getString(ParamConstant.PARAM_VIMNAME));
         sitesEntity.setTotalCPU(resource.getString(ParamConstant.TOTAL_CPU));
         sitesEntity.setUsedCPU(resource.getString(ParamConstant.USED_CPU));

@@ -92,4 +92,13 @@ public interface Location extends ResManagement {
      * @since NFVO 0.5
      */
     List<String> getLocationByCountry(Map<String, Object> condition) throws ServiceException;
+
+    /**
+     * Get cloud services.<br>
+     *
+     * @return
+     * @throws ServiceException
+     * @since NFVO 0.5
+     */
+    List<String> getCloudservice() throws ServiceException;
 }

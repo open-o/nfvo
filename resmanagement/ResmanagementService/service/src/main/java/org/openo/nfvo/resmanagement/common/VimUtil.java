@@ -61,6 +61,27 @@ public class VimUtil {
     }
 
     /**
+     * Get vimId by vimName.
+     * 
+     * @return
+     */
+    public static String getVimIdByName(String name) {
+        JSONArray vims = getVims();
+        for(int i = 0; i < vims.size(); i++) {
+            JSONObject vim = vims.getJSONObject(i);
+            String vimName = vim.getString("name");
+            String vimId = vim.getString("vimId");
+            if(name.equals(vimName)) {
+                LOG.info("vimName: " + vimName + ",vimId: " + vimId);
+                return vimId;
+            }
+        }
+        LOG.error("No vim with this vimName");
+        return "";
+
+    }
+
+    /**
      * Get VIM.
      * 
      * @param vimId

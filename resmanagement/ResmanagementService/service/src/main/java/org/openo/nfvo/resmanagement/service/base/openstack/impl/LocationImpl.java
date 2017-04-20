@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.nfvo.resmanagement.common.VimUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
 import org.openo.nfvo.resmanagement.common.util.JsonUtil;
 import org.openo.nfvo.resmanagement.service.base.openstack.inf.Location;
@@ -32,6 +33,7 @@ import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -83,6 +85,19 @@ public class LocationImpl implements Location {
     @Override
     public List<String> getCountry() throws ServiceException {
         return locationBusiness.getCountry();
+    }
+
+    @Override
+    public List<String> getCloudservice() throws ServiceException {
+        LOGGER.info("get cloud service from external system");
+        JSONArray vims = VimUtil.getVims();
+        LOGGER.info("vims: " + vims.toString());
+        List<String> cloudService = new ArrayList<>();
+        for(int i = 0; i < vims.size(); i++) {
+            String vimName = vims.getJSONObject(i).getString("name");
+            cloudService.add(vimName);
+        }
+        return cloudService;
     }
 
     @Override
