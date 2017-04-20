@@ -148,6 +148,7 @@ class NfOnBoardingThread(threading.Thread):
                 raise NSLCMException("Failed to download image from %s" % img_url)
             logger.debug("Download Image(%s) to %s successfully.", img_name, img_save_full_path)
             nf_images.append({
+                "image_url": img_url,
                 "img_name": img_name,
                 "img_save_full_path": img_save_full_path,
                 "img_type": img_type,
@@ -164,6 +165,7 @@ class NfOnBoardingThread(threading.Thread):
                 logger.warn("VIMID(%s) does not exist.", vim_id)
                 continue
             vim_api = VimAdaptor({
+                "vimid": vim_id,
                 "vimtype": const.VIM_OPENSTACK,
                 "url": sel_vim[0]["url"],
                 "user": sel_vim[0]["userName"],
@@ -402,6 +404,7 @@ class NfPackage(object):
                 logger.warn("Vim(%s) does not exist.", pkg_file.vimid)
                 continue
             vim_api = VimAdaptor({
+                "vimid": pkg_file.vimid,
                 "vimtype": const.VIM_OPENSTACK,
                 "url": sel_vim[0]["url"],
                 "user": sel_vim[0]["userName"],

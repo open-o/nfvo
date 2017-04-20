@@ -56,6 +56,7 @@ class DeleteVls(object):
     def delete_vl_from_vim(self, vim_id, subnetwork_id_list, network_id):
         vim_resp_body = extsys.get_vim_by_id(vim_id)
         data = {
+            "vimid": vim_id,
             "vimtype": vim_resp_body["type"],
             "url": vim_resp_body["url"],
             "user": vim_resp_body["userName"],

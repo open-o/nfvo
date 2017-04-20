@@ -38,6 +38,9 @@ class VimAdaptor:
         if vimtype == const.VIM_OPENSTACK:
             from lcm.pub.nfvi.vim.api.openstack.api import OpenstackApi
             self.apiImpl = OpenstackApi()
+        elif vimtype == const.VIM_VMWARE:
+            from lcm.pub.nfvi.vim.api.multivim.api import MultiVimApi
+            self.apiImpl = MultiVimApi()
         else:
             self.authInfo = [1, "Unsupported vimtype(%s)" % vimtype]
 

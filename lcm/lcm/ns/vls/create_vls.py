@@ -117,6 +117,7 @@ class CreateVls(object):
         vim_resp_body = extsys.get_vim_by_id(self.vim_id)
         self.vim_name = vim_resp_body["name"]
         data = {
+            "vimid": self.vim_id,
             "vimtype": vim_resp_body["type"],
             "url": vim_resp_body["url"],
             "user": vim_resp_body["userName"],
