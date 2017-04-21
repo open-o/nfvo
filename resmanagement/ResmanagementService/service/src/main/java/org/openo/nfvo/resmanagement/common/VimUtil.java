@@ -69,10 +69,11 @@ public class VimUtil {
         JSONArray vims = getVims();
         for(int i = 0; i < vims.size(); i++) {
             JSONObject vim = vims.getJSONObject(i);
+            LOG.info("vimInfo: " + vim);
             String vimName = vim.getString("name");
             String vimId = vim.getString("vimId");
-            if(name.equals(vimName)) {
-                LOG.info("vimName: " + vimName + ",vimId: " + vimId);
+            LOG.info("name:" + name + ", vimName:" + vimName + ", vimId:" + vimId);
+            if(name.trim().equalsIgnoreCase(vimName)) {
                 return vimId;
             }
         }
@@ -126,7 +127,7 @@ public class VimUtil {
         for(int i = 0; i < tenants.size(); i++) {
             JSONObject obj = tenants.getJSONObject(i);
             String name = obj.getString("name");
-            if(name.equals(tenant)) {
+            if(name.equalsIgnoreCase(tenant)) {
                 tenantId = obj.getString("id");
             }
         }

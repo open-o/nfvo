@@ -64,7 +64,6 @@ public class SitesImpl implements Sites {
         String vimId = VimUtil.getVimIdByName(vimName);
         sitesEntity.setVimId(vimId);
         JSONObject resource = limitsBusiness.getLimits(vimId);
-        sitesEntity.setVimId(vimId);
         sitesEntity.setVimName(resource.getString(ParamConstant.PARAM_VIMNAME));
         sitesEntity.setTotalCPU(resource.getString(ParamConstant.TOTAL_CPU));
         sitesEntity.setUsedCPU(resource.getString(ParamConstant.USED_CPU));
@@ -76,7 +75,7 @@ public class SitesImpl implements Sites {
             sitesEntity.setId(UUID.randomUUID().toString());
             jsonObject.put(ParamConstant.PARAM_ID, sitesEntity.getId());
         }
-
+        LOGGER.info("Add datacenter sitesEntity: {}", sitesEntity.toString());
         return sitesBusiness.addSite(sitesEntity);
     }
 
@@ -90,7 +89,8 @@ public class SitesImpl implements Sites {
     @Override
     public void sendToMonitor(JSONObject jsonObject) throws ServiceException {
         LOGGER.info("SitesImpl sendToMonitor jsonObject: {}", jsonObject);
-        String vimId = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
+        String vimName = jsonObject.getString(ParamConstant.PARAM_VIMNAME);
+        String vimId = VimUtil.getVimIdByName(vimName);
         JSONObject vimInfo = VimUtil.getVimById(vimId);
         LOGGER.info("SitesImpl sendToMonitor vimInfo: {}", vimInfo);
         String tenant = vimInfo.getString("tenant");
