@@ -25,7 +25,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.nfvo.resmanagement.common.ResourceUtil;
 import org.openo.nfvo.resmanagement.common.constant.ParamConstant;
-import org.openo.nfvo.resmanagement.common.util.StringUtil;
 import org.openo.nfvo.resmanagement.service.business.inf.SitesBusiness;
 import org.openo.nfvo.resmanagement.service.dao.inf.SitesDao;
 import org.openo.nfvo.resmanagement.service.entity.SitesEntity;
@@ -80,19 +79,23 @@ public class SitesBusinessImpl implements SitesBusiness {
 
     @Override
     public int addSite(SitesEntity sitesEntity) throws ServiceException {
+        LOGGER.info("addSite sitesEntity");
         if(null == sitesEntity) {
             LOGGER.error("function=addSite; msg=add error, because sitesEntity is null.");
             throw new ServiceException(
                     ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.site.add.entity.null"));
         }
-        if(!StringUtil.checkXss(sitesEntity.getName()) || !StringUtil.checkXss(sitesEntity.getCountry())
-                || !StringUtil.checkXss(sitesEntity.getLocation())) {
-            LOGGER.error("function=addLocation; msg=add site error, because XSS injection.");
-            throw new ServiceException(
-                    ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.location.add.xss.check"));
-        }
+        // if(!StringUtil.checkXss(sitesEntity.getName()) ||
+        // !StringUtil.checkXss(sitesEntity.getCountry())
+        // || !StringUtil.checkXss(sitesEntity.getLocation())) {
+        // LOGGER.error("function=addLocation; msg=add site error, because XSS injection.");
+        // throw new ServiceException(
+        // ResourceUtil.getMessage("org.openo.nfvo.resmanage.service.base.location.add.xss.check"));
+        // }
+        LOGGER.info("sitesEntity: " + sitesEntity.toString());
         this.checkSite(sitesEntity, TYPE_ADD);
         SitesEntity.dataFramat(sitesEntity);
+        LOGGER.info("Add datacenter data into DB.");
         return sitesDao.addSite(sitesEntity);
     }
 
