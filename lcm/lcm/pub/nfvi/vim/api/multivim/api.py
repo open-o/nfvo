@@ -16,6 +16,7 @@ import logging
 
 from lcm.pub.nfvi.vim.lib.vimexception import VimException
 from lcm.pub.utils.restcall import req_by_msb
+from lcm.pub.nfvi.vim import const
 
 logger = logging.getLogger(__name__)
 
@@ -262,9 +263,9 @@ class MultiVimApi:
 
     def create_network(self, auth_info, data):
         net_data = {
-            "name": network["network_name"],
+            "name": data["network_name"],
             "shared": True,
-            "networkType": network["network_type"]
+            "networkType": data["network_type"]
         }
         if "physical_network" in data and data['physical_network']:
             net_data["physicalNetwork"] = data['physical_network']
@@ -286,7 +287,7 @@ class MultiVimApi:
             "subnet_list": []
         }
         if "subnet_list" in data and data["subnet_list"]:
-            subnet = data["subnet_list"]           
+            subnet = data["subnet_list"][0]           
             subnet_data = {
                 "networkId": network_id,
                 "name": subnet["subnet_name"],
@@ -311,7 +312,7 @@ class MultiVimApi:
                 "id": subnet_create["id"],
                 "name": subnet_create["name"],
                 const.RES_TYPE_KEY: net["returnCode"]})
-        return ret_net
+        return [0, ret_net]
 
     def delete_network(self, auth_info, network_id):
         return delete_network(self.vim_id, self.tenant_id, network_id)

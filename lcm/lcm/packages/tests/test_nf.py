@@ -25,6 +25,7 @@ from lcm.pub.database.models import JobStatusModel, JobModel
 from lcm.packages.nf_package import NfOnBoardingThread, NfPkgDeletePendingThread
 from lcm.packages.nf_package import NfPkgDeleteThread
 from lcm.packages import nf_package
+from lcm.pub.nfvi.vim.const import VIM_OPENSTACK
 
 
 class TestNfPackage(TestCase):
@@ -222,7 +223,8 @@ class TestNfPackage(TestCase):
                     "csar_file_info": [{"downloadUri": "8"}, {"localPath": "9"}]}), '200'],
             "/openoapi/extsys/v1/vims":
                 [0, json.JSONEncoder().encode([{
-                    "vimId": "1", "url": "/root/package", "userName": "tom",
+                    "vimId": "1", "type": VIM_OPENSTACK,
+                    "url": "/root/package", "userName": "tom",
                     "password": "tom", "tenant": "10"}]), '200'],
             "/openoapi/catalog/v1/csars/2?onBoardState=onBoarded": [0, '{}', 200],
             "/openoapi/catalog/v1/csars/2?processState=normal": [0, '{}', 200]}
@@ -259,7 +261,8 @@ class TestNfPackage(TestCase):
             "/openoapi/catalog/v1/csars/3?processState=onBoardFailed": [0, '{}', 200],
             "/openoapi/extsys/v1/vims":
                 [0, json.JSONEncoder().encode([{
-                    "vimId": "1", "url": "/root/package", "userName": "tom",
+                    "vimId": "1", "type": VIM_OPENSTACK,
+                    "url": "/root/package", "userName": "tom",
                     "password": "tom", "tenant": "10"}]), 200]}
         mock_create_image.return_value = [0, {"id": "30", "name": "jerry", "res_type": 0}]
         mock__init__.return_value = None
@@ -291,7 +294,8 @@ class TestNfPackage(TestCase):
             "/openoapi/catalog/v1/csars/5?processState=onBoardFailed": [0, '{}', 200],
             "/openoapi/extsys/v1/vims":
                 [0, json.JSONEncoder().encode([{
-                    "vimId": "1", "url": "/root/package", "userName": "tom",
+                    "vimId": "1", "type": VIM_OPENSTACK,
+                    "url": "/root/package", "userName": "tom",
                     "password": "tom", "tenant": "10"}]), '200']}
         mock_create_image.return_value = [1, 'Unsupported image format.']
         mock__init__.return_value = None

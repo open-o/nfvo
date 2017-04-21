@@ -166,7 +166,7 @@ class NfOnBoardingThread(threading.Thread):
                 continue
             vim_api = VimAdaptor({
                 "vimid": vim_id,
-                "vimtype": const.VIM_OPENSTACK,
+                "vimtype": sel_vim[0]["type"],
                 "url": sel_vim[0]["url"],
                 "user": sel_vim[0]["userName"],
                 "passwd": sel_vim[0]["password"],
@@ -179,6 +179,7 @@ class NfOnBoardingThread(threading.Thread):
         JobUtil.add_job_status(self.job_id, 80, "Start to upload Image(%s) to VIM(%s)." %
                                (nf_image["img_name"], vim_id))
         ret = vim_api.create_image({
+            "image_url": nf_image["image_url"],
             "image_name": nf_image["img_name"],
             "image_path": nf_image["img_save_full_path"],
             "image_type": nf_image["img_type"]})
@@ -408,7 +409,7 @@ class NfPackage(object):
                 continue
             vim_api = VimAdaptor({
                 "vimid": pkg_file.vimid,
-                "vimtype": const.VIM_OPENSTACK,
+                "vimtype": sel_vim[0]["type"],
                 "url": sel_vim[0]["url"],
                 "user": sel_vim[0]["userName"],
                 "passwd": sel_vim[0]["password"],
