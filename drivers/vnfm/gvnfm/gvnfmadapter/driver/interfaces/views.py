@@ -33,7 +33,7 @@ operation_status_url = "openoapi/vnflcm/v1/vnf_lc_ops/%s?responseId=%s"
 vnf_detail_url = "openoapi/vnflcm/v1/vnf_instances/%s"
 EXTSYS_GET_VNFM = "openoapi/extsys/v1/vnfms/%s"
 vnf_query_url = "openoapi/vnflcm/v1/vnf_instances/%s"
-notify_url = 'openoapi/nslcm/v1/vnfs/{vnfInstanceId}/Notify'
+notify_url = 'openoapi/nslcm/v1/ns/{vnfmid}/vnfs/{vnfInstanceId}/Notify'
 
 query_vnf_resp_mapping = {
         "vnfInstanceId": "",
@@ -88,7 +88,7 @@ def set_instantvnf_params(data):
     input_data = {}
     input_data["flavourId"] = ignorcase_get(data, "flavourId")
     input_data["extVirtualLinks"] = ignorcase_get(data, "extVirtualLink")
-    input_data["additionalParams"] = ignorcase_get(data,"additionalParams")
+    input_data["additionalParams"] = ignorcase_get(data,"additionalParam")
     input_data["flavourId"] = ignorcase_get(data,"flavourId")
 
     return input_data
@@ -308,7 +308,7 @@ def terminate_vnf(request, *args, **kwargs):
         if ret != 0:
             return resp
 
-        jobId = ignorcase_get(resp, "vnfLcOpId")
+        jobId = ignorcase_get(resp, "jobId")
         gracefulTerminationTimeout = ignorcase_get(request.data, "gracefulTerminationTimeout")
         ret, response = wait4job(vnfm_id,jobId,gracefulTerminationTimeout)
         if ret != 0:
@@ -374,6 +374,7 @@ def operation_status(request, *args, **kwargs):
             return Response(data={'error': ret[1]}, status=ret[2])
         resp_data = json.JSONDecoder().decode(ret[1])
         logger.info("[%s]resp_data=%s", fun_name(), resp_data)
+        '''
         ResponseInfo = ignorcase_get(resp_data, "ResponseInfo")
         operation_data = {}
         operation_data["jobId"] = ignorcase_get(ResponseInfo, "vnfLcOpId")
@@ -384,11 +385,11 @@ def operation_status(request, *args, **kwargs):
         operation_data["responseDescriptor"]["errorCode"] = ignorcase_get(ignorcase_get(ResponseInfo, "responseDescriptor"),"errorCode")
         operation_data["responseDescriptor"]["responseId"] = ignorcase_get(ignorcase_get(ResponseInfo, "responseDescriptor"),"responseId")
         operation_data["responseDescriptor"]["responseHistoryList"] = ignorcase_get(ignorcase_get(ResponseInfo, "responseDescriptor"),"responseHistoryList")
-
+        '''
     except Exception as e:
         logger.error("Error occurred when getting operation status information.")
         raise e
-    return Response(data=operation_data, status=status.HTTP_200_OK)
+    return Response(data=resp_data, status=status.HTTP_200_OK)
 
 
 # ==================================================
