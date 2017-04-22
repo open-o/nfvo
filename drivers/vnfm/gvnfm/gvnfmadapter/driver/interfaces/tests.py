@@ -49,7 +49,7 @@ class InterfacesTest(TestCase):
         }
         vnflcm_info = {
             "vnfInstanceId":"8",
-            "vnfLcOpId":"NF-CREATE-8-b384535c-9f45-11e6-8749-fa163e91c2f9"
+            "jobId":"NF-CREATE-8-b384535c-9f45-11e6-8749-fa163e91c2f9"
         }
 
         r1 = [0, json.JSONEncoder().encode(vnfm_info), "200"]

@@ -283,13 +283,14 @@ def instantiate_vnf(request, *args, **kwargs):
         logger.info("[%s]vnfInstanceId=%s", fun_name(), vnfInstanceId)
 
         input_data = set_instantvnf_params(request.data)
+        input_data["vnfmId"] = vnfm_id
         ret, resp = do_instvnf(vnfInstanceId, request, input_data, vnfm_id)
         if ret != 0:
             return resp
 
         resp_data = {"jobId":"", "vnfInstanceId":""}
         resp_data["vnfInstanceId"] = vnfInstanceId
-        resp_data["jobId"] = resp["vnfLcOpId"]
+        resp_data["jobId"] = resp["jobId"]
     except Exception as e:
         logger.error("Error occurred when instantiating VNF")
         raise e
