@@ -108,6 +108,9 @@ class JobUtil(object):
             elif job_status.progress > 101:
                 job_status.status = "error"
 
+            if error_code == "255":
+                job_status.status = "error"
+
             job_status.descp = status_decs
             job_status.errcode = error_code
             job_status.addtime = datetime.datetime.now().strftime('%Y-%m-%d %X')
