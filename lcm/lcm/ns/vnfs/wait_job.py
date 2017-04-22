@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 def calc_progress(vnfm_progress, target_range=None):
     target_range = [0, 100] if not target_range else target_range
-    progress = int(vnfm_progress)
+    progress = int(vnfm_progress) if vnfm_progress else 0
     if progress > 100:
         return progress
     floor_progress = int(math.floor(float(target_range[1] - target_range[0]) / 100 * progress))
@@ -72,7 +72,8 @@ def wait_job_finish(vnfm_id, vnfo_job_id, vnfm_job_id, progress_range=None, time
             continue
         response_id = response_id_new
         jobs = ignore_case_get(job_status, 'responsehistorylist', [])
-        jobs.reverse()
+        if jobs:
+            jobs.reverse()
         is_end, status = job_callback(vnfo_job_id, vnfm_job_id, job_status, 
             jobs, progress_range, **kwargs)
         if is_end:

@@ -83,7 +83,7 @@ class GrantVnfs(object):
                     "vdu": vdu_name
                 }
                 for vdu in vnfd["vdus"]:
-                    if vdu_name in (vdu["vdu_id"], vdu["properties"]["name"]):
+                    if vdu_name in (vdu["vdu_id"], vdu["properties"].get("name", "")):
                         grant_res["resourceTemplate"] = self.get_res_tpl(vdu, vnfd)
                         break
                 req_param[grant_type].append(grant_res)
