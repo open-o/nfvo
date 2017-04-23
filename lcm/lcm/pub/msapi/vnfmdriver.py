@@ -38,7 +38,7 @@ def send_nf_terminate_request(vnfm_inst_id, vnf_inst_id, req_param):
     if ret[0] > 0:
         logger.error("Failed to send nf terminate req:%s,%s", ret[2], ret[1])
         raise NSLCMException('Failed to send nf terminate request to VNFM(%s)' % vnfm_inst_id)
-    return json.JSONDecoder().decode(ret[1])
+    return json.JSONDecoder().decode(ret[1]) if ret[1] else {}
 
 def query_vnfm_job(vnfm_inst_id, job_id, response_id=0):
     vnfm = get_vnfm_by_id(vnfm_inst_id)

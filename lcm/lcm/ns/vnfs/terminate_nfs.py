@@ -109,6 +109,9 @@ class TerminateVnfs(threading.Thread):
         resmgr.terminate_vnf(self.vnf_inst_id)
 
     def wait_vnfm_job_finish(self):
+        if not self.vnfm_job_id:
+            logger.warn("No Job, need not wait")
+            return
         ret = wait_job_finish(vnfm_id=self.vnfm_inst_id, vnfo_job_id=self.job_id, 
             vnfm_job_id=self.vnfm_job_id, progress_range=[10, 90],
             timeout=NFVO_VNF_INST_TIMEOUT_SECOND)

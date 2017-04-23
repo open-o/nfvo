@@ -23,6 +23,7 @@ from lcm.pub.database.models import DefPkgMappingModel, InputParamMappingModel, 
 from lcm.pub.utils.jobutil import JOB_MODEL_STATUS, JobUtil
 from lcm.pub.exceptions import NSLCMException
 from lcm.pub.msapi.nslcm import call_from_ns_cancel_resource
+from lcm.pub.utils.values import ignore_case_get
 
 JOB_ERROR = 255
 # [delete vnf try times]
@@ -53,7 +54,7 @@ class TerminateNsService(threading.Thread):
 
         self.cancel_sfc_list()
         self.cancel_vnf_list()
-        time.sleep(40)
+        time.sleep(4)
         self.cancel_vl_list()
 
         self.finaldata()
@@ -162,7 +163,8 @@ class TerminateNsService(threading.Thread):
 
     def delete_resource(self, result):
         if result[0] == 0:
-            vnfm_job_id = json.JSONDecoder().decode(result[1]).get("jobid", "")
+            job_info = json.JSONDecoder().decode(result[1])
+            vnfm_job_id = ignore_case_get(job_info, "jobid")
             self.add_progress(5, "SEND_TERMINATE_REQ_SUCCESS")
             if self.terminate_type == 'forceful':
                 ret = wait_job_finish(self.vnfm_inst_id, self.job_id, vnfm_job_id,
