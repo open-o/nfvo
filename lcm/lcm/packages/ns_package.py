@@ -115,10 +115,10 @@ class NsPackage(object):
         NSDModel(
             id=csar_id,
             nsd_id=nsd_id,
-            name=nsd["metadata"]["name"],
-            vendor=nsd["metadata"]["vendor"],
+            name=nsd["metadata"].get("name", nsd_id),
+            vendor=nsd["metadata"].get("vendor", "undefined"),
             description=nsd["metadata"].get("description", ""),
-            version=nsd["metadata"]["version"],
+            version=nsd["metadata"].get("version", "undefined"),
             nsd_model=json.JSONEncoder().encode(nsd)).save()
 
         set_csar_state(csar_id, "onBoardState", STATUS_ONBOARDED)

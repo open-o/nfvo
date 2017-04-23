@@ -225,15 +225,17 @@ def convert_vdu_node(src_node, src_node_list, src_json_model):
         for prop_name, prop_info in capability['properties'].items():
             if prop_name == "virtual_cpu":
                 vdu_node['nfv_compute']['num_cpus'] = prop_info["value"]["num_virtual_cpu"]
-                vdu_node['nfv_compute']['cpu_frequency'] = convert_factor_unit(
-                    prop_info["value"]["virtual_cpu_clock"])               
+                if "virtual_cpu_clock" in prop_info["value"]:
+                    vdu_node['nfv_compute']['cpu_frequency'] = convert_factor_unit(
+                        prop_info["value"]["virtual_cpu_clock"])               
             elif prop_name == "virtual_memory":
                 vdu_node['nfv_compute']['mem_size'] = convert_factor_unit(
                     prop_info["value"]["virtual_mem_size"])
             elif prop_name == "requested_additional_capabilities":
-                for key, val in prop_info["value"].items():
-                    vdu_node['nfv_compute']['flavor_extra_specs'].update(
-                        val["target_performance_parameters"])
+                if prop_info and "value" in prop_info:
+                    for key, val in prop_info["value"].items():
+                        vdu_node['nfv_compute']['flavor_extra_specs'].update(
+                            val["target_performance_parameters"])
 
     vdu_node['cps'] = find_related_node(src_node['id'], src_json_model, 'virtualbinding')
 

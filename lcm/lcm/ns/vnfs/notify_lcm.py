@@ -127,6 +127,8 @@ class NotifyLcm(object):
             virtualLinkInstanceId = ignore_case_get(cp, 'virtualLinkInstanceId')
             #ownerid = ignore_case_get(cp, 'ownerid')
             ownertype = ignore_case_get(cp, 'ownertype')
+            if not ownertype:
+                ownertype = 0
             ownerid = self.vnf_instid if str(ownertype) == "0" else ignore_case_get(cp, 'ownerid')
             cpInstanceId = ignore_case_get(cp, 'cpinstanceid')
             cpdId = ignore_case_get(cp, 'cpdid')

@@ -122,14 +122,16 @@ class NfOnBoardingThread(threading.Thread):
 
     def nf_package_save(self):
         JobUtil.add_job_status(self.job_id, 30, "Save CSAR(%s) to database." % self.csar_id)
-
+        vnfd_ver = self.nfd["metadata"].get("vnfd_version")
+        if not vnfd_ver:
+            vnfd_ver = self.nfd["metadata"].get("vnfdVersion")
         NfPackageModel(
             uuid=str(uuid.uuid4()),
             nfpackageid=self.csar_id,
             vnfdid=self.nfd_id,
-            vendor=self.nfd["metadata"]["vendor"],
-            vnfdversion=self.nfd["metadata"]["vnfd_version"],
-            vnfversion=self.nfd["metadata"]["version"],
+            vendor=self.nfd["metadata"].get("vendor", "undefined"),
+            vnfdversion=vnfd_ver,
+            vnfversion=self.nfd["metadata"].get("version", "undefined"),
             vnfdmodel=json.JSONEncoder().encode(self.nfd)
             ).save()
 
@@ -139,7 +141,7 @@ class NfOnBoardingThread(threading.Thread):
             img_name = image_file["properties"]["name"]
             img_relative_path = image_file["properties"]["file_url"]
             img_type = image_file["properties"]["disk_format"]
-            img_desc = image_file["description"]
+            img_desc = image_file.get("description", "")
             img_url, img_local_path = get_download_url_from_catalog(self.csar_id, img_relative_path)
             JobUtil.add_job_status(self.job_id, 50, "Start to download Image(%s)." % img_name)
             is_download_ok, img_save_full_path = fileutil.download_file_from_http(img_url, 
