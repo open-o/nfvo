@@ -79,7 +79,7 @@ class InterfacesTest(TestCase):
         print response.data
         self.assertEqual(job_info, response.data)
 
-
+    """
     @mock.patch.object(restcall, 'call_req')
     def test_terminate_vnf(self, mock_call_req):
         vnfm_info = {
@@ -132,7 +132,7 @@ class InterfacesTest(TestCase):
         expect_resp_data = {"vnfInfo": {"vnfInstanceId": "88", "vnfStatus": "ACTIVE","version":"v1.2.3"}}
         self.assertEqual(expect_resp_data, response.data)
         
-    """
+
     @mock.patch.object(restcall, 'call_req')
     def test_operation_status(self, mock_call_req):
         vnfm_info = {

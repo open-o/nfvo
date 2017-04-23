@@ -18,6 +18,7 @@ import inspect
 import json
 import logging
 import time
+import traceback
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from driver.pub.utils import restcall
@@ -117,6 +118,11 @@ def get_vnfm_info(vnfm_id):
     logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
     return 0, vnfm_info
 
+# Query VNFM by VNFMID
+def vnfm_get(vnfmid):
+    ret = req_by_msb("openoapi/extsys/v1/vnfms/%s" % vnfmid, "GET")
+    return ret
+
 def call_vnfm_rest(vnfm_info, input_data, res_url, call_method = "post"):
     ret = restcall.call_req(
         base_url=ignorcase_get(vnfm_info, "url"),
@@ -146,9 +152,8 @@ def call_vnfm_queryvnf(vnfm_info,vnfInstanceId):
 
 def call_vnfm_operation_status(vnfm_info, jobId, responseId = None):
     return call_vnfm_rest(vnfm_info, None, operation_status_url % (jobId, responseId), "get")
-
+"""
 def wait4job(vnfm_id,jobId,gracefulTerminationTimeout):
-
     begin_time = time.time()
     try:
         ret, vnfm_info = get_vnfm_info(vnfm_id)
@@ -167,13 +172,56 @@ def wait4job(vnfm_id,jobId,gracefulTerminationTimeout):
             if json.JSONDecoder().decode(ret[2]) != 200:
                 return 255, Response(data={"error":"Fail to get job status!"}, status=status.HTTP_412_PRECONDITION_FAILED)
             job_info = json.JSONDecoder().decode(ret[1])
-            responseId = ignorcase_get(ignorcase_get(job_info, "VnfLcOpResponseDescriptor"), "responseId")
-            progress = ignorcase_get(ignorcase_get(job_info, "VnfLcOpResponseDescriptor"), "progress")
+            logger.info('job_info=%s' % job_info)
+            responseId = ignorcase_get(ignorcase_get(job_info, "responseDescriptor"), "responseId")
+            progress = ignorcase_get(ignorcase_get(job_info, "responseDescriptor"), "progress")
             if progress == "100":
                 return 0, Response(data={"success":"success"}, status=status.HTTP_204_NO_CONTENT)
     except Exception as e:
         logger.error("Error occurred when do_createvnf")
         return 255, Response(data={"error":"Exception caught! Fail to get job status!"}, status=status.HTTP_412_PRECONDITION_FAILED)
+"""
+
+def wait4job(vnfm_id, job_id, gracefulTerminationTimeout=1200, retry_count=60, interval_second=3):
+    count = 0
+    response_id, new_response_id = 0, 0
+    job_end_normal, job_timeout = False, True
+    ret, vnfm_info = get_vnfm_info(vnfm_id)
+    if ret != 0:
+        return 255, Response(data={"error":"Fail to get VNFM!"}, status=status.HTTP_412_PRECONDITION_FAILED)
+
+    while count < retry_count:
+        count = count + 1
+        time.sleep(interval_second)
+        #ret = req_by_msb("/openoapi/vnflcm/v1/vnf_lc_ops/%s?responseId=%s" % (job_id, response_id), "GET")
+        ret = call_vnfm_operation_status(vnfm_info, job_id, response_id)
+        if ret[0] != 0:
+            logger.error("Failed to query job: %s:%s", ret[2], ret[1])
+            continue
+        job_result = json.JSONDecoder().decode(ret[1])
+        if "responseDescriptor" not in job_result:
+            logger.error("Job(%s) does not exist.", job_id)
+            continue
+        progress = job_result["responseDescriptor"]["progress"]
+        new_response_id = job_result["responseDescriptor"]["responseId"]
+        job_desc = job_result["responseDescriptor"]["statusDescription"]
+        if new_response_id != response_id:
+            logger.debug("%s:%s:%s", progress, new_response_id, job_desc)
+            response_id = new_response_id
+            count = 0
+        if progress == 255:
+            job_timeout = False
+            logger.error("Job(%s) failed: %s", job_id, job_desc)
+            break
+        elif progress == 100:
+            job_end_normal, job_timeout = True, False
+            logger.info("Job(%s) ended normally", job_id)
+            return 0, Response(data={"success":"success"}, status=status.HTTP_204_NO_CONTENT)
+            break
+    if job_timeout:
+        logger.error("Job(%s) timeout", job_id)
+    return 255, Response(data={"error":"Fail to get job status!"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 def do_createvnf(request, data, vnfm_id):
@@ -244,12 +292,10 @@ def do_deletevnf(request, vnfm_id, vnfInstanceId):
 
         if ret[0] != 0:
             return 255, Response(data={'error': ret[1]}, status=ret[2])
-        resp_data = json.JSONDecoder().decode(ret[1])
-        logger.debug("[%s]resp_data=%s", fun_name(), resp_data)
     except Exception as e:
         logger.error("Error occurred when do_deletevnf")
         raise e
-    return 0, resp_data
+    return 0, {}
 
 def do_queryvnf(request, vnfm_id, vnfInstanceId):
     logger.debug("[%s] request.data=%s", fun_name(), request.data)
@@ -320,9 +366,45 @@ def terminate_vnf(request, *args, **kwargs):
 
     except Exception as e:
         logger.error("Error occurred when terminating VNF")
-        raise e
+        logger.error(traceback.format_exc())
+        return Response(data={'error': 'Failed to terminate Vnfs'},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response(data=resp, status=status.HTTP_204_NO_CONTENT)
+"""
+
+@api_view(http_method_names=['POST'])
+def terminate_vnf(request, *args, **kwargs):
+    try:
+        logger.debug("[%s] request.data=%s", fun_name(), request.data)
+        vnfm_id = ignorcase_get(kwargs, "vnfmid")
+        ret = vnfm_get(vnfm_id)
+        if ret[0] != 0:
+            return Response(data={'error': ret[1]}, status=ret[2])
+        vnfm_info = json.JSONDecoder().decode(ret[1])
+        logger.debug("[%s] vnfm_info=%s", fun_name(), vnfm_info)
+        data = {}
+        logger.debug("[%s]req_data=%s", fun_name(), data)
+        ret = restcall.call_req(
+            base_url=ignorcase_get(vnfm_info, "url"),
+            user=ignorcase_get(vnfm_info, "userName"),
+            passwd=ignorcase_get(vnfm_info, "password"),
+            auth_type=restcall.rest_no_auth,
+            resource=vnf_delete_url % (ignorcase_get(kwargs, "vnfInstanceID")),
+            method='delete',
+            content=json.JSONEncoder().encode(data))
+        if ret[0] != 0:
+            return Response(data={'error': ret[1]}, status=ret[2])
+        resp = json.JSONDecoder().decode(ret[1])
+        resp_data = mapping_conv(vnf_delete_resp_mapping, resp)
+        logger.debug("[%s]resp_data=%s", fun_name(), resp_data)
+    except Exception as e:
+        logger.error("Error occurred when terminating VNF")
+        logger.error(traceback.format_exc())
+        return Response(data={'error': 'Failed to terminate Vnfs'},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response(data=resp_data, status=ret[2])
+"""
 
 @api_view(http_method_names=['GET'])
 def query_vnf(request, *args, **kwargs):
