@@ -20,7 +20,7 @@ import sys
 
 from lcm.pub.database.models import NSDModel, NSInstModel, NfPackageModel
 from lcm.pub.utils.values import ignore_case_get
-from lcm.pub.msapi.catalog import STATUS_ONBOARDED
+from lcm.pub.msapi.catalog import STATUS_ONBOARDED, P_STATUS_ENABLED
 from lcm.pub.msapi.catalog import query_csar_from_catalog, set_csar_state
 from lcm.pub.msapi.catalog import query_rawdata_from_catalog, delete_csar_from_catalog
 from lcm.pub.exceptions import NSLCMException
@@ -122,6 +122,7 @@ class NsPackage(object):
             nsd_model=json.JSONEncoder().encode(nsd)).save()
 
         set_csar_state(csar_id, "onBoardState", STATUS_ONBOARDED)
+        set_csar_state(csar_id, "operationalState", P_STATUS_ENABLED)
 
         return [0, "CSAR(%s) onBoarded successfully." % csar_id]
 

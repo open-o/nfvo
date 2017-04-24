@@ -227,6 +227,7 @@ class TestNfPackage(TestCase):
                     "url": "/root/package", "userName": "tom",
                     "password": "tom", "tenant": "10"}]), '200'],
             "/openoapi/catalog/v1/csars/2?onBoardState=onBoarded": [0, '{}', 200],
+            "/openoapi/catalog/v1/csars/2?operationalState=Enabled": [0, '{}', 200],
             "/openoapi/catalog/v1/csars/2?processState=normal": [0, '{}', 200]}
         mock_create_image.return_value = [0, {"id": "30", "name": "jerry", "res_type": 0}]
         mock__init__.return_value = None

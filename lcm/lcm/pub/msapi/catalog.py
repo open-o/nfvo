@@ -22,7 +22,7 @@ from lcm.pub.exceptions import NSLCMException
 logger = logging.getLogger(__name__)
 
 STATUS_ONBOARDED, STATUS_NON_ONBOARDED = "onBoarded", "non-onBoarded"
-
+P_STATUS_ENABLED, P_STATUS_DISABLED = "Enabled", "Disabled"
 P_STATUS_NORMAL, P_STATUS_ONBOARDING, P_STATUS_ONBOARDFAILED = "normal", "onBoarding", "onBoardFailed"
 P_STATUS_DELETING, P_STATUS_DELETEFAILED = "deleting", "deleteFailed"
 
