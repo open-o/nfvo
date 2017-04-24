@@ -24,7 +24,7 @@ import sys
 from lcm.pub.database.models import NfPackageModel, VnfPackageFileModel, NfInstModel
 from lcm.pub.utils.values import ignore_case_get
 from lcm.pub.utils import fileutil
-from lcm.pub.msapi.catalog import STATUS_ONBOARDED
+from lcm.pub.msapi.catalog import STATUS_ONBOARDED, P_STATUS_ENABLED
 from lcm.pub.msapi.catalog import P_STATUS_DELETEFAILED, P_STATUS_DELETING
 from lcm.pub.msapi.catalog import P_STATUS_NORMAL, P_STATUS_ONBOARDING, P_STATUS_ONBOARDFAILED
 from lcm.pub.msapi.catalog import query_csar_from_catalog, set_csar_state
@@ -96,6 +96,7 @@ class NfOnBoardingThread(threading.Thread):
         self.upload_nf_images(nf_images)
         set_csar_state(self.csar_id, "onBoardState", STATUS_ONBOARDED)
         set_csar_state(self.csar_id, "processState", P_STATUS_NORMAL)
+        set_csar_state(self.csar_id, "operationalState", P_STATUS_ENABLED)
         JobUtil.add_job_status(self.job_id, 100, "CSAR(%s) onBoarding successfully." % self.csar_id)
 
     def on_boarding_pre_deal(self):

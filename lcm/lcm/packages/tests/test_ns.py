@@ -227,8 +227,8 @@ class TestNsPackage(TestCase):
                 [0, json.JSONEncoder().encode(self.nsd_raw_data), '200'],
             "/openoapi/catalog/v1/csars/6":
                 [0, json.JSONEncoder().encode({"onBoardState": "onBoarded"}), '200'],
-            "/openoapi/catalog/v1/csars/5?onBoardState=onBoarded":
-                [0, "OK", '200']}
+            "/openoapi/catalog/v1/csars/5?operationalState=Enabled": [0, '{}', 200],
+            "/openoapi/catalog/v1/csars/5?onBoardState=onBoarded": [0, "OK", '200']}
 
         def side_effect(*args):
             return mock_vals[args[4]]
