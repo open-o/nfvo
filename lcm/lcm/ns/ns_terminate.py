@@ -162,6 +162,7 @@ class TerminateNsService(threading.Thread):
         return ret
 
     def delete_resource(self, result):
+        logger.debug("terminate_type=%s, result=%s", self.terminate_type, result)
         if result[0] == 0:
             job_info = json.JSONDecoder().decode(result[1])
             vnfm_job_id = ignore_case_get(job_info, "jobid")

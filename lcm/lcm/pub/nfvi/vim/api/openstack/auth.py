@@ -39,7 +39,7 @@ def login(connect_info):
     connect_info["clientcert"] = clientcert
     connect_info["clientkey"] = clientkey
     connect_info["insecure"] = insecure
-    connect_info["keystone"] = client.Client(auth_url=url, username=user, password=passwd,
+    connect_info["keystone"] = client.Client(auth_url=url, username=user, password=passwd, interface='public',
                                              tenant_name=tenant, insecure=insecure, cert=clientcert, key=clientkey,
                                              cacert=cacert, debug=True)
     ret = [0, connect_info]
