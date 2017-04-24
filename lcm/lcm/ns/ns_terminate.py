@@ -50,7 +50,9 @@ class TerminateNsService(threading.Thread):
             JobUtil.add_job_status(self.job_id, JOB_ERROR,  "ns terminate fail.", '')
 
     def do_biz(self):
-        self.check_data()
+        if not self.check_data():
+            JobUtil.add_job_status(self.job_id, 100, "Need not terminate.", '')
+            return
 
         self.cancel_sfc_list()
         self.cancel_vnf_list()
@@ -63,10 +65,10 @@ class TerminateNsService(threading.Thread):
         JobUtil.add_job_status(self.job_id, 0, "TERMINATING...", '')
         ns_inst = NSInstModel.objects.filter(id=self.ns_inst_id)
         if not ns_inst.exists():
-            logger.error('ns instance [%s] is not exist.' % self.ns_inst_id)
-            raise NSLCMException('ns instance [%s] is not exist.' % self.ns_inst_id)
+            logger.warn('ns instance [%s] does not exist.' % self.ns_inst_id)
+            return False
         JobUtil.add_job_status(self.job_id, 10, "Ns cancel: check ns_inst_id success", '')
-        return ns_inst[0]
+        return True
 
     # delete VLINST
     def cancel_vl_list(self):
