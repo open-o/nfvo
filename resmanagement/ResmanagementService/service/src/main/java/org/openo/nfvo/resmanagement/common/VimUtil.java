@@ -89,6 +89,10 @@ public class VimUtil {
      * @return
      */
     public static JSONObject getVimById(String vimId) {
+        if(vimId == null || "".equals(vimId.trim())) {
+            LOG.error("Get vim ERROR, VimId is null. ");
+            return null;
+        }
         JSONObject esrResponse = RestfulUtil.getResponseObj(String.format(UrlConstant.ESR_GET_VIM_URL, vimId), "get");
         LOG.info("Get vims from ESR! EsrResponse:{}", esrResponse);
         if(null == esrResponse) {
