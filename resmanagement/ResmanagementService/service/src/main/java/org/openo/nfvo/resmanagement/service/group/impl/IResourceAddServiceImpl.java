@@ -105,6 +105,9 @@ public class IResourceAddServiceImpl {
                     restParametes.get(ParamConstant.PARAM_TENANTID), hostName);
 
             String result = RestfulUtil.getResponseContent(hostUrl, new RestfulParametes(), ParamConstant.PARAM_GET);
+            if(result == null) {
+                continue;
+            }
             JSONObject hostObj = JSONObject.fromObject(result);
             JSONObject host = hostDataParse(hostObj, hostName);
             int res = iResMap.get(iResName).add(host);
