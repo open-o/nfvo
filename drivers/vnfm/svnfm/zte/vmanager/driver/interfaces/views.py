@@ -120,15 +120,18 @@ def instantiate_vnf(request, *args, **kwargs):
         vnfdId = ignorcase_get(packageInfo, "vnfdId")
         from urlparse import urlparse
         vnfm_ip = urlparse(ignorcase_get(vnfm_info, "url")).netloc.split(':')[0]
-        if "CSCF" == vnfdId:
-            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/CSCF"
-            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/CSCF"
-        elif "SBC" == vnfdId:
-            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SBC"
-            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SBC"
-        elif "SSS" == vnfdId:
-            data["VNFD"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SSS"
-            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + vnfm_ip + ":21/SSS"
+        if "vCSCF_NF_ZTE" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/CSCF"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/CSCF"
+        elif "vPCRF_NF_ZTE" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/PCRF"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/PCRF"
+        elif "vTAS_NF_ZTE" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/SSS"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + "192.168.128.159" + ":21/SSS"
+        elif "vSPGW_NF_ZTE" == vnfdId:
+            data["VNFD"] = "ftp://VMVERSION:vmversion@" + "192.168.237.159" + ":21/vgw31"
+            data["VNFURL"] = "ftp://VMVERSION:vmversion@" + "192.168.237.159" + ":21/vgw31"
         else:
             data["VNFD"] = ignorcase_get(packageInfo, "downloadUri")
             data["VNFURL"] = ignorcase_get(packageInfo, "downloadUri")
