@@ -48,7 +48,7 @@ class NotifyLcm(object):
             self.update_Vl()
             self.update_Cp()
             self.update_Storage()
-            self.update_vnf_by_vnfdmodule()
+            #self.update_vnf_by_vnfdmodule()
             logger.debug("notify lcm end")
         except NSLCMException as e:
             self.exception(e.message)
