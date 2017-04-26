@@ -46,11 +46,8 @@ public class AuthMgr {
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         try {
-            JSONObject authObj = params.getJSONObject("auth");
-            JSONObject identityObj = authObj.getJSONObject("identity");
-            JSONObject pwdObj = identityObj.getJSONObject("password");
-            JSONObject userInfo = pwdObj.getJSONObject("user");
-            String userName = userInfo.getString("name");
+            String userName = params.getString("userName");
+
             restJson = getStatusResult(userName);
         } catch(JSONException e) {
             LOG.error("function=login, msg=Params error occurs, e={}.", e);
@@ -63,9 +60,13 @@ public class AuthMgr {
     private JSONObject getStatusResult(String userName) {
         JSONObject restJson = new JSONObject();
         JSONObject authResult = new JSONObject();
+        JSONObject addInfo = new JSONObject();
         authResult.put("accessSession", "1234");
         authResult.put("roaRand", "RoaRand");
-        authResult.put("userName", userName);
+        authResult.put("expires", 1800);
+        addInfo.put("expires", 10);
+        addInfo.put("passwdStatus", "expiring");
+        authResult.put("additionalInfo", addInfo);
         restJson.put("retCode", Constant.REST_SUCCESS);
         restJson.put("data", authResult);
         return restJson;

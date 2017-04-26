@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+import javax.print.attribute.standard.ReferenceUriSchemesSupported;
+
 /**
  * create or terminate VNF to M
  * <br/>
@@ -51,7 +53,7 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         JSONObject scaleInfo = new JSONObject();
         JSONArray vduList = new JSONArray();
         JSONObject vdu = new JSONObject();
-        vdu.put("vdu_type","");//TODO:set vdu_type
+        vdu.put("vdu_type",this.getVduType(vnfmObject,vnfInstanceId));//TODO:set vdu_type
         vdu.put("h_steps",vnfObject.get("numberOfSteps"));
         vduList.add(vdu);
         scaleInfo.put("vnf_id",vnfInstanceId);
@@ -90,6 +92,19 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
         return restJson;
     }
 
+
+    private String getVduType(JSONObject vnfmObject, String vnfInstanceId){
+        String vduType = "";
+        try {
+            JSONObject queryResult = ResultRequestUtil.call(vnfmObject, String.format(ParamConstants.VNF_GET_VMINFO, vnfInstanceId), Constant.GET, null,Constant.CERTIFICATE);
+            LOG.info("getVduType result="+queryResult);
+            vduType = queryResult.getJSONObject("data").getJSONArray("vms").getJSONObject(0).getString("vdu_type");
+        } catch (Exception e) {
+            LOG.error("get vdu_type failed.",e);
+        }
+        LOG.info("vdu_type="+vduType);
+        return vduType;
+    }
     private int getScaleType(String type){
         if("SCALE_OUT".equalsIgnoreCase(type)){
             return 1;
@@ -100,13 +115,14 @@ public class VnfMgrVnfm implements InterfaceVnfMgr {
     }
     @Override
     public JSONObject createVnf(JSONObject subJsonObject, JSONObject vnfmObject) {
-        LOG.warn("function=createVnf, msg=enter to create a vnf");
+        LOG.info("function=createVnf, msg=enter to create a vnf");
+        LOG.info("createVnf csm request body :"+subJsonObject);
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
         String path = ParamConstants.VNF_INSTANCE + Constant.ROARAND;
 
         JSONObject queryResult = ResultRequestUtil.call(vnfmObject, path, Constant.POST, subJsonObject.toString(),Constant.CERTIFICATE);
-
+        LOG.info("createVnf csm response content:"+queryResult);
         try {
             int statusCode = queryResult.getInt(Constant.RETCODE);
 

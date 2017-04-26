@@ -54,7 +54,7 @@ public interface IResourceManager {
      * @return
      * @since  NFVO 0.5
      */
-    JSONObject getAllCloud(String url);
+    JSONObject getAllCloud(String url,String connToken);
 
 
     /**
