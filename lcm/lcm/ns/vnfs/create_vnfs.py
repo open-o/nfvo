@@ -184,6 +184,7 @@ class CreateVnfs(Thread):
             ns_inst_id=self.ns_inst_id,
             version=self.nf_package_info.vnfversion,
             vendor=self.nf_package_info.vendor,
+            vnfd_model=self.vnfd_model,
             input_params=json.JSONEncoder().encode(self.inputs),
             lastuptime=now_time())
 

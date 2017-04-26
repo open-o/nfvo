@@ -64,6 +64,7 @@ class NFManualScaleService(threading.Thread):
         if not nf_info:
             logger.error('NF instance[id=%s] does not exist' % self.vnf_instance_id)
             raise NSLCMException('NF instance[id=%s] does not exist' % self.vnf_instance_id)
+        logger.debug('vnfd_model = %s, vnf_instance_id = %s' % (nf_info[0].vnfd_model, self.vnf_instance_id))
         self.nf_model = json.loads(nf_info[0].vnfd_model)
         self.m_nf_inst_id = nf_info[0].mnfinstid
         self.vnfm_inst_id = nf_info[0].vnfm_inst_id
