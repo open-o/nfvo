@@ -152,7 +152,7 @@ public class VnfRoa {
             resp.setStatus(Constant.HTTP_INNERERROR);
             return restJson.toString();
         }
-
+        LOG.info("addVnf request info from (LCM):"+subJsonObject);
         restJson = vnfMgr.addVnf(subJsonObject, vnfmId);
 
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {

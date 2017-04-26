@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -48,7 +48,7 @@ import net.sf.json.JSONObject;
  * @author
  * @version NFVO 0.5 Aug 24, 2016
  */
-@Path("/rest/vnfmmed/v2")
+@Path("/rest/plat/smapp/v1")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthRoa {
@@ -69,8 +69,8 @@ public class AuthRoa {
      * @return
      * @since NFVO 0.5
      */
-    @POST
-    @Path("/auth/tokens")
+    @PUT
+    @Path("/oauth/token")
     public String authToken(@Context HttpServletRequest context, @Context HttpServletResponse resp) {
         LOG.warn("function=login, msg=enter to get token.");
         JSONObject subJsonObject = VnfmJsonUtil.getJsonFromContexts(context);
@@ -89,10 +89,11 @@ public class AuthRoa {
         if(authResult.getInt("retCode") == Constant.REST_SUCCESS) {
             JSONObject data = authResult.getJSONObject("data");
 
-            resp.setStatus(Constant.HTTP_CREATED);
-            resp.setHeader("accessSession", data.getString("accessSession"));
-            return String.format(ParamConstants.GET_TOKEN_SUC_RESP, data.getString("userName"),
-                    data.getString("userName"), data.getString("roaRand"));
+            resp.setStatus(Constant.HTTP_OK);
+            // resp.setHeader("accessSession", data.getString("accessSession"));
+            return data.toString();// String.format(ParamConstants.GET_TOKEN_SUC_RESP,
+            // data.getString("userName"),
+            // data.getString("userName"), data.getString("roaRand"));
         } else if(authResult.getInt("retCode") == Constant.HTTP_INNERERROR) {
             Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(authResult.getString("data")).build();
 
@@ -117,7 +118,7 @@ public class AuthRoa {
     @DELETE
     @Path("/auth/tokens/{userName}/{roarand}")
     public String delAuthToken(@Context HttpServletRequest context, @PathParam("userName") String userName,
-            @PathParam("roarand") String roarand, @Context HttpServletResponse resp) {
+                               @PathParam("roarand") String roarand, @Context HttpServletResponse resp) {
         LOG.warn("function=logout, msg=enter to logout");
         JSONObject resultJson = new JSONObject();
 
@@ -139,7 +140,7 @@ public class AuthRoa {
     @GET
     @Path("/nfvo/shakehand")
     public String shakehand(@Context HttpServletRequest context, @QueryParam("roattr") String roattr,
-            @Context HttpServletResponse resp) {
+                            @Context HttpServletResponse resp) {
         JSONObject resultJson = new JSONObject();
         resultJson.put("status", "running");
         resultJson.put("description", "Operation success");

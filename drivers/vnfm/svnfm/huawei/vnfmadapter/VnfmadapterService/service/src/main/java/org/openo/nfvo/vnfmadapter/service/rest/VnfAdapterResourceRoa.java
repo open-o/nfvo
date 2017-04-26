@@ -51,7 +51,6 @@ public class VnfAdapterResourceRoa {
      * <br/>
      *
      * @param context
-     * @param vnfId
      * @return
      * @since NFVO 0.5
      */
@@ -62,8 +61,8 @@ public class VnfAdapterResourceRoa {
         //Find a way to get url and pass it getAllCloud(); //NOSONAR
 
         AdapterResourceManager arm = new AdapterResourceManager();
-        JSONObject resultObj = arm.getAllCloud(null);
+        JSONObject resultObj = arm.getAllCloud("","");
 
-        return resultObj.getString("dn");
+        return resultObj.getString("vim_id");
     }
 }

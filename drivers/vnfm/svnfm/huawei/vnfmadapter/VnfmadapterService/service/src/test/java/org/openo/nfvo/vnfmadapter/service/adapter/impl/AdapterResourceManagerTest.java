@@ -262,13 +262,13 @@ public class AdapterResourceManagerTest {
     @Test
     public void testGetAllCloud(){
         String url = null;
-        manager.getAllCloud(url);
+        manager.getAllCloud(url,null);
     }
 
     @Test
     public void testGetAllCloud2(){
         String url = "http://127.0.0.1:31943";
-        manager.getAllCloud(url);
+        manager.getAllCloud(url,null);
     }
     @Test
     public void testUnzipCSAR(){

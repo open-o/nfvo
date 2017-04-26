@@ -34,6 +34,8 @@ public class UrlConstant {
 
     public static final String URL_ALLCLOUD_GET = "/rest/vnfm/vnfmvim/v2/computeservice/getAllCloud";
 
+    public static final String URL_ALLCLOUD_NEW_GET = "/v2/vnfm/vims";
+
     public static final String URL_VNFPACKAGE_POST = "/v2/vapps/templates";
 
     public static final String URL_VNFDINFO_GET = "/v2/vapps/templates/%s";

@@ -104,6 +104,8 @@ public class ParamConstants {
 
     public static final String VNF_SCALE = "/v2/vapps/instances/%s/scale";
 
+    public static final String VNF_GET_VMINFO = "/v2/vapps/instances/%s/vm";
+
 
     public static final String MSB_REGISTER_URL = "/openoapi/microservices/v1/services";
 

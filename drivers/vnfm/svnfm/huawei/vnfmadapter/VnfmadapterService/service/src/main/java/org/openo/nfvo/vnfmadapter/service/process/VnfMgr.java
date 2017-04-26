@@ -114,6 +114,7 @@ public class VnfMgr {
             Map<String, String> conMap = new ConcurrentHashMap<>(Constant.DEFAULT_COLLECTION_SIZE);
             conMap.put("csarid", vnfObject.getString("vnfPackageId"));
             conMap.put("vnfmid", vnfmId);
+            conMap.put("vnfDescriptorId",vnfObject.getString("vnfDescriptorId"));
 
             JSONObject resObjcet = (new AdapterResourceManager()).uploadVNFPackage(null, conMap);
 
@@ -232,7 +233,7 @@ public class VnfMgr {
         restJson.put("plan_name", resObject.getOrDefault("planName", ""));
         restJson.put("vapp_name", vnfObject.get("vnfInstanceName"));
         restJson.put("project_id", vnfmId);
-        restJson.put("parameters", vnfObject.getJSONObject("additionalParam").getJSONObject("parameters"));
+        restJson.put("parameters", resObject.getJSONObject("parameters"));
         restJson.put("nfvo_id", "");
         restJson.put("location", "");
         restJson.put("vnfm_id", vnfmId);
@@ -281,13 +282,13 @@ public class VnfMgr {
         LOG.warn("function=saveVnfInfo , vnfObject:{}", vnfObject);
         if(vnfObject.getInt(Constant.RETCODE) == Constant.REST_SUCCESS) {
             Vnfm info = new Vnfm();
-            info.setId(vnfObject.getString("vnfInstanceId"));
+            info.setId(vnfObject.getJSONObject("data").getString("vnfInstanceId"));
             info.setVersion(resObject.getString("vnfdVersion"));
             info.setVnfdId(resObject.getString("vnfdId"));
-            info.setVnfPackageId(vnfObject.getString("vnfPackageId"));
+            info.setVnfPackageId("");
             try {
                 vnfmDao.insertVnfm(info);
-            } catch(ServiceException e) {
+            } catch(Exception e) {
                 LOG.error("function=saveVnfInfo, msg=ServiceException occurs, e={}.", e);
             }
         }
