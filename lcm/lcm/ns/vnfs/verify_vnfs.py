@@ -47,7 +47,10 @@ class VerifyVnfs(threading.Thread):
             logger.error(traceback.format_exc())
             self.update_job(JOB_ERROR, 'Unknown error in vnf verify.')
         finally:
-            self.do_term_vnf()
+            logger.warn("Ignore terminate vnf operation")
+            if self.verify_ok:
+                self.update_job(100, "Ignore terminate vnf operation.")
+            #self.do_term_vnf()
 
     def do_on_boarding(self):
         self.update_job(10, "Start vnf on boarding.")
