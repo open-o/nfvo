@@ -90,6 +90,7 @@ class CreateVnfs(Thread):
         self.vnfm_inst_id = ignore_case_get(additional_param, 'vnfmInstanceId')
         self.inputs = json.loads(ignore_case_get(additional_param, 'inputs'))
         self.vim_id = ignore_case_get(additional_param, 'vimId')
+        self.vnfd_id = ignore_case_get(additional_param, 'vnfdId')
 
     def check_nf_name_exist(self):
         is_exist = NfInstModel.objects.filter(nf_name=self.vnf_inst_name).exists()
@@ -98,6 +99,10 @@ class CreateVnfs(Thread):
             raise NSLCMException('The name of NF instance already exists.')
 
     def get_vnfd_id(self):
+        if self.vnfd_id:
+            logger.debug("need not get vnfd_id")
+            self.nsd_model={'vnfs': [], 'vls': [], 'vnffgs': []}
+            return
         ns_inst_info = NSInstModel.objects.get(id=self.ns_inst_id)
         self.ns_inst_name = ns_inst_info.name
         self.nsd_model = json.loads(ns_inst_info.nsd_model)
@@ -193,20 +198,21 @@ class CreateVnfs(Thread):
         self.vnfm_inst_name = ignore_case_get(resp_body, 'name')
 
     def send_create_vnf_request_to_resmgr(self):
+        pkg_vnfd = json.loads(self.nf_package_info.vnfdmodel)
         data = {
             'nf_inst_id': self.nf_inst_id,
             'vnfm_nf_inst_id': self.vnfm_nf_inst_id,
             'vnf_inst_name': self.vnf_inst_name,
             'ns_inst_id': self.ns_inst_id,
             'ns_inst_name': self.ns_inst_name,
-            'nf_inst_name': NSInstModel.objects.get(id=self.ns_inst_id).name,
+            'nf_inst_name': self.vnf_inst_name,
             'vnfm_inst_id': self.vnfm_inst_id,
             'vnfm_inst_name': self.vnfm_inst_name,
-            'vnfd_name': json.loads(self.nf_package_info.vnfdmodel)['metadata']['name'],
+            'vnfd_name': pkg_vnfd['metadata'].get('name', 'undefined'),
             'vnfd_id': self.vnfd_id,
             'job_id': self.job_id,
             'nf_inst_status': VNF_STATUS.INSTANTIATING,
-            'vnf_type': json.loads(self.nf_package_info.vnfdmodel)['metadata']['vnf_type'],
+            'vnf_type': pkg_vnfd['metadata'].get('vnf_type', 'undefined'),
             'nf_package_id': self.nf_package_info.nfpackageid}
         create_vnf(data)
 

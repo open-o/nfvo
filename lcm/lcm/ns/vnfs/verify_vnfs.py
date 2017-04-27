@@ -65,7 +65,7 @@ class VerifyVnfs(threading.Thread):
             "ns_instance_id": "",
             "additional_param_for_ns": ignore_case_get(self.data, "additionalParamForVnf"),
             "additional_param_for_vnf": ignore_case_get(self.data, "additionalParamForVnf"),
-            "vnf_index": "0"
+            "vnf_index": "1"
         }
         ret = req_by_msb("/openoapi/nslcm/v1/ns/vnfs", "POST", json.JSONEncoder().encode(inst_data))
         if ret[0] != 0:
