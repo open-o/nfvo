@@ -118,7 +118,7 @@ class NfScaleView(APIView):
 
 class NfVerifyView(APIView):
     def post(self, request):
-        job_id = str(uuid.uuid4())
+        job_id = "VNFSDK_" + str(uuid.uuid4())
         logger.debug("NfVerifyView--post::%s> %s", job_id, request.data)
         VerifyVnfs(request.data, job_id).start()
         return Response(data={"jobId": job_id}, status=status.HTTP_202_ACCEPTED)

@@ -88,7 +88,8 @@ class CreateVnfs(Thread):
         self.vnf_id = ignore_case_get(additional_vnf_info, 'vnfProfileId')
         additional_param = ignore_case_get(additional_vnf_info, 'additionalParam')
         self.vnfm_inst_id = ignore_case_get(additional_param, 'vnfmInstanceId')
-        self.inputs = json.loads(ignore_case_get(additional_param, 'inputs'))
+        para = ignore_case_get(additional_param, 'inputs')
+        self.inputs = json.loads(para) if isinstance(para, (str, unicode)) else para
         self.vim_id = ignore_case_get(additional_param, 'vimId')
         self.vnfd_id = ignore_case_get(additional_param, 'vnfdId')
 

@@ -36,6 +36,7 @@ class VerifyVnfs(threading.Thread):
 
     def run(self):
         try:
+            JobUtil.create_job("VNF", JOB_TYPE.CREATE_VNF, self.job_id, 'vnfsdk', self.job_id)
             self.do_on_boarding()
             self.do_inst_vnf()
             self.do_func_test()
@@ -62,10 +63,9 @@ class VerifyVnfs(threading.Thread):
         self.update_job(30, "Start inst vnf.")
         # TODO
         inst_data = {
-            "ns_instance_id": "",
-            "additional_param_for_ns": ignore_case_get(self.data, "additionalParamForVnf"),
-            "additional_param_for_vnf": ignore_case_get(self.data, "additionalParamForVnf"),
-            "vnf_index": "1"
+            "nsInstanceId": "",
+            "additionalParamForVnf": ignore_case_get(self.data, "additionalParamForVnf"),
+            "vnfIndex": ignore_case_get(self.data, "vnf_index"),
         }
         ret = req_by_msb("/openoapi/nslcm/v1/ns/vnfs", "POST", json.JSONEncoder().encode(inst_data))
         if ret[0] != 0:
@@ -110,7 +110,8 @@ class VerifyVnfs(threading.Thread):
         while count < retry_count:
             count = count + 1
             time.sleep(interval_second)
-            ret = req_by_msb("/openoapi/nslcm/v1/jobs?responseId=%s" % response_id, "GET")
+            ret = req_by_msb("/openoapi/nslcm/v1/jobs/%s?responseId=%s" % 
+                (job_id, response_id), "GET")
             if ret[0] != 0:
                 logger.error("Failed to query job: %s:%s", ret[2], ret[1])
                 continue
@@ -127,6 +128,11 @@ class VerifyVnfs(threading.Thread):
                 response_id = new_response_id
                 count = 0
             if progress == JOB_ERROR:
+                if 'already onBoarded' in job_desc:
+                    logger.warn("%s:%s", job_id, job_desc)
+                    job_end_normal, job_timeout = True, False
+                    logger.info("Job(%s) ended", job_id)
+                    break
                 job_timeout = False
                 logger.error("Job(%s) failed: %s", job_id, job_desc)
                 break
