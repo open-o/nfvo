@@ -1,4 +1,4 @@
-# Copyright 2017 ZTE Corporation.
+# Copyright 2017 ZTE, CMCC Corporation.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,10 @@ from rest_framework.decorators import api_view
 from functest.pub.utils import restcall
 from functest.pub.utils.utils import ignore_case_get, fun_name, generate_taskid
 from functest.pub.database.models import TaskMgrTaskTbl, TaskMgrCaseTbl
-from functest.scriptmgr.mgr import setenv, upload_script, update_script
+from functest.scriptmgr.mgr import setenv, upload_script
+
+from functest.pub.config.config import ROBOT_RUN_USER, ROBOT_RUN_PWD, BASE_URL
+
 
 logger = logging.getLogger(__name__)
 
@@ -43,19 +46,17 @@ def start_onboarding_test(request, *args, **kwargs):
             raise Exception("The Package(%s) is already the onboarding package." % packageID)
         taskID = generate_taskid()
         envID = setenv()
-        uploadID = upload_script(packageID, envID)
+        uploadID = upload_script(envID)
         TaskMgrTaskTbl(
             packageid=packageID,
             taskid=taskID,
             envid=envID,
             uploadid=uploadID,
-            #TODO: No interactions' response take 'operationid' from HUAWEI API
-            #TODO: So, taskmgr temporarily takes the 'uploadid' value to set the 'operationid' value..
             operationid=uploadID,
             functionid=u'',
             status='CREATED',
             operfinished='False',
-            operresult='FALIURE',
+            operresult='FAILURE',
             operresultmessage=u''
             ).save()
         task_exe_ret = execute_test_script(taskID)
@@ -78,21 +79,25 @@ def query_test_status(request, *args, **kwargs):
         else:
             query_status_data = json_data['paths']['/status/']['get']
             operID = record[0].operationid
+
+        base_url = BASE_URL + json_data['basePath'] + '/functest' + query_status_data['resource'] + operID
+
         ret = restcall.call_req(
-            base_url=json_data['basePath'],
+            base_url=base_url,
             user="",
             passwd="",
             auth_type=0,
-            resource=query_status_data['resource'] + operID,
+            resource='',
             method=query_status_data['method'],
-            content=json.dumps(query_status_data['parameters'])
+            content=''
         )
         if ret[0] != 0:
             raise Exception("Failed to query status for Task(%s), %s" % (taskID, ret[1]))
         #TODO: Assume ret[1] that is dic.
-        operfinished = ignore_case_get(ret[1], 'operFinished')
-        operresult = ignore_case_get(ret[1], 'operResult')
-        operresultmessage = ignore_case_get(ret[1], 'operResultMessage')
+        result = json.loads(ret[1])
+        operfinished =result['operFinished']
+        operresult = result['oResultCode']
+        operresultmessage = result['operResultMessage']
         record[0].operfinished = operfinished
         record[0].operresult = operresult
         record[0].operresultmessage = operresultmessage
@@ -115,22 +120,26 @@ def collect_task_result(request, *args, **kwargs):
         else:
             download_ret_data = json_data['paths']['/download/']['get']
             funcID = record[0].functionid
+
+        base_url = BASE_URL + json_data['basePath'] + '/functest' + download_ret_data['resource'] + funcID
         ret = restcall.call_req(
-            base_url=json_data['basePath'],
+            base_url=base_url,
             user="",
             passwd="",
             auth_type=0,
-            resource=download_ret_data['resource'] + funcID,
+            resource='',
             method=download_ret_data['method'],
-            content=""
+            content=''
         )
         if ret[0] != 0:
             raise Exception("Failed to download results for Task(%s), %s" % (taskID, ret[1]))
-        # TODO: according to definition of api ret[1] shall be list.
-        for case_ret in ret[1]:
-            testid = ignore_case_get(case_ret, 'test_id')
-            testresult = ignore_case_get(case_ret, 'test_description')
-            testdes = ignore_case_get(case_ret, 'test_result')
+
+        result = json.loads(ret[1])
+
+        for case_ret in result:
+            testid = ignore_case_get(case_ret, 'name')
+            testdes = ignore_case_get(case_ret, 'description')
+            testresult = ignore_case_get(case_ret, 'status')
             TaskMgrCaseTbl(
                 taskid=taskID,
                 functionid=funcID,
@@ -138,7 +147,7 @@ def collect_task_result(request, *args, **kwargs):
                 testresult=testresult,
                 testdes=testdes,
             ).save()
-        resp_data = {"taskID": taskID, "funcTestResults": ret[1]}
+        resp_data = {"taskID": taskID, "funcTestResults": result}
     except Exception as e:
         return Response(data={'errorCode': e.message}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return Response(resp_data, status=status.HTTP_202_ACCEPTED)
@@ -154,20 +163,24 @@ def execute_test_script(taskID):
         execute_data['parameters']['upload_id']=record[0].uploadid
         execute_data['parameters']['functest_env_id']=record[0].envid
         execute_data['parameters']['frameworktype']='ROBOT'
+    base_url = BASE_URL + json_data['basePath'] + '/functest' \
+               + "/" + execute_data['parameters']['upload_id'] \
+               + "/" + execute_data['parameters']['functest_env_id'] \
+               + "/" + execute_data['parameters']['frameworktype']
     ret = restcall.call_req(
-        base_url=json_data['basePath'],
-        user="",
-        passwd="",
+        base_url=base_url,
+        user=ROBOT_RUN_USER,
+        passwd=ROBOT_RUN_PWD,
         auth_type=0,
-        resource=execute_data['resource'],
+        resource='',
         method=execute_data['method'],
-        content=json.dumps(execute_data['parameters'])
+        content=''
     )
     if ret[0] != 0:
         logger.info("The Task(%s) failure, %s" % (taskID, ret[1]))
         return False
     # TODO: Assume ret[1] that is dic.
-    funcid = ignore_case_get(ret[1], 'functest_id')
+    funcid = ret[1][1:-1]
     record[0].functionid = funcid
     record[0].status = 'RUNNING'
     record[0].save()

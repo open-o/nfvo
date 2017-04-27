@@ -57,8 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'functest.pub.database',
-    'functest.taskmgr',
+    'functest',
+    # 'functest.pub.database',
+    # 'functest.taskmgr',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -106,15 +107,6 @@ REST_FRAMEWORK = {
     )
 }
 
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -168,6 +160,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+"""
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -198,6 +191,8 @@ LOGGING = {
     }
 }
 
+
+
 if 'test' in sys.argv:
     from functest.pub.config import config
     config.REG_TO_MSB_WHEN_START = False
@@ -214,3 +209,4 @@ if 'test' in sys.argv:
         TEST_OUTPUT_VERBOSE = True
         TEST_OUTPUT_DESCRIPTIONS = True
         TEST_OUTPUT_DIR = 'test-reports'
+"""

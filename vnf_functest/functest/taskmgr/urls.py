@@ -13,14 +13,15 @@
 # limitations under the License.
 
 from django.conf.urls import url, patterns
-from functest.taskmgr import mgr
+from functest.taskmgr import mgr, views
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
-    url(r'^openoapi/vnf-functest/v1/taskmanager/testtasks$', mgr.start_onboarding_test, name='start_onboarding_test'),
-    url(r'^openoapi/vnf-functest/v1/taskmanager/testtasks/(?P<taskID>[0-9a-zA-Z\-\_]+)/$', mgr.query_test_status, name='query_test_status'),
-    url(r'^openoapi/vnf-functest/v1/taskmanager/testtasks/(?P<taskID>[0-9a-zA-Z\-\_]+)/result/$', mgr.collect_task_result, name='collect_task_result'),
+    url(r'^openoapi/vnfsdk/v1/functest/taskmanager/testtasks/onboard$', views.onboard, name='onboard'),
+    url(r'^openoapi/vnfsdk/v1/functest/taskmanager/testtasks$', mgr.start_onboarding_test, name='start_onboarding_test'),
+    url(r'^openoapi/vnfsdk/v1/functest/taskmanager/testtasks/(?P<taskID>[0-9a-zA-Z\-\_]+)/$', mgr.query_test_status, name='query_test_status'),
+    url(r'^openoapi/vnfsdk/v1/functest/taskmanager/testtasks/(?P<taskID>[0-9a-zA-Z\-\_]+)/result/$', mgr.collect_task_result, name='collect_task_result'),
 ]
 
 # what is the role for this coding??
