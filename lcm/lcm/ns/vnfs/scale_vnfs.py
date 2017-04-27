@@ -73,11 +73,11 @@ class NFManualScaleService(threading.Thread):
             logger.error('scaleVnfData parameter does not exist or value incorrect')
             raise NSLCMException('scaleVnfData parameter does not exist or value incorrect')
         for vnf_data in self.scale_vnf_data:
-            type = ignore_case_get(vnf_data, 'type')
+            scale_type = ignore_case_get(vnf_data, 'type')
             aspect_id = ignore_case_get(vnf_data, 'aspectId')
             number_of_steps = ignore_case_get(vnf_data, 'numberOfSteps')
             self.nf_scale_params.append({
-                'type': type,
+                'type': scale_type,
                 'aspectId': aspect_id,
                 'numberOfSteps': number_of_steps,
                 'additionalParam': {'vnfdModel': self.nf_model}
