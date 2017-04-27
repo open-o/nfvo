@@ -45,17 +45,20 @@ public final class VnfmUtil {
      * @since NFVO 0.5
      */
     public static JSONObject getVnfmById(String vnfmId) {
-        RestfulResponse rsp = HttpRestfulAPIUtil.getRemoteResponse(String.format(Constant.GET_VNFM_ID_URL, vnfmId),
-                Constant.GET, null);
+        JSONObject ret = null;
+        String url = String.format(Constant.GET_VNFM_ID_URL, vnfmId);
+        LOG.info("Request extsys Get vnfm API. VNFM id={}, URL:{}, Type:{}, Request body:{}", vnfmId, url, Constant.GET, "");
+
+        RestfulResponse rsp = HttpRestfulAPIUtil.getRemoteResponse(url, Constant.GET, null);
 
         if(rsp == null || rsp.getStatus() != Constant.HTTP_OK) {
-            LOG.error("getVnfm fail!");
-
-            return null;
+            LOG.error("Get VNFM fail.");
+            return ret;
         }
 
-        LOG.info("func=getVnfmById, status={}", rsp.getStatus());
-        return JSONObject.fromObject(rsp.getResponseContent());
+        ret = JSONObject.fromObject(rsp.getResponseContent());
+        LOG.info("Response Get vnfm. Response Status: {}, Response body: {}", rsp.getStatus(), ret.toString());
+        return ret;
     }
 }
 

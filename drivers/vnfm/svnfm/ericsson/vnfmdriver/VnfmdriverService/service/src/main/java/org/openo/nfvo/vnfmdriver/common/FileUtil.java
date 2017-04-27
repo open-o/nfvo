@@ -48,7 +48,7 @@ public class FileUtil {
      * @since NFVO 0.5
      */
     public static String read(String path) throws IOException {
-        LOG.info("fuc=[read], step=[start], path={}", path);
+        LOG.info("File path={}", path);
 
         BufferedReader reader = null;
         String restString = "";
@@ -61,14 +61,14 @@ public class FileUtil {
             }
             reader.close();
         } catch(IOException e) {
-            LOG.warn("fuc=[read], step=[readBuffer] IOException!");
+            LOG.warn("IOException!, {}", e.getMessage());
             e.printStackTrace();
         } finally {
             if(reader != null) {
                 try {
                     reader.close();
                 } catch(IOException e1) {
-                    LOG.warn("fuc=[read], step=[finally], IOException!");
+                    LOG.warn("IOException!" + e1.getMessage());
                     e1.printStackTrace();
                 }
             }

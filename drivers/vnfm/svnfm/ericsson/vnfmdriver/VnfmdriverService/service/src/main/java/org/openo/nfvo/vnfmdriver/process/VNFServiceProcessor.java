@@ -50,40 +50,41 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject addVnf(String vnfmId, JSONObject jsonInstantiateOfReq) {
-        LOG.info("fuc=[addVnf] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         try {
-            JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (null == vnfmObjcet) {
-                LOG.error("func=[addVnf] get Vnfmd info fail!");
+            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+            if (null == vnfmObject) {
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
-            String path = Constant.HTTP_PROTOCOL + vnfmObjcet.getString("url");
-            String api = Constant.VNF_URL_BASE +
-                         String.format(Constant.ADD_VNF_URL, vnfmId);
-            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.POST,
-                                                        jsonInstantiateOfReq.toString());
+            String path = vnfmObject.getString("url");
+            String uri = Constant.VNF_URL_BASE + String.format(Constant.ADD_VNF_URL, vnfmId);
+
+            LOG.info("Request E/// vnfm Instantiate Vnf API. VNFM id:{}, URL:{}, Type:{}, Request body:{}",
+                    vnfmId, path + uri, "POST", jsonInstantiateOfReq.toString());
+
+            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, uri, Constant.POST, jsonInstantiateOfReq.toString());
+
             if(null == rsp) {
-                LOG.error("fuc=[addVnf] invalid Response!");
+                LOG.error("Receive null response");
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             } else {
+                LOG.info("Receive response of Instantiate VNF. Status:{}, body:{}",
+                        rsp.getStatus(), rsp.getResponseContent());
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
                 restJson.put(Constant.RESP_STATUS, rsp.getStatus());
                 restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
             restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
-            LOG.error("fuc=[addVnf] JSONException!");
+            LOG.error("JSONException!" + e.getMessage());
         }
-
-        LOG.info("fuc=[addVnf] end!");
         return restJson;
     }
 
@@ -97,40 +98,42 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject deleteVnf(String vnfmId, String vnfInstanceId, JSONObject jsonTerminateOfReq) {
-        LOG.info("fuc=[deleteVnf] start!");
 
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         try {
-            JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (null == vnfmObjcet) {
-                LOG.error("func=[deleteVnf] get Vnfmd info fail!");
+            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+            if (null == vnfmObject) {
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
-            String path = Constant.HTTP_PROTOCOL + vnfmObjcet.getString("url");
-            String api = Constant.VNF_URL_BASE +
-                         String.format(Constant.DEL_VNF_URL, vnfmId, vnfInstanceId);
-            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.POST,
-                                                        jsonTerminateOfReq.toString());
+            String path = vnfmObject.getString("url");
+            String uri = Constant.VNF_URL_BASE + String.format(Constant.DEL_VNF_URL, vnfmId, vnfInstanceId);
+
+            LOG.info("Request E/// vnfm Terminate VNF API. VNFM id:{}, VNF instance id:{}, URL:{}, Type:{}, Request body:{}",
+                    vnfmId, vnfInstanceId, path + uri, "POST", jsonTerminateOfReq.toString());
+
+            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, uri, Constant.POST, jsonTerminateOfReq.toString());
+
             if(null == rsp) {
+                LOG.error("Receive null response");
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
-                LOG.error("fuc=[deleteVnf] invalid Response!");
                 return restJson;
             } else {
+                LOG.info("Receive response of Terminate VNF. Status:{}, body:{}",
+                        rsp.getStatus(), rsp.getResponseContent());
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
                 restJson.put(Constant.RESP_STATUS, rsp.getStatus());
                 restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
             restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
-            LOG.error("fuc=[deleteVnf] JSONException!");
+            LOG.error("JSONException!" + e.getMessage());
         }
 
-        LOG.info("fuc=[deleteVnf] end!");
         return restJson;
     }
 
@@ -143,40 +146,41 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject getVnf(String vnfmId, String vnfInstanceId) {
-        LOG.info("fuc=[getVnf] start!");
-
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         try {
-            JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (null == vnfmObjcet) {
-                LOG.error("func=[getVnf] get Vnfmd info fail!");
+            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+            if (null == vnfmObject) {
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
-            String path = Constant.HTTP_PROTOCOL + vnfmObjcet.getString("url");
-            String api = Constant.VNF_URL_BASE +
+            String path = vnfmObject.getString("url");
+            String uri = Constant.VNF_URL_BASE +
                          String.format(Constant.QEURY_VNF_URL, vnfmId, vnfInstanceId);
-            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.GET, null);
+
+            LOG.info("Request E/// vnfm Query VNF API. VNFM id:{}, VNF instance id:{}, URL:{}, Type:{}, Request body:{}",
+                    vnfmId, vnfInstanceId, path + uri, "GET", "");
+            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, uri, Constant.GET, null);
 
             if(null == rsp) {
+                LOG.error("Receive null response");
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
-                LOG.error("fuc=[getVnf] invalid Response!");
                 return restJson;
             } else {
+                LOG.info("Receive response of Query VNF. Status:{}, body:{}",
+                        rsp.getStatus(), rsp.getResponseContent());
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
                 restJson.put(Constant.RESP_STATUS, rsp.getStatus());
                 restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
             restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
-            LOG.error("fuc=[getVnf] JSONException!");
+            LOG.error("JSONException! {}", e.getMessage());
         }
 
-        LOG.info("fuc=[getVnf] end!");
         return restJson;
     }
 
@@ -189,40 +193,43 @@ public class VNFServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject getStatus(String vnfmId, String jobid, String responseId) {
-        LOG.info("fuc=[getStatus] start!");
-
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         try {
-            JSONObject vnfmObjcet = VnfmUtil.getVnfmById(vnfmId);
-            if (null == vnfmObjcet) {
-                LOG.error("func=[getStatus] get Vnfmd info fail!");
+            JSONObject vnfmObject = VnfmUtil.getVnfmById(vnfmId);
+            if (null == vnfmObject) {
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
                 return restJson;
             }
 
-            String path = Constant.HTTP_PROTOCOL + vnfmObjcet.getString("url");
-            String api = Constant.VNF_URL_BASE + String.format(Constant.GET_VNF_STATUS_URL,
+            String path = vnfmObject.getString("url");
+            String uri = Constant.VNF_URL_BASE + String.format(Constant.GET_VNF_STATUS_URL,
                                                                 vnfmId, jobid, responseId);
-            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, api, Constant.GET, null);
+
+            LOG.info("Request E/// vnfm Get Operation Status API. " +
+                     "VNFM id:{}, job id:{}, response id:{}, URL:{}, Type:{}, Request body:{}",
+                     vnfmId, jobid, responseId, path + uri, "GET", "");
+
+            rsp = HttpRestfulAPIUtil.getRemoteResponse(path, uri, Constant.GET, null);
 
             if(null == rsp) {
+                LOG.error("Receive null response");
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
-                LOG.error("fuc=[getStatus] invalid Response!");
                 return restJson;
             } else {
+                LOG.info("Receive response of Get Operation Status. Status:{}, body:{}",
+                        rsp.getStatus(), rsp.getResponseContent());
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
                 restJson.put(Constant.RESP_STATUS, rsp.getStatus());
                 restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
             restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
-            LOG.error("fuc=[getVnf] JSONException!");
+            LOG.error("JSONException!, {}", e.getMessage());
         }
 
-        LOG.info("fuc=[getStatus] end!");
         return restJson;
     }
 }

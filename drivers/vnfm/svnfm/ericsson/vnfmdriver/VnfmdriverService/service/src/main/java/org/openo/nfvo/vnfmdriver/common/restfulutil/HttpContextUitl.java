@@ -54,26 +54,27 @@ public final class HttpContextUitl {
      */
     @SuppressWarnings("unchecked")
     public static <T> T extractJsonObject(HttpServletRequest vnfReq) {
+        T ret = null;
         try {
             InputStream vnfInput = vnfReq.getInputStream();
             String vnfJsonStr = IOUtils.toString(vnfInput);
             JSONTokener vnfJsonTokener = new JSONTokener(vnfJsonStr);
 
             if(vnfJsonTokener.nextClean() == Character.codePointAt("{", 0)) {
-                return (T)JSONObject.fromObject(vnfJsonStr);
+                ret = (T)JSONObject.fromObject(vnfJsonStr);
             }
 
             vnfJsonTokener.back();
 
             if(vnfJsonTokener.nextClean() == Character.codePointAt("[", 0)) {
-                return (T)JSONArray.fromObject(vnfJsonStr);
+                ret = (T)JSONArray.fromObject(vnfJsonStr);
             }
         } catch(IOException e) {
-            LOG.warn("fuc=[extractJsonObject], IOException!");
+            LOG.warn("IOException! " + e.getMessage());
         } catch(JSONException e) {
-            LOG.warn("fuc=[extractJsonObject], JSONException!");
+            LOG.warn("JSONException! " + e.getMessage());
         }
 
-        return null;
+        return ret;
     }
 }
