@@ -61,11 +61,13 @@ class VerifyVnfs(threading.Thread):
         
     def do_inst_vnf(self):
         self.update_job(30, "Start inst vnf.")
-        # TODO
+        vnf_param = ignore_case_get(self.data, "additionalParamForVnf")
+        if vnf_param and "additionalParam" in vnf_param[0]:
+            vnf_param[0]["additionalParam"]["vimId"] = ignore_case_get(self.data, "lab_vim_id")
         inst_data = {
             "nsInstanceId": "",
-            "additionalParamForVnf": ignore_case_get(self.data, "additionalParamForVnf"),
-            "vnfIndex": ignore_case_get(self.data, "vnf_index"),
+            "additionalParamForVnf": vnf_param,
+            "vnfIndex": "1"
         }
         ret = req_by_msb("/openoapi/nslcm/v1/ns/vnfs", "POST", json.JSONEncoder().encode(inst_data))
         if ret[0] != 0:
