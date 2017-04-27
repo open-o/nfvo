@@ -103,6 +103,7 @@ class CreateVnfs(Thread):
         if self.vnfd_id:
             logger.debug("need not get vnfd_id")
             self.nsd_model={'vnfs': [], 'vls': [], 'vnffgs': []}
+            self.vnf_inst_name = self.vnfd_id + str(uuid.uuid4())
             return
         ns_inst_info = NSInstModel.objects.get(id=self.ns_inst_id)
         self.ns_inst_name = ns_inst_info.name
