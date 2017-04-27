@@ -49,15 +49,14 @@ public final class HttpRestfulAPIUtil {
      * <br>
      *
      * @param path
-     * @param url
+     * @param uri
      * @param methodType
      * @param params
      * @return
      * @since NFVO 0.5
      */
-    public static RestfulResponse getRemoteResponse(String path, String url, String methodType, String params) {
+    public static RestfulResponse getRemoteResponse(String path, String uri, String methodType, String params) {
 
-        LOG.info("fuc=[getRemoteResponse], start!");
 
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -78,22 +77,19 @@ public final class HttpRestfulAPIUtil {
 
             if(null != rest) {
                 if(Constant.GET.equalsIgnoreCase(methodType)) {
-                    LOG.info(String.format("fuc=[getRemoteResponse], path=[%s], url=[%s]!", path, url));
-
-                    rsp = rest.get(url, restfulParametes, opt);
+                    rsp = rest.get(uri, restfulParametes, opt);
                 } else if(Constant.POST.equalsIgnoreCase(methodType)) {
-                    LOG.info(String.format("fuc=[getRemoteResponse], path=[%s], url=[%s]!", path, url));
-
-                    rsp = rest.post(url, restfulParametes, opt);
+                    rsp = rest.post(uri, restfulParametes, opt);
                 } else {
-                    LOG.warn("fuc=[getRemoteResponse], unsupport http request type!");
+                    LOG.error("Method type not support.");
+                    return null;
                 }
             }
         } catch(ServiceException e) {
-            LOG.warn("fuc=[getRemoteResponse], ServiceException!");
+            LOG.error("ServiceException!" + e.getMessage());
+            return null;
         }
 
-        LOG.info("fuc=[getRemoteResponse], end!");
         return rsp;
     }
 
@@ -108,7 +104,6 @@ public final class HttpRestfulAPIUtil {
      */
     public static RestfulResponse getRemoteResponse(String url, String methodType, String params) {
 
-        LOG.info("type={}, url={}, param={}", methodType, url, params);
 
         RestfulResponse rsp = null;
         Restful rest = RestfulFactory.getRestInstance(RestfulFactory.PROTO_HTTP);
@@ -127,14 +122,15 @@ public final class HttpRestfulAPIUtil {
                 } else if(Constant.POST.equalsIgnoreCase(methodType)) {
                     rsp = rest.post(url, restfulParametes);
                 } else {
-                    LOG.warn("fuc=[getRemoteResponse], un support http request type!");
+                    LOG.error("Method type not support.");
+                    return null;
                 }
             }
         } catch(ServiceException e) {
-            LOG.warn("fuc=[getRemoteResponse], ServiceException!");
+            LOG.error("ServiceException!, {}", e.getMessage());
+            return null;
         }
 
-        LOG.info("get remote response successfully");
         return rsp;
     }
 

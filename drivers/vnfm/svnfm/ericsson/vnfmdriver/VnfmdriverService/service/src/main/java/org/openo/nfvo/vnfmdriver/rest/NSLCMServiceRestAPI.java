@@ -46,7 +46,7 @@ import java.io.IOException;
  * @version NFVO 0.5 Feb 28, 2017
  */
 @Component
-@Path("/openoapi/nslcm/v1/ns")
+@Path("/openoapi/nslcm/v1/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NSLCMServiceRestAPI {
@@ -66,18 +66,24 @@ public class NSLCMServiceRestAPI {
      */
     @POST
     @Path("/grantvnf")
-    public String grantVnf(@Context HttpServletRequest req, @Context HttpServletResponse resp) throws IOException {
-        LOG.info("fuc=[grantVnf] start!");
-
+    public String grantVnf(@Context HttpServletRequest req,
+                           @Context HttpServletResponse resp) throws IOException {
         JSONObject jsonInstantiateOfReq = HttpContextUitl.extractJsonObject(req);
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         if(null == jsonInstantiateOfReq) {
-            LOG.error("fuc=[grantVnf] Invalid Request!");
-            resp.setStatus(Constant.HTTP_INNERERROR);
+            LOG.info("Receive Grant VNF Lifecycle request. url:{}, type:{}, request body:{}",
+                    req.getRequestURL(), req.getMethod(), "");
+            LOG.error("Invalid request parameter");
+            resp.setStatus(Constant.HTTP_NOTFOUND);
+            LOG.info("Request Grant VNF finish. Returned response:{}, status:{}",
+                    "", Constant.HTTP_NOTFOUND);
             return restJson.toString();
         }
+        LOG.info("Receive Grant VNF Lifecycle request. url:{}, type:{}, request body:{}",
+                req.getRequestURL(), req.getMethod(), jsonInstantiateOfReq.toString());
+
 
         restJson = nslcmServiceProcessor.grantVnf(jsonInstantiateOfReq);
 
@@ -85,11 +91,14 @@ public class NSLCMServiceRestAPI {
         resp.flushBuffer();
 
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[grantVnf] fail!");
+            LOG.error("Grant vnf fail.");
+            LOG.info("Request Grant vnf finish. Returned response:{}, status:{}",
+                    "", Constant.HTTP_NOTFOUND);
             return "";
         }
 
-        LOG.info("fuc=[grantVnf] end!");
+        LOG.info("Request Grant VNF finish. Returned status:{}, response:{}",
+                restJson.getInt(Constant.RESP_STATUS), restJson.getString(Constant.DATA));
         return restJson.getString(Constant.DATA);
     }
 }

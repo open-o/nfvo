@@ -44,9 +44,9 @@ public class ServiceRunningEntry implements DestructionAwareBeanPostProcessor {
      * @since NFVO 0.5
      */
     public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
-        LOG.info(String.format("bean:[%s] Initialization finished", name));
+//        LOG.info(String.format("bean:[%s] Initialization finished", name));
         if(bean instanceof InfServiceController) {
-            LOG.info("Ericsson VNFMDriver module regist start!");
+            LOG.info("Ericsson VNFMDriver module register start!");
             InfServiceController serviceCtrl = (InfServiceController)bean;
             serviceCtrl.start();
         }

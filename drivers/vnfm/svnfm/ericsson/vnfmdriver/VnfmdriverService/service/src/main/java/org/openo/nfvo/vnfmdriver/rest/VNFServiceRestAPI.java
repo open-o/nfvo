@@ -71,30 +71,36 @@ public class VNFServiceRestAPI {
      */
     @POST
     @Path("/{vnfmId}/vnfs")
-    public String instantiateVNF(@PathParam("vnfmId") String vnfmId, @Context HttpServletRequest req,
-            @Context HttpServletResponse resp) throws IOException {
-        LOG.info("fuc=[instantiateVNF] start!");
-
+    public String instantiateVNF(@PathParam("vnfmId") String vnfmId,
+                                 @Context HttpServletRequest req,
+                                 @Context HttpServletResponse resp)throws IOException {
         JSONObject jsonInstantiateOfReq = HttpContextUitl.extractJsonObject(req);
-
-        if(null == jsonInstantiateOfReq) {
-            LOG.error("fuc=[instantiateVNF] Invalid Request!");
+        if (null == jsonInstantiateOfReq) {
+            LOG.info("Receive Instantiate VNF request. VNFM id:{},  url:{}, type:{}, request body:{}",
+                    vnfmId, req.getRequestURL(), req.getMethod(), "");
+            LOG.error("Invalid request parameter");
             resp.setStatus(Constant.HTTP_NOTFOUND);
             resp.flushBuffer();
+            LOG.info("Request Instantiate VNF finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
+        LOG.info("Receive Instantiate VNF request. VNFM id:{},  url:{}, type:{}, request body:{}",
+                vnfmId, req.getRequestURL(), req.getMethod(), jsonInstantiateOfReq.toString());
+
 
         JSONObject restJson = vnfServiceProcessor.addVnf(vnfmId, jsonInstantiateOfReq);
 
         resp.setStatus(restJson.getInt(Constant.RESP_STATUS));
         resp.flushBuffer();
 
-        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[instantiateVNF] fail!");
+        if (restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("Instantiate vnf fail.");
+            LOG.info("Request Instantiate VNF finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
 
-        LOG.info("fuc=[instantiateVNF] end!");
+        LOG.info("Request Instantiate VNF finish. Returned response status:{}, body:{}",
+                restJson.getInt(Constant.RESP_STATUS), restJson.getString(Constant.DATA));
         return restJson.getString(Constant.DATA);
     }
 
@@ -110,31 +116,38 @@ public class VNFServiceRestAPI {
      */
     @POST
     @Path("/{vnfmId}/vnfs/{vnfInstanceId}/terminate")
-    public String terminateVNF(@Context HttpServletRequest req, @Context HttpServletResponse resp,
-            @PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId) throws IOException {
-        LOG.info("fuc=[terminateVNF] start!");
+    public String terminateVNF(@Context HttpServletRequest req,
+                               @Context HttpServletResponse resp,
+                               @PathParam("vnfmId") String vnfmId,
+                               @PathParam("vnfInstanceId") String vnfInstanceId) throws IOException {
 
         JSONObject jsonTerminateOfReq = HttpContextUitl.extractJsonObject(req);
-
-        if(null == jsonTerminateOfReq) {
-            LOG.error("fuc=[terminateVNF] Invalid Request!");
+        if (null == jsonTerminateOfReq) {
+            LOG.info("Receive Terminate VNF request. VNFM id:{}, VNF instance id:{}, url:{}, type:{}, request body:{}",
+                    vnfmId, vnfInstanceId, req.getRequestURL(), req.getMethod(), "");
+            LOG.error("Invalid request parameter");
 
             resp.setStatus(Constant.HTTP_NOTFOUND);
             resp.flushBuffer();
+            LOG.info("Request Terminate VNF finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
+        LOG.info("Receive Terminate VNF request. VNFM id:{}, VNF instance id:{}, url:{}, type:{}, request body:{}",
+                vnfmId, vnfInstanceId, req.getRequestURL(), req.getMethod(), jsonTerminateOfReq);
 
         JSONObject restJson = vnfServiceProcessor.deleteVnf(vnfmId, vnfInstanceId, jsonTerminateOfReq);
 
         resp.setStatus(restJson.getInt(Constant.RESP_STATUS));
         resp.flushBuffer();
 
-        if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[terminateVNF] fail!");
+        if (restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
+            LOG.error("Terminate vnf fail.");
+            LOG.info("Request Terminate VNF finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
 
-        LOG.info("fuc=[terminateVNF] end!");
+        LOG.info("Request Terminate VNF finish. Returned response status:{}, body:{}",
+                restJson.getInt(Constant.RESP_STATUS), restJson.getString(Constant.DATA));
         return restJson.getString(Constant.DATA);
     }
 
@@ -149,9 +162,12 @@ public class VNFServiceRestAPI {
      */
     @GET
     @Path("/{vnfmId}/vnfs/{vnfInstanceId}")
-    public String queryVNF(@PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId,
-            @Context HttpServletResponse resp) throws IOException {
-        LOG.info("fuc=[terminateVNF] start!");
+    public String queryVNF(@PathParam("vnfmId") String vnfmId,
+                           @PathParam("vnfInstanceId") String vnfInstanceId,
+                           @Context HttpServletResponse resp,
+                           @Context HttpServletRequest req) throws IOException {
+        LOG.info("Receive Query VNF request. VNFM id:{}, VNF instance id:{}, url:{}, type:{}, request body:{}",
+                vnfmId, vnfInstanceId, req.getRequestURL(), req.getMethod(), "");
 
         JSONObject restJson = vnfServiceProcessor.getVnf(vnfmId, vnfInstanceId);
 
@@ -159,11 +175,13 @@ public class VNFServiceRestAPI {
         resp.flushBuffer();
 
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[queryVNF] fail!");
+            LOG.error("Query vnf fail.");
+            LOG.info("Request Query VNF finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
 
-        LOG.info("fuc=[terminateVNF] end!");
+        LOG.info("Request Query VNF finish. Returned response status:{}, body:{}",
+                restJson.getInt(Constant.RESP_STATUS), restJson.getString(Constant.DATA));
         return restJson.getString(Constant.DATA);
     }
 
@@ -178,14 +196,19 @@ public class VNFServiceRestAPI {
      */
     @GET
     @Path("/{vnfmId}/jobs/{jobid}")
-    public String getOperationStatus(@PathParam("vnfmId") String vnfmId, @PathParam("jobid") String jobid,
-            @QueryParam("responseId") String responseId, @Context HttpServletResponse resp) throws IOException {
-        LOG.info("fuc=[getOperationStatus] start!");
+    public String getOperationStatus(@PathParam("vnfmId") String vnfmId,
+                                     @PathParam("jobid") String jobid,
+                                     @QueryParam("responseId") String responseId,
+                                     @Context HttpServletRequest req,
+                                     @Context HttpServletResponse resp) throws IOException {
+        LOG.info("Receive Get Operation Status request. VNFM id:{}, job id:{}, responseId:{}, url:{}, type:{}, request body:{}",
+                vnfmId, jobid, responseId, req.getRequestURL(), req.getMethod(), "");
 
         if(StringUtils.isEmpty(responseId)) {
-            LOG.error("fuc=[getOperationStatus], Invalid Request!");
+            LOG.error("Invalid request parameter");
             resp.setStatus(Constant.HTTP_NOTFOUND);
             resp.flushBuffer();
+            LOG.info("Request Get Operation Status finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
 
@@ -195,11 +218,13 @@ public class VNFServiceRestAPI {
         resp.flushBuffer();
 
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
-            LOG.error("fuc=[getOperationStatus] fail!");
+            LOG.error("Get operation status fail.");
+            LOG.info("Request Get Operation Status finish. Returned response status:{}, body:{}", Constant.HTTP_NOTFOUND, "");
             return "";
         }
 
-        LOG.info("fuc=[getOperationStatus] end!");
+        LOG.info("Request Get Operation Status finish. Returned response status:{}, body:{}",
+                restJson.getInt(Constant.RESP_STATUS), restJson.getString(Constant.DATA));
         return restJson.getString(Constant.DATA);
     }
 
@@ -212,8 +237,10 @@ public class VNFServiceRestAPI {
      */
     @GET
     @Path("/swagger.json")
-    public String getApiDoc(@Context HttpServletResponse resp) throws IOException {
-        LOG.info("fuc=[getApiDoc] start!");
+    public String getApiDoc(@Context HttpServletResponse resp,
+                            @Context HttpServletRequest req) throws IOException {
+        LOG.info("Receive Get API Doc request. url:{}, type:{}, request body:{}",
+                req.getRequestURL(), req.getMethod(), "");
 
         String ret = "";
         try {
@@ -222,10 +249,10 @@ public class VNFServiceRestAPI {
         } catch(IOException e) {
             resp.setStatus(Constant.HTTP_INNERERROR);
             resp.flushBuffer();
-            LOG.error("fuc=[getApiDoc], IOException!");
+            LOG.error("Get API Doc Fail, IOException! {}", e.getMessage());
         }
 
-        LOG.info("fuc=[getApiDoc] end!");
+        LOG.info("Request Get API Doc finish. Returned response status:200, body:{}", ret);
         return ret;
     }
 }

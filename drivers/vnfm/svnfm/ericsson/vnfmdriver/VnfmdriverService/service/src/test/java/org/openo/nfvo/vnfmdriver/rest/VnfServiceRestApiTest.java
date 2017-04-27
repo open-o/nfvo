@@ -89,7 +89,7 @@ public class VnfServiceRestApiTest {
     public void testInstantiateVnfNull() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
 
@@ -104,7 +104,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.instantiateVNF("vnfmId", mockInstance, rep);
+        String result = vnfServiceRestApi.instantiateVNF("vnfmId", req, rep);
 
         assertEquals("", result);
 
@@ -120,7 +120,7 @@ public class VnfServiceRestApiTest {
     public void testInstantiateVnfNotNull() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -150,7 +150,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.instantiateVNF("vnfmId", mockInstance, rep);
+        String result = vnfServiceRestApi.instantiateVNF("vnfmId", req, rep);
 
         vnfServiceProcessor.tearDown();
 
@@ -167,7 +167,7 @@ public class VnfServiceRestApiTest {
     public void testInstantiate() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -200,7 +200,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.instantiateVNF("vnfmId", mockInstance, rep);
+        String result = vnfServiceRestApi.instantiateVNF("vnfmId", req, rep);
 
         vnfServiceProcessor.tearDown();
 
@@ -220,7 +220,7 @@ public class VnfServiceRestApiTest {
     public void testTerminateVnfNull() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
 
@@ -235,7 +235,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.terminateVNF(mockInstance, rep, "vnfmId", "vnfInstanceId");
+        String result = vnfServiceRestApi.terminateVNF(req, rep, "vnfmId", "vnfInstanceId");
 
         assertEquals("", result);
 
@@ -251,7 +251,7 @@ public class VnfServiceRestApiTest {
     public void testTerminateVnfNotNull() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -280,7 +280,7 @@ public class VnfServiceRestApiTest {
             }
 
         };
-        String result = vnfServiceRestApi.terminateVNF(mockInstance, rep, "vnfmId", "vnfInstanceId");
+        String result = vnfServiceRestApi.terminateVNF(req, rep, "vnfmId", "vnfInstanceId");
 
         vnfServiceProcessor.tearDown();
 
@@ -298,7 +298,7 @@ public class VnfServiceRestApiTest {
     public void testTerminateVnf() throws Exception {
 
         MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
-        HttpServletRequest mockInstance = proxyStub.getMockInstance();
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -330,7 +330,7 @@ public class VnfServiceRestApiTest {
             }
 
         };
-        String result = vnfServiceRestApi.terminateVNF(mockInstance, rep, "vnfmId", "vnfInstanceId");
+        String result = vnfServiceRestApi.terminateVNF(req, rep, "vnfmId", "vnfInstanceId");
 
         vnfServiceProcessor.tearDown();
 
@@ -350,11 +350,13 @@ public class VnfServiceRestApiTest {
     @Test
     public void testQueryVnfNull() throws Exception {
 
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
 
         String vnfmId = null;
-        String result = vnfServiceRestApi.queryVNF(vnfmId, "vnfInstanceId", rep);
+        String result = vnfServiceRestApi.queryVNF(vnfmId, "vnfInstanceId", rep, req);
 
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
@@ -372,6 +374,8 @@ public class VnfServiceRestApiTest {
     @Test
     public void testQueryVnfNotNull() throws Exception {
 
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -391,7 +395,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.queryVNF("vnfmId", "vnfInstanceId", rep);
+        String result = vnfServiceRestApi.queryVNF("vnfmId", "vnfInstanceId", rep, req);
 
         vnfServiceProcessor.tearDown();
 
@@ -407,6 +411,8 @@ public class VnfServiceRestApiTest {
      */
     public void testQueryVnf() throws Exception {
 
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -439,7 +445,7 @@ public class VnfServiceRestApiTest {
 
         };
 
-        String result = vnfServiceRestApi.queryVNF("vnfmId", "vnfInstanceId", rep);
+        String result = vnfServiceRestApi.queryVNF("vnfmId", "vnfInstanceId", rep, req);
 
         vnfServiceProcessor.tearDown();
 
@@ -459,11 +465,13 @@ public class VnfServiceRestApiTest {
     @Test
     public void testGetOperationStatusNull() throws Exception {
 
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
 
         String vnfmId = null;
-        String result = vnfServiceRestApi.getOperationStatus(vnfmId, "jobId", "responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus(vnfmId, "jobId", "responseId", req, rep);
 
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
@@ -481,6 +489,8 @@ public class VnfServiceRestApiTest {
     @Test
     public void testGetOperationStatusNotNull() throws Exception {
 
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -501,7 +511,7 @@ public class VnfServiceRestApiTest {
         };
 
         vnfServiceProcessor.tearDown();
-        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", req, rep);
         assertEquals("", result);
 
     }
@@ -514,7 +524,8 @@ public class VnfServiceRestApiTest {
      */
     @Test
     public void testGetOperationStatus() throws Exception {
-
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
         final JSONObject jsonInstantiateOfReq = new JSONObject();
@@ -539,7 +550,7 @@ public class VnfServiceRestApiTest {
         JSONObject restJson = new JSONObject();
         restJson.put("test_key", "test_value");
 
-        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", rep);
+        String result = vnfServiceRestApi.getOperationStatus("vnfmId", "jobid", "responseId", req, rep);
         vnfServiceProcessor.tearDown();
         assertEquals(restJson.toString(), result);
 
@@ -553,11 +564,13 @@ public class VnfServiceRestApiTest {
      */
     @Test
     public void testGetApidoc() throws Exception {
+        MockUp<HttpServletRequest> proxyStub = new MockUp<HttpServletRequest>() {};
+        HttpServletRequest req = proxyStub.getMockInstance();
         MockUp<HttpServletResponse> proxy = new MockUp<HttpServletResponse>() {};
         HttpServletResponse rep = proxy.getMockInstance();
 
         VNFServiceRestAPI vnfServiceRestApi = new VNFServiceRestAPI();
-        String result = vnfServiceRestApi.getApiDoc(rep);
+        String result = vnfServiceRestApi.getApiDoc(rep, req);
         assertNotNull(result);
 
     }

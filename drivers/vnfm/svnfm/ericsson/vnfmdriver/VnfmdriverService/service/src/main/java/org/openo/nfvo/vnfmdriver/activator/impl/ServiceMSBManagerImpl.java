@@ -69,7 +69,7 @@ public class ServiceMSBManagerImpl implements InfServiceMSBManager {
             LOG.info("Register Successfully", ServiceMSBManagerImpl.class);
             ret = Constant.DRIVER_REGISTER_OK;
         } else {
-            LOG.error("Unkonw Result, Please Check it", ServiceMSBManagerImpl.class);
+            LOG.error("Unknown Result, Please Check it", ServiceMSBManagerImpl.class);
             ret = Constant.DRIVER_REGISTER_NG;
         }
         return ret;

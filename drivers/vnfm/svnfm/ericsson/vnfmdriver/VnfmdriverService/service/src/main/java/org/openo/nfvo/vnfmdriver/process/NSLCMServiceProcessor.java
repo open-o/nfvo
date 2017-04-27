@@ -48,31 +48,33 @@ public class NSLCMServiceProcessor {
      * @since NFVO 0.5
      */
     public JSONObject grantVnf(JSONObject jsonInstantiateOfReq) {
-        LOG.info("fuc=[grantVnfLifecycle], start!");
-
         RestfulResponse rsp = null;
         JSONObject restJson = new JSONObject();
         restJson.put(Constant.RETCODE, Constant.REST_FAIL);
 
         try {
             String url = Constant.NSLCM_URL_BASE+ Constant.GRANT_VNF_URL;
+            LOG.info("Request NSLCM Grant VNF Lifecycle API. URL:{}, Type:{}, Request body:{}",
+                    url, "POST", jsonInstantiateOfReq.toString());
+
             rsp = HttpRestfulAPIUtil.getRemoteResponse(url, Constant.POST, jsonInstantiateOfReq.toString());
 
             if(null == rsp) {
+                LOG.error("Receive null response");
                 restJson.put(Constant.RESP_STATUS, Constant.HTTP_NOTFOUND);
-                LOG.error("fuc=[grantVnfLifecycle], invalid Response!");
                 return restJson;
             } else {
+                LOG.info("Receive response of Grant VNF Lifecycle. Status:{}, body:{}",
+                        rsp.getStatus(), rsp.getResponseContent());
+
                 restJson.put(Constant.RETCODE, Constant.HTTP_OK);
                 restJson.put(Constant.RESP_STATUS, rsp.getStatus());
                 restJson.put(Constant.DATA, rsp.getResponseContent());
             }
         } catch(JSONException e) {
             restJson.put(Constant.RESP_STATUS, Constant.HTTP_INNERERROR);
-            LOG.error("fuc=[grantVnfLifecycle], JSONException!");
+            LOG.error("JSONException!" + e.getMessage());
         }
-
-        LOG.info("fuc=[grantVnfLifecycle], end!");
         return restJson;
     }
 }
