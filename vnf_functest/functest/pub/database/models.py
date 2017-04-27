@@ -41,13 +41,4 @@ class TaskMgrCaseTbl(models.Model):
     testdes = models.CharField(db_column='TESTDES', max_length=200)
 
 
-class ScriptUploadingStatus (models.Model):
-    class Meta:
-        db_table = 'script_upload_status'
-    package_id = models.CharField(db_column='package_id',primary_key=True, max_length=200)
-    update_time = models.DateTimeField(db_column='update_time')
-
-    def __str__(self):
-        return self.package_id
-
 

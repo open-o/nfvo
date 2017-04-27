@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "title": "functest test framework driver rest API"
   },
-  "basePath": "/openoapi/vnf-functest/v1",
+  "basePath": "api/vnfsdk/v1",
   "paths": {
     "/execute": {
       "post": {

@@ -44,6 +44,7 @@
         <module>drivers/vnfm/svnfm/zte/vmanager</module>
         <module>drivers/ems/sems/boco/ems-driver</module>
         <module>drivers/vnfm/svnfm/ericsson/vnfmdriver</module>
+        <module>vnf_functest/functest</module>
     </modules>
 
     <build>

@@ -13,4 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nohup python manage.py runserver 127.0.0.1:8704 > /dev/null &
+pip install -r requirements.txt
