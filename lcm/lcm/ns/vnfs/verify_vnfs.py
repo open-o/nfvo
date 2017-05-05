@@ -13,6 +13,7 @@
 # limitations under the License.
 import json
 import logging
+import os
 import threading
 import traceback
 import time
@@ -33,9 +34,11 @@ class VerifyVnfs(threading.Thread):
         self.job_id = job_id
         self.vnf_inst_id = ''
         self.verify_ok = False
+        self.verify_config = ''
 
     def run(self):
         try:
+            self.verify_config = self.load_config()
             JobUtil.create_job("VNF", JOB_TYPE.CREATE_VNF, self.job_id, 'vnfsdk', self.job_id)
             self.do_on_boarding()
             self.do_inst_vnf()
@@ -148,3 +151,11 @@ class VerifyVnfs(threading.Thread):
         if job_timeout:
             logger.error("Job(%s) timeout", job_id)
         return job_end_normal
+
+
+    def load_config(self):
+        json_file = os.path.join(os.path.dirname(__file__), 'verify_vnfs_config.json')
+        f = open(json_file)
+        json_data = json.JSONDecoder().decode(f.read())
+        f.close()
+        return json_data
