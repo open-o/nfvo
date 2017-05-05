@@ -39,6 +39,7 @@ class VerifyVnfs(threading.Thread):
     def run(self):
         try:
             self.verify_config = self.load_config()
+            self.verify_config["csarId"] = self.data["csarId"]
             JobUtil.create_job("VNF", JOB_TYPE.CREATE_VNF, self.job_id, 'vnfsdk', self.job_id)
             self.do_on_boarding()
             self.do_inst_vnf()
@@ -57,7 +58,7 @@ class VerifyVnfs(threading.Thread):
 
     def do_on_boarding(self):
         self.update_job(10, "Start vnf on boarding.")
-        ret = req_by_msb("/openoapi/nslcm/v1/vnfpackage", "POST", json.JSONEncoder().encode(self.data))
+        ret = req_by_msb("/openoapi/nslcm/v1/vnfpackage", "POST", json.JSONEncoder().encode(self.verify_config))
         if ret[0] != 0:
             raise NSLCMException("Failed to call vnf onboarding: %s" % ret[1])
         rsp_data = json.JSONDecoder().decode(ret[1])
@@ -67,9 +68,9 @@ class VerifyVnfs(threading.Thread):
         
     def do_inst_vnf(self):
         self.update_job(30, "Start inst vnf.")
-        vnf_param = ignore_case_get(self.data, "additionalParamForVnf")
+        vnf_param = ignore_case_get(self.verify_config, "additionalParamForVnf")
         if vnf_param and "additionalParam" in vnf_param[0]:
-            vnf_param[0]["additionalParam"]["vimId"] = ignore_case_get(self.data, "lab_vim_id")
+            vnf_param[0]["additionalParam"]["vimId"] = ignore_case_get(self.verify_config, "lab_vim_id")
         inst_data = {
             "nsInstanceId": "",
             "additionalParamForVnf": vnf_param,
