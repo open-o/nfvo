@@ -39,7 +39,6 @@ class VerifyVnfs(threading.Thread):
     def run(self):
         try:
             self.verify_config = self.load_config()
-            self.verify_config["csarId"] = self.data["csarId"]
             JobUtil.create_job("VNF", JOB_TYPE.CREATE_VNF, self.job_id, 'vnfsdk', self.job_id)
             self.do_on_boarding()
             self.do_inst_vnf()
@@ -58,7 +57,11 @@ class VerifyVnfs(threading.Thread):
 
     def do_on_boarding(self):
         self.update_job(10, "Start vnf on boarding.")
-        ret = req_by_msb("/openoapi/nslcm/v1/vnfpackage", "POST", json.JSONEncoder().encode(self.verify_config))
+        onboarding_data = {
+            "csarId":self.data["PackageID"],
+            "labVimId":ignore_case_get(self.verify_config, "labVimId")
+        }
+        ret = req_by_msb("/openoapi/nslcm/v1/vnfpackage", "POST", json.JSONEncoder().encode(onboarding_data))
         if ret[0] != 0:
             raise NSLCMException("Failed to call vnf onboarding: %s" % ret[1])
         rsp_data = json.JSONDecoder().decode(ret[1])
@@ -87,6 +90,21 @@ class VerifyVnfs(threading.Thread):
         
     def do_func_test(self):
         self.update_job(60, "Start vnf function test.")
+        func_data = {"PackageID":self.data["PackageID"]}
+        ret = req_by_msb("/openapi/vnfsdk/v1/functest/taskmanager/testtasks", "POST", json.JSONEncoder().encode(func_data))
+        if ret[0] != 0:
+            raise NSLCMException("Failed to call func test: %s" % ret[1])
+        rsp_data = json.JSONDecoder().decode(ret[1])
+
+        if not self.wait_func_test_job_done(rsp_data["TaskID"], 40):
+            raise NSLCMException("Func test failed")
+        logger.info("Query(%s) job success.", rsp_data["TaskID"])
+
+        ret = req_by_msb("/openapi/vnfsdk/v1/functest/taskmanager/testtasks/%s/result" % rsp_data["TaskID"], "GET")
+        if ret[0] != 0:
+            raise NSLCMException("Failed to get func test result: %s" % ret[1])
+        rsp_result_data = json.JSONDecoder().decode(ret[1])
+        logger.info("Func test(%s) result: %s", rsp_result_data)
         self.update_job(80, "Vnf function test success.")
         
     def do_term_vnf(self):
@@ -97,8 +115,7 @@ class VerifyVnfs(threading.Thread):
             "terminationType": "forceful",
             "gracefulTerminationTimeout": "600"
         }
-        ret = req_by_msb("/openoapi/nslcm/v1/ns/vnfs/%s" % self.vnf_inst_id, "POST", 
-            json.JSONEncoder().encode(term_data))
+        ret = req_by_msb("/openoapi/nslcm/v1/ns/vnfs/%s" % self.vnf_inst_id, "POST", json.JSONEncoder().encode(term_data))
         if ret[0] != 0:
             raise NSLCMException("Failed to call term vnf: %s" % ret[1])
         rsp_data = json.JSONDecoder().decode(ret[1])
@@ -119,8 +136,7 @@ class VerifyVnfs(threading.Thread):
         while count < retry_count:
             count = count + 1
             time.sleep(interval_second)
-            ret = req_by_msb("/openoapi/nslcm/v1/jobs/%s?responseId=%s" % 
-                (job_id, response_id), "GET")
+            ret = req_by_msb("/openoapi/nslcm/v1/jobs/%s?responseId=%s" % (job_id, response_id), "GET")
             if ret[0] != 0:
                 logger.error("Failed to query job: %s:%s", ret[2], ret[1])
                 continue
@@ -153,6 +169,46 @@ class VerifyVnfs(threading.Thread):
             logger.error("Job(%s) timeout", job_id)
         return job_end_normal
 
+    def wait_func_test_job_done(self, job_id, global_progress, retry_count=60, interval_second=3):
+        count = 0
+        response_id, new_response_id = 0, 0
+        job_end_normal, job_timeout = False, True
+        while count < retry_count:
+            count = count + 1
+            time.sleep(interval_second)
+            ret = req_by_msb("/openapi/vnfsdk/v1/functest/taskmanager/testtasks/%s?responseId=%s" %
+                (job_id, response_id), "GET")
+            if ret[0] != 0:
+                logger.error("Failed to query job: %s:%s", ret[2], ret[1])
+                continue
+            job_result = json.JSONDecoder().decode(ret[1])
+            if "responseDescriptor" not in job_result:
+                logger.error("Job(%s) does not exist.", job_id)
+                continue
+            progress = job_result["responseDescriptor"]["progress"]
+            new_response_id = job_result["responseDescriptor"]["responseId"]
+            job_desc = job_result["responseDescriptor"]["statusDescription"]
+            if new_response_id != response_id:
+                self.update_job(global_progress, job_desc)
+                logger.debug("%s:%s:%s", progress, new_response_id, job_desc)
+                response_id = new_response_id
+                count = 0
+            if progress == JOB_ERROR:
+                if 'already onBoarded' in job_desc:
+                    logger.warn("%s:%s", job_id, job_desc)
+                    job_end_normal, job_timeout = True, False
+                    logger.info("Job(%s) ended", job_id)
+                    break
+                job_timeout = False
+                logger.error("Job(%s) failed: %s", job_id, job_desc)
+                break
+            elif progress == 100:
+                job_end_normal, job_timeout = True, False
+                logger.info("Job(%s) ended normally", job_id)
+                break
+        if job_timeout:
+            logger.error("Job(%s) timeout", job_id)
+        return job_end_normal
 
     def load_config(self):
         json_file = os.path.join(os.path.dirname(__file__), 'verify_vnfs_config.json')
