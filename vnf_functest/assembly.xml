@@ -22,8 +22,8 @@
     </formats>
     <fileSets>
         <fileSet>
-            <directory>vnf_functest</directory>
-            <outputDirectory>/vnf_functest</outputDirectory>
+            <directory>functest</directory>
+            <outputDirectory>/functest</outputDirectory>
             <includes>
                 <include>**/*.py</include>
                 <include>**/*.json</include>
