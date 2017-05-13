@@ -23,6 +23,7 @@ import java.lang.invoke.MethodType;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.openo.nfvo.vnfmadapter.service.constant.Constant;
+import org.openo.nfvo.vnfmadapter.service.constant.ParamConstants;
 import org.openo.nfvo.vnfmadapter.service.csm.connect.ConnectMgrVnfm;
 import org.openo.nfvo.vnfmadapter.service.csm.connect.HttpRequests;
 import org.slf4j.Logger;
@@ -127,13 +128,15 @@ public final class ResultRequestUtil {
      * @return
      * @since NFVO 0.5
      */
-    public static JSONObject call(JSONObject vnfmObject, String path, String methodName, String paramsJson ,String authModel) {
-        LOG.info("request-param="+paramsJson+",authModel="+authModel+",path="+path+",vnfmInfo="+vnfmObject);
+    public static JSONObject call(JSONObject vnfmObject, String path, String methodName, String paramsJson,
+            String authModel) {
+        LOG.info("request-param=" + paramsJson + ",authModel=" + authModel + ",path=" + path + ",vnfmInfo="
+                + vnfmObject);
         JSONObject resultJson = new JSONObject();
 
         ConnectMgrVnfm mgrVcmm = new ConnectMgrVnfm();
 
-        if(Constant.HTTP_OK != mgrVcmm.connect(vnfmObject,authModel)) {
+        if(Constant.HTTP_OK != mgrVcmm.connect(vnfmObject, authModel)) {
             resultJson.put(Constant.RETCODE, Constant.HTTP_INNERERROR);
             resultJson.put("data", "connect fail.");
             return resultJson;
@@ -146,9 +149,9 @@ public final class ResultRequestUtil {
             String vnfPath = path.contains("%s") ? String.format(path, mgrVcmm.getRoaRand()) : path;
             LOG.info("function=call, msg=url is {}, session is {}", vnfmObject.getString("url") + vnfPath,
                     mgrVcmm.getAccessSession());
-            HttpRequests.Builder builder = new HttpRequests.Builder(authModel)
-                    .addHeader(Constant.ACCESSSESSION, mgrVcmm.getAccessSession())
-                    .setUrl(vnfmObject.getString("url"), vnfPath).setParams(paramsJson);
+            HttpRequests.Builder builder =
+                    new HttpRequests.Builder(authModel).addHeader(Constant.ACCESSSESSION, mgrVcmm.getAccessSession())
+                            .setUrl(vnfmObject.getString("url"), vnfPath).setParams(paramsJson);
             MethodType methodType = MethodType.methodType(HttpRequests.Builder.class, new Class[0]);
             MethodHandle mt =
                     MethodHandles.lookup().findVirtual(builder.getClass(), methodName, methodType).bindTo(builder);
@@ -159,6 +162,12 @@ public final class ResultRequestUtil {
             LOG.warn("function=call, msg=response status is {}. result is {}", httpMethod.getStatusCode(), result);
             resultJson.put(Constant.RETCODE, httpMethod.getStatusCode());
             resultJson.put("data", result);
+
+            // logout delete tokens
+            String token = mgrVcmm.getAccessSession();
+            String roaRand = mgrVcmm.getRoaRand();
+            String vnfmUrl = vnfmObject.getString("url");
+            removeTokens(vnfmUrl, token, roaRand);
         } catch(IOException e) {
             LOG.info("function=call, msg=IOException, e is {}", e);
         } catch(ReflectiveOperationException e) {
@@ -177,5 +186,31 @@ public final class ResultRequestUtil {
         }
 
         return resultJson;
+    }
+
+    /**
+     * <br>
+     *
+     * @since NFVO 0.5
+     */
+    private static void removeTokens(String vnfmUrl, String token, String roaRand) {
+        HttpMethod httpMethodToken = null;
+        String tokenUrl = String.format(ParamConstants.CSM_AUTH_DISCONNECT, "manoadmin", roaRand);
+        LOG.info("removeTokens tokenUrl=" + tokenUrl);
+        try {
+            httpMethodToken = new HttpRequests.Builder(Constant.CERTIFICATE).setUrl(vnfmUrl.trim(), tokenUrl)
+                    .setParams("").addHeader("X-Auth-Token", token).delete().execute();
+            int statusCode = httpMethodToken.getStatusCode();
+            String result = httpMethodToken.getResponseBodyAsString();
+            LOG.info("removeTokens int=" + statusCode + ", result=" + result);
+        } catch(IOException e) {
+            LOG.info("function=call, msg=IOException, e is {}", e);
+        } catch(Throwable e) {
+            LOG.info("function=call, msg=Throwable, e is {}", e);
+        } finally {
+            if(httpMethodToken != null) {
+                httpMethodToken.releaseConnection();
+            }
+        }
     }
 }

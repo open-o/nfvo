@@ -22,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpMethod;
@@ -80,7 +79,7 @@ public class AdapterResourceManager implements IResourceManager {
 
         String csarid = paramsMap.get("csarid");
         String vnfmid = paramsMap.get("vnfmid");
-        String vnfdid ="";
+        String vnfdid = "";
         String vnfDescriptorId = paramsMap.get("vnfDescriptorId");
         if(null == csarid || "".equals(csarid)) {
             resultObj.put("reason", "csarid is null.");
@@ -159,7 +158,7 @@ public class AdapterResourceManager implements IResourceManager {
         connObject.put("url", vnfmUrl);
         connObject.put("userName", userName);
         connObject.put("password", password);
-        if(Constant.HTTP_OK != mgrVcmm.connect(vnfmObject,Constant.CERTIFICATE)) {
+        if(Constant.HTTP_OK != mgrVcmm.connect(vnfmObject, Constant.CERTIFICATE)) {
             LOG.error("get Access Session fail.");
             resultObj.put(Constant.RETCODE, Constant.HTTP_INNERERROR);
             resultObj.put("reason", "connect fail.");
@@ -169,7 +168,7 @@ public class AdapterResourceManager implements IResourceManager {
         String connToken = mgrVcmm.getAccessSession();
 
         // get vim_id
-        JSONObject cloudObject = getAllCloud(vnfmUrl,connToken);
+        JSONObject cloudObject = getAllCloud(vnfmUrl, connToken);
         String vimId = "";
 
         if(!cloudObject.isEmpty() && cloudObject.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
@@ -185,22 +184,22 @@ public class AdapterResourceManager implements IResourceManager {
         vnfpkg.put("template", csarTempObj);
 
         JSONObject uploadPkgObject = upload(vnfpkg, vnfmUrl, connToken);
-        LOG.info("uploadPkgObject:"+uploadPkgObject);
-        if(vnfdid ==null || "".equals(vnfdid.trim())){
+        LOG.info("uploadPkgObject:" + uploadPkgObject);
+        if(vnfdid == null || "".equals(vnfdid.trim())) {
             JSONObject vnfdConf = readVnfdIdInfoFromJson();
-            LOG.info("vnfdConf="+vnfdConf);
-            if(vnfdConf.containsKey(vnfDescriptorId)){
+            LOG.info("vnfdConf=" + vnfdConf);
+            if(vnfdConf.containsKey(vnfDescriptorId)) {
                 vnfdid = vnfdConf.getString(vnfDescriptorId);
             }
         }
-        LOG.info("set vnfdId="+vnfdid);
+        LOG.info("set vnfdId=" + vnfdid);
 
         // get vnfd version
         String vnfdVersion = "";
 
         JSONObject vnfdVerObject =
                 getVnfdVersion(vnfmUrl, String.format(UrlConstant.URL_VNFDINFO_GET, vnfdid), connToken);
-        LOG.info("vnfdVerObject:"+vnfdVerObject);
+        LOG.info("vnfdVerObject:" + vnfdVerObject);
         if(!vnfdVerObject.isEmpty() && vnfdVerObject.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
             LOG.info("get vnfd version successful.", vnfdVerObject.get(Constant.RETCODE));
             JSONArray verArr = vnfdVerObject.getJSONArray("templates");
@@ -217,24 +216,34 @@ public class AdapterResourceManager implements IResourceManager {
         String planId = "";
 
         JSONObject vnfdPlanInfo = getVNFDPlanInfo(vnfmUrl, vnfdid, connToken);
-        LOG.info("vnfdPlanInfo:"+vnfdPlanInfo);
+        LOG.info("vnfdPlanInfo:" + vnfdPlanInfo);
         JSONObject inputsObj = new JSONObject();
         if(!vnfdPlanInfo.isEmpty() && vnfdPlanInfo.get(Constant.RETCODE).equals(HttpStatus.SC_OK)) {
             LOG.info("get vnfd plan info successful.", vnfdPlanInfo.get(Constant.RETCODE));
             JSONObject planTmpObj = vnfdPlanInfo.getJSONObject("template");
+            String templateName = planTmpObj.getString("template_name").trim();
             JSONArray topoTmpObj = planTmpObj.getJSONArray("topology_template");
 
             JSONObject planObj = topoTmpObj.getJSONObject(0);
+            if("VNFD_vUGW".equals(templateName)) {
+                for(int i = 0; i < topoTmpObj.size(); i++) {
+                    String name = topoTmpObj.getJSONObject(i).getString("plan_name").trim();
+                    if("Normal_E9K".equals(name)) {
+                        planObj = topoTmpObj.getJSONObject(i);
+                    }
+                }
+            }
+
             planName = planObj.getString("plan_name");
             planId = planObj.getString("plan_id");
-            if(planObj.containsKey("inputs")){
-                JSONArray inputs =  planObj.getJSONArray("inputs");
-                for(int i=0;i < inputs.size();i++){
+            if(planObj.containsKey("inputs")) {
+                JSONArray inputs = planObj.getJSONArray("inputs");
+                for(int i = 0; i < inputs.size(); i++) {
                     JSONObject obj = inputs.getJSONObject(i);
-                    obj.put("value",obj.getString("default"));
+                    obj.put("value", obj.getString("default"));
                 }
-                inputsObj.put("inputs",inputs);
-                inputsObj.put("External_network",new JSONArray());
+                inputsObj.put("inputs", inputs);
+                inputsObj.put("External_network", new JSONArray());
             }
         } else {
             LOG.error("get vnfd plan info fail.", vnfdPlanInfo.get(Constant.RETCODE));
@@ -247,7 +256,7 @@ public class AdapterResourceManager implements IResourceManager {
         resultObj.put("vnfdVersion", vnfdVersion);
         resultObj.put("planName", planName);
         resultObj.put("planId", planId);
-        resultObj.put("parameters",inputsObj);
+        resultObj.put("parameters", inputsObj);
         LOG.info("resultObj:" + resultObj.toString());
 
         return resultObj;
@@ -335,10 +344,8 @@ public class AdapterResourceManager implements IResourceManager {
         HttpMethod httpMethodCloud = null;
         try {
             httpMethodCloud =
-                    new HttpRequests.Builder(Constant.CERTIFICATE)
-                            .setUrl(url.trim(), UrlConstant.URL_ALLCLOUD_NEW_GET)
-                            .addHeader(Constant.HEADER_AUTH_TOKEN, conntoken)
-                            .setParams("").get().execute();
+                    new HttpRequests.Builder(Constant.CERTIFICATE).setUrl(url.trim(), UrlConstant.URL_ALLCLOUD_NEW_GET)
+                            .addHeader(Constant.HEADER_AUTH_TOKEN, conntoken).setParams("").get().execute();
 
             int statusCode = httpMethodCloud.getStatusCode();
 
@@ -443,7 +450,7 @@ public class AdapterResourceManager implements IResourceManager {
             int statusCodeVnfd = httpMethodVnfd.getStatusCode();
 
             String resultVnfd = httpMethodVnfd.getResponseBodyAsString();
-            LOG.info("getVnfdVersion result:"+resultVnfd);
+            LOG.info("getVnfdVersion result:" + resultVnfd);
             if(statusCodeVnfd == HttpStatus.SC_OK) {
                 resultObj = JSONObject.fromObject(resultVnfd);
                 resultObj.put(Constant.RETCODE, statusCodeVnfd);
@@ -496,7 +503,7 @@ public class AdapterResourceManager implements IResourceManager {
             int statusCode = httpMethodPlan.getStatusCode();
 
             String result = httpMethodPlan.getResponseBodyAsString();
-            LOG.info("getVNFDPlanInfo result="+result);
+            LOG.info("getVNFDPlanInfo result=" + result);
             if(statusCode == HttpStatus.SC_OK) {
                 resultObj = JSONObject.fromObject(result);
                 resultObj.put(Constant.RETCODE, statusCode);
@@ -565,8 +572,7 @@ public class AdapterResourceManager implements IResourceManager {
         return fileContent;
     }
 
-
-    private  static JSONObject readVnfdIdInfoFromJson() {
+    private static JSONObject readVnfdIdInfoFromJson() {
         JSONObject jsonObject = new JSONObject();
         InputStream ins = null;
         BufferedInputStream bins = null;
@@ -586,7 +592,7 @@ public class AdapterResourceManager implements IResourceManager {
             if(num > 0) {
                 fileContent = new String(contentByte);
             }
-            if(fileContent != null){
+            if(fileContent != null) {
                 jsonObject = JSONObject.fromObject(fileContent).getJSONObject("vnfdIds");
             }
             if(ins != null) {
@@ -603,6 +609,7 @@ public class AdapterResourceManager implements IResourceManager {
 
         return jsonObject;
     }
+
     /*
      * unzip CSAR packge
      * @param fileName filePath

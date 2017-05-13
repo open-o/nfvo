@@ -83,43 +83,44 @@ public class VnfRoa {
         this.vnfMgr = vnfMgr;
     }
 
-
     /**
      * Scale VNF
+     * 
      * @param context
-     * * {
-     *     "vnfInstanceId":"5",
-     *     "type":"SCALE_OUT",
-     *     "aspectId":"101",
-     *     "numberOfSteps":"1",
-     *     "additionalParam":{}
-     * }
+     *            * {
+     *            "vnfInstanceId":"5",
+     *            "type":"SCALE_OUT",
+     *            "aspectId":"101",
+     *            "numberOfSteps":"1",
+     *            "additionalParam":{}
+     *            }
      * @param resp
      * @param vnfmId
      * @return
-     * {
-     *      "jobId":"1"
-     * }
+     *         {
+     *         "jobId":"1"
+     *         }
      * @throws ServiceException
      */
     @POST
     @Path("/{vnfmId}/vnfs/{vnfInstanceId}/scale")
     public String scaleVnf(@Context HttpServletRequest context, @Context HttpServletResponse resp,
-                         @PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId) throws ServiceException {
+            @PathParam("vnfmId") String vnfmId, @PathParam("vnfInstanceId") String vnfInstanceId)
+            throws ServiceException {
         JSONObject jsonObject = VnfmJsonUtil.getJsonFromContexts(context);
-        LOG.info("function=scaleVNF, msg=enter to scale a vnf. request body:"+jsonObject);
+        LOG.info("function=scaleVNF, msg=enter to scale a vnf. request body:" + jsonObject);
         JSONObject result = new JSONObject();
         String msg = "";
         if(null == jsonObject) {
             msg = "the parameters do not meet the requirements,please check it!";
-            LOG.error("function=scalVnf,"+msg);
+            LOG.error("function=scalVnf," + msg);
             resp.setStatus(Constant.HTTP_NOT_ACCEPTABLE);
-            result.put("msg",msg);
+            result.put("msg", msg);
             return result.toString();
         }
 
         result = vnfMgr.scaleVNF(jsonObject, vnfmId, vnfInstanceId);
-        LOG.info("function=scaleVNF,result="+result.toString());
+        LOG.info("function=scaleVNF,result=" + result.toString());
         if(result.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
             LOG.error("function=scaleVNF, msg=scaleVnf fail");
             resp.setStatus(Constant.HTTP_INNERERROR);
@@ -152,7 +153,7 @@ public class VnfRoa {
             resp.setStatus(Constant.HTTP_INNERERROR);
             return restJson.toString();
         }
-        LOG.info("addVnf request info from (LCM):"+subJsonObject);
+        LOG.info("addVnf request info from (LCM):" + subJsonObject);
         restJson = vnfMgr.addVnf(subJsonObject, vnfmId);
 
         if(restJson.getInt(Constant.RETCODE) == Constant.REST_FAIL) {
@@ -278,8 +279,8 @@ public class VnfRoa {
         responseJson.put("progress", PROGRESSITEM.get(retJson.getString(Constant.STATUS)));
         responseJson.put("status", JOBSTATUSITEM.get(retJson.getString(Constant.STATUS)));
         responseJson.put("errorCode", "null");
-        responseJson.put("responseId", "1");
-        jobInfoJson.put("responseDescription", responseJson);
+        responseJson.put("responseId", PROGRESSITEM.get(retJson.getString(Constant.STATUS)));
+        jobInfoJson.put("responsedescriptor", responseJson);
         return jobInfoJson.toString();
     }
 }
