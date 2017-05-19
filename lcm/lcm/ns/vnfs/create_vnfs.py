@@ -116,6 +116,7 @@ class CreateVnfs(Thread):
                     self.vnf_inst_name = self.vnfd_id + str(uuid.uuid4())
                 else:
                     self.vnf_inst_name = vnf_info['properties']['name'] + str(uuid.uuid4())
+                self.vnf_inst_name = self.vnf_inst_name[:30]
                 return
         logger.error('Can not found vnf in nsd model')
         raise NSLCMException('Can not found vnf in nsd model')
