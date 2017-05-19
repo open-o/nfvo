@@ -15,6 +15,7 @@
 import inspect
 import json
 import logging
+import traceback
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -147,6 +148,8 @@ def instantiate_vnf(request, *args, **kwargs):
         data["extension"]["extVirtualLinks"] = ignorcase_get(
             ignorcase_get(request.data, "additionalParam"), "extVirtualLinks")
         data["extension"]["vnfinstancename"] = ignorcase_get(request.data, "vnfInstanceName")
+        data["extension"]["vnfid"] = data["VNFD"]
+        data["extension"]["multivim"] = 0
         logger.debug("[%s] call_req data=%s", fun_name(), data)
         ret = restcall.call_req(
             base_url=ignorcase_get(vnfm_info, "url"),
@@ -450,16 +453,19 @@ def scale(request, *args, **kwargs):
         extension = ignorcase_get(request.data, "additionalParam")
         vnfd_model = ignorcase_get(extension, "vnfdModel")
         data = {
-            'VNFMID': vnfm_id,
-            'NFVOID': 1,
-            'ScaleType': scale_type,
-            'vmlist': []
+            'vnfmid': vnfm_id,
+            'nfvoid': 1,
+            'scaletype': '0' if scale_type == 'SCALE_OUT' else '1',
+            'vmlist': [{'VMNumber':number_of_steps,'VMFlavor':aspect_id}],
+            'extension':''
         }
+        '''
         for vdu_id in get_vdus(vnfd_model, aspect_id):
             data['vmlist'].append({
                 "VMFlavor": vdu_id,
                 "VMNumber": number_of_steps
             })
+        '''
         logger.info("data = %s", data)
         ret = restcall.call_req(
             base_url=ignorcase_get(vnfm_info, "url"),
@@ -470,14 +476,15 @@ def scale(request, *args, **kwargs):
             method='put',  # POST
             content=json.JSONEncoder().encode(data))
         logger.info("ret=%s", ret)
-        resp_data = json.JSONDecoder().decode(ret[1])
         if ret[0] != 0:
-            return Response(data=resp_data, status=ret[2])
+            return Response(data={'error':'scale error'}, status=ret[2])
+        resp_data = json.JSONDecoder().decode(ret[1])
         jobId = resp_data["jobid"]
         logger.info("resp_data=%s", resp_data)
     except Exception as e:
         logger.error("Error occurred when scaling VNF")
-        raise e
+        logger.error(traceback.format_exc())
+        return Response(data={'error':'scale expection'}, status='500')
     return Response(data=resp_data, status=ret[2])
 
 
